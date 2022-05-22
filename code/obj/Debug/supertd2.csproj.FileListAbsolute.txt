@@ -1,0 +1,14 @@
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\.vs\output\supertd2.xml
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\.vs\output\supertd2.deps.json
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\.vs\output\supertd2.dll
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\.vs\output\supertd2.pdb
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\supertd2.csproj.AssemblyReference.cache
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\supertd2.GeneratedMSBuildEditorConfig.editorconfig
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\supertd2.AssemblyInfoInputs.cache
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\supertd2.AssemblyInfo.cs
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\supertd2.csproj.CoreCompileInputs.cache
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\supertd2.csproj.CopyComplete
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\supertd2.dll
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\refint\supertd2.dll
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\supertd2.pdb
+D:\Program Files (x86)\Steam\steamapps\common\sbox\addons\superterrydefense2\code\obj\Debug\ref\supertd2.dll

@@ -1,0 +1,25 @@
+{
+  "Title": "Super Terry Defense",
+  "Type": "game",
+  "Org": "rifter",
+  "Ident": "supertd",
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "ResourcePaths": null,
+  "HasCode": true,
+  "CodePath": "/code/",
+  "RootNamespace": "Sandbox",
+  "Metadata": {
+    "MapList": [
+      "facepunch.construct"
+    ],
+    "MapSelect": 2,
+    "MinPlayers": 1,
+    "MaxPlayers": 8,
+    "PerMapRanking": false,
+    "LeaderboardType": 0,
+    "RankType": 0,
+    "GameNetworkType": 0
+  }
+}

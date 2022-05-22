@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>supertd2</name>
+    </assembly>
+    <members>
+        <member name="T:Sandbox.NPCAnimationHelper">
+            <summary>
+            A struct to help you set up your citizen based animations
+            </summary>
+        </member>
+        <member name="M:Sandbox.NPCAnimationHelper.WithLookAt(Vector3,System.Single,System.Single,System.Single)">
+            <summary>
+            Have the player look at this point in the world
+            </summary>
+        </member>
+    </members>
+</doc>
