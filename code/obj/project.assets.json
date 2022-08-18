@@ -17,8 +17,8 @@
   "libraries": {
     "base/1.0.0": {
       "type": "project",
-      "path": "../../base/code/base.csproj",
-      "msbuildProject": "../../base/code/base.csproj"
+      "path": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj",
+      "msbuildProject": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\superterrydefense2\\code\\supertd.csproj",
-      "projectName": "supertd",
-      "projectPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\superterrydefense2\\code\\supertd.csproj",
+      "projectUniqueName": "C:\\Users\\d_tho\\Documents\\S&box Projects\\castle_defenders\\Castle-Defenders\\code\\castletd.csproj",
+      "projectName": "castletd",
+      "projectPath": "C:\\Users\\d_tho\\Documents\\S&box Projects\\castle_defenders\\Castle-Defenders\\code\\castletd.csproj",
       "packagesPath": "C:\\Users\\d_tho\\.nuget\\packages\\",
-      "outputPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\superterrydefense2\\code\\obj\\",
+      "outputPath": "C:\\Users\\d_tho\\Documents\\S&box Projects\\castle_defenders\\Castle-Defenders\\code\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\d_tho\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -74,7 +74,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -83,7 +84,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -2,12 +2,12 @@
 
 Layer0
 {
-	shader "vr_simple.vfx"
+	shader "simple.vfx"
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
-	g_vColorTint "[0.294118 0.000000 0.509804 1.000000]"
-	TextureColor "materials/default/default_color.tga"
+	g_vColorTint "[0.466667 0.466667 0.466667 0.000000]"
+	TextureColor "[1.000000 1.000000 1.000000 0.000000]"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"

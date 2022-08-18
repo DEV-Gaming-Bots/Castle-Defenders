@@ -31,7 +31,7 @@ partial class VoteEntity : Entity
 
 		Current = this;
 		Panel = new Voting();
-		TD2HUD.CurrentHud.AddChild( Panel );
+		CDHUD.CurrentHud.AddChild( Panel );
 	}
 
 	protected override void OnDestroy()

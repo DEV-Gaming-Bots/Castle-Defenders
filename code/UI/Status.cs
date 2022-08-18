@@ -21,7 +21,7 @@ public partial class Status : Panel
 	{
 		base.Tick();
 
-		var player = Local.Pawn as TD2Pawn;
+		var player = Local.Pawn as CDPawn;
 
 		if ( player == null )
 			return;

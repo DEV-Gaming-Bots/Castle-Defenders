@@ -1,7 +1,7 @@
 ﻿using System;
 using Sandbox;
 
-public partial class TD2Pawn : IPlayerData
+public partial class CDPawn : IPlayerData
 {
 	//OldEXP is used to display animations for the client
 	//The rest is self-explanatory 

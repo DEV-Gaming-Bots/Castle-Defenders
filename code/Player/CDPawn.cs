@@ -3,23 +3,18 @@ using System;
 using System.Linq;
 
 
-public partial class TD2Pawn : Player
+public partial class CDPawn : Player
 {
 	public ClothingContainer Clothing = new();
 
 	bool isoView = false;
 
-	public BaseTower previewTower;
-	public BaseTower selectedTower;
-
-	float towerRot = 0.0f;
-
-	public TD2Pawn()
+	public CDPawn()
 	{
 
 	}
 
-	public TD2Pawn( Client cl ) : this()
+	public CDPawn( Client cl ) : this()
 	{
 		Clothing.LoadFromClient( cl );
 	}
@@ -49,18 +44,26 @@ public partial class TD2Pawn : Player
 		}
 	}
 
-	public void DoTDInputs()
+	public bool CanPlace(TraceResult tr)
 	{
-		if ( IsClient )
-			return;
+		if ( tr.Normal.z != 1 )
+			return false;
 
-		//TEMPORARY, WILL REMOVE LATER
-		
-		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 105 )
-			.Ignore(this)
-			.Run();
+		if ( tr.Entity is TowerBlocker )
+			return false;
 
-		if(Input.Down(InputButton.Reload))
+		foreach ( var nearTower in FindInSphere( selectedTower.Position + Vector3.Up * 8, 32 ) )
+		{
+			if ( nearTower.IsValid() && nearTower != selectedTower )
+				return false;
+		}
+
+		return true;
+	}
+
+	public void SimulatePlacement(TraceResult tr)
+	{
+		if ( Input.Down( InputButton.Reload ) )
 		{
 			if ( Input.Down( InputButton.Walk ) )
 				towerRot -= 5f;
@@ -73,10 +76,10 @@ public partial class TD2Pawn : Player
 		else if ( towerRot > 360.0f )
 			towerRot = 0.0f;
 
-		if( tr.Normal.z == 1 || tr.Entity is TowerBlocker )
-			UpdatePreview(To.Single(this), tr.EndPosition, Color.Green, Rotation.FromYaw( towerRot ));
+		if ( !CanPlace( tr ) )
+			UpdatePreview( To.Single( this ), tr.EndPosition, new Color(255, 0, 0, 0.5f), Rotation.FromYaw( towerRot ) );
 		else
-			UpdatePreview( To.Single( this ), tr.EndPosition, Color.Red, Rotation.FromYaw( towerRot ) );
+			UpdatePreview( To.Single( this ), tr.EndPosition, new Color( 0, 255, 0, 0.5f ), Rotation.FromYaw( towerRot ) );
 
 		if ( selectedTower != null )
 		{
@@ -84,29 +87,45 @@ public partial class TD2Pawn : Player
 			selectedTower.Rotation = Rotation.FromYaw( towerRot );
 			selectedTower.IsPreviewing = true;
 		}
+	}
 
-		if ( Input.Pressed( InputButton.PrimaryAttack ))
+	public void DoTDInputs()
+	{
+		if ( IsClient )
+			return;
+
+		if ( selectedTower != null )
 		{
-			if ( selectedTower == null || tr.Normal.z != 1 || tr.Entity is TowerBlocker )
-				return;
+			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 105 )
+			.Ignore( this )
+			.Ignore( selectedTower )
+			.Run();
 
-			foreach ( var nearTower in FindInSphere(selectedTower.Position + Vector3.Up * 8, 32) )
+			SimulatePlacement( tr );
+
+			if ( Input.Pressed( InputButton.PrimaryAttack ))
 			{
-				if ( nearTower.IsValid() && nearTower != selectedTower )
+				if ( selectedTower == null || !CanPlace(tr) )
 					return;
+
+				foreach ( var nearTower in FindInSphere(selectedTower.Position + Vector3.Up * 8, 32) )
+				{
+					if ( nearTower.IsValid() && nearTower != selectedTower )
+						return;
+				}
+
+				var placedTower = TypeLibrary.Create<BaseTower>( "Lightning" ); ;
+
+				placedTower.Position = selectedTower.Position;
+				placedTower.Rotation = selectedTower.Rotation;
+				placedTower.Deploy();
+				placedTower.RenderColor = new Color( 255, 255, 255, 1 );
+
+				DestroyPreview(To.Single(this));
+
+				selectedTower.Delete();
+				selectedTower = null;
 			}
-
-			var placedTower = TypeLibrary.Create<BaseTower>( "Lightning" ); ;
-
-			placedTower.Position = selectedTower.Position;
-			placedTower.Rotation = selectedTower.Rotation;
-			placedTower.Deploy();
-			placedTower.RenderColor = new Color( 255, 255, 255, 1 );
-
-			DestroyPreview(To.Single(this));
-
-			selectedTower.Delete();
-			selectedTower = null;
 		}
 
 		if ( Input.Pressed( InputButton.SecondaryAttack ) && selectedTower == null )

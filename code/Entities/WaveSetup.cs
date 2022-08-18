@@ -1,10 +1,12 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 using SandboxEditor;
-[Library( "td2_wave_setup" )]
+
+[Library( "cd_wave_setup" )]
 [SupportsSolid]
-[Description( "Sets up the wave" )]
+[Title("Wave Setup"), Description( "Sets up the wave" )]
 [VisGroup( VisGroup.Logic )]
+[HammerEntity]
 public class WaveSetup : Entity
 {
 	[Property( "WaveOrder" ), Description( "What order should this go" )]

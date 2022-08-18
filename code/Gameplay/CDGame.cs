@@ -6,37 +6,36 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-public partial class TD2Game : Game
+public partial class CDGame : Game
 {
+	public static GameStates CurrentState => (Current as CDGame)?.GameState ?? GameStates.Idle;
 
-	public static GameStates CurrentState => (Current as TD2Game)?.GameState ?? GameStates.Idle;
+	public static CDGame Instance = Current as CDGame;
 
 	[Net]
 	public GameStates GameState { get; set; } = GameStates.Idle;
 
-	TD2HUD oldHud;
-
-	public TD2Game()
+	public CDGame()
 	{
 		if(IsServer)
 		{
+			DebugMode = false;
+
 			GameStatus = GameEnum.Idle;
 			WaveStatus = WaveEnum.PreWave;
 			DifficultyVariant = DiffVariants.None;
 		}
 
 		if ( IsClient )
-			oldHud = new TD2HUD();
+			_ = new CDHUD();
 	}
 
 	//TEMPORARY
 	[Event.Hotload]
 	public void UpdateHud()
 	{
-		oldHud?.Delete();
-
 		if ( IsClient )
-			oldHud = new TD2HUD();
+			_ = new CDHUD();
 	}
 
 	public override void DoPlayerSuicide( Client cl )
@@ -48,7 +47,7 @@ public partial class TD2Game : Game
 	{
 		base.ClientJoined( client );
 
-		var pawn = new TD2Pawn(client);
+		var pawn = new CDPawn(client);
 		pawn.Spawn();
 		client.Pawn = pawn;
 	}

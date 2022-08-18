@@ -16,10 +16,10 @@ public class PlayerData : IPlayerData
 	public int Level { get; set; }
 }
 
-public partial class TD2Game
+public partial class CDGame
 {
 	[Event("td2_evnt_savedata")]
-	public void SaveData( TD2Pawn player )
+	public void SaveData( CDPawn player )
 	{
 		if ( player.Client.IsBot )
 			return;
@@ -31,7 +31,7 @@ public partial class TD2Game
 		Log.Info( player.Client.Name + "'s data has been saved" );
 	}
 
-	public bool LoadSave( TD2Pawn player )
+	public bool LoadSave( CDPawn player )
 	{
 		if ( player.Client.IsBot )
 			return false;
@@ -49,7 +49,7 @@ public partial class TD2Game
 	[ConCmd.Admin( "td2_forcesave" )]
 	public static void SaveData()
 	{
-		var player = ConsoleSystem.Caller.Pawn as TD2Pawn;
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 
 		if ( player == null )
 			return;
@@ -60,7 +60,7 @@ public partial class TD2Game
 	[ConCmd.Admin("td2_forcesave_all")]
 	public static void SaveAllData()
 	{
-		foreach ( var player in Client.All.OfType<TD2Pawn>() )
+		foreach ( var player in Client.All.OfType<CDPawn>() )
 		{
 			if ( player == null )
 				continue;

@@ -48,6 +48,9 @@ public partial class BaseTower : AnimatedEntity
 	public override void Spawn()
 	{
 		SetModel( TowerModel );
+		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+
+		Tags.Add( "tower" );
 	}
 
 	public override void ClientSpawn()
@@ -60,7 +63,31 @@ public partial class BaseTower : AnimatedEntity
 	{
 		Spawn();
 		timeDeployed = 0;
-		SetAnimParameter( "deploy", true );
+	}
+
+	public BaseNPC ScanForEnemy()
+	{
+		float rotScan = 0;
+
+		for ( int i = 1; i <= 16; i++ )
+		{
+			rotScan = i * 22.5f;
+
+			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( rotScan ).Forward * RangeDistance + Vector3.Up * 5 )
+				.Ignore( this )
+				.UseHitboxes( true )
+				.Run();
+
+			if ( CDGame.Instance.DebugMode )
+				DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
+
+			if ( tr.Entity is BaseNPC npc )
+				return npc;
+		}
+
+	
+
+		return null;
 	}
 
 	[Event.Tick.Server]
@@ -74,30 +101,21 @@ public partial class BaseTower : AnimatedEntity
 		if ( timeDeployed < DeploymentTime )
 			return;
 
-		//Once deployment finishes, set the anim bool to false
-		//NOTE: tried to auto reset in animgraph, didn't work
-		if(timeDeployed >= DeploymentTime && GetAnimParameterBool("deploy") )
-			SetAnimParameter( "deploy", false );
-
 		//Tower doesn't have a target, find one
 		if(target == null)
-		{
-			var entities = FindInSphere( Position + Vector3.Up * 10, RangeDistance );
-
-			foreach ( var ent in entities )
-			{
-				if( ent is BaseNPC npc )
-					target = npc;
-			}
-		}
+			target = ScanForEnemy();
 
 		//If we have a target and is within range, attack it
-		if (target.IsValid() && Position.Distance(target.Position) <= RangeDistance)
+		if (target.IsValid() && Position.Distance(target.Position) < RangeDistance)
 		{
 			//Trace check
-			var towerTR = Trace.Ray( Position + Vector3.Up * 10, target.EyePosition )
+			var towerTR = Trace.Ray( Position + Vector3.Up * 5, target.Position + Vector3.Up * 5 )
 				.Ignore( this )
+				.UseHitboxes(true)
 				.Run();
+
+			if ( CDGame.Instance.DebugMode )
+				DebugOverlay.Line( towerTR.StartPosition, towerTR.EndPosition );
 
 			//A wall is blocking the towers sight to the target
 			if ( towerTR.Entity is not BaseNPC )
@@ -119,7 +137,12 @@ public partial class BaseTower : AnimatedEntity
 	//Attack the target NPC
 	public virtual void Attack(BaseNPC target)
 	{
+		if ( IsPreviewing )
+			return;
+
+		PlaySound( AttackSound );
 		FireEffects();
+
 		timeLastAttack = 0;
 		DamageInfo dmgInfo = new DamageInfo();
 		dmgInfo.Attacker = this;
@@ -133,7 +156,5 @@ public partial class BaseTower : AnimatedEntity
 	public virtual void FireEffects()
 	{
 		Host.AssertClient();
-
-		PlaySound( AttackSound );
 	}
 }

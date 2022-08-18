@@ -1,6 +1,6 @@
 ﻿using System;
 using Sandbox;
-public partial class TD2Game
+public partial class CDGame
 {
 	//Basic Gameplay and wave statuses
 	public enum GameEnum

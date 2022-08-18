@@ -52,6 +52,7 @@ public partial class BaseNPC : AnimatedEntity
 		SetModel( BaseModel );
 
 		pathTarget = 0;
+		Position = All.OfType<NPCPath>().ToList()[pathTarget].Position;
 
 		Scale = NPCScale;
 		Health = BaseHealth;
@@ -61,7 +62,7 @@ public partial class BaseNPC : AnimatedEntity
 		cashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1]);
 		expReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] );
 
-		Tags.Add( "TD2_NPC" );
+		Tags.Add( "npc" );
 
 		SetupPhysicsFromModel(PhysicsMotionType.Keyframed);
 		EnableTraceAndQueries = true;
@@ -79,23 +80,20 @@ public partial class BaseNPC : AnimatedEntity
 
 	public void FollowPath()
 	{
-		if(Position.Distance( castleTarget.Position ) <= 50 )
+		if ( Position.Distance( Steer.Target ) <= 20.0f )
+			pathTarget++;
+
+		if( Position.Distance( castleTarget.Position ) <= 25.0f )
 		{
 			DamageInfo dmgInfo = new DamageInfo();
 			dmgInfo.Damage = Damage;
 
 			castleTarget.TakeDamage( dmgInfo );
 			Despawn();
+			return;
 		}
 
-		if ( Position.Distance( Steer.Target ) <= 20 )
-			pathTarget++;
-		
-		foreach ( var pathway in All.OfType<NPCPath>())
-		{
-			if ( pathTarget == pathway.Path_Order )
-				Steer.Target = pathway.Position;
-		}
+		Steer.Target = All.OfType<NPCPath>().ToList()[pathTarget].Position;
 	}
 
 	//Server ticking for NPC Navigation
@@ -213,7 +211,7 @@ public partial class BaseNPC : AnimatedEntity
 	{
 		base.OnKilled();
 
-		foreach ( var player in Client.All.OfType<TD2Pawn>())
+		foreach ( var player in Client.All.OfType<CDPawn>())
 		{
 			if ( player == null )
 				continue;

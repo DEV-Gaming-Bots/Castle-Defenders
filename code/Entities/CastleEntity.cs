@@ -1,9 +1,10 @@
 ﻿using Sandbox;
+using SandboxEditor;
 
-[Library( "info_td2_castle" )]
-[EditorModel( "models/towers/castle.vmdl" )]
-[Description( "Defines a point where the castle will spawn" )]
-
+[Library( "info_cd_castle" )]
+[EditorModel( "models/castle.vmdl" )]
+[Title( "Castle" ), Description( "Defines a point where the castle will spawn" )]
+[HammerEntity]
 public class CastleEntity : ModelEntity
 {
 	public enum CastleTeam
@@ -19,7 +20,7 @@ public class CastleEntity : ModelEntity
 	public override void Spawn()
 	{
 		var castle = new ModelEntity();
-		castle.SetModel( "models/towers/castle.vmdl" );
+		castle.SetModel( "models/castle.vmdl" );
 		castle.Position = Position;
 		castle.Rotation = Rotation;
 		castle.Spawn();

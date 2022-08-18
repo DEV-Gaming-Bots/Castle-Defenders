@@ -1,8 +1,13 @@
 ﻿using System;
 using Sandbox;
 
-public partial class TD2Pawn
+public partial class CDPawn
 {
+	public BaseTower previewTower;
+	public BaseTower selectedTower;
+
+	float towerRot = 0.0f;
+
 	[ClientRpc]
 	public void CreatePreview()
 	{
@@ -24,7 +29,9 @@ public partial class TD2Pawn
 		previewTower.Rotation = rot;
 		previewTower.RenderColor = previewTower.RenderColor.WithAlpha( 0.5f );
 
-		DebugOverlay.Circle( previewTower.Position + Vector3.Up , Rotation.FromPitch( 90f ), previewTower.RangeDistance, Color.Green );
+		color.a /= 2;
+
+		DebugOverlay.Circle( previewTower.Position + Vector3.Up , Rotation.FromPitch( 90f ), previewTower.RangeDistance, color );
 	}
 
 	[ClientRpc]

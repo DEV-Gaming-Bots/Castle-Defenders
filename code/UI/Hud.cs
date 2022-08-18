@@ -6,20 +6,27 @@ using System.Threading.Tasks;
 using Sandbox;
 using Sandbox.UI;
 
-public partial class TD2HUD : RootPanel
+public partial class CDHUD : RootPanel
 {
-	public static TD2HUD CurrentHud;
+	public static CDHUD CurrentHud;
 
 	public Scoreboard<ScoreboardEntry> Scoreboard { get; set; }
 
-	public TD2HUD()
+	public CDHUD()
 	{
-		CurrentHud = this;
+		if( CurrentHud != null )
+		{
+			CurrentHud.Delete();
+			CurrentHud = null;
+		}
+
 
 		AddChild<ChatBox>();
 		Scoreboard = AddChild<Scoreboard<ScoreboardEntry>>();
 
 		AddChild<Status>();
 		AddChild<VoiceList>();
+
+		CurrentHud = this;
 	}
 }

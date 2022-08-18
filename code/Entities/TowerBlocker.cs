@@ -1,14 +1,15 @@
 ﻿using Sandbox;
 using SandboxEditor;
-[Library( "td2_tower_blocker" )]
-[SupportsSolid]
-[Description( "Prevents spawning of towers" )]
+
+[Library( "cd_tower_blocker" )]
+[Title( "Tower Blocker" ), Description( "Prevents spawning of towers" )]
+[Solid]
 [RenderFields]
-public class TowerBlocker : BrushEntity
+[HammerEntity]
+public class TowerBlocker : ModelEntity
 {
 	public override void Spawn()
 	{
-		EnableDrawing = true;
-		UsePhysicsCollision = true;
+		EnableDrawing = false;
 	}
 }

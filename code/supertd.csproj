@@ -8,7 +8,7 @@
 		<LangVersion>10</LangVersion>
 		<NoWarn>1701;1702;1591;</NoWarn>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<DefineConstants>SANDBOX;DEBUG;TRACE</DefineConstants>
+		<DefineConstants>SANDBOX;ADDON;DEBUG</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -27,16 +27,17 @@
 	<OutputPath>../.vs/output/</OutputPath>
 	<DocumentationFile>../.vs/output/supertd.xml</DocumentationFile>
 	<RootNamespace>Sandbox</RootNamespace>
+	<Nullable>disable</Nullable>
   </PropertyGroup>
 
 	<ItemGroup>
-		<Analyzer Include="..\..\..\bin\managed\Sandbox.Generator.dll"/>
-		<Reference Include="..\..\..\bin\managed/Sandbox.System.dll" />
-		<Reference Include="..\..\..\bin\managed/Sandbox.Engine.dll" />
-		<Reference Include="..\..\..\bin\managed/Sandbox.Game.dll" />
-		<Reference Include="..\..\..\bin\managed/Sandbox.Event.dll" />
-		<Reference Include="..\..\..\bin\managed/Sandbox.Bind.dll" />
-		<Reference Include="..\..\..\bin\managed/Sandbox.Reflection.dll" />
+		<Analyzer Include="D:\Program Files (x86)\Steam\steamapps\common\sbox\bin\managed\Sandbox.Generator.dll"/>
+		<Reference Include="D:\Program Files (x86)\Steam\steamapps\common\sbox\bin\managed/Sandbox.System.dll" />
+		<Reference Include="D:\Program Files (x86)\Steam\steamapps\common\sbox\bin\managed/Sandbox.Engine.dll" />
+		<Reference Include="D:\Program Files (x86)\Steam\steamapps\common\sbox\bin\managed/Sandbox.Game.dll" />
+		<Reference Include="D:\Program Files (x86)\Steam\steamapps\common\sbox\bin\managed/Sandbox.Event.dll" />
+		<Reference Include="D:\Program Files (x86)\Steam\steamapps\common\sbox\bin\managed/Sandbox.Bind.dll" />
+		<Reference Include="D:\Program Files (x86)\Steam\steamapps\common\sbox\bin\managed/Sandbox.Reflection.dll" />
 	</ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,10 @@
 ﻿using Sandbox;
-using System.Collections.Generic;
+using SandboxEditor;
 
-[Library( "info_td2_npcportal" )]
+[Library( "info_cd_npcportal" )]
 [EditorModel( "models/npc_portal.vmdl" )]
-[Description( "Defines a point where NPCs can spawn" )]
+[Title( "NPC Spawn Gate" ), Description( "Defines a point where NPCs can spawn" )]
+[HammerEntity]
 public class NPCSpawner : Entity
 {
 	public override void Spawn()

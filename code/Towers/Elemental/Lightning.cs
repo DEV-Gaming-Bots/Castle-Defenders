@@ -6,7 +6,7 @@ public partial class Lightning : BaseTower
 {
 	public override string TowerName => "Template Tower";
 	public override string TowerDesc => "A template tower";
-	public override string TowerModel => "models/towers/lightning.vmdl_c";
+	public override string TowerModel => "models/lightning.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new string[]
@@ -23,7 +23,7 @@ public partial class Lightning : BaseTower
 	public override float DeploymentTime => 2.25f;
 	public override float AttackTime => 5.25f;
 	public override int AttackDamage => 5;
-	public override int RangeDistance => 75;
+	public override int RangeDistance => 125;
 	public override string AttackSound => "lightning_attack";
 
 	bool charged = false;
@@ -32,6 +32,9 @@ public partial class Lightning : BaseTower
 	public override void SimulateTower()
 	{
 		base.SimulateTower();
+
+		if ( IsPreviewing )
+			return;
 
 		if ( (timeLastAttack * 2) >= AttackTime && !charged )
 		{
@@ -49,6 +52,9 @@ public partial class Lightning : BaseTower
 	[ClientRpc]
 	public override void FireEffects()
 	{
+		if ( IsPreviewing )
+			return;
+
 		base.FireEffects();
 	}
 }
