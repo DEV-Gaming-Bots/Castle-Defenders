@@ -50,16 +50,12 @@ public partial class BaseTower : AnimatedEntity
 		SetModel( TowerModel );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
-		if ( !IsPreviewing )
-			SetAnimParameter( "deploy", false );
-
 		Tags.Add( "tower" );
 	}
 
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();
-		IsPreviewing = true;
 	}
 
 	public virtual void Deploy()
@@ -78,8 +74,7 @@ public partial class BaseTower : AnimatedEntity
 				.UseHitboxes( true )
 				.Run();
 
-			if ( CDGame.Instance.Debug && 
-				(CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
+			if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
 				DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
 
 			if ( tr.Entity is BaseNPC npc )
@@ -108,8 +103,9 @@ public partial class BaseTower : AnimatedEntity
 		if (Target.IsValid() && Position.Distance(Target.Position) < RangeDistance)
 		{
 			//Trace check
-			var towerTR = Trace.Ray( Position + Vector3.Up * 5, Target.Position + Vector3.Up * 5 )
+			var towerTR = Trace.Ray( Position + Vector3.Up * 10, Target.Position + Target.Model.Bounds.Center / 2 )
 				.Ignore( this )
+				.WithoutTags("trigger")
 				.UseHitboxes(true)
 				.Run();
 

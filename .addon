@@ -96,6 +96,29 @@
           "r": "Ignore"
         }
       ]
+    },
+    "GameSettings": {
+      "cd_competitve": {
+        "DisplayType": "Boolean",
+        "Choices": [],
+        "ConVarName": "cd_competitve",
+        "DisplayName": "Competitive",
+        "DefaultValue": "false"
+      },
+      "cd_diff": {
+        "DisplayType": "Choice",
+        "Choices": [
+          "Easy",
+          "Medium",
+          "Hard",
+          "Extreme"
+        ],
+        "ConVarName": "cd_diff",
+        "DisplayName": "Difficulty",
+        "DefaultValue": "Easy",
+        "Minimum": 1,
+        "Maximum": 4
+      }
     }
   }
 }

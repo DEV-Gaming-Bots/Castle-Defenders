@@ -28,7 +28,7 @@ public partial class CDGame
 		Easy,
 		Medium,
 		Hard,
-		VeryHard
+		Extreme
 	}
 
 	//To add towards difficulty, players can opt to choose a difficulty variant
@@ -41,6 +41,8 @@ public partial class CDGame
 	public GameEnum GameStatus;
 	public WaveEnum WaveStatus;
 	public DiffVariants DifficultyVariant;
+
+	public DiffEnum Difficulty;
 
 	[Net]
 	public RealTimeUntil TimeRemaining { get; protected set; }
@@ -136,6 +138,7 @@ public partial class CDGame
 
 	public void StartGame()
 	{
+		Map.Reset(DefaultCleanupFilter);
 		mapAttempts = 0;
 		TimeRemaining = 10.0f;
 		CurWave = 0;

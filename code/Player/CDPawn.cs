@@ -65,13 +65,7 @@ public partial class CDPawn : Player
 
 	public void SimulatePlacement(TraceResult tr)
 	{
-		if ( Input.Down( InputButton.Reload ) )
-		{
-			if ( Input.Down( InputButton.Walk ) )
-				towerRot -= 5f;
-			else
-				towerRot += 5f;
-		}
+		towerRot += Input.MouseWheel * 5f;
 
 		if ( towerRot < 0.0f )
 			towerRot = 360.0f;
@@ -96,11 +90,15 @@ public partial class CDPawn : Player
 		if ( IsClient )
 			return;
 
+		if ( CDGame.Instance.GameStatus != CDGame.GameEnum.Active )
+			return;
+
 		if ( selectedTower != null )
 		{
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 105 )
 			.Ignore( this )
 			.Ignore( selectedTower )
+			.Size( 1 )
 			.Run();
 
 			SimulatePlacement( tr );
@@ -131,11 +129,13 @@ public partial class CDPawn : Player
 
 			if( selectedTower == null )
 			{
-				CreatePreview( To.Single( this ), "Sniper" );
 				towerRot = 0.0f;
-				selectedTower = TypeLibrary.Create<BaseTower>( "Sniper" );
+				selectedTower = TypeLibrary.Create<BaseTower>( "Pistol" );
 				selectedTower.Owner = this;
 				selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
+				selectedTower.IsPreviewing = true;
+
+				CreatePreview( To.Single( this ), selectedTower.GetType().FullName );
 			} 
 			else
 			{

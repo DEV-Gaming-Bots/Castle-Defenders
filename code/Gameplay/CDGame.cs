@@ -8,10 +8,17 @@ using System.Threading.Tasks;
 
 public partial class CDGame : Game
 {
-	public static CDGame Instance = Current as CDGame;
+	public static CDGame Instance => Current as CDGame;
+
+	[ConVar.Replicated( "cd_competitve" )]
+	public static bool StaticCompetitive { get; set; }
+
+	[ConVar.Replicated( "cd_diff" )]
+	public static DiffEnum StaticDifficulty { get; set; }
 
 	public CDGame()
 	{
+
 		if(IsServer)
 		{
 			Debug = false;
@@ -20,6 +27,8 @@ public partial class CDGame : Game
 			GameStatus = GameEnum.Idle;
 			WaveStatus = WaveEnum.Pre;
 			DifficultyVariant = DiffVariants.None;
+
+			Difficulty = StaticDifficulty;
 		}
 
 		if ( IsClient )

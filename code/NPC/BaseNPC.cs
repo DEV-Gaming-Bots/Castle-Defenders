@@ -39,6 +39,8 @@ public partial class BaseNPC : AnimatedEntity
 	[ConVar.Replicated]
 	public static bool td2_npc_drawoverlay { get; set; }
 
+	public int PathTarget;
+
 	Vector3 InputVelocity;
 	Vector3 LookDir;
 
@@ -46,18 +48,38 @@ public partial class BaseNPC : AnimatedEntity
 	public NPCPathSteer Steer;
 
 	CastleEntity castleTarget;
-	int pathTarget;
 
 	//Spawns the NPC
+	
+	public int GetDifficulty()
+	{
+		switch ( CDGame.Instance.Difficulty )
+		{
+			case CDGame.DiffEnum.Easy:
+				return 1;
+
+			case CDGame.DiffEnum.Medium:
+				return 2;
+
+			case CDGame.DiffEnum.Hard:
+				return 3;
+
+			case CDGame.DiffEnum.Extreme:
+				return 4;
+		}
+
+		return 0;
+	}
+
 	public override void Spawn()
 	{ 
 		SetModel( BaseModel );
 
-		pathTarget = 1;
+		PathTarget = 1;
 		Position = All.OfType<NPCSpawner>().First().Position;
 
 		Scale = NPCScale;
-		Health = BaseHealth;
+		Health = BaseHealth * GetDifficulty();
 
 		EnableHitboxes = true;
 
@@ -66,7 +88,7 @@ public partial class BaseNPC : AnimatedEntity
 
 		Tags.Add( "npc" );
 
-		SetupPhysicsFromModel(PhysicsMotionType.Keyframed);
+		SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
 		EnableTraceAndQueries = true;
 
 		Steer = new NPCPathSteer();
@@ -83,19 +105,19 @@ public partial class BaseNPC : AnimatedEntity
 	public void FollowPath()
 	{
 		if ( Position.Distance( Steer.Target ) <= 20.0f )
-			pathTarget++;
+			PathTarget++;
 
 		if( Position.Distance( castleTarget.Position ) <= 25.0f )
 		{
 			DamageInfo dmgInfo = new DamageInfo();
-			dmgInfo.Damage = Damage;
+			dmgInfo.Damage = Damage * GetDifficulty();
 
 			castleTarget.TakeDamage( dmgInfo );
 			Despawn();
 			return;
 		}
 
-		Steer.Target = All.OfType<NPCPath>().First(x => x.PathOrder == pathTarget).Position;
+		Steer.Target = All.OfType<NPCPath>().First(x => x.PathOrder == PathTarget).Position;
 	}
 
 	//Server ticking for NPC Navigation
@@ -217,14 +239,6 @@ public partial class BaseNPC : AnimatedEntity
 	public override void OnKilled()
 	{
 		base.OnKilled();
-
-		if( NPCType == SpecialType.Splitter )
-		{
-			for ( int i = 0; i < SplitAmount; i++ )
-			{
-
-			}
-		}
 
 		foreach ( var player in Client.All.OfType<CDPawn>())
 		{

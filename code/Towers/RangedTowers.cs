@@ -12,7 +12,7 @@ public partial class Pistol : BaseTower
 	public override string TowerDesc => "A pistol tower";
 
 	//Temporary until we get a pistol model
-	public override string TowerModel => "models/towers/trickster_tower.vmdl";
+	public override string TowerModel => "models/towers/trickstertower.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new string[]
@@ -62,7 +62,7 @@ public partial class Sniper : BaseTower
 	public override float DeploymentTime => 0.75f;
 	public override float AttackTime => 3.5f;
 	public override int AttackDamage => 5;
-	public override int RangeDistance => 175;
+	public override int RangeDistance => 250;
 	public override string AttackSound => "sniper_fire";
 
 	bool lockedOnTarget;
@@ -97,8 +97,8 @@ public partial class Sniper : BaseTower
 		if ( (timeLastAttack * 4) >= AttackTime && !lockedOnTarget )
 		{
 			lockedOnTarget = true;
-			laserSight = Particles.Create( "particles/sniper_beam.vpcf", Target.EyePosition );
-			laserSight.SetEntityAttachment( 0, this, "muzzle" );
+			//laserSight = Particles.Create( "particles/sniper_beam.vpcf", Target.EyePosition );
+			//laserSight.SetEntityAttachment( 0, this, "muzzle" );
 			//LaserOn();
 		}
 
