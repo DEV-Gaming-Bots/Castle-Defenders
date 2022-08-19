@@ -39,7 +39,7 @@ public partial class BaseTower : AnimatedEntity
 	public virtual int RangeDistance => 10;
 	public virtual string AttackSound => "";
 
-	public bool IsPreviewing;
+	public bool IsPreviewing = true;
 
 	public TimeSince TimeSinceDeployed;
 	public TimeSince TimeLastAttack;
@@ -51,18 +51,15 @@ public partial class BaseTower : AnimatedEntity
 		SetModel( TowerModel );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
+		if ( !IsPreviewing )
+			SetAnimParameter( "b_deploy", false );
+
 		Tags.Add( "tower" );
 	}
 
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();
-	}
-
-	public virtual void Deploy()
-	{
-		Spawn();
-		TimeSinceDeployed = 0;
 	}
 
 	//Scans for enemies

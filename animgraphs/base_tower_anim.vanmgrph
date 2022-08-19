@@ -15,12 +15,12 @@
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 16.0, -16.0 ]
+					m_vecPosition = [ 0.0, -16.0 ]
 					m_nNodeID = 
 					{
 						m_id = 316255960
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_states = 
 					[
@@ -39,7 +39,7 @@
 											m_bIsFinished = true
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.0
 									m_destState = 
 									{
 										m_id = 449184888
@@ -74,8 +74,8 @@
 							{
 								m_id = 191548342
 							}
-							m_position = [ -160.0, 48.0 ]
-							m_bIsStartState = true
+							m_position = [ -160.0, 80.0 ]
+							m_bIsStartState = false
 							m_bIsEndtState = false
 							m_bIsPassthrough = false
 							m_bIsRootMotionExclusive = false
@@ -83,7 +83,43 @@
 						},
 						{
 							_class = "CAnimState"
-							m_transitions = [  ]
+							m_transitions = 
+							[
+								{
+									_class = "CAnimStateTransition"
+									m_conditions = 
+									[
+										{
+											_class = "CParameterAnimCondition"
+											m_comparisonOp = 0
+											m_paramID = 
+											{
+												m_id = 669742763
+											}
+											m_comparisonValue = 
+											{
+												m_nType = 1
+												m_data = true
+											}
+										},
+									]
+									m_blendDuration = 0.0
+									m_destState = 
+									{
+										m_id = 191548342
+									}
+									m_bReset = true
+									m_resetCycleOption = "Beginning"
+									m_flFixedCycleValue = 0.0
+									m_blendCurve = 
+									{
+										m_vControlPoint1 = [ 0.5, 0.0 ]
+										m_vControlPoint2 = [ 0.5, 1.0 ]
+									}
+									m_bForceFootPlant = false
+									m_bDisabled = false
+								},
+							]
 							m_tags = [  ]
 							m_tagBehaviors = [  ]
 							m_name = "Idle"
@@ -102,12 +138,12 @@
 							{
 								m_id = 449184888
 							}
-							m_position = [ -160.0, -96.0 ]
-							m_bIsStartState = false
+							m_position = [ -160.0, -80.0 ]
+							m_bIsStartState = true
 							m_bIsEndtState = false
 							m_bIsPassthrough = false
 							m_bIsRootMotionExclusive = false
-							m_bAlwaysEvaluate = false
+							m_bAlwaysEvaluate = true
 						},
 					]
 					m_bBlockWaningTags = false
@@ -123,12 +159,12 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -208.0, -32.0 ]
+					m_vecPosition = [ -208.0, -48.0 ]
 					m_nNodeID = 
 					{
 						m_id = 345446203
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "deploy"
@@ -150,7 +186,7 @@
 					{
 						m_id = 1341962419
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_inputConnection = 
 					{
@@ -174,12 +210,12 @@
 				{
 					_class = "CSingleFrameAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -208.0, 48.0 ]
+					m_vecPosition = [ -208.0, 32.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1908793522
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientPredicted"
 					m_sNote = ""
 					m_sequenceName = "idle"
 					m_nFrameIndex = 0
@@ -191,7 +227,23 @@
 	m_pParameterList = 
 	{
 		_class = "CAnimParameterList"
-		m_Parameters = [  ]
+		m_Parameters = 
+		[
+			{
+				_class = "CBoolAnimParameter"
+				m_name = "b_deploy"
+				m_id = 
+				{
+					m_id = 669742763
+				}
+				m_previewButton = "ANIMPARAM_BUTTON_NONE"
+				m_bNetwork = false
+				m_bUseMostRecentValue = false
+				m_bAutoReset = false
+				m_bPredicted = false
+				m_bDefaultValue = true
+			},
+		]
 	}
 	m_pTagManager = 
 	{
@@ -235,7 +287,7 @@
 	}
 	m_previewModels = 
 	[
-		"models/trickster_tower.vmdl",
+		"models/towers/radioactivemitter.vmdl",
 	]
 	m_boneMergeModels = [  ]
 }

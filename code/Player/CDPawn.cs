@@ -87,9 +87,6 @@ public partial class CDPawn : Player
 
 	public void DoTDInputs()
 	{
-		if ( IsClient )
-			return;
-
 		if ( CDGame.Instance.GameStatus != CDGame.GameEnum.Active && !CDGame.Instance.Debug )
 			return;
 
@@ -115,33 +112,41 @@ public partial class CDPawn : Player
 
 				placedTower.Position = selectedTower.Position;
 				placedTower.Rotation = selectedTower.Rotation;
-				placedTower.Deploy();
+				placedTower.IsPreviewing = false;
+				placedTower.Spawn();
 
-				DestroyPreview(To.Single(this));
-
-				selectedTower.Delete();
-				selectedTower = null;
+				if(IsServer)
+				{
+					DestroyPreview(To.Single(this));
+					selectedTower.Delete();
+					selectedTower = null;
+				}
 			}
 		}
 
 		if ( Input.Pressed( InputButton.SecondaryAttack ) )
 		{
 
-			if( selectedTower == null )
+			if( selectedTower == null && IsServer )
 			{
 				towerRot = 0.0f;
+
 				selectedTower = TypeLibrary.Create<BaseTower>( "RadioactiveEmitter" );
 				selectedTower.Owner = this;
 				selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
-				selectedTower.IsPreviewing = true;
+				//selectedTower.IsPreviewing = true;
+				selectedTower.Spawn();
 
-				CreatePreview( To.Single( this ), selectedTower.GetType().FullName );
+				CreatePreview( To.Single( this ), selectedTower.GetModelName() );
 			} 
 			else
 			{
-				DestroyPreview();
-				selectedTower.Delete();
-				selectedTower = null;
+				if ( IsServer )
+				{
+					DestroyPreview();
+					selectedTower.Delete();
+					selectedTower = null;
+				}
 			}
 
 		}
