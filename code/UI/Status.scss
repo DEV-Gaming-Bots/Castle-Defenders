@@ -1,9 +1,11 @@
 ﻿status {
     position: absolute;
     bottom: 0px;
-    width: 15%;
+    width: 500px;
     height: 99px;
     background-image: url(ui/hud_cash.png);
+    background-repeat: no-repeat;
+    background-size: contain;
 
     .text {
         font-family: Poppins;
