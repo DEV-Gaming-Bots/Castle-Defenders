@@ -34,11 +34,11 @@
 							},
 							{
 								from = "stone.vmat"
-								to = "models/grey.vmat"
+								to = "materials/grey.vmat"
 							},
 							{
 								from = "stonedark.vmat"
-								to = "models/dark_grey.vmat"
+								to = "materials/dark_grey.vmat"
 							},
 						]
 						use_global_default = false
