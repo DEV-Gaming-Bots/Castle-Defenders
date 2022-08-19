@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 using Sandbox;
 
 public interface IPlayerData
@@ -18,7 +19,6 @@ public class PlayerData : IPlayerData
 
 public partial class CDGame
 {
-	[Event("td2_evnt_savedata")]
 	public void SaveData( CDPawn player )
 	{
 		if ( player.Client.IsBot )
@@ -44,29 +44,6 @@ public partial class CDGame
 		player.LoadStats( loadData );
 
 		return true;
-	}
-
-	[ConCmd.Admin( "td2_forcesave" )]
-	public static void SaveData()
-	{
-		var player = ConsoleSystem.Caller.Pawn as CDPawn;
-
-		if ( player == null )
-			return;
-
-		Event.Run( "td2_evnt_savedata", player );
-	}
-
-	[ConCmd.Admin("td2_forcesave_all")]
-	public static void SaveAllData()
-	{
-		foreach ( var player in Client.All.OfType<CDPawn>() )
-		{
-			if ( player == null )
-				continue;
-
-			Event.Run( "td2_evnt_savedata", player );
-		}
 	}
 }
 

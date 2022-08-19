@@ -28,7 +28,7 @@ public partial class Pistol : BaseTower
 	public override int TowerCost => 1;
 	public override float DeploymentTime => 0.35f;
 	public override float AttackTime => 1.0f;
-	public override int AttackDamage => 5;
+	public override float AttackDamage => 5.0f;
 	public override int RangeDistance => 175;
 	public override string AttackSound => "pistol_fire";
 
@@ -61,7 +61,7 @@ public partial class Sniper : BaseTower
 	public override int TowerCost => 1;
 	public override float DeploymentTime => 0.75f;
 	public override float AttackTime => 3.5f;
-	public override int AttackDamage => 5;
+	public override float AttackDamage => 12.5f;
 	public override int RangeDistance => 250;
 	public override string AttackSound => "sniper_fire";
 
@@ -81,7 +81,7 @@ public partial class Sniper : BaseTower
 
 		if ( Target == null )
 		{
-			timeLastAttack = 0;
+			TimeLastAttack = 0;
 			lockedOnTarget = false;
 			
 			if ( laserSight != null )
@@ -94,7 +94,7 @@ public partial class Sniper : BaseTower
 			return;
 		}
 
-		if ( (timeLastAttack * 4) >= AttackTime && !lockedOnTarget )
+		if ( (TimeLastAttack * 4) >= AttackTime && !lockedOnTarget )
 		{
 			lockedOnTarget = true;
 			//laserSight = Particles.Create( "particles/sniper_beam.vpcf", Target.EyePosition );

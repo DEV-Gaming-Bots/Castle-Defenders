@@ -55,6 +55,17 @@ public partial class CDGame : Game
 		var pawn = new CDPawn(client);
 		pawn.Spawn();
 		client.Pawn = pawn;
+
+		if ( !LoadSave( pawn ) )
+			pawn.NewPlayerStats();
+	}
+
+	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+	{
+		if(cl.Pawn is CDPawn ply)
+			SaveData( ply );
+
+		base.ClientDisconnect( cl, reason );
 	}
 
 	public enum GameStates

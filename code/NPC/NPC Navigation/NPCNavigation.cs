@@ -23,16 +23,18 @@ public class NPCNavigation
 			var from_fixed = NavMesh.GetClosestPoint( from );
 			var tofixed = NavMesh.GetClosestPoint( to );
 
+			if ( from_fixed == null )
+				return;
+
 			Points.Clear();
+
 			NavMesh.GetClosestPoint( from );
 			NavMesh.BuildPath( from_fixed.Value, tofixed.Value, Points );
 			//Points.Add( NavMesh.GetClosestPoint( to ) );
 		}
 
 		if ( Points.Count <= 1 )
-		{
 			return;
-		}
 
 		var deltaToCurrent = from - Points[0];
 		var deltaToNext = from - Points[1];

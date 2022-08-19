@@ -8,7 +8,6 @@ using Sandbox;
 public partial class CDGame
 {
 	public bool Debug;
-
 	public enum DebugEnum
 	{
 		Default,
@@ -115,5 +114,42 @@ public partial class CDGame
 		}
 
 		Instance.StartMapVote();
+	}
+
+	[ConCmd.Admin( "cd_forcesave" )]
+	public static void SaveData()
+	{
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+
+		if ( player == null )
+			return;
+
+		Instance.SaveData( player );
+	}
+
+	[ConCmd.Admin( "cd_forcesave_all" )]
+	public static void SaveAllData()
+	{
+		if ( !Instance.Debug )
+			return;
+
+		All.OfType<CDPawn>().ToList().ForEach( x => Instance.SaveData( x ) );
+	}
+
+	[ConCmd.Admin( "cd_loadsave" )]
+	public static void LoadDataCMD()
+	{
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+
+		if ( player == null )
+			return;
+
+		Instance.LoadSave( player );
+	}
+
+	[ConCmd.Server( "cd_tower_select" )]
+	public static void SelectTower()
+	{
+
 	}
 }

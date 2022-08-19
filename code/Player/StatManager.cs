@@ -21,6 +21,8 @@ public partial class CDPawn : IPlayerData
 		EXP = 0;
 		OldEXP = 0;
 		ReqEXP = 1000;
+
+		CDGame.Instance.SaveData( this );
 	}
 
 	public void LoadStats(PlayerData playerData)
@@ -47,7 +49,7 @@ public partial class CDPawn : IPlayerData
 		if(EXP >= ReqEXP)
 		{
 			//Incase the EXP goes over the next EXP requirements
-			while(EXP >= ReqEXP)
+			while ( EXP >= ReqEXP )
 			{
 				Level++;
 				EXP -= ReqEXP;

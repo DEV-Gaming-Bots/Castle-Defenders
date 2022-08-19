@@ -22,7 +22,7 @@ public partial class Template : BaseTower
 	public override int TowerCost => 1;
 	public override float DeploymentTime => 0.5f;
 	public override float AttackTime => 1.0f;
-	public override int AttackDamage => 5;
+	public override float AttackDamage => 5.0f;
 	public override int RangeDistance => 45;
 	public override string AttackSound => "";
 

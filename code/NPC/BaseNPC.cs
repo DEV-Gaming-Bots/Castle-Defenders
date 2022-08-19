@@ -8,12 +8,11 @@ public partial class BaseNPC : AnimatedEntity
 	//Basics
 	public virtual string NPCName => "Default NPC";
 	public virtual string BaseModel => "models/citizen/citizen.vmdl";
-	public virtual int BaseHealth => 1;
+	public virtual float BaseHealth => 1;
 	public virtual float BaseSpeed { get; set; } = 1;
-	public virtual int[] MinMaxCashReward => new int[] {1, 2};
-	int cashReward = 0;
+	public virtual int[] MinMaxCashReward => new int[] { 1, 2 };
 	public virtual int[] MinMaxEXPReward => new int[] { 1, 2 };
-	int expReward = 0;
+
 	public virtual float NPCScale => 1;
 	public virtual float Damage => 1;
 
@@ -39,6 +38,8 @@ public partial class BaseNPC : AnimatedEntity
 	[ConVar.Replicated]
 	public static bool td2_npc_drawoverlay { get; set; }
 
+	public int CashReward;
+	public int ExpReward;
 	public int PathTarget;
 
 	Vector3 InputVelocity;
@@ -81,15 +82,14 @@ public partial class BaseNPC : AnimatedEntity
 		Scale = NPCScale;
 		Health = BaseHealth * GetDifficulty();
 
-		EnableHitboxes = true;
-
-		cashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1]);
-		expReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] );
+		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1]) * GetDifficulty();
+		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * GetDifficulty();
 
 		Tags.Add( "npc" );
 
 		SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
 		EnableTraceAndQueries = true;
+		EnableHitboxes = true;
 
 		Steer = new NPCPathSteer();
 		castleTarget = All.OfType<CastleEntity>().FirstOrDefault();
@@ -117,6 +117,16 @@ public partial class BaseNPC : AnimatedEntity
 			return;
 		}
 
+		if( All.OfType<NPCPath>().First( x => x.PathOrder == PathTarget ) == null)
+		{
+			PathTarget++;
+
+			if ( PathTarget > All.OfType<NPCPath>().Count() )
+				PathTarget = 1;
+
+			return;
+		}
+
 		Steer.Target = All.OfType<NPCPath>().First(x => x.PathOrder == PathTarget).Position;
 	}
 
@@ -128,16 +138,15 @@ public partial class BaseNPC : AnimatedEntity
 
 		if ( Steer != null || !IsValid )
 		{
+			FollowPath();
+
 			Steer.Tick( Position );
 
 			if ( !Steer.Output.Finished )
 			{
 				InputVelocity = Steer.Output.Direction.Normal;
 				Velocity = Velocity.AddClamped( InputVelocity * Time.Delta * 500, BaseSpeed * 1.5f );
-			}
-
-			FollowPath();
-			
+			}			
 		}
 
 		Move( Time.Delta );
@@ -238,16 +247,19 @@ public partial class BaseNPC : AnimatedEntity
 
 	public override void OnKilled()
 	{
-		base.OnKilled();
+		if ( !IsServer )
+			return;
 
-		foreach ( var player in Client.All.OfType<CDPawn>())
+		foreach ( var cl in Client.All)
 		{
-			if ( player == null )
-				continue;
-
-			player.AddCash( cashReward );
-			player.AddEXP( expReward );
+			if (cl.Pawn is CDPawn player)
+			{
+				player.AddCash( CashReward );
+				player.AddEXP( ExpReward );
+			}
 		}
+
+		base.OnKilled();
 	}
 
 	public override void FrameSimulate( Client cl )

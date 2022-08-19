@@ -28,20 +28,7 @@ public partial class Status : Panel
 
 		int plyCash = player.GetCash();
 
-		if ( plyCash >= 10000)
-		{
-			string formatCash = plyCash.ToString();
-			CurCashLbl.SetText( $"${formatCash[0]}{formatCash[1]}.{formatCash[2]}k");
-		} 
-		else if ( plyCash >= 1000 && plyCash < 10000)
-		{
-			string formatCash = plyCash.ToString();
-			CurCashLbl.SetText( $"${formatCash[0]}.{formatCash[1]}k" );
-		}
-		else
-		{
-			CurCashLbl.SetText( $"${plyCash}" );
-		}
+		CurCashLbl.SetText( plyCash.ToString("C0") );
 
 	}
 }

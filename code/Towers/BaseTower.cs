@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Sandbox;
 
 
@@ -32,7 +33,7 @@ public partial class BaseTower : AnimatedEntity
 	//Attacking + Deployment
 	public virtual float DeploymentTime => 1.0f;
 	public virtual float AttackTime => 1.0f;
-	public virtual int AttackDamage => 1;
+	public virtual float AttackDamage => 1.0f;
 
 	//How far it can see
 	public virtual int RangeDistance => 10;
@@ -40,8 +41,8 @@ public partial class BaseTower : AnimatedEntity
 
 	public bool IsPreviewing;
 
-	TimeSince timeDeployed;
-	public TimeSince timeLastAttack;
+	public TimeSince TimeSinceDeployed;
+	public TimeSince TimeLastAttack;
 
 	public BaseNPC Target;
 
@@ -61,7 +62,7 @@ public partial class BaseTower : AnimatedEntity
 	public virtual void Deploy()
 	{
 		Spawn();
-		timeDeployed = 0;
+		TimeSinceDeployed = 0;
 	}
 
 	//Scans for enemies
@@ -84,6 +85,27 @@ public partial class BaseTower : AnimatedEntity
 		return null;
 	}
 
+	public List<BaseNPC> ScanForEnemies()
+	{
+		List<BaseNPC> npclist = new List<BaseNPC>();
+
+		for ( int i = 1; i <= 360; i++ )
+		{
+			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i ).Forward * RangeDistance + Vector3.Up * 5 )
+				.Ignore( this )
+				.UseHitboxes( true )
+				.Run();
+
+			if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
+				DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
+
+			if ( tr.Entity is BaseNPC npc )
+				npclist.Add( npc );
+		}
+
+		return npclist;
+	}
+
 	[Event.Tick.Server]
 	public virtual void SimulateTower()
 	{
@@ -92,7 +114,7 @@ public partial class BaseTower : AnimatedEntity
 			return;
 
 		//Still deploying, wait until finished
-		if ( timeDeployed < DeploymentTime )
+		if ( TimeSinceDeployed < DeploymentTime )
 			return;
 
 		//Tower doesn't have a target, find one
@@ -120,7 +142,7 @@ public partial class BaseTower : AnimatedEntity
 				return;
 			}
 
-			if( timeLastAttack >= AttackTime )
+			if( TimeLastAttack >= AttackTime )
 				Attack( Target );
 		}
 		//Else we lost sight or the target died
@@ -139,7 +161,7 @@ public partial class BaseTower : AnimatedEntity
 		PlaySound( AttackSound );
 		FireEffects();
 
-		timeLastAttack = 0;
+		TimeLastAttack = 0;
 		DamageInfo dmgInfo = new DamageInfo();
 		dmgInfo.Attacker = this;
 		dmgInfo.Damage = AttackDamage;

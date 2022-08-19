@@ -9,7 +9,7 @@ using SandboxEditor;
 [HammerEntity]
 public partial class NPCPath : Entity
 {
-	[Property(), Description( "The order of paths the NPC will go from start to end" )]
-	public int PathOrder { get; set; }
+	[Property(), Description( "The order of paths the NPC will go from start to end, " )]
+	public int PathOrder { get; set; } = 1;
 }
 

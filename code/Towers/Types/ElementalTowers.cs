@@ -22,7 +22,7 @@ public partial class ElementalTowers : BaseTower
 	public override int TowerCost => 1;
 	public override float DeploymentTime => 2.25f;
 	public override float AttackTime => 5.25f;
-	public override int AttackDamage => 5;
+	public override float AttackDamage => 5.0f;
 	public override int RangeDistance => 125;
 	public override string AttackSound => "lightning_attack";
 
@@ -35,12 +35,12 @@ public partial class ElementalTowers : BaseTower
 
 		if ( Target == null )
 		{
-			timeLastAttack = 0;
+			TimeLastAttack = 0;
 			charged = false;
 			return;
 		}
 
-		if ( (timeLastAttack * 2) >= AttackTime && !charged )
+		if ( (TimeLastAttack * 2) >= AttackTime && !charged )
 		{
 			PlaySound( "lightning_charge" );
 			charged = true;

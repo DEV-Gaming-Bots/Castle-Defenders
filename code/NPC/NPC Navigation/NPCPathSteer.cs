@@ -12,6 +12,9 @@ public class NPCPathSteer
 
 	public virtual void Tick( Vector3 currentPosition )
 	{
+		if ( Target.IsNearlyZero() )
+			return;
+
 		Path.Update( currentPosition, Target );
 		
 		Output.Finished = Path.IsEmpty;
