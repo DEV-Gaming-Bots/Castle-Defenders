@@ -10,5 +10,8 @@ public class TowerBlocker : ModelEntity
 	public override void Spawn()
 	{
 		base.Spawn();
+		EnableDrawing = false;
+		EnableHitboxes = false;
+		EnableTraceAndQueries = true;
 	}
 }

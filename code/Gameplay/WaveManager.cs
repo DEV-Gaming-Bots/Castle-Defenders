@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Sandbox;
 public partial class CDGame
@@ -58,7 +59,7 @@ public partial class CDGame
 		if ( GameStatus == GameEnum.Idle )
 			return;
 
-		if(DebugMode)
+		if( Instance.Debug && (Instance.DebugMode == DebugEnum.Gameplay || Instance.DebugMode == DebugEnum.All))
 			Log.Info( TimeRemaining );
 
 		if( TimeRemaining <= 0.0f )

@@ -14,7 +14,8 @@ public partial class CDGame : Game
 	{
 		if(IsServer)
 		{
-			DebugMode = false;
+			Debug = false;
+			DebugMode = DebugEnum.Default;
 
 			GameStatus = GameEnum.Idle;
 			WaveStatus = WaveEnum.Pre;

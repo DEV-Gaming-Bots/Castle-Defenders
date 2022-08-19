@@ -78,7 +78,8 @@ public partial class BaseTower : AnimatedEntity
 				.UseHitboxes( true )
 				.Run();
 
-			if ( CDGame.Instance.DebugMode )
+			if ( CDGame.Instance.Debug && 
+				(CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
 				DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
 
 			if ( tr.Entity is BaseNPC npc )
@@ -112,7 +113,8 @@ public partial class BaseTower : AnimatedEntity
 				.UseHitboxes(true)
 				.Run();
 
-			if ( CDGame.Instance.DebugMode )
+			if ( CDGame.Instance.Debug &&
+				(CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
 				DebugOverlay.Line( towerTR.StartPosition, towerTR.EndPosition );
 
 			//A wall is blocking the towers sight to the target

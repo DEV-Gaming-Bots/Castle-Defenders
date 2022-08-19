@@ -7,12 +7,44 @@ using Sandbox;
 
 public partial class CDGame
 {
-	public bool DebugMode;
+	public bool Debug;
+
+	public enum DebugEnum
+	{
+		Default,
+		Tower,
+		Gameplay,
+		All,
+	}
+
+	public DebugEnum DebugMode;
 
 	[ConCmd.Admin( "cd_debug" )]
 	public static void DebugToggle()
 	{
-		Instance.DebugMode = !Instance.DebugMode;
+		Instance.Debug = !Instance.Debug;
+
+		Log.Info( "Debug: " + Instance.Debug );
+	}
+
+	[ConCmd.Admin( "cd_debugmode" )]
+	public static void DebugModeSet(int mode)
+	{
+		switch(mode)
+		{
+			case 1:
+				Instance.DebugMode = DebugEnum.Default;
+				break;
+			case 2:
+				Instance.DebugMode = DebugEnum.Tower;
+				break;
+			case 3:
+				Instance.DebugMode = DebugEnum.Gameplay;
+				break;
+			case 4:
+				Instance.DebugMode = DebugEnum.All;
+				break;
+		}
 
 		Log.Info( "Debug Mode: " + Instance.DebugMode );
 	}
@@ -20,7 +52,7 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_npc_create" )]
 	public static void SpawnNPC( string npcName )
 	{
-		if ( !Instance.DebugMode )
+		if ( !Instance.Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -40,7 +72,7 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_force_start" )]
 	public static void ForceStartGame()
 	{
-		if ( !Instance.DebugMode )
+		if ( !Instance.Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -58,7 +90,7 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_force_restart" )]
 	public static void ForceRestartGame()
 	{
-		if ( !Instance.DebugMode )
+		if ( !Instance.Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -76,7 +108,7 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_start_mapvote" )]
 	public static void ForceMapVote()
 	{
-		if ( !Instance.DebugMode )
+		if ( !Instance.Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;

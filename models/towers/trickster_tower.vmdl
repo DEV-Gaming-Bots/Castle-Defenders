@@ -29,7 +29,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/raw/tricksternewest.fbx"
+						filename = "models/raw/trickstertower/trickster.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 1.0
@@ -69,7 +69,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/raw/tricksternewest.fbx"
+						source_filename = "models/raw/trickstertower/trickster.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
@@ -90,7 +90,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/raw/tricksternewest.fbx"
+						source_filename = "models/raw/trickstertower/trickster.fbx"
 						start_frame = 89
 						end_frame = -1
 						framerate = -1.0

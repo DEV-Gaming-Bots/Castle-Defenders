@@ -2,11 +2,11 @@
 using Sandbox;
 
 
-public partial class Lightning : BaseTower
+public partial class ElementalTowers : BaseTower
 {
 	public override string TowerName => "Template Tower";
 	public override string TowerDesc => "A template tower";
-	public override string TowerModel => "models/lightning.vmdl";
+	public override string TowerModel => "models/towers/lightning.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new string[]

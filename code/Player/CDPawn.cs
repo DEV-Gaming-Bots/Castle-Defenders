@@ -49,15 +49,20 @@ public partial class CDPawn : Player
 		if ( tr.Normal.z != 1 )
 			return false;
 
+		//First check, look for nearby towers
 		foreach ( var nearby in FindInSphere( selectedTower.Position, 16 ) )
 		{
-			if ( nearby is TowerBlocker )
-				return false;
-
 			if ( nearby is BaseTower tower && tower != selectedTower )
 				return false;
 		}
 
+		//Second check, look for blocked areas
+		foreach ( var nearby in FindInSphere( selectedTower.Position, 8 ) )
+		{
+			if ( nearby is TowerBlocker )
+				return false;
+		}
+		
 		return true;
 	}
 
@@ -129,9 +134,9 @@ public partial class CDPawn : Player
 
 			if( selectedTower == null )
 			{
-				CreatePreview( To.Single( this ), "Pistol");
+				CreatePreview( To.Single( this ), "Sniper" );
 				towerRot = 0.0f;
-				selectedTower = TypeLibrary.Create<BaseTower>( "Pistol" );
+				selectedTower = TypeLibrary.Create<BaseTower>( "Sniper" );
 				selectedTower.Owner = this;
 				selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
 			} 
