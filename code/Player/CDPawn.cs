@@ -57,11 +57,8 @@ public partial class CDPawn : Player
 		}
 
 		//Second check, look for blocked areas
-		foreach ( var nearby in FindInSphere( selectedTower.Position, 8 ) )
-		{
-			if ( nearby is TowerBlocker )
-				return false;
-		}
+		if ( tr.Entity is TowerBlocker )
+			return false;
 		
 		return true;
 	}
