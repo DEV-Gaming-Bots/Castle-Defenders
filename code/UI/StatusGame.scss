@@ -1,0 +1,29 @@
+StatusGame {
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+GameInfoPanel {
+    .timer, .rounds {
+        padding-top: 12px;
+
+        label {
+            color: white;
+            font-size: 32%;
+            font-family: Poppins;
+            font-weight: bold;
+            text-shadow: 0px 3px 3px rgba(0,0,0,0.3);
+            padding: 0px 12px;
+        }
+    }
+
+    .timer {
+        background-color: #208EAB;
+    }
+
+    .rounds {
+        background-color: #1D788F;
+    }
+}

@@ -1,18 +1,18 @@
 ﻿status {
     position: absolute;
-    bottom: 0px;
-    width: 500px;
-    height: 99px;
-    background-image: url(ui/hud_cash.png);
-    background-repeat: no-repeat;
-    background-size: contain;
+    bottom: 50px;
+    height: 62px;
+    min-width: 12%;
+    padding: 0px 32px;
+    align-items: center;
+    justify-content: center;
+    background-color: #49C9EA;
 
     .text {
         font-family: Poppins;
-        font-size: 42px;
-        font-weight: 200;
+        font-size: 32px;
+        font-weight: bold;
+        font-style: italic;
         color: black;
-        left: 75px;
-        top: 30px;
     }
 }
