@@ -26,13 +26,6 @@
 					m_angOffset = [ 0.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
-				{
-					m_iControlPoint = 3
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 1.0, 1.0, 0.0 ]
-					m_angOffset = [ 0.0, 0.0, 0.0 ]
-					m_entityName = "self"
-				},
 			]
 		},
 	]
@@ -466,18 +459,6 @@
 			{
 				m_nEndControlPointNumber = 1
 			}
-		},
-		{
-			_class = "C_OP_RemapCPtoScalar"
-			m_nCPInput = 3
-			m_flInputMax = 1000.0
-			m_flOutputMax = 1000.0
-		},
-		{
-			_class = "C_OP_RemapCPtoScalar"
-			m_nCPInput = 3
-			m_nFieldOutput = "7"
-			m_nField = 1
 		},
 	]
 	m_Renderers = 
