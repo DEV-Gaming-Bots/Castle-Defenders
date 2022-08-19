@@ -11,7 +11,7 @@ public class TowerBlocker : ModelEntity
 	{
 		base.Spawn();
 		EnableDrawing = false;
-		EnableHitboxes = false;
-		EnableTraceAndQueries = true;
+		SetupPhysicsFromModel( PhysicsMotionType.Static );
+		Tags.Add( "trigger" );
 	}
 }
