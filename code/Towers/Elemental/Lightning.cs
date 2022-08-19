@@ -33,8 +33,12 @@ public partial class Lightning : BaseTower
 	{
 		base.SimulateTower();
 
-		if ( IsPreviewing )
+		if ( Target == null )
+		{
+			timeLastAttack = 0;
+			charged = false;
 			return;
+		}
 
 		if ( (timeLastAttack * 2) >= AttackTime && !charged )
 		{

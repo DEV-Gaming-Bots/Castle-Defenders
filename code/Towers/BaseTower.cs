@@ -43,12 +43,15 @@ public partial class BaseTower : AnimatedEntity
 	TimeSince timeDeployed;
 	public TimeSince timeLastAttack;
 
-	BaseNPC target;
+	public BaseNPC Target;
 
 	public override void Spawn()
 	{
 		SetModel( TowerModel );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+
+		if ( !IsPreviewing )
+			SetAnimParameter( "deploy", false );
 
 		Tags.Add( "tower" );
 	}
@@ -65,15 +68,12 @@ public partial class BaseTower : AnimatedEntity
 		timeDeployed = 0;
 	}
 
+	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
-		float rotScan = 0;
-
-		for ( int i = 1; i <= 16; i++ )
+		for ( int i = 1; i <= 360; i++ )
 		{
-			rotScan = i * 22.5f;
-
-			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( rotScan ).Forward * RangeDistance + Vector3.Up * 5 )
+			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i ).Forward * RangeDistance + Vector3.Up * 5 )
 				.Ignore( this )
 				.UseHitboxes( true )
 				.Run();
@@ -84,8 +84,6 @@ public partial class BaseTower : AnimatedEntity
 			if ( tr.Entity is BaseNPC npc )
 				return npc;
 		}
-
-	
 
 		return null;
 	}
@@ -102,14 +100,14 @@ public partial class BaseTower : AnimatedEntity
 			return;
 
 		//Tower doesn't have a target, find one
-		if(target == null)
-			target = ScanForEnemy();
+		if(Target == null)
+			Target = ScanForEnemy();
 
 		//If we have a target and is within range, attack it
-		if (target.IsValid() && Position.Distance(target.Position) < RangeDistance)
+		if (Target.IsValid() && Position.Distance(Target.Position) < RangeDistance)
 		{
 			//Trace check
-			var towerTR = Trace.Ray( Position + Vector3.Up * 5, target.Position + Vector3.Up * 5 )
+			var towerTR = Trace.Ray( Position + Vector3.Up * 5, Target.Position + Vector3.Up * 5 )
 				.Ignore( this )
 				.UseHitboxes(true)
 				.Run();
@@ -120,17 +118,17 @@ public partial class BaseTower : AnimatedEntity
 			//A wall is blocking the towers sight to the target
 			if ( towerTR.Entity is not BaseNPC )
 			{
-				target = null;
+				Target = null;
 				return;
 			}
 
 			if( timeLastAttack >= AttackTime )
-				Attack( target );
+				Attack( Target );
 		}
 		//Else we lost sight or the target died
 		else
 		{
-			target = null;
+			Target = null;
 		}
 	}
 

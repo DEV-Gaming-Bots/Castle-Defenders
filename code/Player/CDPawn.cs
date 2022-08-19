@@ -49,12 +49,12 @@ public partial class CDPawn : Player
 		if ( tr.Normal.z != 1 )
 			return false;
 
-		if ( tr.Entity is TowerBlocker )
-			return false;
-
-		foreach ( var nearTower in FindInSphere( selectedTower.Position + Vector3.Up * 8, 32 ) )
+		foreach ( var nearby in FindInSphere( selectedTower.Position, 16 ) )
 		{
-			if ( nearTower.IsValid() && nearTower != selectedTower )
+			if ( nearby is TowerBlocker )
+				return false;
+
+			if ( nearby is BaseTower tower && tower != selectedTower )
 				return false;
 		}
 
@@ -103,23 +103,19 @@ public partial class CDPawn : Player
 
 			SimulatePlacement( tr );
 
+			if ( !CanPlace( tr ) )
+				return;
+
 			if ( Input.Pressed( InputButton.PrimaryAttack ))
 			{
-				if ( selectedTower == null || !CanPlace(tr) )
+				if ( selectedTower == null )
 					return;
 
-				foreach ( var nearTower in FindInSphere(selectedTower.Position + Vector3.Up * 8, 32) )
-				{
-					if ( nearTower.IsValid() && nearTower != selectedTower )
-						return;
-				}
-
-				var placedTower = TypeLibrary.Create<BaseTower>( "Lightning" ); ;
+				var placedTower = TypeLibrary.Create<BaseTower>( selectedTower.GetType().FullName ); ;
 
 				placedTower.Position = selectedTower.Position;
 				placedTower.Rotation = selectedTower.Rotation;
 				placedTower.Deploy();
-				placedTower.RenderColor = new Color( 255, 255, 255, 1 );
 
 				DestroyPreview(To.Single(this));
 
@@ -128,13 +124,24 @@ public partial class CDPawn : Player
 			}
 		}
 
-		if ( Input.Pressed( InputButton.SecondaryAttack ) && selectedTower == null )
+		if ( Input.Pressed( InputButton.SecondaryAttack ) )
 		{
-			CreatePreview( To.Single( this ) );
-			towerRot = 0.0f;
-			selectedTower = TypeLibrary.Create<BaseTower>( "Lightning" );
-			selectedTower.Owner = this;
-			selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
+
+			if( selectedTower == null )
+			{
+				CreatePreview( To.Single( this ), "Pistol");
+				towerRot = 0.0f;
+				selectedTower = TypeLibrary.Create<BaseTower>( "Pistol" );
+				selectedTower.Owner = this;
+				selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
+			} 
+			else
+			{
+				DestroyPreview();
+				selectedTower.Delete();
+				selectedTower = null;
+			}
+
 		}
 	}
 

@@ -33,6 +33,8 @@ public partial class BaseNPC : AnimatedEntity
 	//Disrupter - Disrupts nearby towers with exceptions
 	//Splitter - Splits into multiple weaker versions of the NPC upon death
 	public virtual SpecialType NPCType => SpecialType.Standard;
+	public virtual float ArmourStrength => 0;
+	public virtual int SplitAmount => 0;
 
 	[ConVar.Replicated]
 	public static bool td2_npc_drawoverlay { get; set; }
@@ -51,8 +53,8 @@ public partial class BaseNPC : AnimatedEntity
 	{ 
 		SetModel( BaseModel );
 
-		pathTarget = 0;
-		Position = All.OfType<NPCPath>().ToList()[pathTarget].Position;
+		pathTarget = 1;
+		Position = All.OfType<NPCSpawner>().First().Position;
 
 		Scale = NPCScale;
 		Health = BaseHealth;
@@ -93,7 +95,7 @@ public partial class BaseNPC : AnimatedEntity
 			return;
 		}
 
-		Steer.Target = All.OfType<NPCPath>().ToList()[pathTarget].Position;
+		Steer.Target = All.OfType<NPCPath>().First(x => x.PathOrder == pathTarget).Position;
 	}
 
 	//Server ticking for NPC Navigation
@@ -207,9 +209,22 @@ public partial class BaseNPC : AnimatedEntity
 		}
 	}
 
+	public void Split()
+	{
+
+	}
+
 	public override void OnKilled()
 	{
 		base.OnKilled();
+
+		if( NPCType == SpecialType.Splitter )
+		{
+			for ( int i = 0; i < SplitAmount; i++ )
+			{
+
+			}
+		}
 
 		foreach ( var player in Client.All.OfType<CDPawn>())
 		{

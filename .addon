@@ -6,7 +6,9 @@
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
-  "ResourcePaths": null,
+  "ResourcePaths": [
+    "/ui/*"
+  ],
   "HasCode": true,
   "CodePath": "/code/",
   "RootNamespace": "Sandbox",
@@ -16,7 +18,7 @@
     ],
     "MapSelect": "Tagged",
     "MinPlayers": 1,
-    "MaxPlayers": 8,
+    "MaxPlayers": 4,
     "PerMapRanking": false,
     "LeaderboardType": "None",
     "RankType": "None",

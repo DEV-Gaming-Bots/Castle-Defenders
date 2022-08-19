@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Sandbox;
 using SandboxEditor;
 
@@ -8,12 +9,7 @@ using SandboxEditor;
 [HammerEntity]
 public partial class NPCPath : Entity
 {
-	[Property( "Path_Order" ), Description( "The order of paths the NPC will go from start to end" )]
-	public int Path_Order { get; set; }
-
-	public override void Spawn()
-	{
-
-	}
+	[Property(), Description( "The order of paths the NPC will go from start to end" )]
+	public int PathOrder { get; set; }
 }
 

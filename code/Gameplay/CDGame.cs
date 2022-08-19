@@ -8,12 +8,7 @@ using System.Threading.Tasks;
 
 public partial class CDGame : Game
 {
-	public static GameStates CurrentState => (Current as CDGame)?.GameState ?? GameStates.Idle;
-
 	public static CDGame Instance = Current as CDGame;
-
-	[Net]
-	public GameStates GameState { get; set; } = GameStates.Idle;
 
 	public CDGame()
 	{
@@ -22,7 +17,7 @@ public partial class CDGame : Game
 			DebugMode = false;
 
 			GameStatus = GameEnum.Idle;
-			WaveStatus = WaveEnum.PreWave;
+			WaveStatus = WaveEnum.Pre;
 			DifficultyVariant = DiffVariants.None;
 		}
 

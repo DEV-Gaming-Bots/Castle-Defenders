@@ -9,12 +9,12 @@ public partial class CDPawn
 	float towerRot = 0.0f;
 
 	[ClientRpc]
-	public void CreatePreview()
+	public void CreatePreview(string towerName)
 	{
 		if ( previewTower != null )
 			return;
 
-		previewTower = TypeLibrary.Create<BaseTower>( "Lightning" );
+		previewTower = TypeLibrary.Create<BaseTower>( towerName );
 		previewTower.Owner = this;
 	}
 
