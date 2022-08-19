@@ -19,11 +19,11 @@
 							},
 							{
 								from = "cylinder.vmat"
-								to = "models/dark_grey.vmat"
+								to = "materials/dark_grey.vmat"
 							},
 							{
 								from = "cube.001.vmat"
-								to = "models/grey.vmat"
+								to = "materials/grey.vmat"
 							},
 						]
 						use_global_default = false
