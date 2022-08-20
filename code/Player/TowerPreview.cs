@@ -41,11 +41,24 @@ public partial class CDPawn
 		previewTower = null;
 	}
 
-	[Event.Tick.Client]
-	public void SimulateClient()
+	public int GetSelectedSlot()
 	{
-		if ( previewTower == null || !previewTower.Owner.IsValid() )
-			return;
+		if ( Input.Pressed( InputButton.Slot1 ) )
+			return 1;
+		if ( Input.Pressed( InputButton.Slot2 ) )
+			return 2;
+		if ( Input.Pressed( InputButton.Slot3 ) )
+			return 3;
+		if ( Input.Pressed( InputButton.Slot4 ) )
+			return 4;
+		if ( Input.Pressed( InputButton.Slot5 ) )
+			return 5;
+		if ( Input.Pressed( InputButton.Slot6 ) )
+			return 6;
+		if ( Input.Pressed( InputButton.Slot7 ) )
+			return 7;
+
+		return -1;
 	}
 }
 

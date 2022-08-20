@@ -15,7 +15,7 @@
 						[
 							{
 								from = "snipertower.vmat"
-								to = "materials/towers/snipertower/snipertower.vmat"
+								to = "materials/towers/snipertower.vmat"
 							},
 						]
 						use_global_default = false

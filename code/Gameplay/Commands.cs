@@ -136,7 +136,18 @@ public partial class CDGame
 		Instance.StartMapVote();
 	}
 
-	[ConCmd.Admin( "cd_forcesave" )]
+	[ConCmd.Admin( "cd_force_datareset" )]
+	public static void ResetData()
+	{
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+
+		if ( player == null )
+			return;
+
+		player.NewPlayerStats();
+	}
+
+	[ConCmd.Admin( "cd_force_save" )]
 	public static void SaveData()
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
@@ -147,7 +158,7 @@ public partial class CDGame
 		Instance.SaveData( player );
 	}
 
-	[ConCmd.Admin( "cd_forcesave_all" )]
+	[ConCmd.Admin( "cd_force_savealldata" )]
 	public static void SaveAllData()
 	{
 		if ( !Instance.Debug )
@@ -156,7 +167,7 @@ public partial class CDGame
 		All.OfType<CDPawn>().ToList().ForEach( x => Instance.SaveData( x ) );
 	}
 
-	[ConCmd.Admin( "cd_loadsave" )]
+	[ConCmd.Admin( "cd_force_loaddata" )]
 	public static void LoadDataCMD()
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;

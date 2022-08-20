@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System;
+using System.ComponentModel;
 using System.Linq;
 
 
@@ -87,8 +88,27 @@ public partial class CDPawn : Player
 
 	public void DoTDInputs()
 	{
-		if ( CDGame.Instance.Debug == false && CDGame.Instance.GameStatus != CDGame.GameEnum.Active )
-			return;
+		if ( GetSelectedSlot() > 0 )
+		{
+			Log.Info( GetSelectedSlot() );
+
+			if ( selectedTower != null )
+			{
+				DestroyPreview();
+				selectedTower.Delete();
+				selectedTower = null;
+			}
+
+			if ( TowerSlots.Length > GetSelectedSlot() )
+				return;
+
+			selectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[GetSelectedSlot() - 1] );
+			selectedTower.Owner = this;
+			selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
+			selectedTower.Spawn();
+
+			CreatePreview( To.Single( this ), selectedTower.GetModelName() );
+		}
 
 		if ( selectedTower != null )
 		{
@@ -103,7 +123,7 @@ public partial class CDPawn : Player
 			if ( !CanPlace( tr ) )
 				return;
 
-			if ( Input.Pressed( InputButton.PrimaryAttack ))
+			if ( Input.Pressed( InputButton.PrimaryAttack ) )
 			{
 				if ( selectedTower == null )
 					return;
@@ -115,37 +135,13 @@ public partial class CDPawn : Player
 				placedTower.IsPreviewing = false;
 				placedTower.Spawn();
 
-				if(IsServer)
-				{
-					DestroyPreview(To.Single(this));
-					selectedTower.Delete();
-					selectedTower = null;
-				}
-			}
-		}
-
-		if ( Input.Pressed( InputButton.SecondaryAttack ) )
-		{
-
-			if( selectedTower == null )
-			{
-				selectedTower = TypeLibrary.Create<BaseTower>( "RadioactiveEmitter" );
-				selectedTower.Owner = this;
-				selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
-				selectedTower.Spawn();
-
-				CreatePreview( To.Single( this ), selectedTower.GetModelName() );
-			} 
-			else
-			{
 				if ( IsServer )
 				{
-					DestroyPreview();
+					DestroyPreview( To.Single( this ) );
 					selectedTower.Delete();
 					selectedTower = null;
 				}
 			}
-
 		}
 	}
 
@@ -173,6 +169,7 @@ public partial class CDPawn : Player
 		if ( Input.Pressed( InputButton.View ) )
 			SwitchCameraView();
 
-		DoTDInputs();
+		if(IsServer)
+			DoTDInputs();
 	}
 }

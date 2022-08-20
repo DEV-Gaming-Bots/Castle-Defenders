@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Sandbox;
 
 public partial class CDPawn : IPlayerData
@@ -14,6 +15,7 @@ public partial class CDPawn : IPlayerData
 	int IPlayerData.EXP { get => EXP; set => EXP = value; }
 	int IPlayerData.ReqEXP { get => ReqEXP; set => ReqEXP = value; }
 	int IPlayerData.Level { get => Level; set => Level = value; }
+	public string[] TowerSlots { get; set; }
 
 	public void NewPlayerStats()
 	{
@@ -22,14 +24,23 @@ public partial class CDPawn : IPlayerData
 		OldEXP = 0;
 		ReqEXP = 1000;
 
+		TowerSlots = new string[]
+		{
+			"Pistol",
+			"Sniper",
+			"RadioactiveEmitter",
+			"Lightning"
+		};
+
 		CDGame.Instance.SaveData( this );
 	}
 
-	public void LoadStats(PlayerData playerData)
+	public void LoadStats(IPlayerData playerData)
 	{
 		Level = playerData.Level;
 		EXP = playerData.EXP;
 		ReqEXP = playerData.ReqEXP;
+		TowerSlots = playerData.TowerSlots;
 	}
 
 	public void SetUpPlayer()
