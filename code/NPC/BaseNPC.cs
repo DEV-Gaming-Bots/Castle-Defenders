@@ -42,15 +42,14 @@ public partial class BaseNPC : AnimatedEntity
 	public int ExpReward;
 	public int PathTarget;
 
+	public NPCPathSteer Steer;
+
 	Vector3 InputVelocity;
 	Vector3 LookDir;
 
 	NPCNavigation Path = new NPCNavigation();
-	public NPCPathSteer Steer;
 
 	CastleEntity castleTarget;
-
-	//Spawns the NPC
 	
 	public int GetDifficulty()
 	{
@@ -77,6 +76,7 @@ public partial class BaseNPC : AnimatedEntity
 		SetModel( BaseModel );
 
 		PathTarget = 1;
+
 		Position = All.OfType<NPCSpawner>().First().Position;
 
 		Scale = NPCScale;
@@ -91,8 +91,17 @@ public partial class BaseNPC : AnimatedEntity
 		EnableTraceAndQueries = true;
 		EnableHitboxes = true;
 
+		var spawnerpoint = All.OfType<NPCSpawner>().ToList();
+		var blueSide = spawnerpoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue );
+		var redSide = spawnerpoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red );
+
+		if ( blueSide != null)
+			castleTarget = blueSide.CastleToAttack;
+		
+		if ( redSide != null)
+			castleTarget = redSide.CastleToAttack;
+
 		Steer = new NPCPathSteer();
-		castleTarget = All.OfType<CastleEntity>().FirstOrDefault();
 	}
 
 	//When the NPC reaches the castle, despawn
@@ -107,7 +116,7 @@ public partial class BaseNPC : AnimatedEntity
 		if ( Position.Distance( Steer.Target ) <= 20.0f )
 			PathTarget++;
 
-		if( Position.Distance( castleTarget.Position ) <= 25.0f )
+		if ( castleTarget != null && Position.Distance( castleTarget.Position ) <= 25.0f )
 		{
 			DamageInfo dmgInfo = new DamageInfo();
 			dmgInfo.Damage = Damage * GetDifficulty();
@@ -117,7 +126,7 @@ public partial class BaseNPC : AnimatedEntity
 			return;
 		}
 
-		if( All.OfType<NPCPath>().First( x => x.PathOrder == PathTarget ) == null)
+		if ( All.OfType<NPCPath>().First( x => x.PathOrder == PathTarget ) == null)
 		{
 			PathTarget++;
 

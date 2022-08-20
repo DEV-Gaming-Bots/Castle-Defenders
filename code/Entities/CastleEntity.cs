@@ -25,4 +25,6 @@ public class CastleEntity : ModelEntity
 		castle.Rotation = Rotation;
 		castle.Spawn();
 	}
+
+
 }

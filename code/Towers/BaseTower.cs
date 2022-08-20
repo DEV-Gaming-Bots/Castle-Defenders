@@ -60,7 +60,7 @@ public partial class BaseTower : AnimatedEntity
 	[Event.Hotload()]
 	public void HotloadTowers()
 	{
-		SetAnimParameter( "b_deploy", false );
+		
 	}
 
 	public override void ClientSpawn()

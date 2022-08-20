@@ -18,7 +18,6 @@ public partial class CDGame : Game
 
 	public CDGame()
 	{
-
 		if(IsServer)
 		{
 			Debug = false;
@@ -52,12 +51,15 @@ public partial class CDGame : Game
 	{
 		base.ClientJoined( client );
 
-		var pawn = new CDPawn(client);
+		var pawn = new CDPawn( client );
 		pawn.Spawn();
 		client.Pawn = pawn;
 
 		if ( !LoadSave( pawn ) )
 			pawn.NewPlayerStats();
+
+		if ( GameStatus == GameEnum.Idle )
+			StartGame();
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )

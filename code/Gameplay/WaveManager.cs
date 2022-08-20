@@ -75,6 +75,7 @@ public partial class CDGame
 		{
 			case GameEnum.Starting:
 				GameStatus = GameEnum.Active;
+				All.OfType<CDPawn>().ToList().ForEach( x => x.SetUpPlayer() );
 				StartPreWave();
 				return;
 			case GameEnum.Post:
@@ -143,12 +144,11 @@ public partial class CDGame
 	public void StartGame()
 	{
 		Map.Reset(DefaultCleanupFilter);
+
 		mapAttempts = 0;
-		TimeRemaining = 10.0f;
+		TimeRemaining = 20.0f;
 		CurWave = 0;
 		GameStatus = GameEnum.Starting;
-
-		All.OfType<CDPawn>().ToList().ForEach( x => x.SetUpPlayer() );
 
 		MaxWaves = All.OfType<WaveSetup>().Count();
 	}
@@ -163,7 +163,7 @@ public partial class CDGame
 	public void StartPreWave()
 	{
 		CurWave++;
-		TimeRemaining = 20.0f;
+		TimeRemaining = 30.0f;
 		WaveStatus = WaveEnum.Pre;
 	}
 

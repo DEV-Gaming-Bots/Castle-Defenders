@@ -31,19 +31,26 @@ public class StatusGame : Panel
 
 		var timer = TimeSpan.FromSeconds( CDGame.Instance.TimeRemaining );
 
+		if( CDGame.Instance.GameStatus == CDGame.GameEnum.Starting )
+		{
+			gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
+			gameInfo.ExtraText.SetText( "Starting" );
+			return;
+		}
+
 		switch(CDGame.Instance.WaveStatus)
 		{
 			case CDGame.WaveEnum.Pre:
 				gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
-				gameInfo.ExtraText.SetText( "Wave starts in" );
+				gameInfo.ExtraText.SetText( "Pre Wave" );
 				break;
 			case CDGame.WaveEnum.Active:
-				gameInfo.ExtraText.SetText( "Wave in Progress" );
-				gameInfo.WaveTimer.SetText( "--:--" );
+				gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
+				gameInfo.ExtraText.SetText( "Active Wave" );
 				break;
 			case CDGame.WaveEnum.Post:
-				gameInfo.ExtraText.SetText( "Post" );
 				gameInfo.WaveTimer.SetText( $"{ timer.ToString( @"m\:ss" )}" );
+				gameInfo.ExtraText.SetText( "Post Wave" );
 				break;
 		}
 

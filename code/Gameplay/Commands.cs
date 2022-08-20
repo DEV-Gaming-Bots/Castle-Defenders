@@ -86,6 +86,26 @@ public partial class CDGame
 		Instance.StartGame();
 	}
 
+	[ConCmd.Admin( "cd_force_stop" )]
+	public static void ForceStopGame()
+	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+		if ( Instance.GameStatus == GameEnum.Idle )
+		{
+			Log.Error( "Game is not in Idle state" );
+			return;
+		}
+
+		Instance.GameStatus = GameEnum.Idle;
+		Instance.WaveStatus = WaveEnum.Pre;
+	}
+
+
 	[ConCmd.Admin( "cd_force_restart" )]
 	public static void ForceRestartGame()
 	{

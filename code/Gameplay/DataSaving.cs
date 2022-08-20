@@ -21,6 +21,9 @@ public partial class CDGame
 {
 	public void SaveData( CDPawn player )
 	{
+		if ( Debug )
+			return;
+
 		if ( player.Client.IsBot )
 			return;
 
@@ -33,6 +36,9 @@ public partial class CDGame
 
 	public bool LoadSave( CDPawn player )
 	{
+		if ( Debug )
+			return false;
+
 		if ( player.Client.IsBot )
 			return false;
 

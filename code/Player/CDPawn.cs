@@ -87,7 +87,7 @@ public partial class CDPawn : Player
 
 	public void DoTDInputs()
 	{
-		if ( CDGame.Instance.GameStatus != CDGame.GameEnum.Active && !CDGame.Instance.Debug )
+		if ( CDGame.Instance.Debug == false && CDGame.Instance.GameStatus != CDGame.GameEnum.Active )
 			return;
 
 		if ( selectedTower != null )
@@ -129,12 +129,9 @@ public partial class CDPawn : Player
 
 			if( selectedTower == null )
 			{
-				towerRot = 0.0f;
-
 				selectedTower = TypeLibrary.Create<BaseTower>( "RadioactiveEmitter" );
 				selectedTower.Owner = this;
 				selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
-				//selectedTower.IsPreviewing = true;
 				selectedTower.Spawn();
 
 				CreatePreview( To.Single( this ), selectedTower.GetModelName() );

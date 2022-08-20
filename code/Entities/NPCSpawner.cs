@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using SandboxEditor;
+using System.Linq;
 
 [Library( "info_cd_npcportal" )]
 [EditorModel( "models/npc_portal.vmdl" )]
@@ -7,6 +8,20 @@ using SandboxEditor;
 [HammerEntity]
 public class NPCSpawner : Entity
 {
+	[Property]
+	public EntityTarget CastleTarget { get; set; }
+
+	public CastleEntity CastleToAttack;
+	
+	public enum TeamEnum
+	{
+		Blue,
+		Red
+	}
+
+	[Property]
+	public TeamEnum AttackTeamSide { get; set; } = TeamEnum.Blue;
+
 	public override void Spawn()
 	{
 		var portal = new ModelEntity();
@@ -14,5 +29,7 @@ public class NPCSpawner : Entity
 		portal.Position = Position;
 		portal.Rotation = Rotation;
 		portal.Spawn();
+
+		CastleToAttack = CastleTarget.GetTargets( null ).FirstOrDefault() as CastleEntity;
 	}
 }
