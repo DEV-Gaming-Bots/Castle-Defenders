@@ -12,17 +12,26 @@ namespace CastleDefenders.UI.Components
 	{
 		public class GameInfoPanel : Panel
 		{
-			public Panel txtTimerPanel;
+			private Panel GameInfo;
+
+			public Panel WaveTimerPanel;
 			public Label WaveTimer;
+
+			public Panel ExtraTextPanel;
+			public Label ExtraText;
+
 			public Panel txtRoundPanel;
 			public Label RoundCounter;
 			public GameInfoPanel()
 			{
-				txtTimerPanel = Add.Panel("timer");
-				WaveTimer = txtTimerPanel.Add.Label( "00:00", "");
-				txtRoundPanel = Add.Panel( "rounds" );
+				GameInfo = Add.Panel( "GameInfo" );
+				WaveTimerPanel = GameInfo.Add.Panel("timer");
+				WaveTimer = WaveTimerPanel.Add.Label( "00:00", "");
+				txtRoundPanel = GameInfo.Add.Panel( "rounds" );
 				RoundCounter = txtRoundPanel.Add.Label( "0/0", "" );
 
+				ExtraTextPanel = Add.Panel( "extraText" );
+				ExtraText = ExtraTextPanel.Add.Label( "NO TEXT" );
 			}
 
 			public string TextTimer
@@ -34,6 +43,22 @@ namespace CastleDefenders.UI.Components
 			{
 				get { return RoundCounter.Text; }
 				set { RoundCounter.Text = value; }
+			}
+			public string TextExtra
+			{
+				get { return ExtraText.Text; }
+				set { ExtraText.Text = value; }
+			}
+
+		}
+
+		public class GameTeamSelect : Panel
+		{
+			private Panel root;
+
+			public GameTeamSelect()
+			{
+				root = Add.Panel( "" );
 			}
 		}
 	}

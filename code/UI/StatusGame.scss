@@ -6,8 +6,10 @@ StatusGame {
 
 
 GameInfoPanel {
+    flex-direction: column;
+
     .timer, .rounds {
-        padding-top: 12px;
+        padding-top: 16px;
 
         label {
             color: white;
@@ -21,9 +23,32 @@ GameInfoPanel {
 
     .timer {
         background-color: #208EAB;
+        //border-bottom: 2px solid #1895B7;
+        //border-left: 2px solid #1895B7;
+    }
+
+    .extraText {
+        padding: 2px;
+        background-color: #208EAB;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        justify-content: center;
+
+        label {
+            text-align: center;
+            color: white;
+            font-size: 18%;
+            font-family: Poppins;
+            font-weight: bold;
+            text-shadow: 0px 3px 3px rgba(0,0,0,0.3);
+        }
+        //border-bottom: 2px solid #1895B7;
+        //border-left: 2px solid #1895B7;
     }
 
     .rounds {
         background-color: #1D788F;
+        //border-bottom: 2px solid #15829E;
+        //border-right: 2px solid #15829E;
     }
 }

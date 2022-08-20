@@ -34,12 +34,15 @@ public class StatusGame : Panel
 		switch(CDGame.Instance.WaveStatus)
 		{
 			case CDGame.WaveEnum.Pre:
-				gameInfo.WaveTimer.SetText( $"Wave starts in {timer.ToString( @"m\:ss" )}" );
+				gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
+				gameInfo.ExtraText.SetText( "Wave starts in" );
 				break;
 			case CDGame.WaveEnum.Active:
-				gameInfo.WaveTimer.SetText( "Wave in Progress" );
+				gameInfo.ExtraText.SetText( "Wave in Progress" );
+				gameInfo.WaveTimer.SetText( "--:--" );
 				break;
 			case CDGame.WaveEnum.Post:
+				gameInfo.ExtraText.SetText( "Post" );
 				gameInfo.WaveTimer.SetText( $"{ timer.ToString( @"m\:ss" )}" );
 				break;
 		}
