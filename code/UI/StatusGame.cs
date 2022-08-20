@@ -51,15 +51,19 @@ public class StatusGame : Panel
 		{
 			case CDGame.WaveEnum.Pre:
 				gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
+				gameInfo.txtRoundPanel.SetClass( "hide", false );
 				gameInfo.ExtraText.SetText( "Pre Wave" );
 				break;
 			case CDGame.WaveEnum.Active:
 				gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
-				gameInfo.ExtraText.SetText( "Active Wave" );
+				gameInfo.ExtraText.SetText( $"Active Wave" );
+				//gameInfo.ExtraText.SetText( $"Active Wave | Wave {CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}" );
+				//gameInfo.SetClass( "activeGame", false );
 				break;
 			case CDGame.WaveEnum.Post:
 				gameInfo.WaveTimer.SetText( $"{ timer.ToString( @"m\:ss" )}" );
 				gameInfo.ExtraText.SetText( "Post Wave" );
+				gameInfo.SetClass( "activeGame", true );
 				break;
 		}
 

@@ -27,7 +27,7 @@ namespace CastleDefenders.UI.Components
 				GameInfo = Add.Panel( "GameInfo" );
 				WaveTimerPanel = GameInfo.Add.Panel("timer");
 				WaveTimer = WaveTimerPanel.Add.Label( "-", "");
-				txtRoundPanel = GameInfo.Add.Panel( "rounds" );
+				txtRoundPanel = GameInfo.Add.Panel( "rounds hide" );
 				RoundCounter = txtRoundPanel.Add.Label( "-", "" );
 
 				ExtraTextPanel = Add.Panel( "extraText" );

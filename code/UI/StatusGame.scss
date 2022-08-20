@@ -65,5 +65,9 @@ GameInfoPanel {
         background-color: #1D788F;
         //border-bottom: 2px solid #15829E;
         border-right: 2px solid #15829E;
+
+        &.hide {
+            display: none;
+        }
     }
 }
