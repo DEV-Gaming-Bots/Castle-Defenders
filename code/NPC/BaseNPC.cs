@@ -259,14 +259,11 @@ public partial class BaseNPC : AnimatedEntity
 		if ( !IsServer )
 			return;
 
-		foreach ( var cl in Client.All)
+		All.OfType<CDPawn>().ToList().ForEach( x =>
 		{
-			if (cl.Pawn is CDPawn player)
-			{
-				player.AddCash( CashReward );
-				player.AddEXP( ExpReward );
-			}
-		}
+			x.AddCash( CashReward );
+			x.AddEXP( ExpReward );
+		} );
 
 		base.OnKilled();
 	}

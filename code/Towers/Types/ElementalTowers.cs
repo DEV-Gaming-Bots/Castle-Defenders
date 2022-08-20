@@ -19,10 +19,10 @@ public partial class Lightning : BaseTower
 	};
 
 	public override int TowerMaxLevel => 5;
-	public override int TowerCost => 1;
+	public override int TowerCost => 225;
 	public override float DeploymentTime => 2.25f;
-	public override float AttackTime => 5.25f;
-	public override float AttackDamage => 5.0f;
+	public override float AttackTime => 3.25f;
+	public override float AttackDamage => 32.5f;
 	public override int RangeDistance => 125;
 	public override string AttackSound => "lightning_attack";
 

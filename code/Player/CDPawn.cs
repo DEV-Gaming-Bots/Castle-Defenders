@@ -8,6 +8,8 @@ public partial class CDPawn : Player
 {
 	public ClothingContainer Clothing = new();
 
+	TimeSince timeLastTowerPlace;
+
 	bool isoView = false;
 
 	public CDPawn()
@@ -88,9 +90,20 @@ public partial class CDPawn : Player
 
 	public void DoTDInputs()
 	{
-		if ( GetSelectedSlot() > 0 )
+		if ( GetSelectedSlot() == 0 )
 		{
-			Log.Info( GetSelectedSlot() );
+			if ( selectedTower != null )
+			{
+				DestroyPreview();
+				selectedTower.Delete();
+				selectedTower = null;
+			}
+		}
+
+		if ( GetSelectedSlot() >= 1 && timeLastTowerPlace > 0.5f )
+		{
+			if ( TowerSlots.Length < GetSelectedSlot()  )
+				return;
 
 			if ( selectedTower != null )
 			{
@@ -99,15 +112,14 @@ public partial class CDPawn : Player
 				selectedTower = null;
 			}
 
-			if ( TowerSlots.Length > GetSelectedSlot() )
-				return;
-
 			selectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[GetSelectedSlot() - 1] );
 			selectedTower.Owner = this;
 			selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
 			selectedTower.Spawn();
 
 			CreatePreview( To.Single( this ), selectedTower.GetModelName() );
+
+			timeLastTowerPlace = 0;
 		}
 
 		if ( selectedTower != null )
@@ -127,6 +139,11 @@ public partial class CDPawn : Player
 			{
 				if ( selectedTower == null )
 					return;
+
+				if ( GetCash() < selectedTower.TowerCost )
+					return;
+
+				TakeCash( selectedTower.TowerCost );
 
 				var placedTower = TypeLibrary.Create<BaseTower>( selectedTower.GetType().FullName ); ;
 
@@ -169,7 +186,11 @@ public partial class CDPawn : Player
 		if ( Input.Pressed( InputButton.View ) )
 			SwitchCameraView();
 
+
 		if(IsServer)
-			DoTDInputs();
+		{
+			if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Active )
+				DoTDInputs();
+		}
 	}
 }

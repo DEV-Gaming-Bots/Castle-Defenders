@@ -6,15 +6,11 @@ public partial class CDPawn : IPlayerData
 {
 	//OldEXP is used to display animations for the client
 	//The rest is self-explanatory 
-	[Net] protected int OldEXP { get; private set; }
-	[Net] protected int EXP { get; private set; }
-	[Net] protected int ReqEXP { get; private set; }
-	[Net] protected int Level { get; private set; }
-	[Net] protected int Cash { get; private set; }
-
-	int IPlayerData.EXP { get => EXP; set => EXP = value; }
-	int IPlayerData.ReqEXP { get => ReqEXP; set => ReqEXP = value; }
-	int IPlayerData.Level { get => Level; set => Level = value; }
+	[Net] public int OldEXP { get; private set; }
+	[Net] public int Cash { get; private set; }
+	[Net] public int EXP { get; set; }
+	[Net] public int ReqEXP { get; set; }
+	[Net] public int Level { get; set; }
 	public string[] TowerSlots { get; set; }
 
 	public void NewPlayerStats()
@@ -53,6 +49,11 @@ public partial class CDPawn : IPlayerData
 		Cash += addCash;
 	}
 
+	public void TakeCash( int subCash )
+	{
+		Cash -= subCash;
+	}
+
 	public void AddEXP(int addEXP)
 	{
 		EXP += addEXP;
@@ -68,7 +69,6 @@ public partial class CDPawn : IPlayerData
 			}
 		}
 	}
-
 	public int GetCash()
 	{
 		return Cash;

@@ -25,8 +25,8 @@ public partial class Pistol : BaseTower
 	};
 
 	public override int TowerMaxLevel => 5;
-	public override int TowerCost => 1;
-	public override float DeploymentTime => 0.35f;
+	public override int TowerCost => 15;
+	public override float DeploymentTime => 3.71f;
 	public override float AttackTime => 1.0f;
 	public override float AttackDamage => 5.0f;
 	public override int RangeDistance => 175;
@@ -58,10 +58,10 @@ public partial class Sniper : BaseTower
 	};
 
 	public override int TowerMaxLevel => 5;
-	public override int TowerCost => 1;
+	public override int TowerCost => 100;
 	public override float DeploymentTime => 3.75f;
 	public override float AttackTime => 3.5f;
-	public override float AttackDamage => 12.5f;
+	public override float AttackDamage => 25.0f;
 	public override int RangeDistance => 250;
 	public override string AttackSound => "sniper_fire";
 

@@ -34,8 +34,6 @@ public partial class CDGame
 
 		IPlayerData loadData = FileSystem.Data.ReadJson<CDPawn>( player.Client.PlayerId + ".json" );
 
-		Log.Info( loadData );
-
 		if ( loadData is null )
 			return false;
 

@@ -58,6 +58,9 @@ public partial class CDPawn
 		if ( Input.Pressed( InputButton.Slot7 ) )
 			return 7;
 
+		if ( Input.Pressed( InputButton.Slot0 ) )
+			return 0;
+
 		return -1;
 	}
 }

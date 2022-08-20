@@ -18,7 +18,7 @@
     ],
     "MapSelect": "Tagged",
     "MinPlayers": 1,
-    "MaxPlayers": 4,
+    "MaxPlayers": 6,
     "PerMapRanking": false,
     "LeaderboardType": "None",
     "RankType": "None",

@@ -19,6 +19,11 @@ public class WaveSetup : Entity
 		Unspecified,
 		//Normal NPCs
 		Peasant,
+		//Armoured NPCs
+		Riot,
+		Knight,
+		//Splitter NPCs
+		Husk
 	}
 
 	[Property( "NPCToSpawn" ), Description( "What NPC should this spawn" )]

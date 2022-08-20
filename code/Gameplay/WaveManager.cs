@@ -146,18 +146,29 @@ public partial class CDGame
 		Map.Reset(DefaultCleanupFilter);
 
 		mapAttempts = 0;
-		TimeRemaining = 20.0f;
+		TimeRemaining = 10.0f;
 		CurWave = 0;
 		GameStatus = GameEnum.Starting;
 
-		MaxWaves = All.OfType<WaveSetup>().Count();
+		int checkWaves = 0;
+
+		foreach ( var setter in All.OfType<WaveSetup>() )
+		{
+			if( setter.Wave_Order > checkWaves)
+				checkWaves++;
+		}
+
+		MaxWaves = checkWaves;
 	}
 
 	public void StartWave()
 	{
 		WaveStatus = WaveEnum.Active;
 
-		All.OfType<WaveSetup>().FirstOrDefault( x => x.Wave_Order == CurWave ).StartSpawning();
+		var waveSetter = All.OfType<WaveSetup>().ToList().Where( x => x.Wave_Order == CurWave );
+
+		foreach ( var setter in waveSetter )
+			setter.StartSpawning();
 	}
 
 	public void StartPreWave()
