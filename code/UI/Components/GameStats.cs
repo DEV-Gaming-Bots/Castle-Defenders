@@ -15,13 +15,13 @@ namespace CastleDefenders.UI.Components
 			public Panel txtTimerPanel;
 			public Label WaveTimer;
 			public Panel txtRoundPanel;
-			public Label txtRound;
+			public Label RoundCounter;
 			public GameInfoPanel()
 			{
 				txtTimerPanel = Add.Panel("timer");
 				WaveTimer = txtTimerPanel.Add.Label( "00:00", "");
 				txtRoundPanel = Add.Panel( "rounds" );
-				txtRound = txtRoundPanel.Add.Label( "0/0", "" );
+				RoundCounter = txtRoundPanel.Add.Label( "0/0", "" );
 
 			}
 
@@ -32,8 +32,8 @@ namespace CastleDefenders.UI.Components
 			}
 			public string TextRounds
 			{
-				get { return txtRound.Text; }
-				set { txtRound.Text = value; }
+				get { return RoundCounter.Text; }
+				set { RoundCounter.Text = value; }
 			}
 		}
 	}

@@ -38,8 +38,12 @@ public partial class CDGame
 		//TODO: Think of difficulty variants
 	}
 
-	public GameEnum GameStatus;
-	public WaveEnum WaveStatus;
+	[Net]
+	public GameEnum GameStatus { get; protected set; }
+	
+	[Net]
+	public WaveEnum WaveStatus { get; protected set; }
+
 	public DiffVariants DifficultyVariant;
 
 	public DiffEnum Difficulty;

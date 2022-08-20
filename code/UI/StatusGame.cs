@@ -26,12 +26,25 @@ public class StatusGame : Panel
 	{
 		base.Tick();
 
-		if ( CDGame.Instance.GameStatus != CDGame.GameEnum.Active )
+		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Idle )
 			return;
 
-		Log.Info( CDGame.Instance.TimeRemaining );
+		var timer = TimeSpan.FromSeconds( CDGame.Instance.TimeRemaining );
 
-		gameInfo.WaveTimer.SetText( Math.Round( CDGame.Instance.TimeRemaining, 2 ).ToString() );
+		switch(CDGame.Instance.WaveStatus)
+		{
+			case CDGame.WaveEnum.Pre:
+				gameInfo.WaveTimer.SetText( $"Wave starts in {timer.ToString( @"m\:ss" )}" );
+				break;
+			case CDGame.WaveEnum.Active:
+				gameInfo.WaveTimer.SetText( "Wave in Progress" );
+				break;
+			case CDGame.WaveEnum.Post:
+				gameInfo.WaveTimer.SetText( $"{ timer.ToString( @"m\:ss" )}" );
+				break;
+		}
+
+		gameInfo.RoundCounter.SetText( $"Wave {CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}" );
 		//gameInfo.TextTimer = Math.Round(TimerElapsed).ToString();
 	}
 }
