@@ -102,7 +102,7 @@ public partial class CDPawn : Player
 
 		if ( GetSelectedSlot() >= 1 && timeLastTowerPlace > 0.5f )
 		{
-			if ( TowerSlots.Length < GetSelectedSlot()  )
+			if ( TowerSlots.Length < GetSelectedSlot() )
 				return;
 
 			if ( SelectedTower != null )
@@ -117,20 +117,23 @@ public partial class CDPawn : Player
 			SelectedTower.RenderColor = new Color( 255, 255, 255, 0 );
 			SelectedTower.Spawn();
 
-			CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
+			if ( Host.IsServer || IsClient )
+				CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
 
 			timeLastTowerPlace = 0;
 		}
 
 		if ( SelectedTower != null )
 		{
-			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 105 )
+			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
 			.Ignore( this )
 			.Ignore( SelectedTower )
 			.Size( 1 )
 			.Run();
 
-			SimulatePlacement( tr );
+			
+			if(Host.IsServer || IsClient)
+				SimulatePlacement( tr );
 
 			if ( !CanPlace( tr ) )
 				return;
@@ -152,9 +155,11 @@ public partial class CDPawn : Player
 				placedTower.IsPreviewing = false;
 				placedTower.Spawn();
 
+				
+				DestroyPreview( To.Single( this ) );
+
 				if ( IsServer )
 				{
-					DestroyPreview( To.Single( this ) );
 					SelectedTower.Delete();
 					SelectedTower = null;
 				}
@@ -186,11 +191,8 @@ public partial class CDPawn : Player
 		if ( Input.Pressed( InputButton.View ) )
 			SwitchCameraView();
 
-
-		if(IsServer)
-		{
-			if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Active )
-				DoTDInputs();
-		}
+		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Active )
+			DoTDInputs();
+		
 	}
 }

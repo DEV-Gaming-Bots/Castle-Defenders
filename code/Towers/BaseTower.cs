@@ -54,7 +54,6 @@ public partial class BaseTower : AnimatedEntity
 		if ( !IsPreviewing )
 		{
 			TimeSinceDeployed = 0;
-			SetAnimParameter( "b_preview", false );
 			SetAnimParameter( "b_deploy", true );
 		}
 

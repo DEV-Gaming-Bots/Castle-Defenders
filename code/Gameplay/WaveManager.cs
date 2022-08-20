@@ -181,12 +181,6 @@ public partial class CDGame
 				checkWaves++;
 		}
 
-		All.OfType<CDPawn>().ToList().ForEach( x =>
-		{
-			x.SelectedTower.Delete();
-			x.SelectedTower = null;
-		} );
-
 		MaxWaves = checkWaves;
 	}
 

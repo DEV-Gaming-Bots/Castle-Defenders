@@ -55,8 +55,8 @@ public partial class CDGame : Game
 		base.ClientJoined( client );
 
 		var pawn = new CDPawn( client );
-		pawn.Spawn();
 		client.Pawn = pawn;
+		client.Pawn.Spawn();
 
 		if ( !LoadSave( pawn ) )
 			pawn.NewPlayerStats();

@@ -18,3 +18,27 @@ public partial class Peasant : BaseNPC
 		base.Spawn();
 	}
 }
+
+public partial class Zombie : BaseNPC
+{
+	public override string NPCName => "Zombie";
+	public override float BaseHealth => 40;
+	public override float BaseSpeed => 12.5f;
+	public override string BaseModel => "models/citizen/citizen.vmdl";
+	public override int[] MinMaxCashReward => new int[] { 3, 17 };
+	public override int[] MinMaxEXPReward => new int[] { 4, 9 };
+	public override float NPCScale => 0.45f;
+	public override float Damage => 5.0f;
+
+	public override void Spawn()
+	{
+		base.Spawn();
+	}
+
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
+
+		SetMaterialOverride( Material.Load("materials/npcs/zombie.vmat"), "skin" );
+	}
+}

@@ -45,6 +45,9 @@ public partial class CDPawn
 
 	public int GetSelectedSlot()
 	{
+		if ( !IsServer || Host.IsClient )
+			return -1;
+
 		if ( Input.Pressed( InputButton.Slot1 ) )
 			return 1;
 		if ( Input.Pressed( InputButton.Slot2 ) )
