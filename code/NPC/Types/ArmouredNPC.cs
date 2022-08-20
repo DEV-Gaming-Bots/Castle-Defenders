@@ -28,8 +28,7 @@ public partial class Riot : BaseNPC
 		RenderColor = new Color( 170, 170, 170 );
 		armour = ArmourStrength;
 
-		var vest = new ModelEntity();
-		vest.SetModel( "models/citizen_clothes/vest/tactical_vest/models/tactical_vest.vmdl" );
+		var vest = new ModelEntity( "models/citizen_clothes/vest/tactical_vest/models/tactical_vest.vmdl" );
 		vest.SetParent( this, true );
 	}
 
@@ -65,20 +64,16 @@ public partial class Knight : BaseNPC
 		//RenderColor = new Color( 170, 170, 170 );
 		armour = ArmourStrength;
 
-		var helmet = new ModelEntity();
-		helmet.SetModel( "models/citizen_clothes/hat/bucket_helmet/models/bucket_helmet.vmdl" );
+		var helmet = new ModelEntity( "models/citizen_clothes/hat/bucket_helmet/models/bucket_helmet.vmdl" );
 		helmet.SetParent( this, true );
 
-		var chainmail = new ModelEntity();
-		chainmail.SetModel( "models/citizen_clothes/shirt/chainmail/models/chainmail.vmdl" );
+		var chainmail = new ModelEntity( "models/citizen_clothes/shirt/chainmail/models/chainmail.vmdl" );
 		chainmail.SetParent( this, true );
 
-		var chestplate = new ModelEntity();
-		chestplate.SetModel( "models/citizen_clothes/vest/chest_armour/models/chest_armour.vmdl" );
+		var chestplate = new ModelEntity( "models/citizen_clothes/vest/chest_armour/models/chest_armour.vmdl" );
 		chestplate.SetParent( this, true );
 
-		var trousers = new ModelEntity();
-		trousers.SetModel( "models/citizen_clothes/trousers/legarmour/models/leg_armour.vmdl" );
+		var trousers = new ModelEntity( "models/citizen_clothes/trousers/legarmour/models/leg_armour.vmdl" );
 		trousers.SetParent( this, true );
 	}
 

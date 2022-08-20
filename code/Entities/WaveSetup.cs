@@ -19,11 +19,15 @@ public class WaveSetup : Entity
 		Unspecified,
 		//Normal NPCs
 		Peasant,
+		Zombie,
 		//Armoured NPCs
 		Riot,
 		Knight,
 		//Splitter NPCs
-		Husk
+		Husk,
+
+		//Bosses
+		ZombieBoss,
 	}
 
 	[Property( "NPCToSpawn" ), Description( "What NPC should this spawn" )]
@@ -40,7 +44,6 @@ public class WaveSetup : Entity
 	{
 		return spawnToggle;
 	}
-
 	public override void Spawn()
 	{
 		base.Spawn();

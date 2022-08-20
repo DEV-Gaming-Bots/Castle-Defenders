@@ -155,7 +155,6 @@ public partial class CDPawn : Player
 				placedTower.IsPreviewing = false;
 				placedTower.Spawn();
 
-				
 				DestroyPreview( To.Single( this ) );
 
 				if ( IsServer )
