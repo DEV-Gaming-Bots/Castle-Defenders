@@ -4,7 +4,7 @@ using Sandbox;
 public partial class CDPawn
 {
 	public ModelEntity previewTower;
-	public BaseTower selectedTower;
+	public BaseTower SelectedTower;
 
 	float towerRot = 0.0f;
 
@@ -20,7 +20,7 @@ public partial class CDPawn
 	}
 
 	[ClientRpc]
-	public void UpdatePreview(Vector3 endPos, Color color, Rotation rot)
+	public void UpdatePreview(Vector3 endPos, Color color, Rotation rot, float range)
 	{
 		if ( previewTower == null )
 			return;
@@ -29,6 +29,8 @@ public partial class CDPawn
 		previewTower.RenderColor = color;
 		previewTower.Rotation = rot;
 		previewTower.RenderColor = previewTower.RenderColor.WithAlpha( 0.5f );
+
+		DebugOverlay.Circle( previewTower.Position + Vector3.Up * 5, Rotation.FromPitch(90), range, color.WithAlpha(0.25f));
 	}
 
 	[ClientRpc]

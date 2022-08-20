@@ -53,9 +53,9 @@ public partial class CDPawn : Player
 			return false;
 
 		//First check, look for nearby towers
-		foreach ( var nearby in FindInSphere( selectedTower.Position, 16 ) )
+		foreach ( var nearby in FindInSphere( SelectedTower.Position, 16 ) )
 		{
-			if ( nearby is BaseTower tower && tower != selectedTower )
+			if ( nearby is BaseTower tower && tower != SelectedTower )
 				return false;
 		}
 
@@ -76,15 +76,15 @@ public partial class CDPawn : Player
 			towerRot = 0.0f;
 
 		if ( !CanPlace( tr ) )
-			UpdatePreview( To.Single( this ), tr.EndPosition, new Color(255, 0, 0, 0.5f), Rotation.FromYaw( towerRot ) );
+			UpdatePreview( To.Single( this ), tr.EndPosition, new Color(255, 0, 0, 0.5f), Rotation.FromYaw( towerRot ), SelectedTower.RangeDistance );
 		else
-			UpdatePreview( To.Single( this ), tr.EndPosition, new Color( 0, 255, 0, 0.5f ), Rotation.FromYaw( towerRot ) );
+			UpdatePreview( To.Single( this ), tr.EndPosition, new Color( 0, 255, 0, 0.5f ), Rotation.FromYaw( towerRot ), SelectedTower.RangeDistance );
 
-		if ( selectedTower != null )
+		if ( SelectedTower != null )
 		{
-			selectedTower.Position = tr.EndPosition;
-			selectedTower.Rotation = Rotation.FromYaw( towerRot );
-			selectedTower.IsPreviewing = true;
+			SelectedTower.Position = tr.EndPosition;
+			SelectedTower.Rotation = Rotation.FromYaw( towerRot );
+			SelectedTower.IsPreviewing = true;
 		}
 	}
 
@@ -92,11 +92,11 @@ public partial class CDPawn : Player
 	{
 		if ( GetSelectedSlot() == 0 )
 		{
-			if ( selectedTower != null )
+			if ( SelectedTower != null )
 			{
 				DestroyPreview();
-				selectedTower.Delete();
-				selectedTower = null;
+				SelectedTower.Delete();
+				SelectedTower = null;
 			}
 		}
 
@@ -105,28 +105,28 @@ public partial class CDPawn : Player
 			if ( TowerSlots.Length < GetSelectedSlot()  )
 				return;
 
-			if ( selectedTower != null )
+			if ( SelectedTower != null )
 			{
 				DestroyPreview();
-				selectedTower.Delete();
-				selectedTower = null;
+				SelectedTower.Delete();
+				SelectedTower = null;
 			}
 
-			selectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[GetSelectedSlot() - 1] );
-			selectedTower.Owner = this;
-			selectedTower.RenderColor = new Color( 255, 255, 255, 0 );
-			selectedTower.Spawn();
+			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[GetSelectedSlot() - 1] );
+			SelectedTower.Owner = this;
+			SelectedTower.RenderColor = new Color( 255, 255, 255, 0 );
+			SelectedTower.Spawn();
 
-			CreatePreview( To.Single( this ), selectedTower.GetModelName() );
+			CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
 
 			timeLastTowerPlace = 0;
 		}
 
-		if ( selectedTower != null )
+		if ( SelectedTower != null )
 		{
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 105 )
 			.Ignore( this )
-			.Ignore( selectedTower )
+			.Ignore( SelectedTower )
 			.Size( 1 )
 			.Run();
 
@@ -137,26 +137,26 @@ public partial class CDPawn : Player
 
 			if ( Input.Pressed( InputButton.PrimaryAttack ) )
 			{
-				if ( selectedTower == null )
+				if ( SelectedTower == null )
 					return;
 
-				if ( GetCash() < selectedTower.TowerCost )
+				if ( GetCash() < SelectedTower.TowerCost )
 					return;
 
-				TakeCash( selectedTower.TowerCost );
+				TakeCash( SelectedTower.TowerCost );
 
-				var placedTower = TypeLibrary.Create<BaseTower>( selectedTower.GetType().FullName ); ;
+				var placedTower = TypeLibrary.Create<BaseTower>( SelectedTower.GetType().FullName ); ;
 
-				placedTower.Position = selectedTower.Position;
-				placedTower.Rotation = selectedTower.Rotation;
+				placedTower.Position = SelectedTower.Position;
+				placedTower.Rotation = SelectedTower.Rotation;
 				placedTower.IsPreviewing = false;
 				placedTower.Spawn();
 
 				if ( IsServer )
 				{
 					DestroyPreview( To.Single( this ) );
-					selectedTower.Delete();
-					selectedTower = null;
+					SelectedTower.Delete();
+					SelectedTower = null;
 				}
 			}
 		}

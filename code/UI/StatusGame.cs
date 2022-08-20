@@ -38,6 +38,13 @@ public class StatusGame : Panel
 			return;
 		}
 
+		if(CDGame.Instance.GameStatus == CDGame.GameEnum.Post)
+		{
+			gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
+			gameInfo.ExtraText.SetText( "Game Over" );
+			return;
+		}
+
 		switch(CDGame.Instance.WaveStatus)
 		{
 			case CDGame.WaveEnum.Pre:

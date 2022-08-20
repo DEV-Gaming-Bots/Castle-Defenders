@@ -16,6 +16,8 @@ public partial class CDGame : Game
 	[ConVar.Replicated( "cd_diff" )]
 	public static DiffEnum StaticDifficulty { get; set; }
 
+	public bool Competitive;
+
 	public CDGame()
 	{
 		if(IsServer)
@@ -28,6 +30,7 @@ public partial class CDGame : Game
 			DifficultyVariant = DiffVariants.None;
 
 			Difficulty = StaticDifficulty;
+			Competitive = StaticCompetitive;
 		}
 
 		if ( IsClient )

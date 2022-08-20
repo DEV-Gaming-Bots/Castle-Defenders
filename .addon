@@ -13,9 +13,7 @@
   "CodePath": "/code/",
   "RootNamespace": "Sandbox",
   "Metadata": {
-    "MapList": [
-      "facepunch.flatgrass"
-    ],
+    "MapList": [],
     "MapSelect": "Tagged",
     "MinPlayers": 1,
     "MaxPlayers": 6,

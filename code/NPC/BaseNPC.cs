@@ -82,7 +82,7 @@ public partial class BaseNPC : AnimatedEntity
 		Scale = NPCScale;
 		Health = BaseHealth * GetDifficulty();
 
-		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1]) * GetDifficulty();
+		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1]);
 		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * GetDifficulty();
 
 		Tags.Add( "npc" );
@@ -96,10 +96,10 @@ public partial class BaseNPC : AnimatedEntity
 		var redSide = spawnerpoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red );
 
 		if ( blueSide != null)
-			castleTarget = blueSide.CastleToAttack;
-		
+			castleTarget = blueSide.FindCastle();
+
 		if ( redSide != null)
-			castleTarget = redSide.CastleToAttack;
+			castleTarget = redSide.FindCastle();
 
 		Steer = new NPCPathSteer();
 	}
@@ -113,15 +113,18 @@ public partial class BaseNPC : AnimatedEntity
 
 	public void FollowPath()
 	{
+		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Post )
+			Despawn();
+
 		if ( Position.Distance( Steer.Target ) <= 20.0f )
 			PathTarget++;
 
-		if ( castleTarget != null && Position.Distance( castleTarget.Position ) <= 25.0f )
+		if ( castleTarget.IsValid() && Position.Distance( castleTarget.Position ) <= 25.0f )
 		{
 			DamageInfo dmgInfo = new DamageInfo();
 			dmgInfo.Damage = Damage * GetDifficulty();
 
-			castleTarget.TakeDamage( dmgInfo );
+			castleTarget.DamageCastle( dmgInfo.Damage );
 			Despawn();
 			return;
 		}

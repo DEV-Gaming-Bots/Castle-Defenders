@@ -52,7 +52,11 @@ public partial class BaseTower : AnimatedEntity
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
 		if ( !IsPreviewing )
-			SetAnimParameter( "b_deploy", false );
+		{
+			TimeSinceDeployed = 0;
+			SetAnimParameter( "b_preview", false );
+			SetAnimParameter( "b_deploy", true );
+		}
 
 		Tags.Add( "tower" );
 	}

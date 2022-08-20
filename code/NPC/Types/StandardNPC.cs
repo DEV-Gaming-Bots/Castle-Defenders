@@ -11,7 +11,7 @@ public partial class Peasant : BaseNPC
 	public override int[] MinMaxCashReward => new int[] { 1, 10 };
 	public override int[] MinMaxEXPReward => new int[] { 1, 5 };
 	public override float NPCScale => 0.45f;
-	public override float Damage => 5;
+	public override float Damage => 2.5f;
 
 	public override void Spawn()
 	{

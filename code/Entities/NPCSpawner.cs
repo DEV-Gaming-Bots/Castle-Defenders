@@ -8,8 +8,8 @@ using System.Linq;
 [HammerEntity]
 public class NPCSpawner : Entity
 {
-	[Property]
-	public EntityTarget CastleTarget { get; set; }
+	[Property, FGDType("target_destination")]
+	public string CastleTarget { get; set; }
 
 	public CastleEntity CastleToAttack;
 	
@@ -29,7 +29,11 @@ public class NPCSpawner : Entity
 		portal.Position = Position;
 		portal.Rotation = Rotation;
 		portal.Spawn();
+	}
 
-		CastleToAttack = CastleTarget.GetTargets( null ).FirstOrDefault() as CastleEntity;
+	public CastleEntity FindCastle()
+	{
+		return FindByName( CastleTarget ) as CastleEntity;
+
 	}
 }

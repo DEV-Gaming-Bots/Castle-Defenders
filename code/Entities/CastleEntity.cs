@@ -26,5 +26,13 @@ public class CastleEntity : ModelEntity
 		castle.Spawn();
 	}
 
+	public void DamageCastle(float damage)
+	{
+		Health -= damage;
+
+		if ( Health <= 0 )
+			CDGame.Instance.EndGame( CDGame.WinningEnum.Lost );
+	}
+
 
 }

@@ -38,6 +38,15 @@ public partial class CDGame
 		//TODO: Think of difficulty variants
 	}
 
+	public enum WinningEnum
+	{
+		Draw,
+		Lost,
+		Win,
+		BlueWin,
+		RedWin,
+	}
+
 	[Net]
 	public GameEnum GameStatus { get; protected set; }
 	
@@ -59,13 +68,17 @@ public partial class CDGame
 
 	int mapAttempts;
 
+	bool allowRestart;
+
+	MapVoteEntity mapVote;
+
 	[Event.Tick.Server]
 	public void TickGameplay()
 	{
 		if ( GameStatus == GameEnum.Idle )
 			return;
 
-		if( Instance.Debug && (Instance.DebugMode == DebugEnum.Gameplay || Instance.DebugMode == DebugEnum.All))
+		if ( Instance.Debug && (Instance.DebugMode == DebugEnum.Gameplay || Instance.DebugMode == DebugEnum.All))
 			Log.Info( TimeRemaining );
 
 		if ( TimeRemaining > 0.0f )
@@ -87,6 +100,9 @@ public partial class CDGame
 
 				StartMapVote();
 				return;
+			case GameEnum.MapChange:
+				Global.ChangeLevel( mapVote.WinningMap );
+				break;
 		}
 
 		switch ( WaveStatus )
@@ -108,18 +124,23 @@ public partial class CDGame
 
 	public void StartMapVote()
 	{
+		TimeRemaining = 32.0f;
+
 		GameStatus = GameEnum.MapChange;
 		WaveStatus = WaveEnum.MapChange;
 
-		_ = new MapVoteEntity();
+		mapVote = new MapVoteEntity();
 	}
 
 	public bool ShouldRestart()
 	{
-		if ( CurWave < (MaxWaves / 2) )
+		if ( !allowRestart )
 			return false;
 
-		if ( mapAttempts < 3 )
+		if ( CurWave > (MaxWaves / 2) )
+			return false;
+
+		if ( mapAttempts > 2 )
 			return false;
 
 		mapAttempts++;
@@ -145,6 +166,8 @@ public partial class CDGame
 	{
 		Map.Reset(DefaultCleanupFilter);
 
+		allowRestart = false;
+
 		mapAttempts = 0;
 		TimeRemaining = 10.0f;
 		CurWave = 0;
@@ -158,7 +181,36 @@ public partial class CDGame
 				checkWaves++;
 		}
 
+		All.OfType<CDPawn>().ToList().ForEach( x =>
+		{
+			x.SelectedTower.Delete();
+			x.SelectedTower = null;
+		} );
+
 		MaxWaves = checkWaves;
+	}
+
+	public void EndGame( WinningEnum winCondition = WinningEnum.Draw )
+	{
+		GameStatus = GameEnum.Post;
+		TimeRemaining = 15.0f;
+
+		if ( Competitive )
+		{
+			//TODO, Competitive endgame situations for teams
+		} else
+		{
+			if( winCondition == WinningEnum.Win )
+			{
+
+			}
+			else if (winCondition == WinningEnum.Lost )
+			{
+				allowRestart = true;
+			}
+
+		}
+
 	}
 
 	public void StartWave()
@@ -182,8 +234,7 @@ public partial class CDGame
 	{
 		if ( CurWave >= MaxWaves )
 		{
-			GameStatus = GameEnum.Post;
-			TimeRemaining = 5.0f;
+			EndGame();
 			return;
 		}
 

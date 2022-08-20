@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sandbox;
 
 public partial class CDPawn : IPlayerData
@@ -42,6 +43,8 @@ public partial class CDPawn : IPlayerData
 	public void SetUpPlayer()
 	{
 		Cash = 50;
+		SelectedTower?.Delete();
+		SelectedTower = null;
 	}
 
 	public void AddCash(int addCash)
