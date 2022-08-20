@@ -35,6 +35,7 @@ public class StatusGame : Panel
 		{
 			gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
 			gameInfo.ExtraText.SetText( "Starting" );
+			gameInfo.SetClass( "activeGame", true );
 			return;
 		}
 
@@ -42,6 +43,7 @@ public class StatusGame : Panel
 		{
 			gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
 			gameInfo.ExtraText.SetText( "Game Over" );
+			gameInfo.SetClass( "activeGame", false );
 			return;
 		}
 
