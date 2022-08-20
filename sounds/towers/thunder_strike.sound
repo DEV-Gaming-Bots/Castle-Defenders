@@ -7,7 +7,7 @@
 		VolumeRandom = 0
 		Pitch = 1
 		PitchRandom = 0
-		Decibels = 70
+		Decibels = 100
 		Sounds = 
 		[
 			resource:"sounds/raw/thunder_strike_1.vsnd",
@@ -16,7 +16,7 @@
 			resource:"sounds/raw/thunder_strike_4.vsnd",
 		]
 		SelectionMode = "Random"
-		MaximumDistance = 1143.9335
-		MinimumDistance = 57.196674
+		MaximumDistance = 2301.2522
+		MinimumDistance = 115.062614
 	}
 }

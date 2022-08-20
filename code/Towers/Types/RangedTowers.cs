@@ -59,7 +59,7 @@ public partial class Sniper : BaseTower
 
 	public override int TowerMaxLevel => 5;
 	public override int TowerCost => 1;
-	public override float DeploymentTime => 0.75f;
+	public override float DeploymentTime => 3.75f;
 	public override float AttackTime => 3.5f;
 	public override float AttackDamage => 12.5f;
 	public override int RangeDistance => 250;

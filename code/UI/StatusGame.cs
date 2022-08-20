@@ -26,6 +26,12 @@ public class StatusGame : Panel
 	{
 		base.Tick();
 
+		if ( CDGame.Instance.GameStatus != CDGame.GameEnum.Active )
+			return;
+
+		Log.Info( CDGame.Instance.TimeRemaining );
+
+		gameInfo.WaveTimer.SetText( Math.Round( CDGame.Instance.TimeRemaining, 2 ).ToString() );
 		//gameInfo.TextTimer = Math.Round(TimerElapsed).ToString();
 	}
 }

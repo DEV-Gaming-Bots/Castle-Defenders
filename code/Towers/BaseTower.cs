@@ -57,6 +57,12 @@ public partial class BaseTower : AnimatedEntity
 		Tags.Add( "tower" );
 	}
 
+	[Event.Hotload()]
+	public void HotloadTowers()
+	{
+		SetAnimParameter( "b_deploy", false );
+	}
+
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();
@@ -65,9 +71,9 @@ public partial class BaseTower : AnimatedEntity
 	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
-		for ( int i = 1; i <= 360; i++ )
+		for ( int i = 1; i <= 45; i++ )
 		{
-			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i ).Forward * RangeDistance + Vector3.Up * 5 )
+			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 8 ).Forward * RangeDistance + Vector3.Up * 5 )
 				.Ignore( this )
 				.UseHitboxes( true )
 				.Run();
@@ -86,10 +92,11 @@ public partial class BaseTower : AnimatedEntity
 	{
 		List<BaseNPC> npclist = new List<BaseNPC>();
 
-		for ( int i = 1; i <= 360; i++ )
+		for ( int i = 1; i <= 90; i++ )
 		{
-			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i ).Forward * RangeDistance + Vector3.Up * 5 )
+			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 4 ).Forward * RangeDistance + Vector3.Up * 5 )
 				.Ignore( this )
+				.WithoutTags("tower")
 				.UseHitboxes( true )
 				.Run();
 

@@ -41,6 +41,9 @@ public class WaveSetup : Entity
 		base.Spawn();
 		spawnToggle = false;
 		spawnCounter = 0;
+
+		if( NPCs_To_Spawn == NPCEnum.Unspecified )
+			Log.Error( "One of the WaveSetup ents has unspecified NPCs, expect errors!" );
 	}
 
 	[Event.Tick.Server]

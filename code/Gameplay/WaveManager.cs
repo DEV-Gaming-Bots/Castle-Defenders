@@ -45,7 +45,7 @@ public partial class CDGame
 	public DiffEnum Difficulty;
 
 	[Net]
-	public RealTimeUntil TimeRemaining { get; protected set; }
+	public TimeUntil TimeRemaining { get; protected set; }
 
 	[Net]
 	public int CurWave { get; protected set; }
@@ -64,40 +64,40 @@ public partial class CDGame
 		if( Instance.Debug && (Instance.DebugMode == DebugEnum.Gameplay || Instance.DebugMode == DebugEnum.All))
 			Log.Info( TimeRemaining );
 
-		if( TimeRemaining <= 0.0f )
+		if ( TimeRemaining > 0.0f )
+			return;
+
+		switch ( GameStatus )
 		{
-			switch ( GameStatus )
-			{
-				case GameEnum.Starting:
-					GameStatus = GameEnum.Active;
-					StartPreWave();
+			case GameEnum.Starting:
+				GameStatus = GameEnum.Active;
+				StartPreWave();
+				return;
+			case GameEnum.Post:
+				if ( ShouldRestart() )
+				{
+					StartGame();
 					return;
-				case GameEnum.Post:
-					if ( ShouldRestart() )
-					{
-						StartGame();
-						return;
-					}
+				}
 
-					StartMapVote();
-					return;
-			}
+				StartMapVote();
+				return;
+		}
 
-			switch ( WaveStatus )
-			{
-				case WaveEnum.Pre:
-					StartWave();
-					break;
+		switch ( WaveStatus )
+		{
+			case WaveEnum.Pre:
+				StartWave();
+				break;
 
-				case WaveEnum.Active:
-					if ( ShouldEndWave() )
-						PostWave();
-					break;
+			case WaveEnum.Active:
+				if ( ShouldEndWave() )
+					PostWave();
+				break;
 
-				case WaveEnum.Post:
-					StartPreWave();
-					break;
-			}
+			case WaveEnum.Post:
+				StartPreWave();
+				break;
 		}
 	}
 
@@ -143,6 +143,8 @@ public partial class CDGame
 		TimeRemaining = 10.0f;
 		CurWave = 0;
 		GameStatus = GameEnum.Starting;
+
+		All.OfType<CDPawn>().ToList().ForEach( x => x.SetUpPlayer() );
 
 		MaxWaves = All.OfType<WaveSetup>().Count();
 	}

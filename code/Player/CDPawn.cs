@@ -57,7 +57,7 @@ public partial class CDPawn : Player
 		}
 
 		//Second check, look for blocked areas
-		if ( tr.Entity is TowerBlocker )
+		if ( tr.Entity is TowerBlocker || tr.Entity is BaseNPC )
 			return false;
 		
 		return true;
@@ -127,7 +127,7 @@ public partial class CDPawn : Player
 		if ( Input.Pressed( InputButton.SecondaryAttack ) )
 		{
 
-			if( selectedTower == null && IsServer )
+			if( selectedTower == null )
 			{
 				towerRot = 0.0f;
 

@@ -86,7 +86,7 @@
 						reverse = false
 					},
 					{
-						_class = "AnimFile"
+						_class = "AnimFrame"
 						name = "idle"
 						activity_name = ""
 						activity_weight = 1
@@ -99,12 +99,9 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/raw/trickstertower/trickster.fbx"
-						start_frame = 89
-						end_frame = -1
-						framerate = -1.0
-						take = 0
-						reverse = false
+						src_anim_name = "deploy"
+						frame_type = "LastFrame"
+						frame = 0
 					},
 				]
 				default_root_bone_name = ""
@@ -114,12 +111,13 @@
 				children = 
 				[
 					{
-						_class = "PhysicsHullFromRender"
+						_class = "PhysicsShapeBox"
 						parent_bone = ""
 						surface_prop = "default"
 						collision_tags = "solid"
-						faceMergeAngle = 20.0
-						maxHullVertices = 32
+						origin = [ 0.231636, -0.267357, 159.849915 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 237.234711, 263.36377, 329.699829 ]
 					},
 				]
 			},

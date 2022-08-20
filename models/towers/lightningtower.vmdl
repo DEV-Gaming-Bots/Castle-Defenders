@@ -29,8 +29,8 @@
 						remaps = 
 						[
 							{
-								from = "radioactivemitter.vmat"
-								to = "materials/towers/radioemitter.vmat"
+								from = "material.004.vmat"
+								to = "materials/towers/lightning.vmat"
 							},
 						]
 						use_global_default = false
@@ -44,7 +44,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/raw/radioactiveemitter/radioactivemitter.fbx"
+						filename = "models/raw/lightningtower/lightningtower.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 1.0
@@ -72,31 +72,7 @@
 							{
 								_class = "AnimEvent"
 								event_class = "AE_CL_PLAYSOUND_POSITION"
-								event_frame = 7
-								event_keys = 
-								{
-									name = "cardboard_hit"
-									stop_on_seq_change = false
-									use_layer_sequence = false
-									tags = ""
-								}
-							},
-							{
-								_class = "AnimEvent"
-								event_class = "AE_CL_PLAYSOUND_POSITION"
-								event_frame = 33
-								event_keys = 
-								{
-									name = "cardboard_open"
-									stop_on_seq_change = false
-									use_layer_sequence = false
-									tags = ""
-								}
-							},
-							{
-								_class = "AnimEvent"
-								event_class = "AE_CL_PLAYSOUND_POSITION"
-								event_frame = 53
+								event_frame = 0
 								event_keys = 
 								{
 									name = "build_start"
@@ -108,7 +84,19 @@
 							{
 								_class = "AnimEvent"
 								event_class = "AE_CL_PLAYSOUND_POSITION"
-								event_frame = 65
+								event_frame = 26
+								event_keys = 
+								{
+									name = "lightning_charge"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND_POSITION"
+								event_frame = 48
 								event_keys = 
 								{
 									name = "build_finish"
@@ -129,7 +117,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/raw/radioactiveemitter/radioactivemitter.fbx"
+						source_filename = "models/raw/lightningtower/lightningtowerdeploy.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
@@ -156,21 +144,6 @@
 					},
 				]
 				default_root_bone_name = ""
-			},
-			{
-				_class = "PhysicsShapeList"
-				children = 
-				[
-					{
-						_class = "PhysicsShapeBox"
-						parent_bone = ""
-						surface_prop = "default"
-						collision_tags = "solid"
-						origin = [ 0.416248, -0.817387, 372.288391 ]
-						angles = [ 0.0, 0.0, 0.0 ]
-						dimensions = [ 338.777313, 328.105255, 769.576782 ]
-					},
-				]
 			},
 		]
 		model_archetype = ""
