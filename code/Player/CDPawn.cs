@@ -12,6 +12,8 @@ public partial class CDPawn : Player
 
 	bool isoView = false;
 
+	Sound curMusic;
+
 	public CDPawn()
 	{
 
@@ -64,6 +66,19 @@ public partial class CDPawn : Player
 			return false;
 		
 		return true;
+	}
+
+	[ClientRpc]
+	public void PlayMusic(string music)
+	{
+		curMusic = Sound.FromScreen( music );
+	}
+
+	[ClientRpc]
+	public void EndMusic( string musicEnd )
+	{
+		curMusic.Stop();
+		curMusic = Sound.FromScreen( musicEnd );
 	}
 
 	public void SimulatePlacement(TraceResult tr)

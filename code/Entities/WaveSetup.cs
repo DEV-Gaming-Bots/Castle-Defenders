@@ -8,11 +8,14 @@ using SandboxEditor;
 [HammerEntity]
 public class WaveSetup : Entity
 {
-	[Property( "WaveOrder" ), Description( "What order should this go" )]
+	[Property( "WaveOrder" ), Description( "What order should this go, you can have multiple in a wave" )]
 	public int Wave_Order { get; set; } = 1;
 
 	[Property( "SpawnCount" ), Description( "How many times should this spawn for that NPC" )]
 	public int Spawn_Count { get; set; } = 1;
+
+	[Property( "IsBossWave" ), Description( "Is this a boss wave, you should only set only one on a wave" )]
+	public bool IsBossWave { get; set; } = false;
 
 	public enum NPCEnum
 	{
