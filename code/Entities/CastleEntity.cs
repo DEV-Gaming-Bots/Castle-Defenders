@@ -24,6 +24,26 @@ public class CastleEntity : ModelEntity
 		castle.Position = Position;
 		castle.Rotation = Rotation;
 		castle.Spawn();
+
+		int multiply = 1;
+
+		switch(CDGame.Instance.Difficulty)
+		{
+			case CDGame.DiffEnum.Easy:
+				multiply = 1;
+				break;
+			case CDGame.DiffEnum.Medium:
+				multiply = 2;
+				break;
+			case CDGame.DiffEnum.Hard:
+				multiply = 3;
+				break;
+			case CDGame.DiffEnum.Extreme:
+				multiply = 4;
+				break;
+		}
+
+		Health = 250.0f - (50.0f * multiply);
 	}
 
 	public void DamageCastle(float damage)

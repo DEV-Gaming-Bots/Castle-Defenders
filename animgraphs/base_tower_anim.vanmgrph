@@ -20,7 +20,7 @@
 					{
 						m_id = 316255960
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_states = 
 					[
@@ -164,7 +164,7 @@
 					{
 						m_id = 345446203
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "deploy"
@@ -186,7 +186,7 @@
 					{
 						m_id = 1341962419
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_inputConnection = 
 					{
@@ -215,7 +215,7 @@
 					{
 						m_id = 1908793522
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_sequenceName = "idle"
 					m_nFrameIndex = 2

@@ -143,7 +143,7 @@ public partial class CDPawn : Player
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
 			.Ignore( this )
 			.Ignore( SelectedTower )
-			.Size( 1 )
+			.Size( 0.1f )
 			.Run();
 
 			
