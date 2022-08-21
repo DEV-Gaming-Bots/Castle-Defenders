@@ -39,7 +39,17 @@ public partial class BaseTower : AnimatedEntity
 	public virtual int RangeDistance => 10;
 	public virtual string AttackSound => "";
 
-	public bool IsPreviewing = true;
+	[Net]
+	public bool IsPreviewing { get; set; } = true;
+
+	[Net]
+	public string NetName { get; private set; }
+
+	[Net]
+	public string NetDesc { get; private set; }
+
+	[Net]
+	public int NetCost { get; private set; }
 
 	public TimeSince TimeSinceDeployed;
 	public TimeSince TimeLastAttack;
@@ -56,6 +66,10 @@ public partial class BaseTower : AnimatedEntity
 			TimeSinceDeployed = 0;
 			SetAnimParameter( "b_deploy", true );
 		}
+
+		NetName = TowerName;
+		NetDesc = TowerDesc;
+		NetCost = TowerCost;
 
 		Tags.Add( "tower" );
 	}

@@ -95,7 +95,7 @@ public partial class CDPawn : Player
 		else
 			UpdatePreview( To.Single( this ), tr.EndPosition, new Color( 0, 255, 0, 0.5f ), Rotation.FromYaw( towerRot ), SelectedTower.RangeDistance );
 
-		if ( SelectedTower != null )
+		if ( SelectedTower.IsValid() )
 		{
 			SelectedTower.Position = tr.EndPosition;
 			SelectedTower.Rotation = Rotation.FromYaw( towerRot );
@@ -146,9 +146,13 @@ public partial class CDPawn : Player
 			.Size( 0.1f )
 			.Run();
 
-			
-			if(Host.IsServer || IsClient)
+			if((Host.IsServer || IsClient) && SelectedTower != null)
 				SimulatePlacement( tr );
+			else if (IsServer)
+			{
+				SelectedTower?.Delete();
+				SelectedTower = null;
+			}	
 
 			if ( !CanPlace( tr ) )
 				return;
@@ -205,7 +209,12 @@ public partial class CDPawn : Player
 		if ( Input.Pressed( InputButton.View ) )
 			SwitchCameraView();
 
-		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Active )
+		if ( CDGame.Instance.Debug == false )
+		{
+			if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Active )
+				DoTDInputs();
+		}
+		else
 			DoTDInputs();
 		
 	}

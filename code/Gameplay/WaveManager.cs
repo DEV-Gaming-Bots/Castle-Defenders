@@ -169,6 +169,8 @@ public partial class CDGame
 	{
 		Map.Reset(DefaultCleanupFilter);
 
+		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( "" ) );
+
 		allowRestart = false;
 
 		mapAttempts = 0;

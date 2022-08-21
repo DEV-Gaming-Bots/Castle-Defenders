@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 public partial class Pistol : BaseTower
 {
 	public override string TowerName => "Pistol Tower";
-	public override string TowerDesc => "A pistol tower";
+	public override string TowerDesc => "A very simple pistol tower";
 
 	//Temporary until we get a pistol model
 	public override string TowerModel => "models/towers/trickstertower.vmdl";
@@ -25,11 +25,11 @@ public partial class Pistol : BaseTower
 	};
 
 	public override int TowerMaxLevel => 5;
-	public override int TowerCost => 15;
-	public override float DeploymentTime => 3.71f;
-	public override float AttackTime => 1.0f;
+	public override int TowerCost => 20;
+	public override float DeploymentTime => 3.72f;
+	public override float AttackTime => 3.0f;
 	public override float AttackDamage => 5.0f;
-	public override int RangeDistance => 175;
+	public override int RangeDistance => 150;
 	public override string AttackSound => "pistol_fire";
 
 	[ClientRpc]

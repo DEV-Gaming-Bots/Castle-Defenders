@@ -10,7 +10,7 @@ using Sandbox;
 public partial class Riot : BaseNPC
 {
 	public override string NPCName => "Riot";
-	public override float BaseHealth => 30;
+	public override float BaseHealth => 45;
 	public override float BaseSpeed => 12.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 1, 10 };
@@ -46,7 +46,7 @@ public partial class Riot : BaseNPC
 public partial class Knight : BaseNPC
 {
 	public override string NPCName => "Knight";
-	public override float BaseHealth => 75;
+	public override float BaseHealth => 95;
 	public override float BaseSpeed => 10.0f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 5, 25 };

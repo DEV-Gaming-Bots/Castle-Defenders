@@ -48,7 +48,26 @@ public partial class CDGame
 		Log.Info( "Debug Mode: " + Instance.DebugMode );
 	}
 
-	[ConCmd.Admin( "cd_npc_create" )]
+	[ConCmd.Server("cd_money_give")]
+	public static void GiveMoney(int amount, string targetName = "")
+	{
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+
+		if ( player == null )
+			return;
+
+		if( !string.IsNullOrEmpty(targetName) )
+		{
+			All.OfType<CDPawn>().ToList().Where( x => x.Client.Name.ToLower().Contains(targetName.ToLower()) ).FirstOrDefault()
+				.AddCash( amount );
+		}
+		else
+		{
+			player.AddCash( amount );
+		}
+	}
+
+	[ConCmd.Server( "cd_npc_create" )]
 	public static void SpawnNPC( string npcName )
 	{
 		if ( !Instance.Debug )

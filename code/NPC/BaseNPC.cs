@@ -50,7 +50,7 @@ public partial class BaseNPC : AnimatedEntity
 	NPCNavigation Path = new NPCNavigation();
 
 	CastleEntity castleTarget;
-	
+
 	public int GetDifficulty()
 	{
 		switch ( CDGame.Instance.Difficulty )
@@ -102,6 +102,7 @@ public partial class BaseNPC : AnimatedEntity
 			castleTarget = redSide.FindCastle();
 
 		Steer = new NPCPathSteer();
+		Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
 	}
 
 	//When the NPC reaches the castle, despawn
@@ -116,9 +117,6 @@ public partial class BaseNPC : AnimatedEntity
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Post )
 			Despawn();
 
-		if ( Position.Distance( Steer.Target ) <= 20.0f )
-			PathTarget++;
-
 		if ( castleTarget.IsValid() && Position.Distance( castleTarget.Position ) <= 25.0f )
 		{
 			DamageInfo dmgInfo = new DamageInfo();
@@ -129,17 +127,27 @@ public partial class BaseNPC : AnimatedEntity
 			return;
 		}
 
-		if ( All.OfType<NPCPath>().First( x => x.PathOrder == PathTarget ) == null)
+
+		if ( Steer.Target.Distance( Position ) <= 20.0f )
 		{
+			if( All.OfType<NPCPath>().ToArray()[PathTarget].SplitPathOrder.IsValid())
+			{
+				switch(Rand.Int(1, 2))
+				{
+					case 1:
+						Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].Position;
+						break;
+					case 2:
+						Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].NextSplitNode.Position;
+						break;
+				}
+			} 
+			else
+				Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].Position;
+
 			PathTarget++;
-
-			if ( PathTarget > All.OfType<NPCPath>().Count() )
-				PathTarget = 1;
-
-			return;
 		}
 
-		Steer.Target = All.OfType<NPCPath>().First(x => x.PathOrder == PathTarget).Position;
 	}
 
 	//Server ticking for NPC Navigation

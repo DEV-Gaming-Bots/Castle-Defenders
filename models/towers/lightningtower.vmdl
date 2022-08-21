@@ -67,6 +67,45 @@
 					{
 						_class = "AnimFile"
 						name = "deploy"
+						children = 
+						[
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND_POSITION"
+								event_frame = 7
+								event_keys = 
+								{
+									name = "build_start"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND_POSITION"
+								event_frame = 25
+								event_keys = 
+								{
+									name = "build_finish"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND_POSITION"
+								event_frame = 37
+								event_keys = 
+								{
+									name = "lightning_charge"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -105,6 +144,21 @@
 					},
 				]
 				default_root_bone_name = ""
+			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_tags = "solid"
+						origin = [ 1.046524, 2.248512, 495.139832 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 351.453674, 373.814575, 1025.279541 ]
+					},
+				]
 			},
 		]
 		model_archetype = ""

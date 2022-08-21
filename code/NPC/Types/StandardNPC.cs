@@ -5,7 +5,7 @@ using System.Linq;
 public partial class Peasant : BaseNPC
 {
 	public override string NPCName => "Peasant";
-	public override float BaseHealth => 20;
+	public override float BaseHealth => 10;
 	public override float BaseSpeed => 15;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 1, 15 };
@@ -22,7 +22,7 @@ public partial class Peasant : BaseNPC
 public partial class Zombie : BaseNPC
 {
 	public override string NPCName => "Zombie";
-	public override float BaseHealth => 40;
+	public override float BaseHealth => 55;
 	public override float BaseSpeed => 12.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 4, 20 };

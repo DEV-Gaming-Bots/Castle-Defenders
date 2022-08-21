@@ -18,11 +18,14 @@ public partial class CDGame : Game
 
 	public bool Competitive;
 
+	public bool RefusePlay;
+
 	public CDGame()
 	{
 		if(IsServer)
 		{
 			Debug = false;
+			RefusePlay = false;
 			DebugMode = DebugEnum.Default;
 
 			GameStatus = GameEnum.Idle;
@@ -55,14 +58,30 @@ public partial class CDGame : Game
 		base.ClientJoined( client );
 
 		var pawn = new CDPawn( client );
+		pawn.Spawn();
 		client.Pawn = pawn;
-		client.Pawn.Spawn();
 
 		if ( !LoadSave( pawn ) )
 			pawn.NewPlayerStats();
 
-		if ( GameStatus == GameEnum.Idle )
+		if ( GameStatus == GameEnum.Idle && !RefusePlay )
 			StartGame();
+
+		if ( GameStatus == GameEnum.Active )
+			pawn.SetUpPlayer();
+	}
+
+	public override void PostLevelLoaded()
+	{
+		base.PostLevelLoaded();
+
+		if ( All.OfType<NPCPath>().Count() <= 0 )
+		{
+			Log.Error( "This map does not support Castle Defenders" );
+			RefusePlay = true;
+		}
+
+		All.OfType<NPCPath>().ToList().ForEach( x => x.FindPaths() );
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )

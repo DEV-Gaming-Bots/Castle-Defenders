@@ -7,7 +7,7 @@ using Sandbox;
 public partial class Husk : BaseNPC
 {
 	public override string NPCName => "Husk";
-	public override float BaseHealth => 75;
+	public override float BaseHealth => 100;
 	public override float BaseSpeed => 10;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 5, 20 };

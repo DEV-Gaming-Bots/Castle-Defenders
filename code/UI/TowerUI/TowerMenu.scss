@@ -1,0 +1,37 @@
+﻿towermenu {
+    position: absolute;
+    left: 2.5%;
+    top: 40%;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
+    .mainPnl {
+        opacity: 0;
+        width: 512px;
+        height: 256px;
+        background-color: rgb(0, 125, 205);
+        flex-direction: column;
+
+        .towerName {
+            font-size: 32px;
+            color: white;
+        }
+
+        .towerDesc {
+            font-size: 32px;
+            color: white;
+            top: 25px;
+        }
+
+        .towerCost {
+            font-size: 32px;
+            color: white;
+            top: 50px;
+        }
+
+        &.showMenu {
+            opacity: 1;
+        }
+    }
+}
