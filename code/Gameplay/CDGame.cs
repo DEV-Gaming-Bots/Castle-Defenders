@@ -75,12 +75,6 @@ public partial class CDGame : Game
 	{
 		base.PostLevelLoaded();
 
-		if ( All.OfType<NPCPath>().Count() <= 0 )
-		{
-			Log.Error( "This map does not support Castle Defenders" );
-			RefusePlay = true;
-		}
-
 		All.OfType<NPCPath>().ToList().ForEach( x => x.FindPaths() );
 	}
 

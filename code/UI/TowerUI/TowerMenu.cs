@@ -9,7 +9,7 @@ public partial class TowerMenu : Panel
 	public Label TowerName;
 	public Label TowerDesc;
 	public Label TowerCost;
-
+	public Label TowerOwner;
 
 	public TowerMenu()
 	{
@@ -19,6 +19,7 @@ public partial class TowerMenu : Panel
 		TowerName = TowerPnl.Add.Label( "", "towerName" );
 		TowerDesc = TowerPnl.Add.Label( "", "towerDesc" );
 		TowerCost = TowerPnl.Add.Label( "", "towerCost" );
+		TowerOwner = TowerPnl.Add.Label( "", "towerOwner" );
 	}
 
 	public override void Tick()
@@ -30,7 +31,7 @@ public partial class TowerMenu : Panel
 		if ( player == null )
 			return;
 
-		var clTr = Trace.Ray( player.EyePosition, player.EyePosition + player.EyeRotation.Forward * 150 )
+		var clTr = Trace.Ray( player.EyePosition, player.EyePosition + player.EyeRotation.Forward * 145 )
 			.UseHitboxes( true )
 			.WithTag( "tower" )
 			.Run();
@@ -39,9 +40,22 @@ public partial class TowerMenu : Panel
 		{
 			TowerPnl.SetClass( "showMenu", true );
 
+			TowerOwner.SetText( $"Owner: {tower.Owner.Client.Name}");
+
 			TowerName.SetText( tower.NetName );
 			TowerDesc.SetText( tower.NetDesc );
-			TowerCost.SetText( $"${tower.NetCost}" );
+
+			if ( tower.IsPreviewing )
+			{
+				TowerCost.SetText( $"Build Cost: ${tower.NetCost}" );
+			}
+			else
+			{
+				if( tower.NetCost != -1)
+					TowerCost.SetText( $"Upgrade Cost: ${tower.NetCost}" );
+				else
+					TowerCost.SetText( "Max Level" );;
+			}
 		}
 		else
 			TowerPnl.SetClass( "showMenu", false );

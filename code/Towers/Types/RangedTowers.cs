@@ -17,19 +17,34 @@ public partial class Pistol : BaseTower
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new string[]
 	{
-		"LEVEL 1 TEMPLATE DESCRIPTION",
-		"LEVEL 2 TEMPLATE DESCRIPTION",
-		"LEVEL 3 TEMPLATE DESCRIPTION",
-		"LEVEL 4 TEMPLATE DESCRIPTION",
-		"LEVEL 5 TEMPLATE DESCRIPTION"
+		"A pistol with an increased range, damage and fire-rate",
+		"A pistol with improved range, damage and fire-rate than previously",
+		"An enhanced pistol with even better range, damage and fire-rate",
+		"A heavily enhanced, top of the line pistol with best range, damage and fire-rate"
 	};
 
-	public override int TowerMaxLevel => 5;
+	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
+	{
+		new(-0.10f, 1.0f, 25),
+		new(-0.20f, 1.5f, 25),
+		new(-0.35f, 1.75f, 25),
+		new(-0.65f, 2.25f, 50)
+	};
+
+	public override int TowerMaxLevel => 4;
 	public override int TowerCost => 20;
+	public override int[] TowerLevelCosts => new int[]
+	{
+		30,
+		45,
+		75,
+		-1,
+	};
+
 	public override float DeploymentTime => 3.72f;
-	public override float AttackTime => 3.0f;
-	public override float AttackDamage => 5.0f;
-	public override int RangeDistance => 150;
+	public override float AttackTime { get; set; } = 3.0f;
+	public override float AttackDamage { get; set; } = 5.0f;
+	public override int RangeDistance { get; set; } = 150;
 	public override string AttackSound => "pistol_fire";
 
 	[ClientRpc]

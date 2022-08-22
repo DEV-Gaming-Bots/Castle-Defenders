@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Sandbox;
 
 
@@ -23,6 +25,21 @@ public partial class BaseTower : AnimatedEntity
 		"LEVEL 4"
 	};
 
+	public virtual int[] TowerLevelCosts => new int[]
+	{
+		1,
+		2,
+		3,
+		4
+	};
+
+	//Each upgrade reduces attack time, increase damage and range
+	//TODO: figure out variant paths
+	public virtual List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
+	{
+
+	};
+
 	public virtual int TowerMaxLevel => 2;
 
 	public int TowerLevel = 1;
@@ -32,11 +49,11 @@ public partial class BaseTower : AnimatedEntity
 
 	//Attacking + Deployment
 	public virtual float DeploymentTime => 1.0f;
-	public virtual float AttackTime => 1.0f;
-	public virtual float AttackDamage => 1.0f;
+	public virtual float AttackTime { get; set; } = 1.0f;
+	public virtual float AttackDamage { get; set; } = 1.0f;
 
 	//How far it can see
-	public virtual int RangeDistance => 10;
+	public virtual int RangeDistance { get; set; } = 10;
 	public virtual string AttackSound => "";
 
 	[Net]
@@ -52,6 +69,7 @@ public partial class BaseTower : AnimatedEntity
 	public int NetCost { get; private set; }
 
 	public TimeSince TimeSinceDeployed;
+	public TimeSince TimeLastUpgrade;
 	public TimeSince TimeLastAttack;
 
 	public BaseNPC Target;
@@ -64,12 +82,14 @@ public partial class BaseTower : AnimatedEntity
 		if ( !IsPreviewing )
 		{
 			TimeSinceDeployed = 0;
-			SetAnimParameter( "b_deploy", true );
-		}
+			NetCost = TowerLevelCosts[TowerLevel - 1];
+			PlayDeployAnimation();
+		} 
+		else
+			NetCost = TowerCost;
 
 		NetName = TowerName;
 		NetDesc = TowerDesc;
-		NetCost = TowerCost;
 
 		Tags.Add( "tower" );
 	}
@@ -78,6 +98,68 @@ public partial class BaseTower : AnimatedEntity
 	public void HotloadTowers()
 	{
 		
+	}
+
+	[ClientRpc]
+	public void PlayDeployAnimation()
+	{
+		SetAnimParameter( "b_deploy", true );
+	}
+
+	public void PlayUpgradeAnimation()
+	{
+		SetAnimParameter( "b_upgrade", true );
+	}
+
+	public bool CanUpgrade()
+	{
+		if ( TowerLevel >= TowerMaxLevel )
+			return false;
+
+		if ( (Owner as CDPawn).GetCash() < TowerLevelCosts[TowerLevel - 1] )
+			return false;
+
+		return true;
+	}
+
+	public void SellTower()
+	{
+		if ( !IsServer )
+			return;
+
+		if(TowerLevel == 1)
+			(Owner as CDPawn).AddCash( TowerCost / 2 );
+		else
+			(Owner as CDPawn).AddCash( TowerLevelCosts[TowerLevel - 1] / 2 );
+
+		Delete();
+	}
+	public virtual void UpgradeTower()
+	{
+		PlayUpgradeAnimation();
+		 
+		if(IsServer)
+		{
+			if(Upgrades.Count <= TowerMaxLevel - 1)
+			{
+				Log.Error( "Theres currently no upgrades for the next level" );
+				return;
+			}
+
+			(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
+
+			TowerLevel++;
+
+			AttackTime += Upgrades[TowerLevel - 1].AttTime;
+			AttackDamage += Upgrades[TowerLevel - 1].AttDMG;
+			RangeDistance += Upgrades[TowerLevel - 1].NewRange;
+
+			NetDesc = TowerLevelDesc[TowerLevel - 1];
+			NetCost = TowerLevelCosts[TowerLevel - 1];
+
+			TimeLastUpgrade = 0;
+		}
+
 	}
 
 	public override void ClientSpawn()

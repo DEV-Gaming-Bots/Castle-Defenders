@@ -81,110 +81,6 @@ public partial class CDPawn : Player
 		curMusic = Sound.FromScreen( musicEnd );
 	}
 
-	public void SimulatePlacement(TraceResult tr)
-	{
-		towerRot += Input.MouseWheel * 5f;
-
-		if ( towerRot < 0.0f )
-			towerRot = 360.0f;
-		else if ( towerRot > 360.0f )
-			towerRot = 0.0f;
-
-		if ( !CanPlace( tr ) )
-			UpdatePreview( To.Single( this ), tr.EndPosition, new Color(255, 0, 0, 0.5f), Rotation.FromYaw( towerRot ), SelectedTower.RangeDistance );
-		else
-			UpdatePreview( To.Single( this ), tr.EndPosition, new Color( 0, 255, 0, 0.5f ), Rotation.FromYaw( towerRot ), SelectedTower.RangeDistance );
-
-		if ( SelectedTower.IsValid() )
-		{
-			SelectedTower.Position = tr.EndPosition;
-			SelectedTower.Rotation = Rotation.FromYaw( towerRot );
-			SelectedTower.IsPreviewing = true;
-		}
-	}
-
-	public void DoTDInputs()
-	{
-		if ( GetSelectedSlot() == 0 )
-		{
-			if ( SelectedTower != null )
-			{
-				DestroyPreview();
-				SelectedTower.Delete();
-				SelectedTower = null;
-			}
-		}
-
-		if ( GetSelectedSlot() >= 1 && timeLastTowerPlace > 0.5f )
-		{
-			if ( TowerSlots.Length < GetSelectedSlot() )
-				return;
-
-			if ( SelectedTower != null )
-			{
-				DestroyPreview();
-				SelectedTower.Delete();
-				SelectedTower = null;
-			}
-
-			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[GetSelectedSlot() - 1] );
-			SelectedTower.Owner = this;
-			SelectedTower.RenderColor = new Color( 255, 255, 255, 0 );
-			SelectedTower.Spawn();
-
-			if ( Host.IsServer || IsClient )
-				CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
-
-			timeLastTowerPlace = 0;
-		}
-
-		if ( SelectedTower != null )
-		{
-			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
-			.Ignore( this )
-			.Ignore( SelectedTower )
-			.Size( 0.1f )
-			.Run();
-
-			if((Host.IsServer || IsClient) && SelectedTower != null)
-				SimulatePlacement( tr );
-			else if (IsServer)
-			{
-				SelectedTower?.Delete();
-				SelectedTower = null;
-			}	
-
-			if ( !CanPlace( tr ) )
-				return;
-
-			if ( Input.Pressed( InputButton.PrimaryAttack ) )
-			{
-				if ( SelectedTower == null )
-					return;
-
-				if ( GetCash() < SelectedTower.TowerCost )
-					return;
-
-				TakeCash( SelectedTower.TowerCost );
-
-				var placedTower = TypeLibrary.Create<BaseTower>( SelectedTower.GetType().FullName ); ;
-
-				placedTower.Position = SelectedTower.Position;
-				placedTower.Rotation = SelectedTower.Rotation;
-				placedTower.IsPreviewing = false;
-				placedTower.Spawn();
-
-				DestroyPreview( To.Single( this ) );
-
-				if ( IsServer )
-				{
-					SelectedTower.Delete();
-					SelectedTower = null;
-				}
-			}
-		}
-	}
-
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -209,13 +105,144 @@ public partial class CDPawn : Player
 		if ( Input.Pressed( InputButton.View ) )
 			SwitchCameraView();
 
+		//Check if debug is false and we're in an active game
 		if ( CDGame.Instance.Debug == false )
 		{
 			if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Active )
 				DoTDInputs();
 		}
+		//Otherwise if debug is on, just do the TDInputs
 		else
 			DoTDInputs();
-		
+
+		DoTowerOverview();
+	}
+
+	public void DoTowerOverview()
+	{
+		//We have a selected tower in preview, stop here
+		if ( SelectedTower != null )
+			return;
+
+		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+			.UseHitboxes( true )
+			.WithTag( "tower" )
+			.Run();
+
+		if(tr.Entity is BaseTower tower && tower.Owner == this)
+		{
+			if ( tower.TimeSinceDeployed < tower.DeploymentTime )
+				return;
+
+			if ( tower.TimeLastUpgrade < 4.0f )
+				return;
+
+			if(Input.Pressed(InputButton.PrimaryAttack))
+			{
+				if ( tower.CanUpgrade() )
+					tower.UpgradeTower();
+			}
+
+			if ( Input.Pressed( InputButton.SecondaryAttack ) )
+				tower.SellTower();
+		}
+	}
+
+	public override void FrameSimulate( Client cl )
+	{
+		base.FrameSimulate( cl );
+	}
+
+	public void DoTDInputs()
+	{
+		if ( !IsServer )
+			return;
+
+
+		//0 = empty handed
+		if ( GetSelectedSlot() == 0 )
+		{
+			if ( SelectedTower != null )
+			{
+				DestroyPreview();
+				SelectedTower.Delete();
+				SelectedTower = null;
+			}
+		}
+
+		//Check if the last slot is equal or greater than
+		//while checking if the time last placed is greater
+		if ( GetSelectedSlot() > 0 && timeLastTowerPlace > 0.5f )
+		{
+			//If the player is past their slots, stop here
+			if ( TowerSlots.Length <= GetSelectedSlot() - 1 )
+				return;
+
+			//If the player has a selected tower, destroy preview, delete and nullify
+			if ( SelectedTower != null && IsServer )
+			{
+				DestroyPreview();
+				SelectedTower.Delete();
+				SelectedTower = null;
+			}
+
+			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[GetSelectedSlot() - 1] );
+			SelectedTower.Owner = this;
+			SelectedTower.RenderColor = new Color( 255, 255, 255, 0 );
+			SelectedTower.Spawn();
+
+			CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
+
+			timeLastTowerPlace = 0;
+		}
+
+		if ( SelectedTower != null )
+		{
+			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+			.Ignore( this )
+			.Ignore( SelectedTower )
+			.Size( 0.1f )
+			.Run();
+
+			if ( SelectedTower != null )
+				SimulatePlacement( tr );
+
+			else if ( IsServer )
+			{
+				SelectedTower?.Delete();
+				SelectedTower = null;
+			}
+
+			if ( !CanPlace( tr ) )
+				return;
+
+			if ( Input.Pressed( InputButton.PrimaryAttack ) )
+			{
+				if ( SelectedTower == null )
+					return;
+
+				if ( GetCash() < SelectedTower.TowerCost )
+					return;
+
+				TakeCash( SelectedTower.TowerCost );
+
+				var placedTower = TypeLibrary.Create<BaseTower>( SelectedTower.GetType().FullName ); ;
+
+				placedTower.Position = SelectedTower.Position;
+				placedTower.Rotation = SelectedTower.Rotation;
+				placedTower.IsPreviewing = false;
+				placedTower.Owner = this;
+
+				placedTower.Spawn();
+
+				DestroyPreview( To.Single( this ) );
+
+				if ( IsServer )
+				{
+					SelectedTower.Delete();
+					SelectedTower = null;
+				}
+			}
+		}
 	}
 }

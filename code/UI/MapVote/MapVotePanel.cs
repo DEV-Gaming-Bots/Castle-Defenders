@@ -10,7 +10,7 @@ class MapVotePanel : Panel
 {
 	public string TitleText { get; set; } = "Map Vote";
 	public string SubtitleText { get; set; } = "Choose your next map";
-	public string TimeText { get; set; } = "00:33";
+	public string TimeText { get; set; } = "00:23";
 
 	public Panel Body { get; set; }
 

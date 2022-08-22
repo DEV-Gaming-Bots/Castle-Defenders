@@ -128,7 +128,7 @@ public partial class BaseNPC : AnimatedEntity
 		}
 
 
-		if ( Steer.Target.Distance( Position ) <= 20.0f )
+		if ( Steer.Target.Distance( Position ) <= 25.0f )
 		{
 			if( All.OfType<NPCPath>().ToArray()[PathTarget].SplitPathOrder.IsValid())
 			{

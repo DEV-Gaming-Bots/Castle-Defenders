@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Sandbox;
 
 //THIS SHOULD ONLY BE USED TO CREATE NEW TOWERS
@@ -17,13 +18,25 @@ public partial class Template : BaseTower
 		"LEVEL 4 TEMPLATE DESCRIPTION",
 		"LEVEL 5 TEMPLATE DESCRIPTION"
 	};
+	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
+	{
 
+	};
+
+	public override int[] TowerLevelCosts => new int[]
+	{
+		1,
+		2,
+		3,
+		4,
+		-1,
+	};
 	public override int TowerMaxLevel => 5;
 	public override int TowerCost => 1;
 	public override float DeploymentTime => 0.5f;
-	public override float AttackTime => 1.0f;
-	public override float AttackDamage => 5.0f;
-	public override int RangeDistance => 45;
+	public override float AttackTime { get; set; } = 1.0f;
+	public override float AttackDamage { get; set; } = 1.0f;
+	public override int RangeDistance { get; set; } = 1;
 	public override string AttackSound => "";
 
 	[ClientRpc]

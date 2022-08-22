@@ -4,10 +4,16 @@ Layer0
 {
 	shader "simple.vfx"
 
+	//---- PBR ----
+	F_METALNESS_TEXTURE 1
+
+	//---- Ambient Occlusion ----
+	TextureAmbientOcclusion "[1.000000 1.000000 1.000000 0.000000]"
+
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "materials/raw/trickster.jpg"
+	TextureColor "materials/raw/Trickstertower/trickstertower_base_color.png"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -20,13 +26,13 @@ Layer0
 	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Metalness ----
-	g_flMetalness "0.000"
+	TextureMetalness "materials/raw/Trickstertower/trickstertower_metallic.png"
 
 	//---- Normal ----
-	TextureNormal "materials/default/default_normal.tga"
+	TextureNormal "materials/raw/Trickstertower/trickstertower_normal.png"
 
 	//---- Roughness ----
-	TextureRoughness "[1.000000 1.000000 1.000000 0.000000]"
+	TextureRoughness "materials/raw/Trickstertower/trickstertower_roughness.png"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"

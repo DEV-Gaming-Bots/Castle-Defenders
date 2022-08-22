@@ -42,7 +42,7 @@ public partial class CDPawn : IPlayerData
 
 	public void SetUpPlayer()
 	{
-		Cash = 50;
+		Cash = 60;
 		SelectedTower?.Delete();
 		SelectedTower = null;
 	}

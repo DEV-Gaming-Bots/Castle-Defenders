@@ -15,7 +15,7 @@ partial class MapVoteEntity : Entity
 	public string WinningMap { get; set; } = "";
 
 	[Net]
-	public RealTimeUntil VoteTimeLeft { get; set; } = 30;
+	public RealTimeUntil VoteTimeLeft { get; set; } = 20;
 
 	public override void Spawn()
 	{
