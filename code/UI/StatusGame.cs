@@ -67,7 +67,7 @@ public class StatusGame : Panel
 				break;
 		}
 
-		gameInfo.RoundCounter.SetText( $"Wave {CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}" );
+		gameInfo.RoundCounter.SetText( $"{CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}" );
 		//gameInfo.TextTimer = Math.Round(TimerElapsed).ToString();
 	}
 }
