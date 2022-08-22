@@ -16,6 +16,7 @@ namespace CastleDefenders.UI.Components
 
 			public Panel WaveTimerPanel;
 			public Label WaveTimer;
+			public Label WaveTimerSmall;
 
 			public Panel ExtraTextPanel;
 			public Label ExtraText;
@@ -26,9 +27,10 @@ namespace CastleDefenders.UI.Components
 			{
 				GameInfo = Add.Panel( "GameInfo" );
 				WaveTimerPanel = GameInfo.Add.Panel("timer");
-				WaveTimer = WaveTimerPanel.Add.Label( "-", "");
+				WaveTimer = WaveTimerPanel.Add.Label( "-", "text");
 				txtRoundPanel = GameInfo.Add.Panel( "rounds hide" );
-				RoundCounter = txtRoundPanel.Add.Label( "-", "" );
+				WaveTimerSmall = txtRoundPanel.Add.Label( "Wave", "waveText" );
+				RoundCounter = txtRoundPanel.Add.Label( "-", "text" );
 
 				ExtraTextPanel = Add.Panel( "extraText" );
 				ExtraText = ExtraTextPanel.Add.Label( "-" );
@@ -52,13 +54,42 @@ namespace CastleDefenders.UI.Components
 
 		}
 
-		public class GameTeamSelect : Panel
+
+	}
+	public class UserSelectUI
+	{
+		public class GameTeamSelectPanel : Panel
 		{
 			private Panel root;
 
-			public GameTeamSelect()
+			public GameTeamSelectPanel()
 			{
 				root = Add.Panel( "" );
+			}
+		}
+
+		public class LoadoutSelectPanel : Panel
+		{
+			private Panel root;
+			private Label title;
+			public Panel loadouts;
+
+			public LoadoutSelectPanel()
+			{
+				root = Add.Panel( "root" );
+				title = root.Add.Label( "TOWER LOADOUTS", "title" );
+				loadouts = root.Add.Panel( "loadouts" );
+				for ( int i = 0; i < 3; i++ )
+				{
+					Panel loadout = Add.Panel( "loadout" );
+					loadout.Add.Label( "NAME HERE LMAO" );
+					loadouts.AddChild( loadout );
+				}
+			}
+
+			public void AddLoutout( Action OnClick )
+			{
+
 			}
 		}
 	}

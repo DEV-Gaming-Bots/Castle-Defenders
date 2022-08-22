@@ -69,5 +69,10 @@ public class StatusGame : Panel
 
 		gameInfo.RoundCounter.SetText( $"{CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}" );
 		//gameInfo.TextTimer = Math.Round(TimerElapsed).ToString();
+
+		// WaveTimerSmall
+		// You can show how much health the castle has when one of the terry's damages like
+		// gameInfo.WaveTimerSmall.SetText("Health");
+		// gameInfo.RoundCounter.SetText( $"{CDGame.Instance.CastleHealth}" );
 	}
 }
