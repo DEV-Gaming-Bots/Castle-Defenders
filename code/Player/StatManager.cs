@@ -19,7 +19,7 @@ public partial class CDPawn : IPlayerData
 		Level = 1;
 		EXP = 0;
 		OldEXP = 0;
-		ReqEXP = 1000;
+		ReqEXP = 250;
 
 		TowerSlots = new string[]
 		{

@@ -228,7 +228,7 @@ public partial class CDGame
 		}
 
 		string music = "";
-		musicIndex = Rand.Int( 1, 1 );
+		musicIndex = Rand.Int( 1, 2 );
 
 		if ( isBossWave )
 			music = "boss_music_" + musicIndex;

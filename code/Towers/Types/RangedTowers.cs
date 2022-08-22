@@ -83,6 +83,16 @@ public partial class Sniper : BaseTower
 	bool lockedOnTarget;
 	Particles laserSight;
 
+	public override void Spawn()
+	{
+		base.Spawn();
+	}
+
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
+	}
+
 	[ClientRpc]
 	public override void FireEffects()
 	{
