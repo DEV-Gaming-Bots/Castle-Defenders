@@ -106,7 +106,6 @@ public partial class BaseTower : AnimatedEntity
 		SetAnimParameter( "b_deploy", true );
 	}
 
-	[ClientRpc]
 	public void PlayUpgradeAnimation()
 	{
 		SetAnimParameter( "b_upgrade", true );
@@ -143,10 +142,11 @@ public partial class BaseTower : AnimatedEntity
 	}
 	public virtual void UpgradeTower()
 	{
+		PlayUpgradeAnimation();
+
 		if(IsServer)
 		{
-			PlayUpgradeAnimation();
-			if ( Upgrades.Count <= TowerMaxLevel - 1)
+			if ( Upgrades.Count <= TowerLevel - 1)
 			{
 				Log.Error( "Theres currently no upgrades for the next level" );
 				return;
@@ -171,8 +171,6 @@ public partial class BaseTower : AnimatedEntity
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();
-
-		SetMaterialOverride( Material.Load( "materials/towers/radioemitter.vmat" ), "snipertower" );
 	}
 
 	//Scans for enemies

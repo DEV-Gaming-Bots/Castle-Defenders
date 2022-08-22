@@ -177,24 +177,23 @@ public partial class CDGame
 		Instance.SaveData( player );
 	}
 
-	[ConCmd.Admin( "cd_force_savealldata" )]
+	[ConCmd.Admin( "cd_force_saveall" )]
 	public static void SaveAllData()
 	{
 		if ( !Instance.Debug )
 			return;
 
-		All.OfType<CDPawn>().ToList().ForEach( x => Instance.SaveData( x ) );
+		foreach ( var cl in Client.All )
+		{
+			if ( cl.Pawn is CDPawn player )
+				Instance.SaveData( player );
+		}
 	}
 
 	[ConCmd.Admin( "cd_force_loaddata" )]
 	public static void LoadDataCMD()
 	{
-		var player = ConsoleSystem.Caller.Pawn as CDPawn;
-
-		if ( player == null )
-			return;
-
-		Instance.LoadSave( player );
+		Instance.LoadSave( ConsoleSystem.Caller );
 	}
 
 	[ConCmd.Server( "cd_tower_select" )]

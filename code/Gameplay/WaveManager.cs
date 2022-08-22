@@ -127,7 +127,7 @@ public partial class CDGame
 
 	public void StartMapVote()
 	{
-		TimeRemaining = 32.0f;
+		TimeRemaining = 22.0f;
 
 		GameStatus = GameEnum.MapChange;
 		WaveStatus = WaveEnum.MapChange;
@@ -155,10 +155,13 @@ public partial class CDGame
 	{
 		foreach ( var wave in All.OfType<WaveSetup>().ToList() )
 		{
-			if ( All.OfType<BaseNPC>().Count() > 0 )
-				return false;
-
 			if ( wave.CheckSpawnerCondition() == true )
+				return false;
+		}
+
+		foreach ( var npc in All.OfType<BaseNPC>().ToList())
+		{
+			if ( npc.IsValid() )
 				return false;
 		}
 
@@ -169,7 +172,7 @@ public partial class CDGame
 	{
 		Map.Reset(DefaultCleanupFilter);
 
-		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( "" ) );
+		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic(To.Single(x), "" ) );
 
 		allowRestart = false;
 
@@ -201,11 +204,11 @@ public partial class CDGame
 		{
 			if( winCondition == WinningEnum.Win )
 			{
-				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( "music_win" ) );
+				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_win" ) );
 			}
 			else if (winCondition == WinningEnum.Lost )
 			{
-				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( "music_lost" ) );
+				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 				allowRestart = true;
 			}
 
@@ -235,7 +238,7 @@ public partial class CDGame
 		else
 			music = "wave_music_" + musicIndex;
 
-		All.OfType<CDPawn>().ToList().ForEach( x => x.PlayMusic( music ) );
+		All.OfType<CDPawn>().ToList().ForEach( x => x.PlayMusic( To.Single( x ), music ) );
 	}
 
 	public void StartPreWave()

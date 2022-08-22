@@ -61,8 +61,10 @@ public partial class CDGame : Game
 		pawn.Spawn();
 		client.Pawn = pawn;
 
-		if ( !LoadSave( pawn ) )
+		if ( !HasSavefile( client ) )
 			pawn.NewPlayerStats();
+		else
+			LoadSave( client );
 
 		if ( GameStatus == GameEnum.Idle && !RefusePlay )
 			StartGame();
@@ -80,8 +82,13 @@ public partial class CDGame : Game
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
 	{
-		if(cl.Pawn is CDPawn ply)
+		if ( cl.Pawn is CDPawn ply )
+		{
 			SaveData( ply );
+
+			foreach ( var tower in All.OfType<BaseTower>().ToList().Where(x => x.Owner == ply))
+				tower.Delete();
+		}
 
 		base.ClientDisconnect( cl, reason );
 	}

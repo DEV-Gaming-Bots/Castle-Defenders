@@ -89,7 +89,7 @@ public partial class BaseNPC : AnimatedEntity
 
 		SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
 		EnableTraceAndQueries = true;
-		EnableHitboxes = true;
+		EnableHitboxes = false;
 
 		var spawnerpoint = All.OfType<NPCSpawner>().ToList();
 		var blueSide = spawnerpoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue );

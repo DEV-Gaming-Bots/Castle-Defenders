@@ -117,7 +117,7 @@
 						hidden = false
 						anim_markup_ordered = false
 						disable_compression = false
-						source_filename = "models/raw/lightningtower/lightningtowerdeploy.fbx"
+						source_filename = "models/raw/lightningtower/lightningtoweranims.fbx"
 						start_frame = -1
 						end_frame = -1
 						framerate = -1.0
@@ -139,6 +139,84 @@
 						anim_markup_ordered = false
 						disable_compression = false
 						src_anim_name = "deploy"
+						frame_type = "LastFrame"
+						frame = 0
+					},
+					{
+						_class = "AnimFile"
+						name = "upg_1"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/raw/lightningtower/lightningtoweranims.fbx"
+						start_frame = 0
+						end_frame = 30
+						framerate = -1.0
+						take = 4
+						reverse = false
+					},
+					{
+						_class = "AnimFile"
+						name = "upg_2"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/raw/lightningtower/lightningtoweranims.fbx"
+						start_frame = 0
+						end_frame = 40
+						framerate = -1.0
+						take = 5
+						reverse = false
+					},
+					{
+						_class = "AnimFrame"
+						name = "upg1_idle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						src_anim_name = "upg_1"
+						frame_type = "LastFrame"
+						frame = 0
+					},
+					{
+						_class = "AnimFrame"
+						name = "upg2_idle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						src_anim_name = "upg_2"
 						frame_type = "LastFrame"
 						frame = 0
 					},

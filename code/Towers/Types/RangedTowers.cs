@@ -17,6 +17,7 @@ public partial class Pistol : BaseTower
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new string[]
 	{
+		"",
 		"A pistol with an increased range, damage and fire-rate",
 		"A pistol with improved range, damage and fire-rate than previously",
 		"An enhanced pistol with even better range, damage and fire-rate",
@@ -63,21 +64,41 @@ public partial class Sniper : BaseTower
 	public override string TowerModel => "models/towers/snipertower.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
-	public override string[] TowerLevelDesc => new string[]
+	public override int[] TowerLevelCosts => new int[]
 	{
-		"LEVEL 1 TEMPLATE DESCRIPTION",
-		"LEVEL 2 TEMPLATE DESCRIPTION",
-		"LEVEL 3 TEMPLATE DESCRIPTION",
-		"LEVEL 4 TEMPLATE DESCRIPTION",
-		"LEVEL 5 TEMPLATE DESCRIPTION"
+		150,
+		225,
+		300,
+		475,
+		750,
+		-1
 	};
 
-	public override int TowerMaxLevel => 5;
+	public override string[] TowerLevelDesc => new string[]
+	{
+		"",
+		"Upgraded sniper tower with better sniper power",
+		"Enhanced sniper tower with better sniping power",
+		"Heavily modified sniper tower with more powerful sniping",
+		"This tower can snipe incredibly fast and large distances",
+		"This tower is dangerously lethal even from a far distance"
+	};
+	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
+	{
+		new(-0.25f, 5.0f, 25),
+		new(-0.25f, 7.5f, 25),
+		new(-0.35f, 10.0f, 25),
+		new(-0.40f, 15.0f, 50),
+		new(-0.50f, 15.0f, 50),
+		new(-0.50f, 15.0f, 100)
+	};
+
+	public override int TowerMaxLevel => 6;
 	public override int TowerCost => 100;
 	public override float DeploymentTime => 3.75f;
-	public override float AttackTime => 3.5f;
-	public override float AttackDamage => 25.0f;
-	public override int RangeDistance => 250;
+	public override float AttackTime { get; set; } = 3.5f;
+	public override float AttackDamage { get; set; } = 25.0f;
+	public override int RangeDistance { get; set; } = 250;
 	public override string AttackSound => "sniper_fire";
 
 	bool lockedOnTarget;

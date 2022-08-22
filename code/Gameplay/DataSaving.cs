@@ -13,6 +13,14 @@ public interface IPlayerData
 	string[] TowerSlots { get; set; }
 }
 
+public class PlayerData : IPlayerData
+{
+	public int EXP { get; set; }
+	public int ReqEXP { get; set; }
+	public int Level { get; set; }
+	public string[] TowerSlots { get; set; }
+}
+
 public partial class CDGame
 {
 	public void SaveData( CDPawn player )
@@ -27,17 +35,19 @@ public partial class CDGame
 		Log.Info( player.Client.Name + "'s data has been saved" );
 	}
 
-	public bool LoadSave( CDPawn player )
+	public bool HasSavefile(Client cl)
 	{
-		if ( player.Client.IsBot )
-			return false;
+		return FileSystem.Data.ReadJson<PlayerData>( cl.PlayerId + ".json" ) != null;
+	}
 
-		IPlayerData loadData = FileSystem.Data.ReadJson<CDPawn>( player.Client.PlayerId + ".json" );
+	public bool LoadSave( Client cl )
+	{
+		IPlayerData loadData = FileSystem.Data.ReadJson<PlayerData>( cl.PlayerId + ".json");
 
 		if ( loadData is null )
 			return false;
 
-		player.LoadStats( loadData );
+		(cl.Pawn as CDPawn).LoadStats( loadData );
 
 		return true;
 	}

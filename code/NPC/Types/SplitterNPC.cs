@@ -31,12 +31,12 @@ public partial class Husk : BaseNPC
 		splitted.MinionName = NPCName + " Minion"; 
 
 		splitted.RenderColor = RenderColor;
-		splitted.PathTarget = PathTarget;
+		splitted.Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].Position;
 
 		splitted.Scale = NPCScale / 2;
 		splitted.Health = Health / 2;
 
-		splitted.Position = Position + Vector3.Random.x * 35 + Vector3.Random.y * 35;
+		splitted.Position = Position + (Vector3.Random.x * 15) + (Vector3.Random.y * 15);
 		splitted.Rotation = Rotation;
 
 		splitted.BaseSpeed = BaseSpeed * 1.5f;
@@ -52,13 +52,7 @@ public partial class Husk : BaseNPC
 
 		base.OnKilled();
 
-		Log.Info( SplitAmount );
-
 		for ( int i = 0; i < SplitAmount; i++ )
-		{
 			SpawnSplit();
-		}
-		
-		
 	}
 }

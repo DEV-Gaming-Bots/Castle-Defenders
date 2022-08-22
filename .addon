@@ -29,8 +29,8 @@
         "ladder": "Ignore",
         "water": "Trigger",
         "tower": "Collide",
-        "player": "Collide",
-        "npc": "Ignore"
+        "cdplayer": "Collide",
+        "npc": "Collide"
       },
       "Pairs": [
         {
@@ -69,17 +69,12 @@
           "r": "Ignore"
         },
         {
-          "a": "player",
-          "b": "player",
+          "a": "cdplayer",
+          "b": "cdplayer",
           "r": "Ignore"
         },
         {
-          "a": "tower",
-          "b": "player",
-          "r": "Ignore"
-        },
-        {
-          "a": "player",
+          "a": "cdplayer",
           "b": "npc",
           "r": "Ignore"
         },
@@ -91,6 +86,15 @@
         {
           "a": "tower",
           "b": "npc",
+          "r": "Ignore"
+        },
+        {
+          "a": "solid",
+          "b": "npc"
+        },
+        {
+          "a": "tower",
+          "b": "cdplayer",
           "r": "Ignore"
         }
       ]

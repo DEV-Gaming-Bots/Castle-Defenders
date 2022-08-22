@@ -23,7 +23,7 @@
 					m_networkMode = "ServerAuthoritative"
 					m_sNote = ""
 					m_tagSpans = [  ]
-					m_sequenceName = "trickster_upg_2"
+					m_sequenceName = "upg_2"
 					m_playbackSpeed = 1.0
 					m_bLoop = false
 				}
@@ -58,7 +58,7 @@
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 48.0, -48.0 ]
+					m_vecPosition = [ 48.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 316255960
@@ -573,7 +573,7 @@
 					m_networkMode = "ServerAuthoritative"
 					m_sNote = ""
 					m_tagSpans = [  ]
-					m_sequenceName = "trickster_upg_1"
+					m_sequenceName = "upg_1"
 					m_playbackSpeed = 1.0
 					m_bLoop = false
 				}
@@ -678,7 +678,7 @@
 	}
 	m_previewModels = 
 	[
-		"models/towers/trickstertower.vmdl",
+		"models/towers/lightningtower.vmdl",
 	]
 	m_boneMergeModels = [  ]
 }

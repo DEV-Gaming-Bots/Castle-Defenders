@@ -83,7 +83,11 @@ public partial class CDPawn : Player
 
 	public override void Spawn()
 	{
-		base.Spawn();
+		EnableLagCompensation = true;
+
+		CreateHull();
+		Tags.Add( "cdplayer" );
+
 		SpawnAtLocation();
 
 		SetModel( "models/citizen/citizen.vmdl_c" );
@@ -157,7 +161,6 @@ public partial class CDPawn : Player
 	{
 		if ( !IsServer )
 			return;
-
 
 		//0 = empty handed
 		if ( GetSelectedSlot() == 0 )
