@@ -1,44 +1,37 @@
 ﻿status {
     position: absolute;
-    bottom: 50px;
+    bottom: 25px;
     width: 100%;
-
     flex-direction: row;
 
-    .cashPnl {
+    .cashPnl, .expPnl {
         height: 62px;
         padding: 0px 32px;
         align-items: center;
         justify-content: center;
         min-width: 5%;
-        background-color: #49C9EA;
 
         .text {
             font-family: Poppins;
             font-size: 32px;
             font-weight: bold;
-            font-style: italic;
-            color: black;
+            color: white;
+            outline: 2px solid red;
+            text-emphasis-style: 2px solid red;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
         }
+    }
+
+    .cashPnl {
+        justify-content: center;
+        min-width: 5%;
     }
 
 
     .expPnl {
         position: absolute;
-        height: 62px;
-        padding: 0px 32px;
-        align-items: center;
         justify-content: center;
         min-width: 5%;
-        background-color: #49C9EA;
         right: 0px;
-
-        .text {
-            font-family: Poppins;
-            font-size: 32px;
-            font-weight: bold;
-            font-style: italic;
-            color: black;
-        }
     }
 }

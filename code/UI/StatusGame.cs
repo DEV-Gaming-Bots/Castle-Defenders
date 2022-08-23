@@ -57,6 +57,8 @@ public class StatusGame : Panel
 			case CDGame.WaveEnum.Active:
 				gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
 				gameInfo.ExtraText.SetText( $"Active Wave" );
+				gameInfo.txtRoundPanel.SetClass( "hide", false );
+				gameInfo.SetClass( "activeGame", true );
 				//gameInfo.ExtraText.SetText( $"Active Wave | Wave {CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}" );
 				//gameInfo.SetClass( "activeGame", false );
 				break;

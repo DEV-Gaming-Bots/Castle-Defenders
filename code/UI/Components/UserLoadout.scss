@@ -1,0 +1,42 @@
+LoadoutSelectPanel {
+    pointer-events: all;
+    width: 100%;
+    background-color: rgba(0,0,0,0.6);
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+        text-align: center;
+        font-family: Poppins;
+        font-style: italic;
+        font-weight: bold;
+        width: 100%;
+        font-size: 48%;
+        color: white;
+        padding: 3% 0px;
+    }
+
+    .loadouts {
+        width: 100%;
+        justify-items: center;
+        justify-content: space-around;
+
+        .loadout {
+            width: 40%;
+            background-color: #002897;
+            color: white;
+            padding: 24px 64px;
+            border: 3px solid #002897;
+            justify-content: center;
+
+            &:hover {
+                border: 3px solid #003DE8;
+            }
+        }
+    }
+
+    .root {
+        flex-direction: column;
+        width: 100%;
+    }
+}

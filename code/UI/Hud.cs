@@ -29,6 +29,7 @@ public partial class CDHUD : RootPanel
 		AddChild<StatusGame>();
 		AddChild<TowerMenu>();
 		AddChild<PlayerStatus>();
+		AddChild<PlayerLoadout>();
 
 		CurrentHud = this;
 	}
