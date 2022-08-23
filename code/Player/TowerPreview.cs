@@ -128,11 +128,11 @@ public partial class CDPawn
 		//while checking if the time last placed is greater
 		if ( GetSelectedSlot() > 0 && timeLastTowerPlace > 0.5f )
 		{
-			SetSlotClient( To.Single(this), GetSelectedSlot() - 1 );
-
 			//If the player is past their slots, stop here
 			if ( TowerSlots.Length <= GetSelectedSlot() - 1)
 				return;
+
+			SetSlotClient( To.Single(this), GetSelectedSlot() - 1 );
 
 			//If the player has a super tower selected, nullify that tower
 			if ( CurSuperTower != null )
