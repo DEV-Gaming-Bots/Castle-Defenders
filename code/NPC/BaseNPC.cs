@@ -35,8 +35,7 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual float ArmourStrength => 0;
 	public virtual int SplitAmount => 0;
 
-	[ConVar.Replicated]
-	public static bool td2_npc_drawoverlay { get; set; }
+	public bool ArmourBroken;
 
 	public int CashReward;
 	public int ExpReward;
@@ -83,6 +82,7 @@ public partial class BaseNPC : AnimatedEntity
 		Health = BaseHealth * GetDifficulty();
 
 		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] ) * GetDifficulty() / 2;
+		CashReward = CashReward.Clamp( 1, 9999 );
 		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * GetDifficulty();
 
 		Tags.Add( "npc" );
@@ -110,6 +110,14 @@ public partial class BaseNPC : AnimatedEntity
 	{
 		EnableDrawing = false;
 		Delete();
+	}
+
+	public virtual void OnArmourBroken()
+	{
+		if ( ArmourBroken )
+			return;
+
+		ArmourBroken = true;
 	}
 
 	public void FollowPath()
@@ -160,7 +168,7 @@ public partial class BaseNPC : AnimatedEntity
 
 	//Server ticking for NPC Navigation
 	[Event.Tick.Server]
-	public void Tick()
+	public virtual void Tick()
 	{
 		InputVelocity = 0;		
 

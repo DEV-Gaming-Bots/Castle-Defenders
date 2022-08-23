@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sandbox;
+using static PlayerLoadout;
 
 public partial class CDPawn : IPlayerData
 {
@@ -12,7 +13,27 @@ public partial class CDPawn : IPlayerData
 	[Net] public int EXP { get; set; }
 	[Net] public int ReqEXP { get; set; }
 	[Net] public int Level { get; set; }
-	public string[] TowerSlots { get; set; }
+
+	[Net, Local] public string[] TowerSlots { get; set; }
+
+	[ConCmd.Server("cd_get_towerslots")]
+	public static void GetSlots()
+	{
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+		int slotNum = 1;
+
+		foreach ( var item in player.TowerSlots )
+		{
+			player.TestNetwork( To.Single( player ), item, slotNum );
+			slotNum++;
+		}
+	}
+
+	[ClientRpc]
+	public void TestNetwork(string item, int slot)
+	{
+		AddSlot( new Slot( item, slot ) );
+	}
 
 	public void NewPlayerStats()
 	{
@@ -27,7 +48,7 @@ public partial class CDPawn : IPlayerData
 			"Sniper",
 			"RadioactiveEmitter",
 			"Lightning",
-			"TimeDisplacer"
+			"TimeDisplacer" 
 		};
 
 		CDGame.Instance.SaveData( this );
@@ -39,6 +60,14 @@ public partial class CDPawn : IPlayerData
 		EXP = playerData.EXP;
 		ReqEXP = playerData.ReqEXP;
 		TowerSlots = playerData.TowerSlots;
+	}
+
+	[Net]
+	public string GetSlotNet { get; private set; }
+
+	public string GetSlotIndex(int index)
+	{
+		return "Pistol";
 	}
 
 	public void SetUpPlayer()

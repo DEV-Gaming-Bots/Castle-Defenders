@@ -96,6 +96,8 @@ public partial class CDPawn
 		//0 = empty handed
 		if ( GetSelectedSlot() == 0 )
 		{
+			SetSlotClient( To.Single( this ), GetSelectedSlot() - 1 );
+
 			if ( SelectedTower != null )
 			{
 				DestroyPreview();
@@ -110,7 +112,7 @@ public partial class CDPawn
 		if( CurSuperTower != null )
 		{
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
-			.WithoutTags( "cdplayer" )
+			.WithoutTags( "cdplayer", "npc" )
 			.Run();
 
 			ShowSuperRadius( To.Single(this), CurSuperTower, tr.EndPosition );
@@ -126,8 +128,10 @@ public partial class CDPawn
 		//while checking if the time last placed is greater
 		if ( GetSelectedSlot() > 0 && timeLastTowerPlace > 0.5f )
 		{
+			SetSlotClient( To.Single(this), GetSelectedSlot() - 1 );
+
 			//If the player is past their slots, stop here
-			if ( TowerSlots.Length <= GetSelectedSlot() - 1 )
+			if ( TowerSlots.Length <= GetSelectedSlot() - 1)
 				return;
 
 			//If the player has a super tower selected, nullify that tower
@@ -200,6 +204,13 @@ public partial class CDPawn
 			}
 		}
 	}
+
+	[ClientRpc]
+	public void SetSlotClient(int i)
+	{
+		PlayerLoadout.SetSlot( i );
+	}
+
 	public void DoTowerOverview()
 	{
 		//We have a selected tower in preview, stop here

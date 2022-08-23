@@ -18,7 +18,7 @@ public class PlayerData : IPlayerData
 	public int EXP { get; set; }
 	public int ReqEXP { get; set; }
 	public int Level { get; set; }
-	public string[] TowerSlots { get; set; }
+	[Net] public string[] TowerSlots { get; set; }
 }
 
 public partial class CDGame

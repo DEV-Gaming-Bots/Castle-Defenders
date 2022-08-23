@@ -27,9 +27,17 @@ public partial class Riot : BaseNPC
 		base.Spawn();
 		RenderColor = new Color( 170, 170, 170 );
 		armour = ArmourStrength;
+		ArmourBroken = false;
 
 		var vest = new ModelEntity( "models/citizen_clothes/vest/tactical_vest/models/tactical_vest.vmdl" );
 		vest.SetParent( this, true );
+	}
+
+	public override void OnArmourBroken()
+	{
+		base.OnArmourBroken();
+
+		BaseSpeed += 5.0f;
 	}
 
 	public override void TakeDamage( DamageInfo info )
@@ -38,6 +46,8 @@ public partial class Riot : BaseNPC
 
 		if ( armour > 0 )
 			return;
+
+		OnArmourBroken();
 
 		base.TakeDamage( info );
 	}
@@ -63,6 +73,7 @@ public partial class Knight : BaseNPC
 		base.Spawn();
 		//RenderColor = new Color( 170, 170, 170 );
 		armour = ArmourStrength;
+		ArmourBroken = false;
 
 		var helmet = new ModelEntity( "models/citizen_clothes/hat/bucket_helmet/models/bucket_helmet.vmdl" );
 		helmet.SetParent( this, true );
@@ -77,12 +88,21 @@ public partial class Knight : BaseNPC
 		trousers.SetParent( this, true );
 	}
 
+	public override void OnArmourBroken()
+	{
+		base.OnArmourBroken();
+
+		BaseSpeed += 2.5f;
+	}
+
 	public override void TakeDamage( DamageInfo info )
 	{
 		armour -= info.Damage;
 
 		if ( armour > 0 )
 			return;
+
+		OnArmourBroken();
 
 		base.TakeDamage( info );
 	}

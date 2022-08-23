@@ -3,49 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
 public class PlayerLoadout : Panel
 {
-	public Panel Slots;
+	public static Panel Slots;
+
+	static int lastSlot = -1;
 
 	public PlayerLoadout()
 	{
 		StyleSheet.Load( "UI/PlayerLoadout.scss" );
 		Slots = Add.Panel( "Slots" );
-		//for( int i = 0; i < 7; i++ )
-		//{
-		//	Panel Slot = Add.Panel($"slot");
-		//	Slot.Add.Label( $" { i+1 } ", "slot-num" );
-		//	//if (i == 4)
-		//	//{
-		//	//	Slot.AddClass( "selected" );
-		//	//}
-		//	Slots.AddChild( Slot );
-		//}
-		Slots.AddChild( new Slot( 1 ));
-		Slots.AddChild( new Slot( 2 ));
-		Slots.AddChild( new Slot( 3 ));
+
+		ConsoleSystem.Run( "cd_get_towerslots" );
+	}
+
+	public static void AddSlot( Slot s )
+	{
+		Slots.AddChild( s );
 	}
 
 	public partial class Slot : Panel
 	{
-		public Slot(int slotNum )
+		public Slot( string slotName, int slotNum )
 		{
 			Panel Slot = Add.Panel( $"slot" );
+			Slot.SetClass( slotName, true );
 			Slot.Add.Label( $" {slotNum} ", "slot-num" );
-			//if (i == 4)
-			//{
-			//	Slot.AddClass( "selected" );
-			//}
 		}
 	}
-	/// <summary>
-	/// Adds slots to the ui
-	/// </summary>
-	public void AddSlot( Slot s )
+
+	public static void SetSlot( int slotNum )
 	{
-		Slots.AddChild( s );
+		if ( lastSlot != -1 )
+			Slots.GetChild( lastSlot ).GetChild( 0 ).SetClass( "selected", false );
+
+		Log.Info( slotNum );
+
+		if( slotNum > -1 )
+			Slots.GetChild( slotNum ).GetChild( 0 ).SetClass( "selected", true );
+
+		lastSlot = slotNum;
 	}
 }
