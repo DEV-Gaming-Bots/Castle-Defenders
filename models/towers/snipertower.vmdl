@@ -43,55 +43,127 @@
 				children = 
 				[
 					{
-						_class = "RenderMeshFile"
-						name = "lod_0"
-						filename = "models/raw/snipertower/snipertower.fbx"
-						import_translation = [ 0.0, 0.0, 0.0 ]
-						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 1.0
-						align_origin_x_type = "None"
-						align_origin_y_type = "None"
-						align_origin_z_type = "None"
-						parent_bone = ""
-						import_filter = 
-						{
-							exclude_by_default = false
-							exception_list = [  ]
-						}
+						_class = "Folder"
+						name = "basetower"
+						children = 
+						[
+							{
+								_class = "RenderMeshFile"
+								name = "lod_0"
+								filename = "models/raw/snipertower/snipertower.fbx"
+								import_translation = [ 0.0, 0.0, 0.0 ]
+								import_rotation = [ 0.0, 0.0, 0.0 ]
+								import_scale = 1.0
+								align_origin_x_type = "None"
+								align_origin_y_type = "None"
+								align_origin_z_type = "None"
+								parent_bone = ""
+								import_filter = 
+								{
+									exclude_by_default = false
+									exception_list = [  ]
+								}
+							},
+							{
+								_class = "RenderMeshFile"
+								name = "lod_1"
+								filename = "models/raw/snipertower/snipertower_lod1.fbx"
+								import_translation = [ 0.0, 0.0, 0.0 ]
+								import_rotation = [ 0.0, 0.0, 0.0 ]
+								import_scale = 1.0
+								align_origin_x_type = "None"
+								align_origin_y_type = "None"
+								align_origin_z_type = "None"
+								parent_bone = ""
+								import_filter = 
+								{
+									exclude_by_default = false
+									exception_list = [  ]
+								}
+							},
+							{
+								_class = "RenderMeshFile"
+								name = "lod_2"
+								filename = "models/raw/snipertower/snipertower_lod2.fbx"
+								import_translation = [ 0.0, 0.0, 0.0 ]
+								import_rotation = [ 0.0, 0.0, 0.0 ]
+								import_scale = 1.0
+								align_origin_x_type = "None"
+								align_origin_y_type = "None"
+								align_origin_z_type = "None"
+								parent_bone = ""
+								import_filter = 
+								{
+									exclude_by_default = false
+									exception_list = [  ]
+								}
+							},
+						]
 					},
 					{
-						_class = "RenderMeshFile"
-						name = "lod_1"
-						filename = "models/raw/snipertower/snipertower_lod1.fbx"
-						import_translation = [ 0.0, 0.0, 0.0 ]
-						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 1.0
-						align_origin_x_type = "None"
-						align_origin_y_type = "None"
-						align_origin_z_type = "None"
-						parent_bone = ""
-						import_filter = 
-						{
-							exclude_by_default = false
-							exception_list = [  ]
-						}
-					},
-					{
-						_class = "RenderMeshFile"
-						name = "lod_2"
-						filename = "models/raw/snipertower/snipertower_lod2.fbx"
-						import_translation = [ 0.0, 0.0, 0.0 ]
-						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 1.0
-						align_origin_x_type = "None"
-						align_origin_y_type = "None"
-						align_origin_z_type = "None"
-						parent_bone = ""
-						import_filter = 
-						{
-							exclude_by_default = false
-							exception_list = [  ]
-						}
+						_class = "Folder"
+						name = "bodygroups"
+						children = 
+						[
+							{
+								_class = "Folder"
+								name = "level2"
+								children = 
+								[
+									{
+										_class = "RenderMeshFile"
+										name = "wire_lod0"
+										filename = "models/raw/snipertower/snipertower_bodygroups.fbx"
+										import_translation = [ 0.0, 0.0, 0.0 ]
+										import_rotation = [ 0.0, 0.0, 0.0 ]
+										import_scale = 1.0
+										align_origin_x_type = "None"
+										align_origin_y_type = "None"
+										align_origin_z_type = "None"
+										parent_bone = ""
+										import_filter = 
+										{
+											exclude_by_default = false
+											exception_list = [  ]
+										}
+									},
+									{
+										_class = "RenderMeshFile"
+										name = "wire_lod1"
+										filename = "models/raw/snipertower/snipertower_bodygroups.fbx"
+										import_translation = [ 0.0, 0.0, 0.0 ]
+										import_rotation = [ 0.0, 0.0, 0.0 ]
+										import_scale = 1.0
+										align_origin_x_type = "None"
+										align_origin_y_type = "None"
+										align_origin_z_type = "None"
+										parent_bone = ""
+										import_filter = 
+										{
+											exclude_by_default = false
+											exception_list = [  ]
+										}
+									},
+									{
+										_class = "RenderMeshFile"
+										name = "wire_lod2"
+										filename = "models/raw/snipertower/snipertower_bodygroups.fbx"
+										import_translation = [ 0.0, 0.0, 0.0 ]
+										import_rotation = [ 0.0, 0.0, 0.0 ]
+										import_scale = 1.0
+										align_origin_x_type = "None"
+										align_origin_y_type = "None"
+										align_origin_z_type = "None"
+										parent_bone = ""
+										import_filter = 
+										{
+											exclude_by_default = false
+											exception_list = [  ]
+										}
+									},
+								]
+							},
+						]
 					},
 				]
 			},
@@ -189,6 +261,97 @@
 						frame_type = "LastFrame"
 						frame = 0
 					},
+					{
+						_class = "AnimFile"
+						name = "upg_1"
+						children = 
+						[
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_BODYGROUP_SET_VALUE"
+								event_frame = 0
+								event_keys = 
+								{
+									bodygroup = "upgrades"
+									value = 1
+								}
+							},
+						]
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/raw/snipertower/anim/snipertower_anim.fbx"
+						start_frame = 0
+						end_frame = 1
+						framerate = -1.0
+						take = 1
+						reverse = false
+					},
+					{
+						_class = "AnimFrame"
+						name = "upg1_idle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						src_anim_name = "upg_1"
+						frame_type = "LastFrame"
+						frame = 0
+					},
+					{
+						_class = "AnimFile"
+						name = "upg_2"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/raw/snipertower/anim/snipertower_anim.fbx"
+						start_frame = 0
+						end_frame = 1
+						framerate = -1.0
+						take = 1
+						reverse = false
+					},
+					{
+						_class = "AnimFrame"
+						name = "upg2_idle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						src_anim_name = "upg_2"
+						frame_type = "LastFrame"
+						frame = 0
+					},
 				]
 				default_root_bone_name = ""
 			},
@@ -202,6 +365,7 @@
 						meshes = 
 						[
 							"lod_0",
+							"wire_lod0",
 						]
 					},
 					{
@@ -210,6 +374,7 @@
 						meshes = 
 						[
 							"lod_1",
+							"wire_lod1",
 						]
 					},
 					{
@@ -218,7 +383,55 @@
 						meshes = 
 						[
 							"lod_2",
+							"wire_lod2",
 						]
+					},
+				]
+			},
+			{
+				_class = "BodyGroupList"
+				children = 
+				[
+					{
+						_class = "BodyGroup"
+						name = "base"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								name = "basetower"
+								meshes = 
+								[
+									"lod_0",
+									"lod_1",
+									"lod_2",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+					{
+						_class = "BodyGroup"
+						name = "upgrades"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								name = "level1"
+								meshes = [  ]
+							},
+							{
+								_class = "BodyGroupChoice"
+								name = "level2"
+								meshes = 
+								[
+									"wire_lod0",
+									"wire_lod1",
+									"wire_lod2",
+								]
+							},
+						]
+						hidden_in_tools = false
 					},
 				]
 			},

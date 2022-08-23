@@ -8,15 +8,21 @@ Layer0
 	F_METALNESS_TEXTURE 1
 	F_SPECULAR 1
 
+	//---- Rendering ----
+	F_RENDER_BACKFACES 1
+
+	//---- Translucent ----
+	F_ALPHA_TEST 1
+
 	//---- Ambient Occlusion ----
 	g_flAmbientOcclusionDirectDiffuse "0.000"
 	g_flAmbientOcclusionDirectSpecular "0.000"
-	TextureAmbientOcclusion "materials/raw/snipertower_ao.png"
+	TextureAmbientOcclusion "materials/raw/snipertower/snipertower_ao.png"
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "materials/raw/snipertower_color.png"
+	TextureColor "materials/raw/snipertower/snipertower_color.png"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -29,13 +35,13 @@ Layer0
 	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Metalness ----
-	TextureMetalness "materials/raw/snipertower_metal.png"
+	TextureMetalness "materials/raw/snipertower/snipertower_metal.png"
 
 	//---- Normal ----
-	TextureNormal "materials/raw/snipertower_normal.png"
+	TextureNormal "materials/raw/snipertower/snipertower_normal.png"
 
 	//---- Roughness ----
-	TextureRoughness "materials/raw/snipertower_rough.png"
+	TextureRoughness "materials/raw/snipertower/snipertower_rough.png"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"
@@ -43,4 +49,9 @@ Layer0
 	g_vTexCoordOffset "[0.000 0.000]"
 	g_vTexCoordScale "[1.000 1.000]"
 	g_vTexCoordScrollSpeed "[0.000 0.000]"
+
+	//---- Translucent ----
+	g_flAlphaTestReference "0.500"
+	g_flAntiAliasedEdgeStrength "1.000"
+	TextureTranslucency "materials/raw/snipertower/snipertower_trans.png"
 }
