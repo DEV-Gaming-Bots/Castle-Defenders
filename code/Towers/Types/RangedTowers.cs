@@ -26,26 +26,28 @@ public partial class Pistol : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.10f, 1.0f, 25),
-		new(-0.20f, 1.5f, 25),
-		new(-0.35f, 1.75f, 25),
-		new(-0.65f, 2.25f, 50)
+		new(-0.10f, 0.5f, 0),
+		new(-0.20f, 0.75f, 25),
+		new(-0.35f, 1.0f, 25),
+		new(-0.65f, 1.50f, 25),
+		new(-0.80f, 2.0f, 50)
 	};
 
-	public override int TowerMaxLevel => 4;
+	public override int TowerMaxLevel => 5;
 	public override int TowerCost => 20;
 	public override int[] TowerLevelCosts => new int[]
 	{
 		30,
-		45,
-		75,
+		50,
+		85,
+		115,
 		-1,
 	};
 
 	public override float DeploymentTime => 3.72f;
 	public override float AttackTime { get; set; } = 3.0f;
 	public override float AttackDamage { get; set; } = 5.0f;
-	public override int RangeDistance { get; set; } = 150;
+	public override int RangeDistance { get; set; } = 125;
 	public override string AttackSound => "pistol_fire";
 
 	[ClientRpc]
@@ -96,7 +98,7 @@ public partial class Sniper : BaseTower
 	public override int TowerMaxLevel => 6;
 	public override int TowerCost => 100;
 	public override float DeploymentTime => 3.75f;
-	public override float AttackTime { get; set; } = 3.5f;
+	public override float AttackTime { get; set; } = 3.75f;
 	public override float AttackDamage { get; set; } = 25.0f;
 	public override int RangeDistance { get; set; } = 250;
 	public override string AttackSound => "sniper_fire";

@@ -2,6 +2,9 @@
     position: absolute;
     bottom: 50px;
     width: 100%;
+
+    flex-direction: row;
+
     .cashPnl {
         height: 62px;
         padding: 0px 32px;
@@ -28,7 +31,7 @@
         justify-content: center;
         min-width: 5%;
         background-color: #49C9EA;
-        left: 93%;
+        left: 90%;
 
         .text {
             font-family: Poppins;

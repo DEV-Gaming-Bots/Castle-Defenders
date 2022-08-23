@@ -88,7 +88,7 @@ public partial class CDGame
 		if ( Instance.Debug && (Instance.DebugMode == DebugEnum.Gameplay || Instance.DebugMode == DebugEnum.All))
 			Log.Info( TimeRemaining );
 
-		if(TimeRemaining <= 10.0f && playInboundMusic )
+		if(TimeRemaining <= 10.0f && playInboundMusic && WaveStatus == WaveEnum.Pre )
 		{
 			var waves = All.OfType<WaveSetup>().ToList().Where( x => x.Wave_Order == CurWave );
 
@@ -97,10 +97,11 @@ public partial class CDGame
 				if ( wave.IsBossWave )
 				{
 					All.OfType<CDPawn>().ToList().ForEach( x => x.PlayMusic( To.Single( x ), "wave_inbound_boss" ) );
-					playInboundMusic = false;
 					break;
 				}
 			}
+
+			playInboundMusic = false;
 		}
 
 
@@ -190,7 +191,11 @@ public partial class CDGame
 
 	public void StartGame()
 	{
+		All.OfType<CDPawn>().ToList().ForEach( x => x.DestroyPreview( To.Single( x ) ) );
+
 		Map.Reset(DefaultCleanupFilter);
+
+		Instance.ActiveSuperTower = false;
 
 		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic(To.Single(x), "" ) );
 
@@ -283,7 +288,7 @@ public partial class CDGame
 		else
 			endMusic = $"wave_music_{musicIndex}_end";
 
-		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( endMusic ) );
+		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single(x), endMusic ) );
 
 		isBossWave = false;
 		playInboundMusic = true;

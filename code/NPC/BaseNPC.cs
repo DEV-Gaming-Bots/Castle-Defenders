@@ -13,7 +13,6 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual float BaseSpeed { get; set; } = 1;
 	public virtual int[] MinMaxCashReward => new int[] { 1, 2 };
 	public virtual int[] MinMaxEXPReward => new int[] { 1, 2 };
-
 	public virtual float NPCScale => 1;
 	public virtual float Damage => 1;
 
@@ -48,9 +47,9 @@ public partial class BaseNPC : AnimatedEntity
 	Vector3 InputVelocity;
 	Vector3 LookDir;
 
-	NPCNavigation Path = new NPCNavigation();
-
 	CastleEntity castleTarget;
+
+	public TimeUntil TimeUntilSpecialRecover;
 
 	public int GetDifficulty()
 	{
@@ -177,6 +176,9 @@ public partial class BaseNPC : AnimatedEntity
 				Velocity = Velocity.AddClamped( InputVelocity * Time.Delta * 500, BaseSpeed * 1.5f );
 			}			
 		}
+
+		if ( TimeUntilSpecialRecover > 0.0f )
+			return;
 
 		Move( Time.Delta );
 

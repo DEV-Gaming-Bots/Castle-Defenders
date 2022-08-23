@@ -26,7 +26,8 @@ public partial class CDPawn : IPlayerData
 			"Pistol",
 			"Sniper",
 			"RadioactiveEmitter",
-			"Lightning"
+			"Lightning",
+			"TimeDisplacer"
 		};
 
 		CDGame.Instance.SaveData( this );
@@ -42,7 +43,7 @@ public partial class CDPawn : IPlayerData
 
 	public void SetUpPlayer()
 	{
-		Cash = 60 + (Level * 5);
+		Cash = 60 + ((Level - 1) * 5);
 		SelectedTower?.Delete();
 		SelectedTower = null;
 	}

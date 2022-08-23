@@ -8,7 +8,7 @@ using Sandbox;
 public partial class ZombieBoss : BaseNPC
 {
 	public override string NPCName => "Patient Zero";
-	public override float BaseHealth => 135;
+	public override float BaseHealth => 150;
 	public override float BaseSpeed => 9.75f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 10, 65 };

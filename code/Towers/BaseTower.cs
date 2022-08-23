@@ -60,13 +60,13 @@ public partial class BaseTower : AnimatedEntity
 	public bool IsPreviewing { get; set; } = true;
 
 	[Net]
-	public string NetName { get; private set; }
+	public string NetName { get; set; }
 
 	[Net]
-	public string NetDesc { get; private set; }
+	public string NetDesc { get; set; }
 
 	[Net]
-	public int NetCost { get; private set; }
+	public int NetCost { get; set; }
 
 	public TimeSince TimeSinceDeployed;
 	public TimeSince TimeLastUpgrade;
@@ -92,6 +92,10 @@ public partial class BaseTower : AnimatedEntity
 		NetDesc = TowerDesc;
 
 		Tags.Add( "tower" );
+	}
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
 	}
 
 	[Event.Hotload()]
@@ -140,6 +144,7 @@ public partial class BaseTower : AnimatedEntity
 
 		Delete();
 	}
+
 	public virtual void UpgradeTower()
 	{
 		PlayUpgradeAnimation();
@@ -168,17 +173,12 @@ public partial class BaseTower : AnimatedEntity
 
 	}
 
-	public override void ClientSpawn()
-	{
-		base.ClientSpawn();
-	}
-
 	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
-		for ( int i = 1; i <= 45; i++ )
+		for ( int i = 1; i <= 21; i++ )
 		{
-			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 8 ).Forward * RangeDistance + Vector3.Up * 5 )
+			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 17 ).Forward * RangeDistance + Vector3.Up * 5 )
 				.Ignore( this )
 				.UseHitboxes( true )
 				.WithoutTags( "cdplayer", "tower" )
@@ -198,9 +198,9 @@ public partial class BaseTower : AnimatedEntity
 	{
 		List<BaseNPC> npclist = new List<BaseNPC>();
 
-		for ( int i = 1; i <= 90; i++ )
+		for ( int i = 1; i <= 45; i++ )
 		{
-			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 4 ).Forward * RangeDistance + Vector3.Up * 5 )
+			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 8 ).Forward * RangeDistance + Vector3.Up * 5 )
 				.Ignore( this )
 				.WithoutTags( "cdplayer", "tower" )
 				.UseHitboxes( true )

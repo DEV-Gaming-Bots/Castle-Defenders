@@ -21,6 +21,8 @@ public partial class CDGame : Game
 
 	public bool RefusePlay;
 
+	public bool ActiveSuperTower;
+
 	public CDGame()
 	{
 		if(IsServer)
@@ -36,6 +38,8 @@ public partial class CDGame : Game
 			Difficulty = StaticDifficulty;
 			Competitive = StaticCompetitive;
 			PathNodes = new List<Entity>();
+
+			ActiveSuperTower = false;
 		}
 
 		if ( IsClient )
