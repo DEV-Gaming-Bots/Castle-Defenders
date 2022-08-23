@@ -4,16 +4,17 @@
     top: 50%;
     left: 50%;
     opacity: 0;
-    font-size: 32px;
+    font-size: 48px;
     font-weight: bold;
+    text-shadow: 2px 2px 2px black;
 
     .playerInfo {
-        right: 75px;
+        right: 125px;
         color: white;
-     }
-    
+    }
+
     .playerCash {
-        right: 25px;
+        right: 50px;
         color: white;
     }
 

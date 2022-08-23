@@ -7,13 +7,17 @@ public partial class Status : Panel
 {
 	public Panel CashPnl;
 	public Label CurCashLbl;
+	public Panel EXPPnl;
+	public Label CurEXPLbl;
 
 	public Status()
 	{
 		StyleSheet.Load( "UI/Status.scss" );
 
-		CashPnl = Add.Panel();
-		CurCashLbl = Add.Label("???", "text");
+		CashPnl = Add.Panel("cashPnl");
+		CurCashLbl = CashPnl.Add.Label("???", "text");
+		EXPPnl = Add.Panel( "expPnl" );
+		CurEXPLbl = EXPPnl.Add.Label( "???", "text" );
 	}
 
 
@@ -29,6 +33,7 @@ public partial class Status : Panel
 		int plyCash = player.GetCash();
 
 		CurCashLbl.SetText( plyCash.ToString("C0") );
+		CurEXPLbl.SetText( $"{player.GetEXP()}/{player.GetReqEXP()}" );
 
 	}
 }

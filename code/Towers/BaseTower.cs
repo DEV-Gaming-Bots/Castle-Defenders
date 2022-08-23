@@ -181,6 +181,7 @@ public partial class BaseTower : AnimatedEntity
 			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 8 ).Forward * RangeDistance + Vector3.Up * 5 )
 				.Ignore( this )
 				.UseHitboxes( true )
+				.WithoutTags( "cdplayer", "tower" )
 				.Run();
 
 			if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
@@ -201,7 +202,7 @@ public partial class BaseTower : AnimatedEntity
 		{
 			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 4 ).Forward * RangeDistance + Vector3.Up * 5 )
 				.Ignore( this )
-				.WithoutTags("tower")
+				.WithoutTags( "cdplayer", "tower" )
 				.UseHitboxes( true )
 				.Run();
 
@@ -236,7 +237,7 @@ public partial class BaseTower : AnimatedEntity
 			//Trace check
 			var towerTR = Trace.Ray( Position + Vector3.Up * 10, Target.Position + Target.Model.Bounds.Center / 2 )
 				.Ignore( this )
-				.WithoutTags("trigger")
+				.WithoutTags( "tower", "cdplayer" )
 				.UseHitboxes(true)
 				.Run();
 

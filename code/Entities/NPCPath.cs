@@ -5,7 +5,6 @@ using SandboxEditor;
 
 [Library("cd_npc_path")]
 [Title( "NPC Path Nodes" ), Description( "Indicates a pathway for NPCs to follow" )]
-[VisGroup( VisGroup.Logic )]
 [HammerEntity]
 public partial class NPCPath : Entity
 {
@@ -26,12 +25,19 @@ public partial class NPCPath : Entity
 		base.Spawn();
 	}
 
-	public void FindPaths()
+	public Entity FindNormalPath()
 	{
 		NextNode = NextPath.GetTargets( null ).FirstOrDefault();
 
+		return NextNode;
+	}
+
+	public Entity FindSplitPath()
+	{
 		if ( SplitPathOrder.IsValid() )
 			NextSplitNode = SplitPathOrder.GetTargets( null ).FirstOrDefault();
+
+		return NextSplitNode;
 	}
 }
 

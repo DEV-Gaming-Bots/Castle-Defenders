@@ -1,18 +1,41 @@
 ﻿status {
     position: absolute;
     bottom: 50px;
-    height: 62px;
-    min-width: 12%;
-    padding: 0px 32px;
-    align-items: center;
-    justify-content: center;
-    background-color: #49C9EA;
+    width: 100%;
+    .cashPnl {
+        height: 62px;
+        padding: 0px 32px;
+        align-items: center;
+        justify-content: center;
+        min-width: 5%;
+        background-color: #49C9EA;
 
-    .text {
-        font-family: Poppins;
-        font-size: 32px;
-        font-weight: bold;
-        font-style: italic;
-        color: black;
+        .text {
+            font-family: Poppins;
+            font-size: 32px;
+            font-weight: bold;
+            font-style: italic;
+            color: black;
+        }
+    }
+
+
+    .expPnl {
+        position: absolute;
+        height: 62px;
+        padding: 0px 32px;
+        align-items: center;
+        justify-content: center;
+        min-width: 5%;
+        background-color: #49C9EA;
+        left: 93%;
+
+        .text {
+            font-family: Poppins;
+            font-size: 32px;
+            font-weight: bold;
+            font-style: italic;
+            color: black;
+        }
     }
 }

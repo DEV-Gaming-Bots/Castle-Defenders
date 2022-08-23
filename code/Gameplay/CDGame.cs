@@ -2,6 +2,7 @@
 using Sandbox;
 using Sandbox.UI.Construct;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,6 +35,7 @@ public partial class CDGame : Game
 
 			Difficulty = StaticDifficulty;
 			Competitive = StaticCompetitive;
+			PathNodes = new List<Entity>();
 		}
 
 		if ( IsClient )
@@ -77,7 +79,10 @@ public partial class CDGame : Game
 	{
 		base.PostLevelLoaded();
 
-		All.OfType<NPCPath>().ToList().ForEach( x => x.FindPaths() );
+		foreach ( var path in All.OfType<NPCPath>() )
+		{
+			PathNodes.Add(path.FindNormalPath());
+		}
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )

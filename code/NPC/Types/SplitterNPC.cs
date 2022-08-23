@@ -10,7 +10,7 @@ public partial class Husk : BaseNPC
 	public override float BaseHealth => 100;
 	public override float BaseSpeed => 10;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new int[] { 5, 20 };
+	public override int[] MinMaxCashReward => new int[] { 7, 33 };
 	public override int[] MinMaxEXPReward => new int[] { 7, 30 };
 	public override float NPCScale => 0.65f;
 	public override SpecialType NPCType => SpecialType.Splitter;

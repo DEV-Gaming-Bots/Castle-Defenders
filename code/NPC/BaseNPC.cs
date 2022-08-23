@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Sandbox;
+using System.IO;
 
 public partial class BaseNPC : AnimatedEntity
 {
@@ -82,7 +83,7 @@ public partial class BaseNPC : AnimatedEntity
 		Scale = NPCScale;
 		Health = BaseHealth * GetDifficulty();
 
-		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1]);
+		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] ) * GetDifficulty() / 2;
 		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * GetDifficulty();
 
 		Tags.Add( "npc" );
@@ -127,27 +128,35 @@ public partial class BaseNPC : AnimatedEntity
 			return;
 		}
 
-
 		if ( Steer.Target.Distance( Position ) <= 25.0f )
 		{
-			if( All.OfType<NPCPath>().ToArray()[PathTarget].SplitPathOrder.IsValid())
+			foreach ( var path in All.OfType<NPCPath>() )
 			{
-				switch(Rand.Int(1, 2))
+				if ( path.Position.Distance( Position ) <= 25.0f )
 				{
-					case 1:
-						Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].Position;
+					if ( path.FindSplitPath() != null )
+					{
+						switch ( Rand.Int( 1, 2 ) )
+						{
+							case 1:
+								Steer.Target = path.FindNormalPath().Position;
+								break;
+							case 2:
+								Steer.Target = path.FindSplitPath().Position;
+								break;
+						}
+
 						break;
-					case 2:
-						Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].NextSplitNode.Position;
+					}
+
+					if( path.FindNormalPath() != null )
+					{
+						Steer.Target = path.FindNormalPath().Position;
 						break;
+					}
 				}
-			} 
-			else
-				Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].Position;
-
-			PathTarget++;
+			}
 		}
-
 	}
 
 	//Server ticking for NPC Navigation

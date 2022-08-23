@@ -3,14 +3,14 @@
 	data = 
 	{
 		UI = true
-		Volume = 0.2
+		Volume = 0.75
 		VolumeRandom = 0
 		Pitch = 1
 		PitchRandom = 0
 		Decibels = 70
 		Sounds = 
 		[
-			resource:"sounds/raw/level_up.vsnd",
+			resource:"sounds/raw/music/wave_inbound_boss.vsnd",
 		]
 		SelectionMode = "Random"
 		MaximumDistance = 1143.9335

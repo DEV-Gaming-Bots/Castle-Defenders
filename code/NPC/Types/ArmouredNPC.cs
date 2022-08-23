@@ -13,7 +13,7 @@ public partial class Riot : BaseNPC
 	public override float BaseHealth => 45;
 	public override float BaseSpeed => 12.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new int[] { 1, 10 };
+	public override int[] MinMaxCashReward => new int[] { 5, 20 };
 	public override int[] MinMaxEXPReward => new int[] { 1, 5 };
 	public override float NPCScale => 0.45f;
 	public override SpecialType NPCType => SpecialType.Armoured;
@@ -49,7 +49,7 @@ public partial class Knight : BaseNPC
 	public override float BaseHealth => 95;
 	public override float BaseSpeed => 10.0f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new int[] { 5, 25 };
+	public override int[] MinMaxCashReward => new int[] { 9, 31 };
 	public override int[] MinMaxEXPReward => new int[] { 5, 15 };
 	public override float NPCScale => 0.45f;
 	public override SpecialType NPCType => SpecialType.Armoured;

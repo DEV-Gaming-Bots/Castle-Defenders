@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Sandbox;
@@ -72,6 +73,9 @@ public partial class CDGame
 
 	bool isBossWave;
 	bool allowRestart;
+	bool playInboundMusic = false;
+
+	public List<Entity> PathNodes;
 
 	MapVoteEntity mapVote;
 
@@ -83,6 +87,22 @@ public partial class CDGame
 
 		if ( Instance.Debug && (Instance.DebugMode == DebugEnum.Gameplay || Instance.DebugMode == DebugEnum.All))
 			Log.Info( TimeRemaining );
+
+		if(TimeRemaining <= 10.0f && playInboundMusic )
+		{
+			var waves = All.OfType<WaveSetup>().ToList().Where( x => x.Wave_Order == CurWave );
+
+			foreach ( var wave in waves )
+			{
+				if ( wave.IsBossWave )
+				{
+					All.OfType<CDPawn>().ToList().ForEach( x => x.PlayMusic( To.Single( x ), "wave_inbound_boss" ) );
+					playInboundMusic = false;
+					break;
+				}
+			}
+		}
+
 
 		if ( TimeRemaining > 0.0f )
 			return;
@@ -238,7 +258,7 @@ public partial class CDGame
 		else
 			music = "wave_music_" + musicIndex;
 
-		All.OfType<CDPawn>().ToList().ForEach( x => x.PlayMusic( To.Single( x ), music ) );
+		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), music ) );
 	}
 
 	public void StartPreWave()
@@ -266,6 +286,7 @@ public partial class CDGame
 		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( endMusic ) );
 
 		isBossWave = false;
+		playInboundMusic = true;
 
 		WaveStatus = WaveEnum.Post;
 		TimeRemaining = 10.0f;

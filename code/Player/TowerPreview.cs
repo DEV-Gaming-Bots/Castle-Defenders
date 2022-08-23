@@ -43,6 +43,26 @@ public partial class CDPawn
 		PreviewTower.Delete();
 		PreviewTower = null;
 	}
+
+	public bool CanPlace( TraceResult tr )
+	{
+		if ( tr.Normal.z < 0.99 )
+			return false;
+
+		//First check, look for nearby towers
+		foreach ( var nearby in FindInSphere( SelectedTower.Position, 16 ) )
+		{
+			if ( nearby is BaseTower tower && tower != SelectedTower )
+				return false;
+		}
+
+		//Second check, look for blocked areas
+		if ( tr.Entity is TowerBlocker || tr.Entity is BaseNPC )
+			return false;
+
+		return true;
+	}
+
 	public void SimulatePlacement( TraceResult tr )
 	{
 		towerRot += Input.MouseWheel * 5f;

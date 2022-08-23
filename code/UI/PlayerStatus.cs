@@ -34,7 +34,6 @@ public class PlayerStatus : Panel
 
 		var clTr = Trace.Ray( pawn.EyePosition, pawn.EyePosition + pawn.EyeRotation.Forward * 999 )
 			.Ignore( pawn )
-			.WithTag( "cdplayer" )
 			.Run();
 
 		if(clTr.Entity is CDPawn player)

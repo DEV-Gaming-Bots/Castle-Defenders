@@ -42,7 +42,7 @@ public partial class CDPawn : IPlayerData
 
 	public void SetUpPlayer()
 	{
-		Cash = 60;
+		Cash = 60 + (Level * 5);
 		SelectedTower?.Delete();
 		SelectedTower = null;
 	}
@@ -63,6 +63,8 @@ public partial class CDPawn : IPlayerData
 
 		if(EXP >= ReqEXP)
 		{
+			PlaySoundOnClient( To.Single( this ), "level_up" );
+
 			//Incase the EXP goes over the next EXP requirements
 			while ( EXP >= ReqEXP )
 			{

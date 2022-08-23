@@ -25,8 +25,8 @@ public partial class Zombie : BaseNPC
 	public override float BaseHealth => 55;
 	public override float BaseSpeed => 12.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new int[] { 4, 20 };
-	public override int[] MinMaxEXPReward => new int[] { 4, 11 };
+	public override int[] MinMaxCashReward => new int[] { 6, 24 };
+	public override int[] MinMaxEXPReward => new int[] { 4, 13 };
 	public override float NPCScale => 0.45f;
 	public override float Damage => 5.0f;
 

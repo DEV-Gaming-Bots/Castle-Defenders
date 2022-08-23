@@ -51,6 +51,12 @@ public partial class CDGame
 	[ConCmd.Server("cd_money_give")]
 	public static void GiveMoney(int amount, string targetName = "")
 	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 
 		if ( player == null )
@@ -65,6 +71,37 @@ public partial class CDGame
 		{
 			player.AddCash( amount );
 		}
+	}
+
+	[ConCmd.Server( "cd_diff_set" )]
+	public static void SetDifficulty( string diffName )
+	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+		switch(diffName.ToLower())
+		{
+			case "easy":
+				Instance.Difficulty = DiffEnum.Easy;
+				break;
+			case "medium":
+				Instance.Difficulty = DiffEnum.Medium;
+				break;
+			case "hard":
+				Instance.Difficulty = DiffEnum.Hard;
+				break;
+			case "extreme":
+				Instance.Difficulty = DiffEnum.Extreme;
+				break;
+			default:
+				Log.Error( "Invalid setter for difficulty" );
+				return;
+		}
+
+		Log.Info( "Updated difficulty to " + Instance.Difficulty );
 	}
 
 	[ConCmd.Server( "cd_npc_create" )]
@@ -158,6 +195,13 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_force_datareset" )]
 	public static void ResetData()
 	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 
 		if ( player == null )
@@ -169,6 +213,13 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_force_save" )]
 	public static void SaveData()
 	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 
 		if ( player == null )
@@ -193,6 +244,13 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_force_loaddata" )]
 	public static void LoadDataCMD()
 	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+
 		Instance.LoadSave( ConsoleSystem.Caller );
 	}
 

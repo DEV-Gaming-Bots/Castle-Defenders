@@ -49,25 +49,6 @@ public partial class CDPawn : Player
 		}
 	}
 
-	public bool CanPlace(TraceResult tr)
-	{
-		if ( tr.Normal.z != 1 )
-			return false;
-
-		//First check, look for nearby towers
-		foreach ( var nearby in FindInSphere( SelectedTower.Position, 16 ) )
-		{
-			if ( nearby is BaseTower tower && tower != SelectedTower )
-				return false;
-		}
-
-		//Second check, look for blocked areas
-		if ( tr.Entity is TowerBlocker || tr.Entity is BaseNPC )
-			return false;
-		
-		return true;
-	}
-
 	[ClientRpc]
 	public void PlayMusic(string music)
 	{
@@ -79,6 +60,12 @@ public partial class CDPawn : Player
 	{
 		curMusic.Stop();
 		curMusic = Sound.FromScreen( musicEnd );
+	}
+
+	[ClientRpc]
+	public void PlaySoundOnClient(string sndPath)
+	{
+		PlaySound( sndPath );
 	}
 
 	public override void Spawn()
@@ -202,9 +189,8 @@ public partial class CDPawn : Player
 		if ( SelectedTower != null )
 		{
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
-			.Ignore( this )
 			.Ignore( SelectedTower )
-			.Size( 0.1f )
+			.WithoutTags( "cdplayer" )
 			.Run();
 
 			if ( SelectedTower != null )
