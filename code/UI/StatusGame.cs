@@ -12,6 +12,7 @@ public class StatusGame : Panel
 {
 	public TimeSince TimerElapsed;
 	public GameStats.GameInfoPanel gameInfo = new();
+	public GameStats.GameInfoPanel.ExtraGameInfo Loop = new();
 	public StatusGame()
 	{
 		StyleSheet.Load( "UI/StatusGame.scss" );
@@ -74,7 +75,9 @@ public class StatusGame : Panel
 
 		if(CDGame.Instance.LoopGame && CDGame.Instance.LoopedTimes > 1)
 		{
-			loopedString = $" | Loop {CDGame.Instance.LoopedTimes - 1}";
+			gameInfo.GameInfo.AddChild( Loop );
+			Loop.BigText.SetText( $"{CDGame.Instance.LoopedTimes - 1}" );
+			Loop.SmallText.SetText( $"Loop" );
 		}
 
 		gameInfo.RoundCounter.SetText( $"{CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}{loopedString}" );

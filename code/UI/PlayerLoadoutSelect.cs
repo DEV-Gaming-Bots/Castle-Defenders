@@ -16,5 +16,9 @@ public class LoadoutSelect : Panel
 		Style.Set( "position: absolute; width: 100%; height: 100%;" );
 		StyleSheet.Load( "UI/Components/UserLoadout.scss" );
 		AddChild( LoadoutPanel );
+		LoadoutPanel.AddLoutout("Basic", 0 ,() => {} );
+		LoadoutPanel.AddLoutout("LEVEL 1", 1 ,() => {} );
+		LoadoutPanel.AddLoutout("LEVEL 2", 2 ,() => { } );
+		LoadoutPanel.AddLoutout("LEVEL 3", 3, () => { } );
 	}
 }
