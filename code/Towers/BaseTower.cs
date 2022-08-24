@@ -277,7 +277,6 @@ public partial class BaseTower : AnimatedEntity
 		if ( IsPreviewing )
 			return;
 
-		PlaySound( AttackSound );
 		FireEffects();
 
 		TimeLastAttack = 0;
@@ -293,5 +292,6 @@ public partial class BaseTower : AnimatedEntity
 	public virtual void FireEffects()
 	{
 		Host.AssertClient();
+		PlaySound( AttackSound );
 	}
 }
