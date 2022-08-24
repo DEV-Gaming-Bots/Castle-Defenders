@@ -25,7 +25,10 @@ public partial class CDGame : Game
 	public bool RefusePlay;
 
 	[Net]
-	public bool ActiveSuperTower { get; set; }
+	public bool ActiveSuperTowerBlue { get; set; }
+
+	[Net]
+	public bool ActiveSuperTowerRed { get; set; }
 
 	public CDGame()
 	{
@@ -43,7 +46,8 @@ public partial class CDGame : Game
 			Competitive = StaticCompetitive;
 			LoopGame = StaticLoopGame;
 
-			ActiveSuperTower = false;
+			ActiveSuperTowerBlue = false;
+			ActiveSuperTowerRed = false;
 			LoopedTimes = 1;
 		}
 
@@ -78,10 +82,31 @@ public partial class CDGame : Game
 			LoadSave( client );
 
 		if ( GameStatus == GameEnum.Idle && !RefusePlay )
-			StartGame();
-
+		{
+			if ( Competitive && CanPlayComp() )
+			{
+				StartCompGame();
+				return;
+			} 
+			else if (!Competitive)
+				StartGame();
+		}
 		if ( GameStatus == GameEnum.Active )
 			pawn.SetUpPlayer();
+	}
+
+	public bool CanPlayComp()
+	{
+		if ( All.OfType<CompSetUp>().Count() <= 0 )
+		{
+			Log.Error( "This map does not have competitive support, switching to Co-Op" );
+			return false;
+		}
+
+		if ( Client.All.Count() < 2 )
+			return false;
+
+		return true;
 	}
 
 	public override void PostLevelLoaded()

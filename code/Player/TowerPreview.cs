@@ -77,8 +77,18 @@ public partial class CDPawn
 		if ( tr.Normal.z < 0.99 )
 			return false;
 
-		if ( SelectedTower is BaseSuperTower && CDGame.Instance.ActiveSuperTower == true )
-			return false;
+		if ( SelectedTower is BaseSuperTower )
+		{
+			if ( CDGame.Instance.Competitive )
+			{
+				if ( CurTeam == TeamEnum.Blue && !CDGame.Instance.ActiveSuperTowerBlue )
+					return false;
+				else if ( CurTeam == TeamEnum.Red && !CDGame.Instance.ActiveSuperTowerRed )
+					return false;
+			}
+			else if ( !CDGame.Instance.ActiveSuperTowerBlue )
+				return false;
+		}
 
 		//First check, look for nearby towers
 		foreach ( var nearby in FindInSphere( SelectedTower.Position, 16 ) )
@@ -177,21 +187,24 @@ public partial class CDPawn
 				CurSuperTower = null;
 
 			//If the player has a selected tower, destroy preview, delete and nullify
-			if ( SelectedTower != null && IsServer )
+			if ( SelectedTower != null )
 			{
 				DestroyPreview();
 
 				SelectedTower.Delete();
 				SelectedTower = null;
-
-				TowerInHand.Delete();
-				TowerInHand = null;
 			}
 
 			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[scrollInt] );
 			SelectedTower.Owner = this;
 			SelectedTower.RenderColor = new Color( 255, 255, 255, 0 );
 			SelectedTower.Spawn();
+
+			if( TowerInHand != null )
+			{
+				TowerInHand.Delete();
+				TowerInHand = null;
+			}
 
 			TowerInHand = new ModelEntity( SelectedTower.GetModelName() );
 

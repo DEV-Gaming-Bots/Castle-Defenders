@@ -224,13 +224,36 @@ public partial class CDGame
 		GameStatus = GameEnum.Starting;
 	}
 
+	public void StartCompGame()
+	{
+		Map.Reset( DefaultCleanupFilter );
+
+		Instance.ActiveSuperTowerBlue = false;
+		Instance.ActiveSuperTowerRed = false;
+
+		allowRestart = false;
+
+		TimeRemaining = 10.0f;
+		CurWave = 0;
+		GameStatus = GameEnum.Starting;
+
+		int checkWaves = 0;
+
+		foreach ( var setter in All.OfType<WaveSetup>() )
+		{
+			if ( setter.Wave_Order > checkWaves )
+				checkWaves++;
+		}
+
+		MaxWaves = checkWaves;
+	}
 	public void StartGame()
 	{
 		All.OfType<CDPawn>().ToList().ForEach( x => x.DestroyPreview( To.Single( x ) ) );
 
 		Map.Reset(DefaultCleanupFilter);
 
-		Instance.ActiveSuperTower = false;
+		Instance.ActiveSuperTowerBlue = false;
 
 		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic(To.Single(x), "" ) );
 

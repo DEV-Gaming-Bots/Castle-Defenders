@@ -55,6 +55,8 @@ public partial class CDPawn : Player
 	{
 		EnableLagCompensation = true;
 
+		CurTeam = TeamEnum.Unknown;
+
 		CreateHull();
 		Tags.Add( "cdplayer" );
 
@@ -79,6 +81,9 @@ public partial class CDPawn : Player
 		//Check if debug is false and we're in an active game
 		if ( CDGame.Instance.Debug == false )
 		{
+			if ( CDGame.Instance.Competitive && OnOtherTeamSide )
+				return;
+
 			if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Active )
 				DoTDInputs();
 		}

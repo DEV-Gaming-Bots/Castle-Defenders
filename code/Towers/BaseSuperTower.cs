@@ -20,7 +20,20 @@ public partial class BaseSuperTower : BaseTower
 			TimeSinceDeployed = 0;
 			NetCost = -1;
 
-			CDGame.Instance.ActiveSuperTower = true;
+			switch( (Owner as CDPawn).CurTeam )
+			{
+				case CDPawn.TeamEnum.Blue:
+					CDGame.Instance.ActiveSuperTowerBlue = true;
+					break;
+
+				case CDPawn.TeamEnum.Red:
+					CDGame.Instance.ActiveSuperTowerRed = true;
+					break;
+
+				default:
+					CDGame.Instance.ActiveSuperTowerBlue = true;
+					break;
+			}
 
 			PlayDeployAnimation();
 		} 
@@ -52,7 +65,21 @@ public partial class BaseSuperTower : BaseTower
 
 	public void Despawn()
 	{
-		CDGame.Instance.ActiveSuperTower = false;
+		switch ( (Owner as CDPawn).CurTeam )
+		{
+			case CDPawn.TeamEnum.Blue:
+				CDGame.Instance.ActiveSuperTowerBlue = false;
+				break;
+
+			case CDPawn.TeamEnum.Red:
+				CDGame.Instance.ActiveSuperTowerRed = false;
+				break;
+
+			default:
+				CDGame.Instance.ActiveSuperTowerBlue = false;
+				break;
+		}
+		
 		Delete();
 	}
 }

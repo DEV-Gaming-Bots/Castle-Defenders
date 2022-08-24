@@ -1,5 +1,4 @@
 ﻿using Sandbox;
-using System.Collections.Generic;
 using SandboxEditor;
 
 [Library( "cd_wave_setup" )]
@@ -22,7 +21,6 @@ public class WaveSetup : Entity
 		Unspecified,
 
 		//Normal NPCs
-		Standard,
 		Peasant,
 		Zombie,
 
@@ -95,7 +93,17 @@ public class WaveSetup : Entity
 			return;
 		}
 
-		TypeLibrary.Create<BaseNPC>( NPCs_To_Spawn.ToString() ).Spawn();
+		var npc = TypeLibrary.Create<BaseNPC>( NPCs_To_Spawn.ToString() );
+		
+		if( npc == null)
+		{
+			Log.Error( "This wave setup failed to spawn" );
+			spawnToggle = false;
+			return;
+		}
+
+		npc.Spawn();
+
 		spawnCounter++;
 		timeLastSpawn = 0;
 	}

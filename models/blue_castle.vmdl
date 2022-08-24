@@ -30,7 +30,7 @@
 						[
 							{
 								from = "purple.vmat"
-								to = "materials/towers/basetower.vmat"
+								to = "materials/towers/bluecastle.vmat"
 							},
 							{
 								from = "stone.vmat"

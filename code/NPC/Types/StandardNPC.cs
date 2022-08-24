@@ -31,8 +31,6 @@ public partial class Zombie : BaseNPC
 	public override float NPCScale => 0.45f;
 	public override float Damage => 5.0f;
 
-	bool hasLoaded = false;
-
 	public override void Spawn()
 	{
 		base.Spawn();

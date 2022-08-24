@@ -20,7 +20,20 @@ public class CastleEntity : ModelEntity
 	public override void Spawn()
 	{
 		var castle = new ModelEntity();
-		castle.SetModel( "models/castle.vmdl" );
+
+		switch(TeamCastle)
+		{
+			case CastleTeam.Blue:
+				castle.SetModel( "models/blue_castle.vmdl" );
+				break;
+			case CastleTeam.Red:
+				castle.SetModel( "models/red_castle.vmdl" );
+				break;
+			default:
+				castle.SetModel( "models/castle.vmdl" );
+				break;
+		}
+
 		castle.Position = Position;
 		castle.Rotation = Rotation;
 		castle.Spawn();

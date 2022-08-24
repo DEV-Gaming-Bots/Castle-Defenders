@@ -31,9 +31,6 @@ public partial class TowerMenu : Panel
 		if ( player == null )
 			return;
 
-		if ( player.SelectedTower.IsValid() )
-			return;
-
 		var clTr = Trace.Ray( player.EyePosition, player.EyePosition + player.EyeRotation.Forward * 145 )
 			.UseHitboxes( true )
 			.WithTag( "tower" )

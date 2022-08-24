@@ -62,6 +62,39 @@ public partial class CDPawn : IPlayerData
 		Cash = 60 + ((Level - 1) * 5);
 		SelectedTower?.Delete();
 		SelectedTower = null;
+
+		if ( CDGame.Instance.Competitive )
+		{
+			while(CurTeam == TeamEnum.Unknown)
+			{
+				int blueCount = All.OfType<CDPawn>().ToList().Where( x => x.CurTeam == TeamEnum.Blue ).Count();
+				int redCount = All.OfType<CDPawn>().ToList().Where( x => x.CurTeam == TeamEnum.Red ).Count();
+				switch (Rand.Int(1, 2))
+				{
+					case 1:
+						if( blueCount > redCount )
+						{
+							CurTeam = TeamEnum.Red;
+							break;
+						}
+						CurTeam = TeamEnum.Blue;
+						break;
+
+					case 2:
+						if ( redCount > blueCount )
+						{
+							CurTeam = TeamEnum.Blue;
+							break;
+						}
+
+						CurTeam = TeamEnum.Red;
+						break;
+				}
+			}
+
+			if ( CurTeam == TeamEnum.Red )
+				Transform = All.OfType<OpposingSpawnpoint>().OrderBy( x => Guid.NewGuid() ).FirstOrDefault().Transform;
+		}
 	}
 
 	public void AddCash(int addCash)
