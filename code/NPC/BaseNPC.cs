@@ -73,11 +73,6 @@ public partial class BaseNPC : AnimatedEntity
 
 	public override void Spawn()
 	{
-		int hpMultiLoop = 1;
-
-		if(CDGame.Instance.LoopGame && CDGame.Instance.LoopedTimes > 1)
-			hpMultiLoop = CDGame.Instance.LoopedTimes;
-
 		SetModel( BaseModel );
 
 		PathTarget = 1;
@@ -85,7 +80,7 @@ public partial class BaseNPC : AnimatedEntity
 		Position = All.OfType<NPCSpawner>().First().Position;
 
 		Scale = NPCScale;
-		Health = BaseHealth * GetDifficulty() * hpMultiLoop;
+		Health = BaseHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
 
 		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] );
 		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * GetDifficulty();

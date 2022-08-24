@@ -74,7 +74,7 @@ public class StatusGame : Panel
 
 		if(CDGame.Instance.LoopGame && CDGame.Instance.LoopedTimes > 1)
 		{
-			loopedString = $" | Loop: {CDGame.Instance.LoopedTimes}";
+			loopedString = $" | Loop {CDGame.Instance.LoopedTimes - 1}";
 		}
 
 		gameInfo.RoundCounter.SetText( $"{CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}{loopedString}" );
