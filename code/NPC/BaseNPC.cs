@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Sandbox;
 using System.IO;
+using System.Threading.Tasks;
 
 public partial class BaseNPC : AnimatedEntity
 {
@@ -71,7 +72,12 @@ public partial class BaseNPC : AnimatedEntity
 	}
 
 	public override void Spawn()
-	{ 
+	{
+		int hpMultiLoop = 1;
+
+		if(CDGame.Instance.LoopGame && CDGame.Instance.LoopedTimes > 1)
+			hpMultiLoop = CDGame.Instance.LoopedTimes;
+
 		SetModel( BaseModel );
 
 		PathTarget = 1;
@@ -79,10 +85,9 @@ public partial class BaseNPC : AnimatedEntity
 		Position = All.OfType<NPCSpawner>().First().Position;
 
 		Scale = NPCScale;
-		Health = BaseHealth * GetDifficulty();
+		Health = BaseHealth * GetDifficulty() * hpMultiLoop;
 
-		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] ) * GetDifficulty() / 2;
-		CashReward = CashReward.Clamp( 1, 9999 );
+		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] );
 		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * GetDifficulty();
 
 		Tags.Add( "npc" );
@@ -118,6 +123,12 @@ public partial class BaseNPC : AnimatedEntity
 			return;
 
 		ArmourBroken = true;
+	}
+
+	[ClientRpc]
+	public virtual void ApplyTextureClient(string matPath, string body = "skin")
+	{
+		SetMaterialOverride( Material.Load( matPath ), body );
 	}
 
 	public void FollowPath()

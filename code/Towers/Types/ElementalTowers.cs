@@ -22,12 +22,12 @@ public partial class Lightning : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.10f, 10.0f, 0),
-		new(-0.20f, 15.0f, 10),
-		new(-0.35f, 17.5f, 15),
-		new(-0.40f, 22.5f, 20),
-		new(-0.45f, 25.0f, 25),
-		new(-0.50f, 25.5f, 40),
+		new(-0.10f, 5.0f, 0),
+		new(-0.20f, 10.0f, 10),
+		new(-0.35f, 12.5f, 15),
+		new(-0.40f, 15.0f, 20),
+		new(-0.45f, 17.5f, 25),
+		new(-0.50f, 20.0f, 40),
 	};
 
 	public override string[] TowerLevelDesc => new string[]

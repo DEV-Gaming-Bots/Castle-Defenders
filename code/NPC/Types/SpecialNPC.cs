@@ -9,7 +9,7 @@ public partial class Priest : BaseNPC
 {
 	public override string NPCName => "Priest";
 	public override float BaseHealth => 65;
-	public override float BaseSpeed => 20;
+	public override float BaseSpeed => 11.0f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 1, 15 };
 	public override int[] MinMaxEXPReward => new int[] { 1, 5 };

@@ -87,20 +87,20 @@ public partial class Sniper : BaseTower
 	};
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.25f, 5.0f, 25),
-		new(-0.25f, 7.5f, 25),
-		new(-0.35f, 10.0f, 25),
-		new(-0.40f, 15.0f, 50),
-		new(-0.50f, 15.0f, 50),
-		new(-0.50f, 15.0f, 100)
+		new(-0.10f, 2.5f, 25),
+		new(-0.10f, 2.5f, 25),
+		new(-0.10f, 2.5f, 25),
+		new(-0.20f, 5.0f, 50),
+		new(-0.25f, 5.0f, 50),
+		new(-0.25f, 7.5f, 100)
 	};
 
 	public override int TowerMaxLevel => 6;
 	public override int TowerCost => 100;
 	public override float DeploymentTime => 3.75f;
-	public override float AttackTime { get; set; } = 3.75f;
-	public override float AttackDamage { get; set; } = 25.0f;
-	public override int RangeDistance { get; set; } = 250;
+	public override float AttackTime { get; set; } = 5.5f;
+	public override float AttackDamage { get; set; } = 40.0f;
+	public override int RangeDistance { get; set; } = 275;
 	public override string AttackSound => "sniper_fire";
 
 	bool lockedOnTarget;

@@ -130,6 +130,13 @@
         "ConVarName": "cd_competitve",
         "DisplayName": "Competitive",
         "DefaultValue": "false"
+      },
+      "cd_loopgame": {
+        "DisplayType": "Boolean",
+        "Choices": [],
+        "ConVarName": "cd_loopgame",
+        "DisplayName": "Loop Gameplay - Default on Competitive",
+        "DefaultValue": "false"
       }
     }
   }

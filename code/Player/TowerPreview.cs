@@ -5,14 +5,13 @@ using Sandbox;
 public partial class CDPawn
 {
 	public ModelEntity PreviewTower;
+	public ModelEntity TowerInHand;
 
 	[Net]
 	public BaseTower SelectedTower { get; set; }
 
 	[Net]
 	public BaseSuperTower CurSuperTower { get; set; }
-
-	float towerRot = 0.0f;
 
 
 	[ClientRpc]
@@ -84,21 +83,33 @@ public partial class CDPawn
 		if ( !IsServer )
 			return;
 
+		if ( Input.MouseWheel != 0)
+			scrollInt += Input.MouseWheel;
+
+		if ( GetSelectedSlot() > -1 )
+			scrollInt = GetSelectedSlot() - 1;
+
+		if ( scrollInt > TowerSlots.Length )
+			scrollInt = 0;
+		else if (scrollInt < 0)
+			scrollInt = TowerSlots.Length;
+
 		//0 = empty handed
-		if ( GetSelectedSlot() == 0 )
+		
+		SetSlotClient( To.Single( this ), scrollInt );
+
+		if ( SelectedTower != null && scrollInt == 0 )
 		{
-			SetSlotClient( To.Single( this ), GetSelectedSlot() - 1 );
+			DestroyPreview();
+			SelectedTower.Delete();
+			SelectedTower = null;
 
-			if ( SelectedTower != null )
-			{
-				DestroyPreview();
-				SelectedTower.Delete();
-				SelectedTower = null;
-			}
-
-			if( CurSuperTower != null )
-				CurSuperTower = null;
+			TowerInHand.Delete();
+			TowerInHand = null;
 		}
+
+		if( CurSuperTower != null && scrollInt == 0 )
+			CurSuperTower = null;
 
 		if( CurSuperTower != null )
 		{
@@ -112,16 +123,38 @@ public partial class CDPawn
 				CurSuperTower = null;
 			}
 		}
-
 		//Check if the last slot is equal or greater than
 		//while checking if the time last placed is greater
-		if ( GetSelectedSlot() > 0 && timeLastTowerPlace > 0.5f )
+		if ( scrollInt >= 0 )
 		{
-			//If the player is past their slots, stop here
-			if ( TowerSlots.Length <= GetSelectedSlot() - 1)
-				return;
+			if ( SelectedTower != null && scrollInt == 0 )
+			{
+				DestroyPreview();
+				SelectedTower.Delete();
+				SelectedTower = null;
 
-			SetSlotClient( To.Single(this), GetSelectedSlot() - 1 );
+				TowerInHand.Delete();
+				TowerInHand = null;
+			}
+
+			SetSlotClient( To.Single(this), scrollInt );
+
+			if ( scrollInt == TowerSlots.Length )
+			{
+				DestroyPreview( To.Single( this ) );
+
+				SelectedTower?.Delete();
+				SelectedTower = null;
+
+				TowerInHand?.Delete();
+				TowerInHand = null;
+
+				return;
+			}
+
+			//If the player is past their slots, stop here
+			if ( TowerSlots.Length <= scrollInt)
+				return;
 
 			//If the player has a super tower selected, nullify that tower
 			if ( CurSuperTower != null )
@@ -131,24 +164,34 @@ public partial class CDPawn
 			if ( SelectedTower != null && IsServer )
 			{
 				DestroyPreview();
+
 				SelectedTower.Delete();
 				SelectedTower = null;
+
+				TowerInHand.Delete();
+				TowerInHand = null;
 			}
 
-			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[GetSelectedSlot() - 1] );
+			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[scrollInt] );
 			SelectedTower.Owner = this;
 			SelectedTower.RenderColor = new Color( 255, 255, 255, 0 );
 			SelectedTower.Spawn();
 
-			CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
+			TowerInHand = new ModelEntity( SelectedTower.GetModelName() );
 
-			timeLastTowerPlace = 0;
-		}
+			TowerInHand.SetParent(this, true);
+			TowerInHand.Spawn();
+			TowerInHand.LocalScale = 0.5f;
+			TowerInHand.EnableHideInFirstPerson = true;
+
+			CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
+		} 
 
 		if ( SelectedTower != null )
 		{
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
 			.WithoutTags( "cdplayer", "tower" )
+			.Size( 1.5f )
 			.Run();
 
 			if ( SelectedTower != null )
@@ -158,6 +201,9 @@ public partial class CDPawn
 			{
 				SelectedTower?.Delete();
 				SelectedTower = null;
+
+				TowerInHand.Delete();
+				TowerInHand = null;
 			}
 
 			if ( !CanPlace( tr ) )
@@ -194,7 +240,7 @@ public partial class CDPawn
 	public void DoTowerOverview()
 	{
 		//We have a selected tower in preview, stop here
-		if ( SelectedTower != null )
+		if ( SelectedTower.IsValid() || TowerInHand.IsValid())
 			return;
 
 		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
@@ -223,17 +269,9 @@ public partial class CDPawn
 
 	public void SimulatePlacement( TraceResult tr )
 	{
-		towerRot += Input.MouseWheel * 5f;
-
-		if ( towerRot < 0.0f )
-			towerRot = 360.0f;
-		else if ( towerRot > 360.0f )
-			towerRot = 0.0f;
-
 		if ( SelectedTower.IsValid() )
 		{
 			SelectedTower.Position = tr.EndPosition;
-			SelectedTower.Rotation = Rotation.FromYaw( towerRot );
 			SelectedTower.IsPreviewing = true;
 		}
 	}

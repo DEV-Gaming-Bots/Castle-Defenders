@@ -17,6 +17,9 @@ public partial class CDGame : Game
 	[ConVar.Replicated( "cd_diff" )]
 	public static DiffEnum StaticDifficulty { get; set; }
 
+	[ConVar.Replicated( "cd_loopgame" )]
+	public static bool StaticLoopGame { get; set; }
+
 	public bool Competitive;
 
 	public bool RefusePlay;
@@ -37,8 +40,10 @@ public partial class CDGame : Game
 
 			Difficulty = StaticDifficulty;
 			Competitive = StaticCompetitive;
+			LoopGame = StaticLoopGame;
 
 			ActiveSuperTower = false;
+			LoopedTimes = 1;
 		}
 
 		if ( IsClient )

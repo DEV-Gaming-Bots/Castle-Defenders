@@ -87,13 +87,16 @@ public partial class BaseTower : AnimatedEntity
 			PlayDeployAnimRPC( To.Single( Owner ) );
 		}
 		else
-			NetCost = TowerCost;
+		{
 
+			NetCost = TowerCost;
+		}
 		NetName = TowerName;
 		NetDesc = TowerDesc;
 
 		Tags.Add( "tower" );
 	}
+
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();

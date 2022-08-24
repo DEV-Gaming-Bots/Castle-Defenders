@@ -11,13 +11,13 @@ public partial class Riot : BaseNPC
 {
 	public override string NPCName => "Riot";
 	public override float BaseHealth => 45;
-	public override float BaseSpeed => 12.5f;
+	public override float BaseSpeed { get; set; } = 12.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 5, 20 };
 	public override int[] MinMaxEXPReward => new int[] { 1, 5 };
 	public override float NPCScale => 0.45f;
 	public override SpecialType NPCType => SpecialType.Armoured;
-	public override float ArmourStrength => 50.0f;
+	public override float ArmourStrength => 15.0f;
 	public override float Damage => 10;
 
 	float armour;
@@ -37,7 +37,14 @@ public partial class Riot : BaseNPC
 	{
 		base.OnArmourBroken();
 
+		base.OnArmourBroken();
+
+		if ( ArmourBroken )
+			return;
+
 		BaseSpeed += 5.0f;
+
+		Log.Info( BaseSpeed );
 	}
 
 	public override void TakeDamage( DamageInfo info )
@@ -57,7 +64,7 @@ public partial class Knight : BaseNPC
 {
 	public override string NPCName => "Knight";
 	public override float BaseHealth => 95;
-	public override float BaseSpeed => 10.0f;
+	public override float BaseSpeed { get; set; } = 10.0f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 9, 31 };
 	public override int[] MinMaxEXPReward => new int[] { 5, 15 };
@@ -91,6 +98,9 @@ public partial class Knight : BaseNPC
 	public override void OnArmourBroken()
 	{
 		base.OnArmourBroken();
+
+		if ( ArmourBroken )
+			return;
 
 		BaseSpeed += 2.5f;
 	}

@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 public partial class Peasant : BaseNPC
 {
@@ -30,15 +31,12 @@ public partial class Zombie : BaseNPC
 	public override float NPCScale => 0.45f;
 	public override float Damage => 5.0f;
 
+	bool hasLoaded = false;
+
 	public override void Spawn()
 	{
 		base.Spawn();
-	}
 
-	public override void ClientSpawn()
-	{
-		base.ClientSpawn();
-
-		SetMaterialOverride( Material.Load("materials/npcs/zombie.vmat"), "skin" );
+		ApplyTextureClient( To.Everyone, "materials/npcs/zombie.vmat" );
 	}
 }

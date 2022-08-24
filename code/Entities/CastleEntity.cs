@@ -43,7 +43,7 @@ public class CastleEntity : ModelEntity
 				break;
 		}
 
-		Health = 250.0f - (50.0f * multiply);
+		Health = 250.0f - (50.0f * (multiply - 1));
 	}
 
 	public void DamageCastle(float damage)

@@ -294,4 +294,19 @@ public partial class CDGame
 	{
 
 	}
+
+	[ConCmd.Server( "cd_get_towerslots" )]
+	public static void GetSlots()
+	{
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+		int slotNum = 1;
+
+		foreach ( var item in player.TowerSlots )
+		{
+			player.UpdateSlots( To.Single( player ), item, slotNum );
+			slotNum++;
+		}
+
+		player.UpdateSlots( To.Single( player ), "Hands", 0 );
+	}
 }

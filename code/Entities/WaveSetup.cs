@@ -20,20 +20,32 @@ public class WaveSetup : Entity
 	public enum NPCEnum
 	{
 		Unspecified,
+
 		//Normal NPCs
 		Peasant,
 		Zombie,
+
 		//Armoured NPCs
 		Riot,
 		Knight,
+
 		//Splitter NPCs
 		Husk,
 
 		//Special
 		Priest,
 
+		//Advanced
+		Ice,
+		Magma,
+		Void,
+
+		//Airbone
+		Spectre,
+
 		//Bosses
 		ZombieBoss,
+		VoidBoss,
 	}
 
 	[Property( "NPCToSpawn" ), Description( "What NPC should this spawn" )]

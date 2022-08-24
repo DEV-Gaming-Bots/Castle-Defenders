@@ -62,8 +62,6 @@ public class StatusGame : Panel
 				gameInfo.ExtraText.SetText( $"Active Wave" );
 				gameInfo.txtRoundPanel.SetClass( "hide", false );
 				gameInfo.SetClass( "activeGame", true );
-				//gameInfo.ExtraText.SetText( $"Active Wave | Wave {CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}" );
-				//gameInfo.SetClass( "activeGame", false );
 				break;
 			case CDGame.WaveEnum.Post:
 				gameInfo.WaveTimer.SetText( $"{ timer.ToString( @"m\:ss" )}" );
@@ -72,12 +70,13 @@ public class StatusGame : Panel
 				break;
 		}
 
-		gameInfo.RoundCounter.SetText( $"{CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}" );
-		//gameInfo.TextTimer = Math.Round(TimerElapsed).ToString();
+		string loopedString = "";
 
-		// WaveTimerSmall
-		// You can show how much health the castle has when one of the terry's damages like
-		// gameInfo.WaveTimerSmall.SetText("Health");
-		// gameInfo.RoundCounter.SetText( $"{CDGame.Instance.CastleHealth}" );
+		if(CDGame.Instance.LoopGame && CDGame.Instance.LoopedTimes > 1)
+		{
+			loopedString = $" | Loop: {CDGame.Instance.LoopedTimes}";
+		}
+
+		gameInfo.RoundCounter.SetText( $"{CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}{loopedString}" );
 	}
 }

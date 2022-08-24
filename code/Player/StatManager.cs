@@ -16,21 +16,8 @@ public partial class CDPawn : IPlayerData
 
 	[Net, Local] public string[] TowerSlots { get; set; }
 
-	[ConCmd.Server("cd_get_towerslots")]
-	public static void GetSlots()
-	{
-		var player = ConsoleSystem.Caller.Pawn as CDPawn;
-		int slotNum = 1;
-
-		foreach ( var item in player.TowerSlots )
-		{
-			player.TestNetwork( To.Single( player ), item, slotNum );
-			slotNum++;
-		}
-	}
-
 	[ClientRpc]
-	public void TestNetwork(string item, int slot)
+	public void UpdateSlots(string item, int slot)
 	{
 		AddSlot( new Slot( item, slot ) );
 	}

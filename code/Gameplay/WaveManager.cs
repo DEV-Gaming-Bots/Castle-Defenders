@@ -57,6 +57,12 @@ public partial class CDGame
 	public DiffVariants DifficultyVariant;
 
 	public DiffEnum Difficulty;
+	
+	[Net]
+	public bool LoopGame { get; set; }
+
+	[Net]
+	public int LoopedTimes { get; set; }
 
 	[Net]
 	public TimeUntil TimeRemaining { get; protected set; }
@@ -114,14 +120,22 @@ public partial class CDGame
 				StartPreWave();
 				return;
 			case GameEnum.Post:
+				
 				if ( ShouldRestart() )
 				{
 					StartGame();
 					return;
 				}
 
+				if ( LoopGame )
+				{
+					LoopRestartGame();
+					return;
+				}
+
 				StartMapVote();
 				return;
+
 			case GameEnum.MapChange:
 				Global.ChangeLevel( mapVote.WinningMap );
 				break;
@@ -151,12 +165,24 @@ public partial class CDGame
 		GameStatus = GameEnum.MapChange;
 		WaveStatus = WaveEnum.MapChange;
 
+		All.OfType<CDPawn>().ToList().ForEach( x =>
+		{
+			x.PreviewTower?.Delete();
+			x.PreviewTower = null;
+
+			x.TowerInHand?.Delete();
+			x.TowerInHand = null;
+		} );
+
 		mapVote = new MapVoteEntity();
 	}
 
 	public bool ShouldRestart()
 	{
 		if ( !allowRestart )
+			return false;
+
+		if ( LoopedTimes > 1 )
 			return false;
 
 		if ( CurWave > (MaxWaves / 2) )
@@ -185,6 +211,17 @@ public partial class CDGame
 		}
 
 		return true;
+	}
+
+	public void LoopRestartGame()
+	{
+		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "" ) );
+
+		LoopedTimes++;
+		TimeRemaining = 10.0f;
+		CurWave = 0;
+
+		GameStatus = GameEnum.Starting;
 	}
 
 	public void StartGame()
@@ -223,7 +260,9 @@ public partial class CDGame
 		if ( Competitive )
 		{
 			//TODO, Competitive endgame situations for teams
-		} else
+
+		} 
+		else
 		{
 			if( winCondition == WinningEnum.Win )
 			{
@@ -234,9 +273,7 @@ public partial class CDGame
 				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 				allowRestart = true;
 			}
-
 		}
-
 	}
 
 	public void StartWave()

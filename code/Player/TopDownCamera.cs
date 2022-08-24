@@ -8,9 +8,7 @@ using static Sandbox.Input;
 
 public class TopDownCamera : CameraMode
 {
-	private Angles orbitAngles;
-	private float orbitDistance = 150;
-	private float orbitHeight = 0;
+	private float topDownHeight = 375;
 
 	public override void Update()
 	{
@@ -19,7 +17,7 @@ public class TopDownCamera : CameraMode
 
 		Position = pawn.Position;
 
-		var center = pawn.Position + Vector3.Up * 375;
+		var center = pawn.Position + Vector3.Up * topDownHeight;
 
 		Position = center;
 		Rotation = Rotation.FromPitch( 90 );
@@ -31,6 +29,10 @@ public class TopDownCamera : CameraMode
 
 	public override void BuildInput( InputBuilder input )
 	{
+		topDownHeight -= input.MouseWheel * 5;
+
+		topDownHeight = topDownHeight.Clamp( 325, 500 );
+
 		input.ViewAngles = Angles.Zero;
 
 		base.BuildInput( input );

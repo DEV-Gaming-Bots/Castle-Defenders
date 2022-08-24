@@ -7,11 +7,11 @@ public partial class CDPawn : Player
 {
 	public ClothingContainer Clothing = new();
 
-	TimeSince timeLastTowerPlace;
-
-	public bool TopDownView;
+	bool topDownView;
 
 	Sound curMusic;
+
+	int scrollInt;
 
 	public CDPawn()
 	{
@@ -36,9 +36,9 @@ public partial class CDPawn : Player
 
 	public void SwitchCameraView()
 	{
-		TopDownView = !TopDownView;
+		topDownView = !topDownView;
 
-		if( TopDownView )
+		if( topDownView )
 			CameraMode = new TopDownCamera();
 		else
 			CameraMode = new FirstPersonCamera();
@@ -66,7 +66,7 @@ public partial class CDPawn : Player
 	public override void Spawn()
 	{
 		EnableLagCompensation = true;
-		TopDownView = false;
+		topDownView = false;
 
 		CreateHull();
 		Tags.Add( "cdplayer" );

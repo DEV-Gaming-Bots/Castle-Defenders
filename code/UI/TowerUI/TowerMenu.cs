@@ -26,9 +26,12 @@ public partial class TowerMenu : Panel
 	{
 		base.Tick();
 
-		var player = Local.Pawn;
+		var player = Local.Pawn as CDPawn;
 
 		if ( player == null )
+			return;
+
+		if ( player.SelectedTower.IsValid() )
 			return;
 
 		var clTr = Trace.Ray( player.EyePosition, player.EyePosition + player.EyeRotation.Forward * 145 )

@@ -38,10 +38,13 @@ public class PlayerLoadout : Panel
 
 	public static void SetSlot( int slotNum )
 	{
+		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
+			return;
+
 		if ( lastSlot != -1 )
 			Slots.GetChild( lastSlot ).GetChild( 0 ).SetClass( "selected", false );
 
-		if( slotNum > -1 )
+		if( slotNum >= 0 )
 			Slots.GetChild( slotNum ).GetChild( 0 ).SetClass( "selected", true );
 
 		lastSlot = slotNum;
