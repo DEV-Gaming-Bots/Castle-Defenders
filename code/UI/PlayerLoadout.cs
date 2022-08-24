@@ -41,8 +41,6 @@ public class PlayerLoadout : Panel
 		if ( lastSlot != -1 )
 			Slots.GetChild( lastSlot ).GetChild( 0 ).SetClass( "selected", false );
 
-		Log.Info( slotNum );
-
 		if( slotNum > -1 )
 			Slots.GetChild( slotNum ).GetChild( 0 ).SetClass( "selected", true );
 

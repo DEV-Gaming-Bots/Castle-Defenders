@@ -6,9 +6,11 @@ public partial class CDPawn
 {
 	public ModelEntity PreviewTower;
 
-	public BaseTower SelectedTower;
+	[Net]
+	public BaseTower SelectedTower { get; set; }
 
-	public BaseSuperTower CurSuperTower;
+	[Net]
+	public BaseSuperTower CurSuperTower { get; set; }
 
 	float towerRot = 0.0f;
 
@@ -24,15 +26,13 @@ public partial class CDPawn
 		PreviewTower.Owner = this;
 	}
 
-	[ClientRpc]
-	public void UpdatePreview(Vector3 endPos, Color color, Rotation rot, float range)
+	public void UpdatePreview(Vector3 endPos, Color color, float range)
 	{
 		if ( PreviewTower == null )
 			return;
 
 		PreviewTower.Position = endPos;
 		PreviewTower.RenderColor = color;
-		PreviewTower.Rotation = rot;
 		PreviewTower.RenderColor = PreviewTower.RenderColor.WithAlpha( 0.5f );
 
 		DebugOverlay.Circle( PreviewTower.Position + Vector3.Up * 5, Rotation.FromPitch(90), range, color.WithAlpha(0.25f));
@@ -48,13 +48,11 @@ public partial class CDPawn
 		PreviewTower = null;
 	}
 
-	[ClientRpc]
 	public void ShowRadius(BaseTower tower)
 	{
-		DebugOverlay.Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.RangeDistance, Color.Blue.WithAlpha( 0.30f ) );
+		DebugOverlay.Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.RangeDistance, Color.Blue.WithAlpha(0.2f) );
 	}
 
-	[ClientRpc]
 	public void ShowSuperRadius(BaseSuperTower superTower, Vector3 pos)
 	{
 		DebugOverlay.Circle( pos + Vector3.Up * 5, Rotation.FromPitch( 90 ), superTower.RangeDistance, Color.Blue.WithAlpha( 0.30f ) );
@@ -64,12 +62,6 @@ public partial class CDPawn
 	{
 		if ( tr.Normal.z < 0.99 )
 			return false;
-
-		if( !SelectedTower.IsValid() )
-		{
-			SelectedTower = null;
-			return false;
-		}
 
 		if ( SelectedTower is BaseSuperTower && CDGame.Instance.ActiveSuperTower == true )
 			return false;
@@ -115,8 +107,6 @@ public partial class CDPawn
 			.WithoutTags( "cdplayer", "npc" )
 			.Run();
 
-			ShowSuperRadius( To.Single(this), CurSuperTower, tr.EndPosition );
-
 			if( Input.Pressed(InputButton.PrimaryAttack) )
 			{
 				CurSuperTower.UseSuperAbility(tr);
@@ -159,8 +149,7 @@ public partial class CDPawn
 		if ( SelectedTower != null )
 		{
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
-			.Ignore( SelectedTower )
-			.WithoutTags( "cdplayer" )
+			.WithoutTags( "cdplayer", "tower" )
 			.Run();
 
 			if ( SelectedTower != null )
@@ -193,14 +182,6 @@ public partial class CDPawn
 				placedTower.Owner = this;
 
 				placedTower.Spawn();
-
-				DestroyPreview( To.Single( this ) );
-
-				if ( IsServer )
-				{
-					SelectedTower.Delete();
-					SelectedTower = null;
-				}
 			}
 		}
 	}
@@ -224,20 +205,8 @@ public partial class CDPawn
 
 		if ( tr.Entity is BaseTower tower && tower.Owner == this && tr.Entity is not BaseSuperTower )
 		{
-			if ( IsServer )
-				ShowRadius( To.Single( this ), tower );
-
-			if ( tower.TimeSinceDeployed < tower.DeploymentTime )
-				return;
-
-			if ( tower.TimeLastUpgrade < 4.0f )
-				return;
-
-			if ( Input.Pressed( InputButton.PrimaryAttack ) )
-			{
-				if ( tower.CanUpgrade() )
-					tower.UpgradeTower();
-			}
+			if ( Input.Pressed( InputButton.PrimaryAttack ) && tower.CanUpgrade() )
+				tower.UpgradeTower();
 
 			if ( Input.Pressed( InputButton.SecondaryAttack ) )
 				tower.SellTower();
@@ -261,11 +230,6 @@ public partial class CDPawn
 			towerRot = 360.0f;
 		else if ( towerRot > 360.0f )
 			towerRot = 0.0f;
-
-		if ( !CanPlace( tr ) )
-			UpdatePreview( To.Single( this ), tr.EndPosition, new Color( 255, 0, 0, 0.5f ), Rotation.FromYaw( towerRot ), SelectedTower.RangeDistance );
-		else
-			UpdatePreview( To.Single( this ), tr.EndPosition, new Color( 0, 255, 0, 0.5f ), Rotation.FromYaw( towerRot ), SelectedTower.RangeDistance );
 
 		if ( SelectedTower.IsValid() )
 		{

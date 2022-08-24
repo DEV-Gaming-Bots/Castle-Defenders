@@ -27,6 +27,9 @@ public class PlayerStatus : Panel
 	{
 		base.Tick();
 
+		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
+			return;
+
 		var pawn = Local.Pawn;
 
 		if ( pawn == null )

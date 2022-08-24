@@ -25,6 +25,9 @@ public partial class Status : Panel
 	{
 		base.Tick();
 
+		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
+			return;
+
 		var player = Local.Pawn as CDPawn;
 
 		if ( player == null )
@@ -33,7 +36,7 @@ public partial class Status : Panel
 		int plyCash = player.GetCash();
 
 		CurCashLbl.SetText( plyCash.ToString("C0") );
-		CurEXPLbl.SetText( $"{player.GetEXP()}/{player.GetReqEXP()}" );
+		CurEXPLbl.SetText( $"XP: {player.GetEXP()}/{player.GetReqEXP()}" );
 
 	}
 }

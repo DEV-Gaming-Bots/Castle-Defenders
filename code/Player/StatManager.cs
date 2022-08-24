@@ -100,7 +100,7 @@ public partial class CDPawn : IPlayerData
 			{
 				Level++;
 				EXP -= ReqEXP;
-				ReqEXP *= (int)2.5f;
+				ReqEXP += Level * 500;
 			}
 		}
 	}

@@ -84,6 +84,7 @@ public partial class BaseTower : AnimatedEntity
 			TimeSinceDeployed = 0;
 			NetCost = TowerLevelCosts[TowerLevel - 1];
 			PlayDeployAnimation();
+			PlayDeployAnimRPC( To.Single( Owner ) );
 		} 
 		else
 			NetCost = TowerCost;
@@ -105,9 +106,20 @@ public partial class BaseTower : AnimatedEntity
 	}
 
 	[ClientRpc]
+	public void PlayDeployAnimRPC()
+	{
+		SetAnimParameter( "b_deploy", true );
+	}
+
 	public void PlayDeployAnimation()
 	{
 		SetAnimParameter( "b_deploy", true );
+	}
+
+	[ClientRpc]
+	public void PlayUpgradeAnimRPC()
+	{
+		SetAnimParameter( "b_upgrade", true );
 	}
 
 	public void PlayUpgradeAnimation()
@@ -147,30 +159,27 @@ public partial class BaseTower : AnimatedEntity
 
 	public virtual void UpgradeTower()
 	{
-		PlayUpgradeAnimation();
-
-		if(IsServer)
+		if ( Upgrades.Count <= TowerLevel - 1)
 		{
-			if ( Upgrades.Count <= TowerLevel - 1)
-			{
-				Log.Error( "Theres currently no upgrades for the next level" );
-				return;
-			}
-
-			(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
-
-			TowerLevel++;
-
-			AttackTime += Upgrades[TowerLevel - 1].AttTime;
-			AttackDamage += Upgrades[TowerLevel - 1].AttDMG;
-			RangeDistance += Upgrades[TowerLevel - 1].NewRange;
-
-			NetDesc = TowerLevelDesc[TowerLevel - 1];
-			NetCost = TowerLevelCosts[TowerLevel - 1];
-
-			TimeLastUpgrade = 0;
+			Log.Error( "Theres currently no upgrades for the next level" );
+			return;
 		}
 
+		PlayUpgradeAnimation();
+		PlayUpgradeAnimRPC( To.Single( Owner ) );
+
+		(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
+
+		TowerLevel++;
+
+		AttackTime += Upgrades[TowerLevel - 1].AttTime;
+		AttackDamage += Upgrades[TowerLevel - 1].AttDMG;
+		RangeDistance += Upgrades[TowerLevel - 1].NewRange;
+
+		NetDesc = TowerLevelDesc[TowerLevel - 1];
+		NetCost = TowerLevelCosts[TowerLevel - 1];
+
+		TimeLastUpgrade = 0;
 	}
 
 	//Scans for enemies

@@ -631,7 +631,7 @@
 				m_bNetwork = true
 				m_bUseMostRecentValue = false
 				m_bAutoReset = true
-				m_bPredicted = true
+				m_bPredicted = false
 				m_bDefaultValue = false
 			},
 		]

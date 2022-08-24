@@ -29,6 +29,9 @@ public class WaveSetup : Entity
 		//Splitter NPCs
 		Husk,
 
+		//Special
+		Priest,
+
 		//Bosses
 		ZombieBoss,
 	}

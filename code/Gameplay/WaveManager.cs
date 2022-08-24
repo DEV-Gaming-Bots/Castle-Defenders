@@ -75,8 +75,6 @@ public partial class CDGame
 	bool allowRestart;
 	bool playInboundMusic = false;
 
-	public List<Entity> PathNodes;
-
 	MapVoteEntity mapVote;
 
 	[Event.Tick.Server]

@@ -106,10 +106,68 @@ public partial class CDPawn : Player
 			DoTDInputs();
 
 		DoTowerOverview();
+
+		if ( CDGame.Instance.DebugMode == CDGame.DebugEnum.Path || CDGame.Instance.DebugMode == CDGame.DebugEnum.All )
+		{
+			foreach ( var path in All.OfType<NPCPath>() )
+			{
+				if ( path.FindNormalPath() != null )
+					DebugOverlay.Line( path.Position, path.FindNormalPath().Position );
+
+				if ( path.FindSplitPath() != null )
+					DebugOverlay.Line( path.Position, path.FindSplitPath().Position );
+			}
+		}
+	}
+
+	public void TowerOverviewClient()
+	{
+		if ( SelectedTower != null )
+			return;
+
+		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+			.UseHitboxes( true )
+			.WithTag( "tower" )
+			.Run();
+
+		if ( tr.Entity is BaseTower tower && tower.Owner == this && tr.Entity is not BaseSuperTower )
+			ShowRadius( tower );
+	}
+
+	public void TowerSuperRadius()
+	{
+		if ( CurSuperTower == null )
+			return;
+
+		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+			.WithoutTags( "cdplayer", "npc" )
+			.Run();
+
+		ShowSuperRadius( CurSuperTower, tr.EndPosition );
+	}
+
+	public void SimulatePreview()
+	{
+		if ( SelectedTower == null )
+			return;
+
+		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+			.Ignore( this )
+			.WithoutTags( "cdplayer", "tower" )
+			.Run();
+
+		if ( !CanPlace( tr ) )
+			UpdatePreview( tr.EndPosition, new Color( 255, 0, 0, 0.5f ), SelectedTower.RangeDistance );
+		else if (CanPlace( tr ) )
+			UpdatePreview( tr.EndPosition, new Color( 0, 255, 0, 0.5f ), SelectedTower.RangeDistance );
 	}
 
 	public override void FrameSimulate( Client cl )
 	{
 		base.FrameSimulate( cl );
+
+		TowerOverviewClient();
+		SimulatePreview();
+		TowerSuperRadius();
 	}
 }

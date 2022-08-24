@@ -37,7 +37,6 @@ public partial class CDGame : Game
 
 			Difficulty = StaticDifficulty;
 			Competitive = StaticCompetitive;
-			PathNodes = new List<Entity>();
 
 			ActiveSuperTower = false;
 		}
@@ -82,11 +81,6 @@ public partial class CDGame : Game
 	public override void PostLevelLoaded()
 	{
 		base.PostLevelLoaded();
-
-		foreach ( var path in All.OfType<NPCPath>() )
-		{
-			PathNodes.Add(path.FindNormalPath());
-		}
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )

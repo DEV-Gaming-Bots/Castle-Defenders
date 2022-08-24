@@ -13,6 +13,7 @@ public partial class CDGame
 		Default,
 		Tower,
 		Gameplay,
+		Path,
 		All,
 	}
 
@@ -41,6 +42,9 @@ public partial class CDGame
 				Instance.DebugMode = DebugEnum.Gameplay;
 				break;
 			case 4:
+				Instance.DebugMode = DebugEnum.Path;
+				break;
+			case 5:
 				Instance.DebugMode = DebugEnum.All;
 				break;
 		}

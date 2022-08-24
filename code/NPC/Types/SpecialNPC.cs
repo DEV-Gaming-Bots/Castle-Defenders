@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public partial class Preist : BaseNPC
+public partial class Priest : BaseNPC
 {
 	public override string NPCName => "Priest";
 	public override float BaseHealth => 65;

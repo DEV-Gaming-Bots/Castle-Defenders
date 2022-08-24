@@ -26,6 +26,9 @@ public class StatusGame : Panel
 	{
 		base.Tick();
 
+		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
+			return;
+
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Idle )
 			return;
 

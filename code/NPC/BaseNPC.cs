@@ -135,7 +135,7 @@ public partial class BaseNPC : AnimatedEntity
 			return;
 		}
 
-		if ( Steer.Target.Distance( Position ) <= 25.0f )
+		if ( Steer.Target.Distance( Position) <= 1.0f )
 		{
 			foreach ( var path in All.OfType<NPCPath>() )
 			{

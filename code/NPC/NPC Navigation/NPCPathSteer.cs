@@ -16,14 +16,6 @@ public class NPCPathSteer
 			return;
 
 		Path.Update( currentPosition, Target );
-		
-		Output.Finished = Path.IsEmpty;
-
-		if ( Output.Finished )
-		{
-			Output.Direction = Vector3.Zero;
-			return;
-		}
 
 		Output.Direction = Path.GetDirection( currentPosition );
 	}
