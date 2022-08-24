@@ -32,8 +32,7 @@ public partial class CDPawn
 			return;
 
 		PreviewTower.Position = endPos;
-		PreviewTower.RenderColor = color;
-		PreviewTower.RenderColor = PreviewTower.RenderColor.WithAlpha( 0.5f );
+		PreviewTower.RenderColor = color.WithAlpha(1.0f);
 
 		DebugOverlay.Circle( PreviewTower.Position + Vector3.Up * 5, Rotation.FromPitch(90), range, color.WithAlpha(0.25f));
 	}

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public partial class Pistol : BaseTower
 {
-	public override string TowerName => "Pistol Tower";
+	public override string TowerName => "Pistol";
 	public override string TowerDesc => "A very simple pistol tower";
 
 	//Temporary until we get a pistol model
@@ -59,7 +59,7 @@ public partial class Pistol : BaseTower
 
 public partial class Sniper : BaseTower
 {
-	public override string TowerName => "Sniper Tower";
+	public override string TowerName => "Sniper";
 	public override string TowerDesc => "A sniper tower that can fire from a large distance";
 
 	//Temporary until we get a pistol model

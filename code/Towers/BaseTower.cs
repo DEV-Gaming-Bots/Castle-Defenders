@@ -85,7 +85,7 @@ public partial class BaseTower : AnimatedEntity
 			NetCost = TowerLevelCosts[TowerLevel - 1];
 			PlayDeployAnimation();
 			PlayDeployAnimRPC( To.Single( Owner ) );
-		} 
+		}
 		else
 			NetCost = TowerCost;
 

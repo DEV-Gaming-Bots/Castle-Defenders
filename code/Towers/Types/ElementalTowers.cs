@@ -5,7 +5,7 @@ using Sandbox;
 
 public partial class Lightning : BaseTower
 {
-	public override string TowerName => "Lightning Tower";
+	public override string TowerName => "Lightning";
 	public override string TowerDesc => "A tower that has the power of thunder, quite shocking";
 	public override string TowerModel => "models/towers/lightningtower.vmdl";
 	public override int UnlockLevel => 0;

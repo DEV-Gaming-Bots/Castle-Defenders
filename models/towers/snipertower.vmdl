@@ -431,7 +431,7 @@
 								]
 							},
 						]
-						hidden_in_tools = false
+						hidden_in_tools = true
 					},
 				]
 			},

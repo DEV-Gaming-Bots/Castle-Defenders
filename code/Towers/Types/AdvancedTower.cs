@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public partial class RadioactiveEmitter : BaseTower
 {
-	public override string TowerName => "Radioactive emitter Tower";
+	public override string TowerName => "Radioactive Emitter";
 	public override string TowerDesc => "A tower that emits radiation to nearby hostiles";
 
 	//Temporary until we get a pistol model
