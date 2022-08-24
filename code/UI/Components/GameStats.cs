@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
@@ -12,7 +13,7 @@ namespace CastleDefenders.UI.Components
 	{
 		public class GameInfoPanel : Panel
 		{
-			private Panel GameInfo;
+			public Panel GameInfo;
 
 			public Panel WaveTimerPanel;
 			public Label WaveTimer;
@@ -34,6 +35,18 @@ namespace CastleDefenders.UI.Components
 
 				ExtraTextPanel = Add.Panel( "extraText" );
 				ExtraText = ExtraTextPanel.Add.Label( "-" );
+			}
+
+			public class ExtraGameInfo : Panel
+			{
+				public Label SmallText;
+				public Label BigText;
+				public ExtraGameInfo()
+				{
+					Panel txtRoundPanel = Add.Panel( "rounds" );
+					SmallText = txtRoundPanel.Add.Label( "-", "waveText" );
+					BigText = txtRoundPanel.Add.Label( "-", "text" );
+				}
 			}
 
 			public string TextTimer
@@ -73,23 +86,51 @@ namespace CastleDefenders.UI.Components
 			private Panel root;
 			private Label title;
 			public Panel loadouts;
+			public Panel selectPanel;
+			public Panel selectedLoadoutPanel;
 
 			public LoadoutSelectPanel()
 			{
 				root = Add.Panel( "root" );
 				title = root.Add.Label( "TOWER LOADOUTS", "title" );
-				loadouts = root.Add.Panel( "loadouts" );
-				for ( int i = 0; i < 3; i++ )
+				selectPanel = root.Add.Panel("select" );
+				loadouts = selectPanel.Add.Panel( "loadouts" );
+				selectedLoadoutPanel = selectPanel.Add.Panel( "loadouts" );
+			}
+
+			public class Loadout : Panel
+			{
+				private int lvlunlock;
+				public Panel loadout;
+				public Loadout( string Name, int LevelUnlock, Action OnClick )
 				{
-					Panel loadout = Add.Panel( "loadout" );
-					loadout.Add.Label( "NAME HERE LMAO" );
-					loadouts.AddChild( loadout );
+					lvlunlock = LevelUnlock;
+					loadout = Add.Panel( "loadout" );
+					loadout.Add.Label( Name );
+				}
+
+				public override void Tick()
+				{
+					base.Tick();
+
+					if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
+						return;
+
+					var player = Local.Pawn as CDPawn;
+
+					if ( player == null )
+						return;
+
+					//if ( player.GetLevel() >= lvlunlock )
+					//{
+					//	loadout.SetClass( "unlocked", true );
+					//}
 				}
 			}
 
-			public void AddLoutout( Action OnClick )
+			public void AddLoutout( string Name , int LevelUnlock , Action OnClick )
 			{
-
+				loadouts.AddChild(new Loadout(Name, LevelUnlock, OnClick));
 			}
 		}
 	}

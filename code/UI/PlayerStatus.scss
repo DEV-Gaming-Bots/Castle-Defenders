@@ -1,0 +1,28 @@
+﻿PlayerStatus {
+    position: absolute;
+    transform: translateX(-50%) translateY(100px);
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    font-size: 32px;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px black;
+
+    .panel {
+        flex-direction: column;
+    }
+
+    .playerInfo {
+        text-align: center;
+        color: white;
+    }
+
+    .playerCash {
+        text-align: center;
+        color: white;
+    }
+
+    &.playerHover {
+        opacity: 1;
+    }
+}

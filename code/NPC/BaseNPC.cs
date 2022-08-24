@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using Sandbox;
+using System.IO;
+using System.Threading.Tasks;
 
 public partial class BaseNPC : AnimatedEntity
 {
@@ -12,7 +14,6 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual float BaseSpeed { get; set; } = 1;
 	public virtual int[] MinMaxCashReward => new int[] { 1, 2 };
 	public virtual int[] MinMaxEXPReward => new int[] { 1, 2 };
-
 	public virtual float NPCScale => 1;
 	public virtual float Damage => 1;
 
@@ -35,8 +36,7 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual float ArmourStrength => 0;
 	public virtual int SplitAmount => 0;
 
-	[ConVar.Replicated]
-	public static bool td2_npc_drawoverlay { get; set; }
+	public bool ArmourBroken;
 
 	public int CashReward;
 	public int ExpReward;
@@ -47,9 +47,9 @@ public partial class BaseNPC : AnimatedEntity
 	Vector3 InputVelocity;
 	Vector3 LookDir;
 
-	NPCNavigation Path = new NPCNavigation();
-
 	CastleEntity castleTarget;
+
+	public TimeUntil TimeUntilSpecialRecover;
 
 	public int GetDifficulty()
 	{
@@ -72,7 +72,7 @@ public partial class BaseNPC : AnimatedEntity
 	}
 
 	public override void Spawn()
-	{ 
+	{
 		SetModel( BaseModel );
 
 		PathTarget = 1;
@@ -80,16 +80,16 @@ public partial class BaseNPC : AnimatedEntity
 		Position = All.OfType<NPCSpawner>().First().Position;
 
 		Scale = NPCScale;
-		Health = BaseHealth * GetDifficulty();
+		Health = BaseHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
 
-		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1]);
+		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] );
 		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * GetDifficulty();
 
 		Tags.Add( "npc" );
 
 		SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
 		EnableTraceAndQueries = true;
-		EnableHitboxes = true;
+		EnableHitboxes = false;
 
 		var spawnerpoint = All.OfType<NPCSpawner>().ToList();
 		var blueSide = spawnerpoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue );
@@ -112,6 +112,20 @@ public partial class BaseNPC : AnimatedEntity
 		Delete();
 	}
 
+	public virtual void OnArmourBroken()
+	{
+		if ( ArmourBroken )
+			return;
+
+		ArmourBroken = true;
+	}
+
+	[ClientRpc]
+	public virtual void ApplyTextureClient(string matPath, string body = "skin")
+	{
+		SetMaterialOverride( Material.Load( matPath ), body );
+	}
+
 	public void FollowPath()
 	{
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Post )
@@ -127,32 +141,40 @@ public partial class BaseNPC : AnimatedEntity
 			return;
 		}
 
-
-		if ( Steer.Target.Distance( Position ) <= 25.0f )
+		if ( Steer.Target.Distance( Position) <= 1.0f )
 		{
-			if( All.OfType<NPCPath>().ToArray()[PathTarget].SplitPathOrder.IsValid())
+			foreach ( var path in All.OfType<NPCPath>() )
 			{
-				switch(Rand.Int(1, 2))
+				if ( path.Position.Distance( Position ) <= 25.0f )
 				{
-					case 1:
-						Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].Position;
+					if ( path.FindSplitPath() != null )
+					{
+						switch ( Rand.Int( 1, 2 ) )
+						{
+							case 1:
+								Steer.Target = path.FindNormalPath().Position;
+								break;
+							case 2:
+								Steer.Target = path.FindSplitPath().Position;
+								break;
+						}
+
 						break;
-					case 2:
-						Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].NextSplitNode.Position;
+					}
+
+					if( path.FindNormalPath() != null )
+					{
+						Steer.Target = path.FindNormalPath().Position;
 						break;
+					}
 				}
-			} 
-			else
-				Steer.Target = All.OfType<NPCPath>().ToArray()[PathTarget].Position;
-
-			PathTarget++;
+			}
 		}
-
 	}
 
 	//Server ticking for NPC Navigation
 	[Event.Tick.Server]
-	public void Tick()
+	public virtual void Tick()
 	{
 		InputVelocity = 0;		
 
@@ -168,6 +190,9 @@ public partial class BaseNPC : AnimatedEntity
 				Velocity = Velocity.AddClamped( InputVelocity * Time.Delta * 500, BaseSpeed * 1.5f );
 			}			
 		}
+
+		if ( TimeUntilSpecialRecover > 0.0f )
+			return;
 
 		Move( Time.Delta );
 

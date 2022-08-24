@@ -13,6 +13,7 @@ public partial class CDGame
 		Default,
 		Tower,
 		Gameplay,
+		Path,
 		All,
 	}
 
@@ -41,6 +42,9 @@ public partial class CDGame
 				Instance.DebugMode = DebugEnum.Gameplay;
 				break;
 			case 4:
+				Instance.DebugMode = DebugEnum.Path;
+				break;
+			case 5:
 				Instance.DebugMode = DebugEnum.All;
 				break;
 		}
@@ -51,6 +55,12 @@ public partial class CDGame
 	[ConCmd.Server("cd_money_give")]
 	public static void GiveMoney(int amount, string targetName = "")
 	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 
 		if ( player == null )
@@ -65,6 +75,68 @@ public partial class CDGame
 		{
 			player.AddCash( amount );
 		}
+	}
+
+	[ConCmd.Server( "cd_diff_set_dedi" )]
+	public static void SetDifficultyDedicated( string diffName )
+	{
+		if(!Host.IsDedicatedServer)
+		{
+			Log.Error( "This command is for dedicated servers only" );
+			return;
+		}
+
+		switch ( diffName.ToLower() )
+		{
+			case "easy":
+				Instance.Difficulty = DiffEnum.Easy;
+				break;
+			case "medium":
+				Instance.Difficulty = DiffEnum.Medium;
+				break;
+			case "hard":
+				Instance.Difficulty = DiffEnum.Hard;
+				break;
+			case "extreme":
+				Instance.Difficulty = DiffEnum.Extreme;
+				break;
+			default:
+				Log.Error( "Invalid setter for difficulty" );
+				return;
+		}
+
+		Log.Info( "Updated difficulty to " + Instance.Difficulty );
+	}
+
+	[ConCmd.Admin( "cd_diff_set" )]
+	public static void SetDifficulty( string diffName )
+	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+		switch(diffName.ToLower())
+		{
+			case "easy":
+				Instance.Difficulty = DiffEnum.Easy;
+				break;
+			case "medium":
+				Instance.Difficulty = DiffEnum.Medium;
+				break;
+			case "hard":
+				Instance.Difficulty = DiffEnum.Hard;
+				break;
+			case "extreme":
+				Instance.Difficulty = DiffEnum.Extreme;
+				break;
+			default:
+				Log.Error( "Invalid setter for difficulty" );
+				return;
+		}
+
+		Log.Info( "Updated difficulty to " + Instance.Difficulty );
 	}
 
 	[ConCmd.Server( "cd_npc_create" )]
@@ -158,6 +230,13 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_force_datareset" )]
 	public static void ResetData()
 	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 
 		if ( player == null )
@@ -169,6 +248,13 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_force_save" )]
 	public static void SaveData()
 	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 
 		if ( player == null )
@@ -177,29 +263,50 @@ public partial class CDGame
 		Instance.SaveData( player );
 	}
 
-	[ConCmd.Admin( "cd_force_savealldata" )]
+	[ConCmd.Admin( "cd_force_saveall" )]
 	public static void SaveAllData()
 	{
 		if ( !Instance.Debug )
 			return;
 
-		All.OfType<CDPawn>().ToList().ForEach( x => Instance.SaveData( x ) );
+		foreach ( var cl in Client.All )
+		{
+			if ( cl.Pawn is CDPawn player )
+				Instance.SaveData( player );
+		}
 	}
 
 	[ConCmd.Admin( "cd_force_loaddata" )]
 	public static void LoadDataCMD()
 	{
-		var player = ConsoleSystem.Caller.Pawn as CDPawn;
-
-		if ( player == null )
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
 			return;
+		}
 
-		Instance.LoadSave( player );
+
+		Instance.LoadSave( ConsoleSystem.Caller );
 	}
 
 	[ConCmd.Server( "cd_tower_select" )]
 	public static void SelectTower()
 	{
 
+	}
+
+	[ConCmd.Server( "cd_get_towerslots" )]
+	public static void GetSlots()
+	{
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+		int slotNum = 1;
+
+		foreach ( var item in player.TowerSlots )
+		{
+			player.UpdateSlots( To.Single( player ), item, slotNum );
+			slotNum++;
+		}
+
+		player.UpdateSlots( To.Single( player ), "Hands", 0 );
 	}
 }

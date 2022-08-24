@@ -1,5 +1,4 @@
 ﻿using Sandbox;
-using System.Collections.Generic;
 using SandboxEditor;
 
 [Library( "cd_wave_setup" )]
@@ -20,17 +19,32 @@ public class WaveSetup : Entity
 	public enum NPCEnum
 	{
 		Unspecified,
+
 		//Normal NPCs
 		Peasant,
 		Zombie,
+
 		//Armoured NPCs
 		Riot,
 		Knight,
+
 		//Splitter NPCs
 		Husk,
 
+		//Special
+		Priest,
+
+		//Advanced
+		Ice,
+		Magma,
+		Void,
+
+		//Airbone
+		Spectre,
+
 		//Bosses
 		ZombieBoss,
+		VoidBoss,
 	}
 
 	[Property( "NPCToSpawn" ), Description( "What NPC should this spawn" )]
@@ -73,7 +87,23 @@ public class WaveSetup : Entity
 			return;
 		}
 
-		TypeLibrary.Create<BaseNPC>( NPCs_To_Spawn.ToString() ).Spawn();
+		if ( NPCs_To_Spawn == NPCEnum.Unspecified )
+		{
+			spawnToggle = false;
+			return;
+		}
+
+		var npc = TypeLibrary.Create<BaseNPC>( NPCs_To_Spawn.ToString() );
+		
+		if( npc == null)
+		{
+			Log.Error( "This wave setup failed to spawn" );
+			spawnToggle = false;
+			return;
+		}
+
+		npc.Spawn();
+
 		spawnCounter++;
 		timeLastSpawn = 0;
 	}

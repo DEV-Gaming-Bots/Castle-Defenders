@@ -8,9 +8,9 @@ public partial class Husk : BaseNPC
 {
 	public override string NPCName => "Husk";
 	public override float BaseHealth => 100;
-	public override float BaseSpeed => 10;
+	public override float BaseSpeed { get; set; } = 10;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new int[] { 5, 20 };
+	public override int[] MinMaxCashReward => new int[] { 7, 33 };
 	public override int[] MinMaxEXPReward => new int[] { 7, 30 };
 	public override float NPCScale => 0.65f;
 	public override SpecialType NPCType => SpecialType.Splitter;
@@ -21,22 +21,26 @@ public partial class Husk : BaseNPC
 	{
 		base.Spawn();
 		RenderColor = new Color( 170, 170, 170 );
+
+		ApplyTextureClient( To.Everyone, "materials/npcs/husk.vmat", "skin" );
 	}
 
 	public void SpawnSplit()
 	{
 		var splitted = new SplitMinion();
 		splitted.Spawn();
+		
+		splitted.ApplyTextureClient( To.Everyone, "materials/npcs/husk.vmat", "skin" );
 
 		splitted.MinionName = NPCName + " Minion"; 
 
 		splitted.RenderColor = RenderColor;
-		splitted.PathTarget = PathTarget;
+		splitted.Steer.Target = Steer.Target;
 
 		splitted.Scale = NPCScale / 2;
-		splitted.Health = Health / 2;
+		splitted.Health = Health / 1.25f;
 
-		splitted.Position = Position + Vector3.Random.x * 35 + Vector3.Random.y * 35;
+		splitted.Position = Position + (Vector3.Random.x * 5) + (Vector3.Random.y * 5);
 		splitted.Rotation = Rotation;
 
 		splitted.BaseSpeed = BaseSpeed * 1.5f;
@@ -46,19 +50,12 @@ public partial class Husk : BaseNPC
 
 	public override void OnKilled()
 	{
-
 		if ( LifeState == LifeState.Dead )
 			return;
 
 		base.OnKilled();
 
-		Log.Info( SplitAmount );
-
 		for ( int i = 0; i < SplitAmount; i++ )
-		{
 			SpawnSplit();
-		}
-		
-		
 	}
 }

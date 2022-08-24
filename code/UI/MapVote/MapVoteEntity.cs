@@ -12,7 +12,7 @@ partial class MapVoteEntity : Entity
 	public IDictionary<Client, string> Votes { get; set; }
 
 	[Net]
-	public string WinningMap { get; set; } = "";
+	public string WinningMap { get; set; } = "rifter.office";
 
 	[Net]
 	public RealTimeUntil VoteTimeLeft { get; set; } = 20;

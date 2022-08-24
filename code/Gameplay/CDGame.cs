@@ -2,6 +2,7 @@
 using Sandbox;
 using Sandbox.UI.Construct;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,9 +17,18 @@ public partial class CDGame : Game
 	[ConVar.Replicated( "cd_diff" )]
 	public static DiffEnum StaticDifficulty { get; set; }
 
+	[ConVar.Replicated( "cd_loopgame" )]
+	public static bool StaticLoopGame { get; set; }
+
 	public bool Competitive;
 
 	public bool RefusePlay;
+
+	[Net]
+	public bool ActiveSuperTowerBlue { get; set; }
+
+	[Net]
+	public bool ActiveSuperTowerRed { get; set; }
 
 	public CDGame()
 	{
@@ -34,6 +44,11 @@ public partial class CDGame : Game
 
 			Difficulty = StaticDifficulty;
 			Competitive = StaticCompetitive;
+			LoopGame = StaticLoopGame;
+
+			ActiveSuperTowerBlue = false;
+			ActiveSuperTowerRed = false;
+			LoopedTimes = 1;
 		}
 
 		if ( IsClient )
@@ -61,27 +76,53 @@ public partial class CDGame : Game
 		pawn.Spawn();
 		client.Pawn = pawn;
 
-		if ( !LoadSave( pawn ) )
+		if ( !HasSavefile( client ) )
 			pawn.NewPlayerStats();
+		else
+			LoadSave( client );
 
 		if ( GameStatus == GameEnum.Idle && !RefusePlay )
-			StartGame();
-
+		{
+			if ( Competitive && CanPlayComp() )
+			{
+				StartCompGame();
+				return;
+			} 
+			else if (!Competitive)
+				StartGame();
+		}
 		if ( GameStatus == GameEnum.Active )
 			pawn.SetUpPlayer();
+	}
+
+	public bool CanPlayComp()
+	{
+		if ( All.OfType<CompSetUp>().Count() <= 0 )
+		{
+			Log.Error( "This map does not have competitive support, switching to Co-Op" );
+			return false;
+		}
+
+		if ( Client.All.Count() < 2 )
+			return false;
+
+		return true;
 	}
 
 	public override void PostLevelLoaded()
 	{
 		base.PostLevelLoaded();
-
-		All.OfType<NPCPath>().ToList().ForEach( x => x.FindPaths() );
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
 	{
-		if(cl.Pawn is CDPawn ply)
+		if ( cl.Pawn is CDPawn ply )
+		{
 			SaveData( ply );
+
+			foreach ( var tower in All.OfType<BaseTower>().ToList().Where(x => x.Owner == ply))
+				tower.Delete();
+		}
 
 		base.ClientDisconnect( cl, reason );
 	}

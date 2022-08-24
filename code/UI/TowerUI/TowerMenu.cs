@@ -26,7 +26,7 @@ public partial class TowerMenu : Panel
 	{
 		base.Tick();
 
-		var player = Local.Pawn;
+		var player = Local.Pawn as CDPawn;
 
 		if ( player == null )
 			return;

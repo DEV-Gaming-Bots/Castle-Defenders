@@ -5,9 +5,8 @@ using SandboxEditor;
 
 [Library("cd_npc_path")]
 [Title( "NPC Path Nodes" ), Description( "Indicates a pathway for NPCs to follow" )]
-[VisGroup( VisGroup.Logic )]
 [HammerEntity]
-public partial class NPCPath : Entity
+public partial class NPCPath : ModelEntity
 {
 	[Property, Description("Path to the next path node")]
 	public EntityTarget NextPath { get; set; }
@@ -24,14 +23,25 @@ public partial class NPCPath : Entity
 	public override void Spawn()
 	{
 		base.Spawn();
+		NextNode = FindNormalPath();
+		NextSplitNode = FindSplitPath();
 	}
 
-	public void FindPaths()
+	public Entity FindNormalPath()
 	{
-		NextNode = NextPath.GetTargets( null ).FirstOrDefault();
+		var nextNode = NextPath.GetTargets( null ).FirstOrDefault();
 
-		if ( SplitPathOrder.IsValid() )
-			NextSplitNode = SplitPathOrder.GetTargets( null ).FirstOrDefault();
+		return nextNode;
+	}
+
+	public Entity FindSplitPath()
+	{
+		if ( !SplitPathOrder.IsValid() )
+			return null;
+
+		var splitNode = SplitPathOrder.GetTargets( null ).FirstOrDefault();
+
+		return splitNode;
 	}
 }
 

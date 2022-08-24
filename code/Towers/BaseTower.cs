@@ -60,13 +60,13 @@ public partial class BaseTower : AnimatedEntity
 	public bool IsPreviewing { get; set; } = true;
 
 	[Net]
-	public string NetName { get; private set; }
+	public string NetName { get; set; }
 
 	[Net]
-	public string NetDesc { get; private set; }
+	public string NetDesc { get; set; }
 
 	[Net]
-	public int NetCost { get; private set; }
+	public int NetCost { get; set; }
 
 	public TimeSince TimeSinceDeployed;
 	public TimeSince TimeLastUpgrade;
@@ -84,14 +84,22 @@ public partial class BaseTower : AnimatedEntity
 			TimeSinceDeployed = 0;
 			NetCost = TowerLevelCosts[TowerLevel - 1];
 			PlayDeployAnimation();
-		} 
+			PlayDeployAnimRPC( To.Single( Owner ) );
+		}
 		else
-			NetCost = TowerCost;
+		{
 
+			NetCost = TowerCost;
+		}
 		NetName = TowerName;
 		NetDesc = TowerDesc;
 
 		Tags.Add( "tower" );
+	}
+
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
 	}
 
 	[Event.Hotload()]
@@ -101,12 +109,22 @@ public partial class BaseTower : AnimatedEntity
 	}
 
 	[ClientRpc]
+	public void PlayDeployAnimRPC()
+	{
+		SetAnimParameter( "b_deploy", true );
+	}
+
 	public void PlayDeployAnimation()
 	{
 		SetAnimParameter( "b_deploy", true );
 	}
 
 	[ClientRpc]
+	public void PlayUpgradeAnimRPC()
+	{
+		SetAnimParameter( "b_upgrade", true );
+	}
+
 	public void PlayUpgradeAnimation()
 	{
 		SetAnimParameter( "b_upgrade", true );
@@ -141,48 +159,41 @@ public partial class BaseTower : AnimatedEntity
 
 		Delete();
 	}
+
 	public virtual void UpgradeTower()
 	{
-		if(IsServer)
+		if ( Upgrades.Count <= TowerLevel - 1)
 		{
-			PlayUpgradeAnimation();
-			if ( Upgrades.Count <= TowerMaxLevel - 1)
-			{
-				Log.Error( "Theres currently no upgrades for the next level" );
-				return;
-			}
-
-			(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
-
-			TowerLevel++;
-
-			AttackTime += Upgrades[TowerLevel - 1].AttTime;
-			AttackDamage += Upgrades[TowerLevel - 1].AttDMG;
-			RangeDistance += Upgrades[TowerLevel - 1].NewRange;
-
-			NetDesc = TowerLevelDesc[TowerLevel - 1];
-			NetCost = TowerLevelCosts[TowerLevel - 1];
-
-			TimeLastUpgrade = 0;
+			Log.Error( "Theres currently no upgrades for the next level" );
+			return;
 		}
 
-	}
+		PlayUpgradeAnimation();
+		PlayUpgradeAnimRPC( To.Single( Owner ) );
 
-	public override void ClientSpawn()
-	{
-		base.ClientSpawn();
+		(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
 
-		SetMaterialOverride( Material.Load( "materials/towers/radioemitter.vmat" ), "snipertower" );
+		TowerLevel++;
+
+		AttackTime += Upgrades[TowerLevel - 1].AttTime;
+		AttackDamage += Upgrades[TowerLevel - 1].AttDMG;
+		RangeDistance += Upgrades[TowerLevel - 1].NewRange;
+
+		NetDesc = TowerLevelDesc[TowerLevel - 1];
+		NetCost = TowerLevelCosts[TowerLevel - 1];
+
+		TimeLastUpgrade = 0;
 	}
 
 	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
-		for ( int i = 1; i <= 45; i++ )
+		for ( int i = 1; i <= 21; i++ )
 		{
-			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 8 ).Forward * RangeDistance + Vector3.Up * 5 )
+			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 17 ).Forward * RangeDistance + Vector3.Up * 5 )
 				.Ignore( this )
 				.UseHitboxes( true )
+				.WithoutTags( "cdplayer", "tower" )
 				.Run();
 
 			if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
@@ -199,11 +210,11 @@ public partial class BaseTower : AnimatedEntity
 	{
 		List<BaseNPC> npclist = new List<BaseNPC>();
 
-		for ( int i = 1; i <= 90; i++ )
+		for ( int i = 1; i <= 45; i++ )
 		{
-			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 4 ).Forward * RangeDistance + Vector3.Up * 5 )
+			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 8 ).Forward * RangeDistance + Vector3.Up * 5 )
 				.Ignore( this )
-				.WithoutTags("tower")
+				.WithoutTags( "cdplayer", "tower" )
 				.UseHitboxes( true )
 				.Run();
 
@@ -238,7 +249,7 @@ public partial class BaseTower : AnimatedEntity
 			//Trace check
 			var towerTR = Trace.Ray( Position + Vector3.Up * 10, Target.Position + Target.Model.Bounds.Center / 2 )
 				.Ignore( this )
-				.WithoutTags("trigger")
+				.WithoutTags( "tower", "cdplayer" )
 				.UseHitboxes(true)
 				.Run();
 
@@ -269,7 +280,6 @@ public partial class BaseTower : AnimatedEntity
 		if ( IsPreviewing )
 			return;
 
-		PlaySound( AttackSound );
 		FireEffects();
 
 		TimeLastAttack = 0;
@@ -285,5 +295,6 @@ public partial class BaseTower : AnimatedEntity
 	public virtual void FireEffects()
 	{
 		Host.AssertClient();
+		PlaySound( AttackSound );
 	}
 }

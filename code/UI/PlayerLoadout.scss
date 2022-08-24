@@ -1,0 +1,59 @@
+PlayerLoadout {
+    position: absolute;
+    padding: 24px;
+    height: 100%;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+
+    .slots {
+        align-items: flex-end;
+    }
+
+    .slot {
+        width: 80px;
+        height: 80px;
+        margin: 0px 4px;
+        background-color: white;
+        background-position: center;
+        background-size: contain;
+
+        .slot-num {
+            color: white;
+            font-weight: 800;
+            font-size: 24px;
+            text-shadow: 2px 2px 1px rgba(0,0,0,0.8);
+        }
+
+        &.selected {
+            width: 100px;
+            height: 100px;
+            box-shadow: 0px 4px 12px 2px rgba(0,0,0,0.5);
+        }
+
+        &.Hands {
+            background-image: url(ui/towers/hands.jpg);
+        }
+
+        &.Pistol {
+            background-image: url(ui/towers/pistol.jpg);
+        }
+
+        &.Sniper {
+            background-image: url(ui/towers/sniper.jpg);
+        }
+
+        &.RadioactiveEmitter {
+            background-image: url(ui/towers/radioactiveemitter.jpg);
+        }
+
+        &.Lightning {
+            background-image: url(ui/towers/lightning.jpg);
+        }
+
+        &.TimeDisplacer {
+            background-image: url(ui/towers/timedisplacer.jpg);
+        }
+    }
+}
