@@ -124,7 +124,11 @@
 										import_filter = 
 										{
 											exclude_by_default = false
-											exception_list = [  ]
+											exception_list = 
+											[
+												"barbed_wire_lod1_001",
+												"barbed_wire_lod2_002",
+											]
 										}
 									},
 									{
@@ -141,7 +145,11 @@
 										import_filter = 
 										{
 											exclude_by_default = false
-											exception_list = [  ]
+											exception_list = 
+											[
+												"barbed_wire_lod0_003",
+												"barbed_wire_lod2_002",
+											]
 										}
 									},
 									{
@@ -158,10 +166,26 @@
 										import_filter = 
 										{
 											exclude_by_default = false
-											exception_list = [  ]
+											exception_list = 
+											[
+												"barbed_wire_lod0_003",
+												"barbed_wire_lod1_001",
+											]
 										}
 									},
 								]
+							},
+							{
+								_class = "Folder"
+								name = "level3"
+							},
+							{
+								_class = "Folder"
+								name = "level4"
+							},
+							{
+								_class = "Folder"
+								name = "level5"
 							},
 						]
 					},
@@ -349,6 +373,84 @@
 						anim_markup_ordered = false
 						disable_compression = false
 						src_anim_name = "upg_2"
+						frame_type = "LastFrame"
+						frame = 0
+					},
+					{
+						_class = "AnimFile"
+						name = "upg_3"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/raw/snipertower/anim/snipertower_anim.fbx"
+						start_frame = 0
+						end_frame = 1
+						framerate = -1.0
+						take = 1
+						reverse = false
+					},
+					{
+						_class = "AnimFrame"
+						name = "upg3_idle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						src_anim_name = "upg_2"
+						frame_type = "LastFrame"
+						frame = 0
+					},
+					{
+						_class = "AnimFile"
+						name = "upg_4"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						source_filename = "models/raw/snipertower/anim/snipertower_anim.fbx"
+						start_frame = 0
+						end_frame = 1
+						framerate = -1.0
+						take = 1
+						reverse = false
+					},
+					{
+						_class = "AnimFrame"
+						name = "upg4_idle"
+						activity_name = ""
+						activity_weight = 1
+						weight_list_name = ""
+						fade_in_time = 0.2
+						fade_out_time = 0.2
+						looping = false
+						delta = false
+						worldSpace = false
+						hidden = false
+						anim_markup_ordered = false
+						disable_compression = false
+						src_anim_name = "upg_4"
 						frame_type = "LastFrame"
 						frame = 0
 					},
