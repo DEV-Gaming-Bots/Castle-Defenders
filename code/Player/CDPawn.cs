@@ -9,7 +9,7 @@ public partial class CDPawn : Player
 
 	TimeSince timeLastTowerPlace;
 
-	bool isoView = false;
+	public bool TopDownView;
 
 	Sound curMusic;
 
@@ -36,16 +36,12 @@ public partial class CDPawn : Player
 
 	public void SwitchCameraView()
 	{
-		isoView = !isoView;
+		TopDownView = !TopDownView;
 
-		if( isoView )
-		{
-			//TODO: Isometric view
-		} 
-		else if (!isoView )
-		{
+		if( TopDownView )
+			CameraMode = new TopDownCamera();
+		else
 			CameraMode = new FirstPersonCamera();
-		}
 	}
 
 	[ClientRpc]
@@ -70,6 +66,7 @@ public partial class CDPawn : Player
 	public override void Spawn()
 	{
 		EnableLagCompensation = true;
+		TopDownView = false;
 
 		CreateHull();
 		Tags.Add( "cdplayer" );
@@ -94,6 +91,33 @@ public partial class CDPawn : Player
 
 		if ( Input.Pressed( InputButton.View ) )
 			SwitchCameraView();
+
+		if(CameraMode is TopDownCamera && IsServer)
+		{
+			Vector2 velo = new Vector2( 0, 0 );
+
+			if (Input.Down(InputButton.Forward))
+			{
+				velo += new Vector2( 128, EyeRotation.Forward.y );
+			}
+
+			if(Input.Down(InputButton.Back))
+			{
+				velo += new Vector2( -128, EyeRotation.Forward.y );
+			}
+
+			if ( Input.Down( InputButton.Right ) )
+			{
+				velo += new Vector2( EyeRotation.Forward.y, -128 );
+			}
+
+			if ( Input.Down( InputButton.Left) )
+			{
+				velo += new Vector2( EyeRotation.Forward.y, 128 );
+			}
+
+			Velocity = velo;
+		}
 
 		//Check if debug is false and we're in an active game
 		if ( CDGame.Instance.Debug == false )
