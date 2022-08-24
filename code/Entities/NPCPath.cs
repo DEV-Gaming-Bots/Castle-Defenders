@@ -17,6 +17,9 @@ public partial class NPCPath : ModelEntity
 	[Property, Description( "Is this node the starting path? required for npcs to navigate" )]
 	public bool StartNode { get; set; } = false;
 
+	[Property, Description( "Like Start node except for the opposing side, only do this on 1 side" )]
+	public bool StartOpposingNode { get; set; } = false;
+
 	public Entity NextNode;
 	public Entity NextSplitNode;
 

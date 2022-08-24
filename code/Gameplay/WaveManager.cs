@@ -228,6 +228,8 @@ public partial class CDGame
 	{
 		Map.Reset( DefaultCleanupFilter );
 
+		All.OfType<CompSetUp>().FirstOrDefault().SetUpCompGame();
+
 		Instance.ActiveSuperTowerBlue = false;
 		Instance.ActiveSuperTowerRed = false;
 
@@ -282,7 +284,16 @@ public partial class CDGame
 
 		if ( Competitive )
 		{
-			//TODO, Competitive endgame situations for teams
+			if(winCondition == WinningEnum.BlueWin)
+			{
+				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.PlayMusic( To.Single(x), "music_win" ) );
+				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.PlayMusic( To.Single( x ), "music_lost" ) );
+			} 
+			else if (winCondition == WinningEnum.RedWin)
+			{
+				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.PlayMusic( To.Single( x ), "music_win" ) );
+				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.PlayMusic( To.Single( x ), "music_lost" ) );
+			}
 
 		} 
 		else
@@ -333,7 +344,7 @@ public partial class CDGame
 
 	public void PostWave()
 	{
-		if ( CurWave >= MaxWaves )
+		if ( CurWave >= MaxWaves && !Instance.Competitive )
 		{
 			EndGame(WinningEnum.Win);
 			return;

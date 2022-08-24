@@ -100,6 +100,7 @@ public partial class CDGame : Game
 		if ( All.OfType<CompSetUp>().Count() <= 0 )
 		{
 			Log.Error( "This map does not have competitive support, switching to Co-Op" );
+			Competitive = false;
 			return false;
 		}
 

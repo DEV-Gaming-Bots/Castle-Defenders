@@ -54,9 +54,13 @@ public partial class CDPawn : Player
 	public override void Spawn()
 	{
 		EnableLagCompensation = true;
+		EnableTouch = true;
+		EnableTouchPersists = true;
+		EnableTraceAndQueries = true;
+
+		LifeState = LifeState.Alive;
 
 		CurTeam = TeamEnum.Unknown;
-
 		CreateHull();
 		Tags.Add( "cdplayer" );
 

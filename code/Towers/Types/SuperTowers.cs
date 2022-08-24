@@ -9,7 +9,7 @@ public partial class TimeDisplacer : BaseSuperTower
 {
 	public override string TowerName => "Time Displacer";
 	public override string TowerDesc => "A sort of time experiment able to teleport hostiles back to spawn";
-	public override string TowerModel => "models/towers/trickstertower.vmdl";
+	public override string TowerModel => "models/towers/timedisplacer.vmdl";
 	public override int TowerCost => 650;
 	public override float DeploymentTime => 5.0f; 
 	public override string AttackSound => "timedisplacer_use";

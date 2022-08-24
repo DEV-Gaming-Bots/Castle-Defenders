@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +9,8 @@ using SandboxEditor;
 
 [Library( "cd_comp_teamtrigger" )]
 [Title( "Team Trigger" ), Description( "A team trigger, you should set 2 of these on each side" )]
-[VisGroup( VisGroup.Logic )]
 [HammerEntity]
-public class TriggerTeam : BaseTrigger
+public partial class TriggerTeam : BaseTrigger
 {
 	public enum TeamSideEnum
 	{
@@ -24,15 +24,18 @@ public class TriggerTeam : BaseTrigger
 
 	public override void Spawn()
 	{
+		base.Spawn();
+
+		ActivationTags.Clear();
 		ActivationTags.Add( "cdplayer" );
+
 	}
 
-	public override void OnTouchStart( Entity toucher )
+	public override void StartTouch( Entity other )
 	{
-		if ( !CDGame.Instance.Competitive )
-			return;
+		base.StartTouch( other );
 
-		if ( toucher is CDPawn player )
+		if ( other is CDPawn player )
 		{
 			if (!Team.ToString().Contains(player.CurTeam.ToString()) )
 			{
@@ -49,8 +52,6 @@ public class TriggerTeam : BaseTrigger
 			} 
 			else
 				player.OnOtherTeamSide = false;
-			
-			Log.Info( player.Client.Name );
 		}
 	}
 }

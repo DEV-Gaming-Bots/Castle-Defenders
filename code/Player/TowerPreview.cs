@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 using Sandbox;
 
@@ -81,9 +82,9 @@ public partial class CDPawn
 		{
 			if ( CDGame.Instance.Competitive )
 			{
-				if ( CurTeam == TeamEnum.Blue && !CDGame.Instance.ActiveSuperTowerBlue )
+				if ( CurTeam == TeamEnum.Blue && CDGame.Instance.ActiveSuperTowerBlue )
 					return false;
-				else if ( CurTeam == TeamEnum.Red && !CDGame.Instance.ActiveSuperTowerRed )
+				else if ( CurTeam == TeamEnum.Red && CDGame.Instance.ActiveSuperTowerRed )
 					return false;
 			}
 			else if ( !CDGame.Instance.ActiveSuperTowerBlue )

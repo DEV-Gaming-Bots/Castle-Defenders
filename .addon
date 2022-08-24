@@ -96,6 +96,16 @@
           "a": "tower",
           "b": "cdplayer",
           "r": "Ignore"
+        },
+        {
+          "a": "trigger",
+          "b": "cdplayer",
+          "r": "Trigger"
+        },
+        {
+          "a": "solid",
+          "b": "cdplayer",
+          "r": "Collide"
         }
       ]
     },

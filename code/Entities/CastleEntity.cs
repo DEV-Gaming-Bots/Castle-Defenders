@@ -63,8 +63,20 @@ public class CastleEntity : ModelEntity
 	{
 		Health -= damage;
 
-		if ( Health <= 0 )
+		if ( Health <= 0 && !CDGame.Instance.Competitive )
 			CDGame.Instance.EndGame( CDGame.WinningEnum.Lost );
+		else if (Health <= 0 && CDGame.Instance.Competitive )
+		{
+			switch( TeamCastle )
+			{
+				case CastleTeam.Blue:
+					CDGame.Instance.EndGame( CDGame.WinningEnum.RedWin );
+					break;
+				case CastleTeam.Red:
+					CDGame.Instance.EndGame( CDGame.WinningEnum.BlueWin );
+					break;
+			}
+		}
 	}
 
 

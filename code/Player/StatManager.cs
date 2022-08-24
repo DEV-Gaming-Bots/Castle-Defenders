@@ -92,6 +92,8 @@ public partial class CDPawn : IPlayerData
 				}
 			}
 
+			OnOtherTeamSide = false;
+
 			if ( CurTeam == TeamEnum.Red )
 				Transform = All.OfType<OpposingSpawnpoint>().OrderBy( x => Guid.NewGuid() ).FirstOrDefault().Transform;
 		}
