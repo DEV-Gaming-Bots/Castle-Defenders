@@ -7,8 +7,6 @@ public partial class CDPawn : Player
 {
 	public ClothingContainer Clothing = new();
 
-	bool topDownView;
-
 	Sound curMusic;
 
 	int scrollInt;
@@ -34,16 +32,6 @@ public partial class CDPawn : Player
 		}
 	}
 
-	public void SwitchCameraView()
-	{
-		topDownView = !topDownView;
-
-		if( topDownView )
-			CameraMode = new TopDownCamera();
-		else
-			CameraMode = new FirstPersonCamera();
-	}
-
 	[ClientRpc]
 	public void PlayMusic(string music)
 	{
@@ -66,7 +54,6 @@ public partial class CDPawn : Player
 	public override void Spawn()
 	{
 		EnableLagCompensation = true;
-		topDownView = false;
 
 		CreateHull();
 		Tags.Add( "cdplayer" );
@@ -88,36 +75,6 @@ public partial class CDPawn : Player
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
-
-		if ( Input.Pressed( InputButton.View ) )
-			SwitchCameraView();
-
-		if(CameraMode is TopDownCamera && IsServer)
-		{
-			Vector2 velo = new Vector2( 0, 0 );
-
-			if (Input.Down(InputButton.Forward))
-			{
-				velo += new Vector2( 128, EyeRotation.Forward.y );
-			}
-
-			if(Input.Down(InputButton.Back))
-			{
-				velo += new Vector2( -128, EyeRotation.Forward.y );
-			}
-
-			if ( Input.Down( InputButton.Right ) )
-			{
-				velo += new Vector2( EyeRotation.Forward.y, -128 );
-			}
-
-			if ( Input.Down( InputButton.Left) )
-			{
-				velo += new Vector2( EyeRotation.Forward.y, 128 );
-			}
-
-			Velocity = velo;
-		}
 
 		//Check if debug is false and we're in an active game
 		if ( CDGame.Instance.Debug == false )
@@ -168,22 +125,6 @@ public partial class CDPawn : Player
 			.Run();
 
 		ShowSuperRadius( CurSuperTower, tr.EndPosition );
-	}
-
-	public void SimulatePreview()
-	{
-		if ( SelectedTower == null )
-			return;
-
-		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
-			.Ignore( this )
-			.WithoutTags( "cdplayer", "tower" )
-			.Run();
-
-		if ( !CanPlace( tr ) )
-			UpdatePreview( tr.EndPosition, new Color( 255, 0, 0, 0.5f ), SelectedTower.RangeDistance );
-		else if (CanPlace( tr ) )
-			UpdatePreview( tr.EndPosition, new Color( 0, 255, 0, 0.5f ), SelectedTower.RangeDistance );
 	}
 
 	public override void FrameSimulate( Client cl )

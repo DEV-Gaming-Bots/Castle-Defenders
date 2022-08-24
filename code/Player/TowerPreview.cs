@@ -25,6 +25,7 @@ public partial class CDPawn
 		PreviewTower.Owner = this;
 	}
 
+	[ClientRpc]
 	public void UpdatePreview(Vector3 endPos, Color color, float range)
 	{
 		if ( PreviewTower == null )
@@ -55,6 +56,21 @@ public partial class CDPawn
 	{
 		DebugOverlay.Circle( pos + Vector3.Up * 5, Rotation.FromPitch( 90 ), superTower.RangeDistance, Color.Blue.WithAlpha( 0.30f ) );
 	}
+	public void SimulatePreview()
+	{
+		if ( SelectedTower == null )
+			return;
+
+		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+			.Ignore( this )
+			.WithoutTags( "cdplayer", "tower" )
+			.Run();
+
+		if ( !CanPlace( tr ) )
+			UpdatePreview( tr.EndPosition, new Color( 255, 0, 0, 0.5f ), SelectedTower.RangeDistance );
+		else if ( CanPlace( tr ) )
+			UpdatePreview( tr.EndPosition, new Color( 0, 255, 0, 0.5f ), SelectedTower.RangeDistance );
+	}
 
 	public bool CanPlace( TraceResult tr )
 	{
@@ -72,7 +88,7 @@ public partial class CDPawn
 		}
 
 		//Second check, look for blocked areas
-		if ( tr.Entity is TowerBlocker || tr.Entity is BaseNPC )
+		if ( tr.Entity is TowerBlocker )
 			return false;
 
 		return true;

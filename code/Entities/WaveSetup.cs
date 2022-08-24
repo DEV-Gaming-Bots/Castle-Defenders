@@ -22,6 +22,7 @@ public class WaveSetup : Entity
 		Unspecified,
 
 		//Normal NPCs
+		Standard,
 		Peasant,
 		Zombie,
 
@@ -85,6 +86,12 @@ public class WaveSetup : Entity
 		{
 			spawnToggle = false;
 			spawnCounter = 0;
+			return;
+		}
+
+		if ( NPCs_To_Spawn == NPCEnum.Unspecified )
+		{
+			spawnToggle = false;
 			return;
 		}
 

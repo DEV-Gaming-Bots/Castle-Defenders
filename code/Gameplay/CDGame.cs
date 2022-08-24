@@ -24,7 +24,8 @@ public partial class CDGame : Game
 
 	public bool RefusePlay;
 
-	public bool ActiveSuperTower;
+	[Net]
+	public bool ActiveSuperTower { get; set; }
 
 	public CDGame()
 	{
