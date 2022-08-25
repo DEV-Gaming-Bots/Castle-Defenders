@@ -80,8 +80,8 @@ public partial class Sniper : BaseTower
 	{
 		"",
 		"Upgraded sniper tower with better sniper power",
-		"Enhanced sniper tower with better sniping power",
-		"Heavily modified sniper tower with more powerful sniping with infra-red scope (detects stealth NPCs)",
+		"Enhanced sniper tower with better sniping power and equipped with a infra-red scope (detects stealth NPCs)",
+		"Heavily modified sniper tower with more powerful sniping",
 		"This tower can snipe incredibly fast and large distances",
 		"This tower is dangerously lethal even from a far distance"
 	};
@@ -117,6 +117,13 @@ public partial class Sniper : BaseTower
 
 		if ( TowerLevel == 3 )
 			CounterStealth = true;
+	}
+
+	public override void SellTower()
+	{
+		base.SellTower();
+
+		LaserOff();
 	}
 
 	[ClientRpc]

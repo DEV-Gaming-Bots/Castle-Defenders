@@ -147,6 +147,14 @@
         "ConVarName": "cd_loopgame",
         "DisplayName": "Loop Gameplay - Default on Competitive",
         "DefaultValue": "false"
+      },
+      "cd_towerlimit": {
+        "DisplayType": "Integer",
+        "Choices": [],
+        "ConVarName": "cd_towerlimit",
+        "DisplayName": "Limit Towers",
+        "DefaultValue": "60",
+        "Maximum": 60
       }
     }
   }

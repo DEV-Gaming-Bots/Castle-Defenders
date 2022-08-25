@@ -12,6 +12,12 @@ public partial class CDPawn : Player
 	int scrollInt;
 	int lastScrollInt;
 
+	[Net]
+	public int TotalTowers { get; set; }
+	
+	[Net]
+	public int TowerLimit { get; set; }
+
 	public CDPawn()
 	{
 
@@ -50,6 +56,18 @@ public partial class CDPawn : Player
 	public void PlaySoundOnClient(string sndPath)
 	{
 		PlaySound( sndPath );
+	}
+
+	public void SetTowerLimit(int limit)
+	{
+		if ( limit == 0 )
+		{
+			TowerLimit = 999;
+			return;
+		}
+
+		TowerLimit = limit;
+		TotalTowers = 0;
 	}
 
 	public override void Spawn()

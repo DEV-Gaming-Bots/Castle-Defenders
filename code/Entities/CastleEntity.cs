@@ -5,7 +5,7 @@ using SandboxEditor;
 [EditorModel( "models/castle.vmdl" )]
 [Title( "Castle" ), Description( "Defines a point where the castle will spawn" )]
 [HammerEntity]
-public class CastleEntity : ModelEntity
+public partial class CastleEntity : ModelEntity
 {
 	public enum CastleTeam
 	{
@@ -14,8 +14,11 @@ public class CastleEntity : ModelEntity
 		Red
 	}
 
-	[Property( "CastleTeam" ), Description("Which team does this castle belong to")]
+	[Net, Property( "CastleTeam" ), Description("Which team does this castle belong to")]
 	public CastleTeam TeamCastle { get; set; } = CastleTeam.Unknown;
+
+	[Net]
+	public float CastleHealth { get; set; }
 
 	public override void Spawn()
 	{
@@ -56,16 +59,16 @@ public class CastleEntity : ModelEntity
 				break;
 		}
 
-		Health = 250.0f - (50.0f * (multiply - 1));
+		CastleHealth = 250.0f - (50.0f * (multiply - 1));
 	}
 
 	public void DamageCastle(float damage)
 	{
-		Health -= damage;
+		CastleHealth -= damage;
 
-		if ( Health <= 0 && !CDGame.Instance.Competitive )
+		if ( CastleHealth <= 0 && !CDGame.Instance.Competitive )
 			CDGame.Instance.EndGame( CDGame.WinningEnum.Lost );
-		else if (Health <= 0 && CDGame.Instance.Competitive )
+		else if ( CastleHealth <= 0 && CDGame.Instance.Competitive )
 		{
 			switch( TeamCastle )
 			{

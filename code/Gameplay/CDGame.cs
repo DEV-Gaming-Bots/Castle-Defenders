@@ -20,6 +20,9 @@ public partial class CDGame : Game
 	[ConVar.Replicated( "cd_loopgame" )]
 	public static bool StaticLoopGame { get; set; }
 
+	[ConVar.Replicated( "cd_towerlimit" )]
+	public static int StaticLimitTowers { get; set; }
+
 	public bool Competitive;
 
 	public bool RefusePlay;
@@ -30,6 +33,7 @@ public partial class CDGame : Game
 	[Net]
 	public bool ActiveSuperTowerRed { get; set; }
 
+	public int LimitTower;
 	public CDGame()
 	{
 		if(IsServer)
@@ -49,6 +53,7 @@ public partial class CDGame : Game
 			ActiveSuperTowerBlue = false;
 			ActiveSuperTowerRed = false;
 			LoopedTimes = 1;
+			LimitTower = StaticLimitTowers;
 		}
 
 		if ( IsClient )
@@ -74,6 +79,7 @@ public partial class CDGame : Game
 
 		var pawn = new CDPawn( client );
 		pawn.Spawn();
+		pawn.SetTowerLimit( LimitTower );
 		client.Pawn = pawn;
 
 		if ( !HasSavefile( client ) )

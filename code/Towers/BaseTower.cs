@@ -153,7 +153,7 @@ public partial class BaseTower : AnimatedEntity
 		return true;
 	}
 
-	public void SellTower()
+	public virtual void SellTower()
 	{
 		if ( !IsServer )
 			return;

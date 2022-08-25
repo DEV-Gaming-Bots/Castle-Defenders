@@ -80,9 +80,26 @@ namespace CastleDefenders.UI.Components
 			private Panel BlueHealth;
 			private Panel RedHealth;
 
-
 			public Panel GameInfo;
 			public Label ExtraText;
+
+			public bool IsCompetitive
+			{
+				set
+				{
+					switch ( value )
+					{
+						case true:
+							BlueHealth.SetClass( "hide", false );
+							RedHealth.SetClass( "hide", false );
+							break;
+						case false:
+							BlueHealth.SetClass( "hide", false );
+							RedHealth.SetClass( "hide", true );
+							break;
+					}
+				}
+			}
 
 			public GameStatsPanel()
 			{
@@ -102,25 +119,24 @@ namespace CastleDefenders.UI.Components
 				ExtraText = Add.Label( "-", "extratxt" );
 			}
 
-			public bool IsCompetitive
+			public override void Tick()
 			{
-				set
+				base.Tick();
+
+
+				if(!CDGame.StaticCompetitive)
 				{
-					switch( value )
-					{
-						case true:
-							BlueHealth.SetClass( "hide", false );
-							RedHealth.SetClass( "hide", false );
-							break;
-						case false:
-							BlueHealth.SetClass( "hide", false );
-							RedHealth.SetClass( "hide", true );
-							break;
-					}
+
+				} 
+				else if (CDGame.StaticCompetitive)
+				{
+					float redCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Red ).First().CastleHealth;
+					float blueCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).First().CastleHealth;
+
+					HealthBarRed.Style.Width = Length.Percent( redCastleHP );
+					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP );
 				}
 			}
-
-			
 		}
 	}
 	public class UserSelectUI

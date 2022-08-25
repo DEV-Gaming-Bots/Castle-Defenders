@@ -77,6 +77,9 @@ public partial class CDPawn
 		if ( tr.Normal.z < 0.99 )
 			return false;
 
+		if ( TotalTowers >= TowerLimit )
+			return false;
+
 		if ( GetCash() < SelectedTower.TowerCost )
 			return false;
 
@@ -142,6 +145,7 @@ public partial class CDPawn
 			{
 				CurSuperTower.UseSuperAbility(tr);
 				CurSuperTower = null;
+				TotalTowers--;
 			}
 
 			if(Input.Pressed(InputButton.SecondaryAttack))
@@ -246,6 +250,7 @@ public partial class CDPawn
 				placedTower.Owner = this;
 
 				placedTower.Spawn();
+				TotalTowers++;
 			}
 		}
 	}
@@ -274,7 +279,10 @@ public partial class CDPawn
 				tower.UpgradeTower();
 
 			if ( Input.Pressed( InputButton.SecondaryAttack ) )
+			{ 
 				tower.SellTower();
+				TotalTowers--;
+			}
 		}
 
 		if ( tr.Entity is BaseSuperTower superTower && superTower.Owner == this )
