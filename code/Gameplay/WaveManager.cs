@@ -282,6 +282,8 @@ public partial class CDGame
 		GameStatus = GameEnum.Post;
 		TimeRemaining = 15.0f;
 
+		All.OfType<BaseNPC>().ToList().ForEach( x => x.Delete() );
+
 		if ( Competitive )
 		{
 			if(winCondition == WinningEnum.BlueWin)

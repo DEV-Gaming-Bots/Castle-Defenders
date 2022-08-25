@@ -150,6 +150,9 @@ public partial class Sniper : BaseTower
 	{
 		Host.AssertClient();
 
+		if ( target == null )
+			return;
+
 		laserSight = Particles.Create( "particles/sniper_beam.vpcf" );
 		laserSight.SetEntityAttachment( 1, this, "muzzle" );
 		laserSight.SetEntity( 0, target, Vector3.Up * 25 );

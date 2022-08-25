@@ -102,11 +102,10 @@ namespace CastleDefenders.UI.Components
 				ExtraText = Add.Label( "-", "extratxt" );
 			}
 
-			public bool IsComptetitive
+			public bool IsCompetitive
 			{
 				set
 				{
-					Log.Info( value );
 					switch( value )
 					{
 						case true:

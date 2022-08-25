@@ -41,6 +41,8 @@ public partial class TriggerTeam : BaseTrigger
 			{
 				player.OnOtherTeamSide = true;
 
+				player.DestroyPreview();
+
 				player.SelectedTower?.Delete();
 				player.SelectedTower = null;
 

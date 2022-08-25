@@ -136,6 +136,12 @@ public partial class CDPawn : IPlayerData
 	{
 		return EXP;
 	}
+
+	public int GetLevel()
+	{
+		return Level;
+	}
+
 	public int GetOldEXP()
 	{
 		return OldEXP;

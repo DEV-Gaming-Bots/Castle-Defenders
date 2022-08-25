@@ -14,7 +14,6 @@ public partial class CDPawn
 	[Net]
 	public BaseSuperTower CurSuperTower { get; set; }
 
-
 	[ClientRpc]
 	public void CreatePreview(string towerModel)
 	{
@@ -95,10 +94,12 @@ public partial class CDPawn
 		}
 
 		//First check, look for nearby towers
-		foreach ( var nearby in FindInSphere( SelectedTower.Position, 16 ) )
+		foreach ( var nearby in FindInSphere( tr.EndPosition, 24 ) )
 		{
 			if ( nearby is BaseTower tower && tower != SelectedTower )
+			{
 				return false;
+			}
 		}
 
 		//Second check, look for blocked areas
@@ -218,7 +219,7 @@ public partial class CDPawn
 		{
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
 			.WithoutTags( "cdplayer", "tower", "npc" )
-			.Size( 1.5f )
+			.Size( 0.1f )
 			.Run();
 
 			if ( SelectedTower != null )

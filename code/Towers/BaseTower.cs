@@ -81,7 +81,7 @@ public partial class BaseTower : AnimatedEntity
 	public override void Spawn()
 	{
 		SetModel( TowerModel );
-		SetupPhysicsFromModel( PhysicsMotionType.Static );
+		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
 		scanRot = 0;
 

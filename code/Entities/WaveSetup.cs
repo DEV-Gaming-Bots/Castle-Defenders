@@ -99,7 +99,7 @@ public class WaveSetup : Entity
 
 		var npc = TypeLibrary.Create<BaseNPC>( NPCs_To_Spawn.ToString() );
 		
-		if( npc == null)
+		if( npc == null )
 		{
 			Log.Error( "This wave setup failed to spawn" );
 			spawnToggle = false;
@@ -128,7 +128,7 @@ public class WaveSetup : Entity
 			} 
 			else
 			{
-				if ( redSide != null && CDGame.Instance.Competitive )
+				if ( redSide != null )
 				{
 					npc.Position = redSide.Position;
 					npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartOpposingNode ).FirstOrDefault().Position;

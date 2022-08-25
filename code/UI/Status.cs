@@ -36,7 +36,7 @@ public partial class Status : Panel
 		int plyCash = player.GetCash();
 
 		CurCashLbl.SetText( plyCash.ToString("C0") );
-		CurEXPLbl.SetText( $"XP: {player.GetEXP()}/{player.GetReqEXP()}" );
+		CurEXPLbl.SetText( $"Level: {player.GetLevel()}\nXP: {player.GetEXP()}/{player.GetReqEXP()}" );
 
 	}
 }

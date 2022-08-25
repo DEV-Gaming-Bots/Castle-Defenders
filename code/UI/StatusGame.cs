@@ -123,7 +123,7 @@ public class StatusGame : Panel
 			Loop.SmallText.SetText( $"Loop" );
 		}
 
-		gameStats.IsComptetitive = CDGame.StaticCompetitive;
+		gameStats.IsCompetitive = CDGame.StaticCompetitive;
 
 		Waves.SmallText.SetText( "Wave" );
 		Waves.BigText.SetText( $"{CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}{loopedString}" );
