@@ -77,14 +77,19 @@ namespace CastleDefenders.UI.Components
 
 			public Panel HealthBarBlue;
 			public Panel HealthBarRed;
+			private Panel BlueHealth;
+			private Panel RedHealth;
+
 
 			public Panel GameInfo;
 			public Label ExtraText;
 
 			public GameStatsPanel()
 			{
-				Panel BlueHealth = Add.Panel( "BlueHealthBar" );
-				Panel RedHealth = Add.Panel( "RedHealthBar" );
+				BlueHealth = Add.Panel( "BlueHealthBar hide" );
+				HealthBarBlue = BlueHealth.Add.Panel( "bar" );
+				RedHealth = Add.Panel( "RedHealthBar hide" );
+				HealthBarRed = RedHealth.Add.Panel( "bar" );
 				Timer = Add.Label( "--:--", "timer" );
 				///////////////
 				TimerHealth = Add.Panel( "timerHealth" );
@@ -96,6 +101,27 @@ namespace CastleDefenders.UI.Components
 				///////////////
 				ExtraText = Add.Label( "-", "extratxt" );
 			}
+
+			public bool IsComptetitive
+			{
+				set
+				{
+					Log.Info( value );
+					switch( value )
+					{
+						case true:
+							BlueHealth.SetClass( "hide", false );
+							RedHealth.SetClass( "hide", false );
+							break;
+						case false:
+							BlueHealth.SetClass( "hide", false );
+							RedHealth.SetClass( "hide", true );
+							break;
+					}
+				}
+			}
+
+			
 		}
 	}
 	public class UserSelectUI

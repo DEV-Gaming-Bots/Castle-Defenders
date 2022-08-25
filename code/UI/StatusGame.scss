@@ -25,6 +25,7 @@ GameInfoPanel {
     }
 
     .timer, .rounds {
+
         transition: margin-top 1s ease;
         margin-top: -150px;
         padding-top: 16px;
@@ -100,17 +101,37 @@ GameStatsPanel {
     }
 
     .BlueHealthBar, .RedHealthBar {
+        &.hide {
+            opacity: 0;
+        }
+
+        .bar {
+            width: 50%;
+        }
+
         width: 500px;
         background-color: orange;
         min-height: 4px;
+        flex-direction: row;
     }
 
     .BlueHealthBar {
         background-color: #072D70;
+
+        .bar {
+            background-color: #0847B4;
+            height: 100%;
+        }
     }
 
     .RedHealthBar {
         background-color: #700707;
+        justify-content: flex-end;
+
+        .bar {
+            background-color: #B40808;
+            height: 100%;
+        }
     }
 
     .GameInfo {
@@ -123,6 +144,7 @@ GameStatsPanel {
         &.hide {
             display: none;
         }
+
         .ExtraInfo {
             justify-content: center;
             align-items: center;
