@@ -15,14 +15,10 @@ public class CompSetUp : Entity
 	[Property, Description("The comp doors, will toggle depending if competitive is on or not")]
 	public EntityTarget CompetitiveDoor { get; set; }
 
-	Entity compDoor;
-
-	public void FindCompDoor()
+	public void SetUpCompGame()
 	{
-		if (CDGame.Instance.Competitive)
-		{
-			compDoor = CompetitiveDoor.GetTargets( null ).FirstOrDefault();
-			compDoor.Delete();
-		}
+		var door = CompetitiveDoor.GetTargets( null ).FirstOrDefault() as BrushEntity;
+		door.Enabled = false;
+		door.Solid = false;
 	}
 }

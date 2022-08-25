@@ -40,7 +40,6 @@ public partial class BaseNPC : AnimatedEntity
 
 	public int CashReward;
 	public int ExpReward;
-	public int PathTarget;
 
 	public NPCPathSteer Steer;
 
@@ -50,6 +49,14 @@ public partial class BaseNPC : AnimatedEntity
 	CastleEntity castleTarget;
 
 	public TimeUntil TimeUntilSpecialRecover;
+
+	public enum PathTeam
+	{
+		Blue,
+		Red
+	}
+
+	public PathTeam PathToFollow;
 
 	public int GetDifficulty()
 	{
@@ -71,13 +78,11 @@ public partial class BaseNPC : AnimatedEntity
 		return 0;
 	}
 
+	
+
 	public override void Spawn()
 	{
 		SetModel( BaseModel );
-
-		PathTarget = 1;
-
-		Position = All.OfType<NPCSpawner>().First().Position;
 
 		Scale = NPCScale;
 		Health = BaseHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
@@ -91,18 +96,18 @@ public partial class BaseNPC : AnimatedEntity
 		EnableTraceAndQueries = true;
 		EnableHitboxes = false;
 
-		var spawnerpoint = All.OfType<NPCSpawner>().ToList();
-		var blueSide = spawnerpoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue );
-		var redSide = spawnerpoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red );
+		Steer = new NPCPathSteer();
 
-		if ( blueSide != null)
+		var spawnerpoint = All.OfType<NPCSpawner>().ToList();
+
+		var blueSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue ).FirstOrDefault();
+		var redSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red ).FirstOrDefault();
+
+		if ( blueSide != null )
 			castleTarget = blueSide.FindCastle();
 
-		if ( redSide != null)
+		if ( redSide != null && CDGame.Instance.Competitive )
 			castleTarget = redSide.FindCastle();
-
-		Steer = new NPCPathSteer();
-		Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
 	}
 
 	//When the NPC reaches the castle, despawn
@@ -280,9 +285,7 @@ public partial class BaseNPC : AnimatedEntity
 		Health -= info.Damage;
 
 		if ( Health <= 0 )
-		{
 			OnKilled();
-		}
 	}
 
 	public void Split()
@@ -295,11 +298,23 @@ public partial class BaseNPC : AnimatedEntity
 		if ( !IsServer )
 			return;
 
-		All.OfType<CDPawn>().ToList().ForEach( x =>
+		if(CDGame.Instance.Competitive)
 		{
-			x.AddCash( CashReward );
-			x.AddEXP( ExpReward );
-		} );
+			All.OfType<CDPawn>().Where(x => x.CurTeam.ToString().Contains( PathToFollow.ToString() )).ToList().ForEach( x =>
+			{
+				x.AddCash( CashReward );
+				x.AddEXP( ExpReward );
+			} );
+		} 
+		else
+		{
+			All.OfType<CDPawn>().ToList().ForEach( x =>
+			{
+				x.AddCash( CashReward );
+				x.AddEXP( ExpReward );
+			} );
+		}
+
 
 		base.OnKilled();
 	}

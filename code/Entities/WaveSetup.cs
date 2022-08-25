@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using SandboxEditor;
+using System.Linq;
 
 [Library( "cd_wave_setup" )]
 [Title("Wave Setup"), Description( "Sets up the wave" )]
@@ -56,6 +57,7 @@ public class WaveSetup : Entity
 	bool spawnToggle;
 	TimeSince timeLastSpawn;
 	int spawnCounter;
+	bool spawnOpposite;
 
 	public bool CheckSpawnerCondition()
 	{
@@ -66,6 +68,7 @@ public class WaveSetup : Entity
 		base.Spawn();
 		spawnToggle = false;
 		spawnCounter = 0;
+		spawnOpposite = false;
 
 		if( NPCs_To_Spawn == NPCEnum.Unspecified )
 			Log.Error( "One of the WaveSetup ents has unspecified NPCs, expect errors!" );
@@ -104,12 +107,56 @@ public class WaveSetup : Entity
 
 		npc.Spawn();
 
+		if ( CDGame.Instance.Competitive )
+		{
+			var spawnerpoint = All.OfType<NPCSpawner>().ToList();
+
+			var blueSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue ).First();
+			var redSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red ).First();
+
+			if(spawnOpposite)
+			{
+				if ( blueSide != null )
+				{
+					npc.Position = blueSide.Position;
+					npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
+					npc.PathToFollow = BaseNPC.PathTeam.Blue;
+				}
+			
+			} 
+			else
+			{
+				if ( redSide != null && CDGame.Instance.Competitive )
+				{
+					npc.Position = redSide.Position;
+					npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartOpposingNode ).FirstOrDefault().Position;
+					npc.PathToFollow = BaseNPC.PathTeam.Red;
+				}
+			}
+
+			spawnOpposite = !spawnOpposite;
+		} 
+		else
+		{
+			var spawnerpoint = All.OfType<NPCSpawner>().ToList();
+
+			var blueSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue ).First();
+			npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
+			npc.PathToFollow = BaseNPC.PathTeam.Blue;
+			npc.Position = blueSide.Position;
+		}
+
 		spawnCounter++;
 		timeLastSpawn = 0;
 	}
 
 	public void StartSpawning()
 	{
+		if ( CDGame.Instance.Competitive )
+		{
+			Spawn_Count *= 2;
+			NPC_Spawn_Rate /= 2;
+		}
 		timeLastSpawn = 0;
 		spawnToggle = true;
 	}

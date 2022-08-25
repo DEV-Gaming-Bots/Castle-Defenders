@@ -40,6 +40,7 @@ public class StatusGame : Panel
 			gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
 			gameInfo.ExtraText.SetText( "Starting" );
 			gameInfo.SetClass( "activeGame", true );
+			gameInfo.txtRoundPanel.SetClass( "hide", true );
 			return;
 		}
 
