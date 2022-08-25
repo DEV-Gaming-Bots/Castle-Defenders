@@ -46,7 +46,7 @@ public partial class BaseNPC : AnimatedEntity
 	Vector3 InputVelocity;
 	Vector3 LookDir;
 
-	CastleEntity castleTarget;
+	public CastleEntity CastleTarget;
 
 	public TimeUntil TimeUntilSpecialRecover;
 
@@ -97,17 +97,6 @@ public partial class BaseNPC : AnimatedEntity
 		EnableHitboxes = false;
 
 		Steer = new NPCPathSteer();
-
-		var spawnerpoint = All.OfType<NPCSpawner>().ToList();
-
-		var blueSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue ).FirstOrDefault();
-		var redSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red ).FirstOrDefault();
-
-		if ( blueSide != null )
-			castleTarget = blueSide.FindCastle();
-
-		if ( redSide != null && CDGame.Instance.Competitive )
-			castleTarget = redSide.FindCastle();
 	}
 
 	//When the NPC reaches the castle, despawn
@@ -136,12 +125,12 @@ public partial class BaseNPC : AnimatedEntity
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Post )
 			Despawn();
 
-		if ( castleTarget.IsValid() && Position.Distance( castleTarget.Position ) <= 25.0f )
+		if ( CastleTarget.IsValid() && Position.Distance( CastleTarget.Position ) <= 25.0f )
 		{
 			DamageInfo dmgInfo = new DamageInfo();
 			dmgInfo.Damage = Damage * GetDifficulty();
 
-			castleTarget.DamageCastle( dmgInfo.Damage );
+			CastleTarget.DamageCastle( dmgInfo.Damage );
 			Despawn();
 			return;
 		}

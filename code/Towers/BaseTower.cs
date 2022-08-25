@@ -74,10 +74,15 @@ public partial class BaseTower : AnimatedEntity
 
 	public BaseNPC Target;
 
+	float scanRot;
+	TimeSince waitNextScan;
+
 	public override void Spawn()
 	{
 		SetModel( TowerModel );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+
+		scanRot = 0;
 
 		if ( !IsPreviewing )
 		{
@@ -188,40 +193,49 @@ public partial class BaseTower : AnimatedEntity
 	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
-		for ( int i = 1; i <= 21; i++ )
+		if( waitNextScan >= 2.5f )
+			scanRot++;
+
+		var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( scanRot * 2 ).Forward * RangeDistance + Vector3.Up * 5 )
+			.Ignore( this )
+			.UseHitboxes( true )
+			.WithoutTags( "cdplayer", "tower" )
+			.Run();
+
+		var tr2 = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( -scanRot * 2 ).Forward * RangeDistance + Vector3.Up * 5 )
+			.Ignore( this )
+			.UseHitboxes( true )
+			.WithoutTags( "cdplayer", "tower" )
+			.Run();
+
+		if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
 		{
-			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 17 ).Forward * RangeDistance + Vector3.Up * 5 )
-				.Ignore( this )
-				.UseHitboxes( true )
-				.WithoutTags( "cdplayer", "tower" )
-				.Run();
-
-			if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
-				DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
-
-			if ( tr.Entity is BaseNPC npc )
-				return npc;
+			DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
+			DebugOverlay.Line( tr2.StartPosition, tr2.EndPosition );
 		}
 
+		if ( tr.Entity is BaseNPC npc )
+			return npc;
+
+		if ( tr2.Entity is BaseNPC npc2 )
+			return npc2;
+
 		return null;
+
 	}
 
 	public List<BaseNPC> ScanForEnemies()
 	{
 		List<BaseNPC> npclist = new List<BaseNPC>();
 
-		for ( int i = 1; i <= 45; i++ )
+		var ents = FindInSphere( Position, RangeDistance );
+
+		if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
+			DebugOverlay.Sphere( Position, RangeDistance, Color.Yellow);
+
+		foreach ( var ent in ents )
 		{
-			var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( i * 8 ).Forward * RangeDistance + Vector3.Up * 5 )
-				.Ignore( this )
-				.WithoutTags( "cdplayer", "tower" )
-				.UseHitboxes( true )
-				.Run();
-
-			if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
-				DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
-
-			if ( tr.Entity is BaseNPC npc )
+			if ( ent is BaseNPC npc )
 				npclist.Add( npc );
 		}
 
@@ -261,6 +275,7 @@ public partial class BaseTower : AnimatedEntity
 			if ( towerTR.Entity is not BaseNPC )
 			{
 				Target = null;
+				waitNextScan = 0;
 				return;
 			}
 

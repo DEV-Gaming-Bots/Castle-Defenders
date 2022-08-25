@@ -39,8 +39,8 @@ public partial class Pistol : BaseTower
 	{
 		25,
 		45,
-		80,
-		110,
+		90,
+		145,
 		-1,
 	};
 

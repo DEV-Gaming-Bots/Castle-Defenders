@@ -121,6 +121,7 @@ public class WaveSetup : Entity
 					npc.Position = blueSide.Position;
 					npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
 					npc.PathToFollow = BaseNPC.PathTeam.Blue;
+					npc.CastleTarget = blueSide.FindCastle();
 				}
 			
 			} 
@@ -131,6 +132,7 @@ public class WaveSetup : Entity
 					npc.Position = redSide.Position;
 					npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartOpposingNode ).FirstOrDefault().Position;
 					npc.PathToFollow = BaseNPC.PathTeam.Red;
+					npc.CastleTarget = redSide.FindCastle();
 				}
 			}
 
@@ -141,6 +143,7 @@ public class WaveSetup : Entity
 			var spawnerpoint = All.OfType<NPCSpawner>().ToList();
 
 			var blueSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue ).First();
+			npc.CastleTarget = blueSide.FindCastle();
 			npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
 			npc.PathToFollow = BaseNPC.PathTeam.Blue;
 			npc.Position = blueSide.Position;

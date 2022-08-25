@@ -118,8 +118,8 @@
 						anim_markup_ordered = false
 						disable_compression = false
 						source_filename = "models/raw/lightningtower/lightningtoweranims.fbx"
-						start_frame = -1
-						end_frame = -1
+						start_frame = 0
+						end_frame = 40
 						framerate = -1.0
 						take = 0
 						reverse = false

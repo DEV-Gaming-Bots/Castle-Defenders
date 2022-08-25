@@ -102,6 +102,7 @@ public partial class CDPawn : IPlayerData
 	public void AddCash(int addCash)
 	{
 		Cash += addCash;
+		Cash = Cash.Clamp( 0, 5000 );
 	}
 
 	public void TakeCash( int subCash )

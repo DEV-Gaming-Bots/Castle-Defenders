@@ -286,13 +286,13 @@ public partial class CDGame
 		{
 			if(winCondition == WinningEnum.BlueWin)
 			{
-				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.PlayMusic( To.Single(x), "music_win" ) );
-				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.PlayMusic( To.Single( x ), "music_lost" ) );
+				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.EndMusic( To.Single(x), "music_win" ) );
+				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 			} 
 			else if (winCondition == WinningEnum.RedWin)
 			{
-				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.PlayMusic( To.Single( x ), "music_win" ) );
-				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.PlayMusic( To.Single( x ), "music_lost" ) );
+				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_win" ) );
+				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 			}
 
 		} 
@@ -344,10 +344,18 @@ public partial class CDGame
 
 	public void PostWave()
 	{
-		if ( CurWave >= MaxWaves && !Instance.Competitive )
+		if ( CurWave >= MaxWaves )
 		{
-			EndGame(WinningEnum.Win);
-			return;
+			if ( !Instance.Competitive )
+			{
+				EndGame( WinningEnum.Win );
+				return;
+			} 
+			else
+			{
+				CurWave = 0;
+				LoopedTimes++;
+			}
 		}
 
 		string endMusic = "";
