@@ -42,15 +42,15 @@ GameInfoPanel {
     .timer {
         text-align: center;
         justify-content: center;
-        min-width: 160px;
-        background-color: #208EAB;
+        min-width: 5%;
+        //background-color: #208EAB;
         //border-bottom: 2px solid #1895B7;
-        border-left: 2px solid #1895B7;
+        //border-left: 2px solid #1895B7;
     }
 
     .extraText {
         padding: 2px;
-        background-color: #208EAB;
+        //background-color: #208EAB;
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
         justify-content: center;
@@ -63,23 +63,96 @@ GameInfoPanel {
             font-weight: bold;
             text-shadow: 0px 3px 3px rgba(0,0,0,0.3);
         }
-
-        border-bottom: 2px solid #1895B7;
-        border-left: 2px solid #1895B7;
-        border-right: 2px solid #1895B7;
+        //border-bottom: 2px solid #1895B7;
+        //border-left: 2px solid #1895B7;
+        //border-right: 2px solid #1895B7;
     }
 
     .rounds {
         min-width: 120px;
         justify-content: center;
         align-items: center;
-        background-color: #1D788F;
+        //background-color: #1D788F;
         //border-bottom: 2px solid #15829E;
-        border-right: 2px solid #15829E;
+        //border-right: 2px solid #15829E;
 
 
         &.hide {
             display: none;
         }
+    }
+
+}
+GameStatsPanel {
+    position: absolute;
+    padding-top: 6px;
+    flex-direction: column;
+
+    .timer {
+        color: white;
+        font-family: Poppins;
+        font-size: 24%;
+        font-weight: 800;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        margin: -0.6% 24px;
+        text-align: center;
+        min-width: 100px;
+    }
+
+    .BlueHealthBar, .RedHealthBar {
+        width: 500px;
+        background-color: orange;
+        min-height: 4px;
+    }
+
+    .BlueHealthBar {
+        background-color: #072D70;
+    }
+
+    .RedHealthBar {
+        background-color: #700707;
+    }
+
+    .GameInfo {
+        padding-top: 8px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    ExtraGameInfo {
+        &.hide {
+            display: none;
+        }
+        .ExtraInfo {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .BigText {
+            color: white;
+            font-size: 32%;
+            font-family: Poppins;
+            font-weight: bold;
+            text-shadow: 0px 3px 3px rgba(0,0,0,0.3);
+            padding: 0px 12px;
+        }
+
+        .SmallText {
+            color: white;
+            font-size: 18%;
+            font-family: Poppins;
+            font-weight: bold;
+            text-shadow: 0px 3px 3px rgba(0,0,0,0.3);
+            margin-left: 12px;
+        }
+    }
+
+    .extratxt {
+        text-align: center;
+        color: white;
+        font-size: 18%;
+        font-family: Poppins;
+        font-weight: bold;
+        text-shadow: 0px 3px 3px rgba(0,0,0,0.3);
     }
 }

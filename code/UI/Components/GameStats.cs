@@ -24,6 +24,7 @@ namespace CastleDefenders.UI.Components
 
 			public Panel txtRoundPanel;
 			public Label RoundCounter;
+			[Obsolete]
 			public GameInfoPanel()
 			{
 				GameInfo = Add.Panel( "GameInfo" );
@@ -43,9 +44,9 @@ namespace CastleDefenders.UI.Components
 				public Label BigText;
 				public ExtraGameInfo()
 				{
-					Panel txtRoundPanel = Add.Panel( "rounds" );
-					SmallText = txtRoundPanel.Add.Label( "-", "waveText" );
-					BigText = txtRoundPanel.Add.Label( "-", "text" );
+					Panel txtRoundPanel = Add.Panel( "extraInfo" );
+					SmallText = txtRoundPanel.Add.Label( "-", "SmallText" );
+					BigText = txtRoundPanel.Add.Label( "-", "BigText" );
 				}
 			}
 
@@ -67,7 +68,35 @@ namespace CastleDefenders.UI.Components
 
 		}
 
+		public class GameStatsPanel : Panel
+		{
+			public Panel TimerHealth;
 
+			public Panel txtRoundPanel;
+			public Label Timer;
+
+			public Panel HealthBarBlue;
+			public Panel HealthBarRed;
+
+			public Panel GameInfo;
+			public Label ExtraText;
+
+			public GameStatsPanel()
+			{
+				Panel BlueHealth = Add.Panel( "BlueHealthBar" );
+				Panel RedHealth = Add.Panel( "RedHealthBar" );
+				Timer = Add.Label( "--:--", "timer" );
+				///////////////
+				TimerHealth = Add.Panel( "timerHealth" );
+				TimerHealth.AddChild( BlueHealth );
+				TimerHealth.AddChild( Timer );
+				TimerHealth.AddChild( RedHealth );
+				///////////////
+				GameInfo = Add.Panel( "GameInfo" );
+				///////////////
+				ExtraText = Add.Label( "-", "extratxt" );
+			}
+		}
 	}
 	public class UserSelectUI
 	{
