@@ -48,11 +48,6 @@ public partial class BaseSuperTower : BaseTower
 
 	}
 
-	public override void ClientSpawn()
-	{
-		base.ClientSpawn();
-	}
-
 	[Event.Tick.Server]
 	public override void SimulateTower()
 	{
@@ -60,7 +55,8 @@ public partial class BaseSuperTower : BaseTower
 
 	public virtual void UseSuperAbility(TraceResult tr)
 	{
-		Sound.FromWorld( AttackSound, tr.EndPosition );
+		FireEffectAtLocation(tr.EndPosition);
+
 		Despawn();
 	}
 

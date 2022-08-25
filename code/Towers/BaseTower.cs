@@ -309,4 +309,11 @@ public partial class BaseTower : AnimatedEntity
 		Host.AssertClient();
 		PlaySound( AttackSound );
 	}
+
+	[ClientRpc]
+	public virtual void FireEffectAtLocation(Vector3 pos)
+	{
+		Host.AssertClient();
+		Sound.FromWorld( AttackSound, pos );
+	}
 }

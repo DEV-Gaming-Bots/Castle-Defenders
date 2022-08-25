@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sandbox;
 
 
@@ -49,6 +50,14 @@ public partial class Lightning : BaseTower
 	public override string AttackSound => "lightning_attack";
 
 	bool charged = false;
+	int shockNextLimit = 0;
+
+	public override void UpgradeTower()
+	{
+		base.UpgradeTower();
+
+		shockNextLimit++;
+	}
 
 	[Event.Tick.Server]
 	public override void SimulateTower()
@@ -73,6 +82,30 @@ public partial class Lightning : BaseTower
 	{
 		base.Attack( target );
 		charged = false;
+
+		if ( shockNextLimit <= 0 )
+			return;
+
+		BaseNPC shockTarget = target;
+
+		for ( int i = 0; i < shockNextLimit; i++ )
+		{
+			DebugOverlay.Sphere( shockTarget.Position + shockTarget.Rotation.Backward * 15, 32, Color.Magenta, 2.0f );
+
+			var ents = FindInSphere( shockTarget.Position + shockTarget.Rotation.Backward * 15, 32 );
+
+			foreach ( var ent in ents )
+			{
+				if ( ent is BaseNPC npc && npc != shockTarget )
+					shockTarget = npc;
+			}
+
+			if ( shockTarget == null )
+				break;
+
+			base.Attack( shockTarget );
+		}
+
 	}
 
 	[ClientRpc]

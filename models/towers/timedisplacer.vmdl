@@ -108,6 +108,45 @@
 					{
 						_class = "AnimFile"
 						name = "deploy"
+						children = 
+						[
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND_POSITION"
+								event_frame = 6
+								event_keys = 
+								{
+									name = "build_start"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND_POSITION"
+								event_frame = 9
+								event_keys = 
+								{
+									name = "build_finish"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+							{
+								_class = "AnimEvent"
+								event_class = "AE_CL_PLAYSOUND_POSITION"
+								event_frame = 17
+								event_keys = 
+								{
+									name = "timedisplacer_deploy"
+									stop_on_seq_change = false
+									use_layer_sequence = false
+									tags = ""
+								}
+							},
+						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
@@ -122,7 +161,7 @@
 						source_filename = "models/raw/timedisplacer/timedisplacer.fbx"
 						start_frame = -1
 						end_frame = -1
-						framerate = -1.0
+						framerate = 6.0
 						take = 0
 						reverse = false
 					},

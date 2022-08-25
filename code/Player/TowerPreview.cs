@@ -64,7 +64,7 @@ public partial class CDPawn
 
 		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
 			.Ignore( this )
-			.WithoutTags( "cdplayer", "tower" )
+			.WithoutTags( "cdplayer", "tower", "npc" )
 			.Run();
 
 		if ( !CanPlace( tr ) )
@@ -90,7 +90,7 @@ public partial class CDPawn
 				else if ( CurTeam == TeamEnum.Red && CDGame.Instance.ActiveSuperTowerRed )
 					return false;
 			}
-			else if ( !CDGame.Instance.ActiveSuperTowerBlue )
+			else if ( CDGame.Instance.ActiveSuperTowerBlue )
 				return false;
 		}
 
@@ -114,12 +114,12 @@ public partial class CDPawn
 			return;
 
 		if ( Input.MouseWheel != 0)
-			scrollInt += Input.MouseWheel;
+			scrollInt -= Input.MouseWheel;
 
 		if ( GetSelectedSlot() > -1 )
 			scrollInt = GetSelectedSlot() - 1;
 
-		if ( scrollInt - 1 > TowerSlots.Length )
+		if ( scrollInt > TowerSlots.Length )
 			scrollInt = 0;
 		else if (scrollInt < 0)
 			scrollInt = TowerSlots.Length;
@@ -142,6 +142,9 @@ public partial class CDPawn
 				CurSuperTower.UseSuperAbility(tr);
 				CurSuperTower = null;
 			}
+
+			if(Input.Pressed(InputButton.SecondaryAttack))
+				CurSuperTower = null;
 		}
 		//Check if the last slot is equal or greater than
 		//while checking if the time last placed is greater
@@ -157,6 +160,9 @@ public partial class CDPawn
 
 					SelectedTower.Delete();
 					SelectedTower = null;
+
+					TowerInHand.Delete();
+					TowerInHand = null;
 				}
 				return;
 			}
@@ -211,21 +217,12 @@ public partial class CDPawn
 		if ( SelectedTower != null )
 		{
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
-			.WithoutTags( "cdplayer", "tower" )
+			.WithoutTags( "cdplayer", "tower", "npc" )
 			.Size( 1.5f )
 			.Run();
 
 			if ( SelectedTower != null )
 				SimulatePlacement( tr );
-
-			else if ( IsServer )
-			{
-				SelectedTower?.Delete();
-				SelectedTower = null;
-
-				TowerInHand.Delete();
-				TowerInHand = null;
-			}
 
 			if ( !CanPlace( tr ) )
 				return;
@@ -260,6 +257,7 @@ public partial class CDPawn
 
 	public void DoTowerOverview()
 	{
+
 		//We have a selected tower in preview, stop here
 		if ( SelectedTower.IsValid() || TowerInHand.IsValid())
 			return;

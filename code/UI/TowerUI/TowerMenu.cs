@@ -31,6 +31,16 @@ public partial class TowerMenu : Panel
 		if ( player == null )
 			return;
 
+		if(player.SelectedTower != null)
+		{
+			TowerName.SetText( player.SelectedTower.NetName );
+			TowerDesc.SetText( player.SelectedTower.NetDesc );
+			TowerCost.SetText( $"Build Cost: ${player.SelectedTower.NetCost}" );
+			TowerPnl.SetClass( "showMenu", true );
+
+			return;
+		}
+
 		var clTr = Trace.Ray( player.EyePosition, player.EyePosition + player.EyeRotation.Forward * 145 )
 			.UseHitboxes( true )
 			.WithTag( "tower" )
@@ -45,17 +55,11 @@ public partial class TowerMenu : Panel
 			TowerName.SetText( tower.NetName );
 			TowerDesc.SetText( tower.NetDesc );
 
-			if ( tower.IsPreviewing )
-			{
-				TowerCost.SetText( $"Build Cost: ${tower.NetCost}" );
-			}
+			if( tower.NetCost != -1)
+				TowerCost.SetText( $"Upgrade Cost: ${tower.NetCost}" );
 			else
-			{
-				if( tower.NetCost != -1)
-					TowerCost.SetText( $"Upgrade Cost: ${tower.NetCost}" );
-				else
-					TowerCost.SetText( "Max Level" );;
-			}
+				TowerCost.SetText( "Max Level" );;
+			
 		}
 		else
 			TowerPnl.SetClass( "showMenu", false );

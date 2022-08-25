@@ -159,8 +159,8 @@ public partial class CDGame
 		npc.Spawn();
 		var spawnerpoint = All.OfType<NPCSpawner>().ToList();
 
-		var blueSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue ).First();
-		var redSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red ).First();
+		var blueSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue ).FirstOrDefault();
+		var redSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red ).FirstOrDefault();
 
 		if ( team.Contains( "blue" ) )
 		{
@@ -175,6 +175,13 @@ public partial class CDGame
 			npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartOpposingNode ).FirstOrDefault().Position;
 			npc.PathToFollow = BaseNPC.PathTeam.Red;
 			npc.CastleTarget = redSide.FindCastle();
+		} 
+		else
+		{
+			npc.Position = blueSide.Position;
+			npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
+			npc.PathToFollow = BaseNPC.PathTeam.Blue;
+			npc.CastleTarget = blueSide.FindCastle();
 		}
 
 	}

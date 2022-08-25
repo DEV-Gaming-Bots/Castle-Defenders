@@ -37,8 +37,6 @@ public partial class Riot : BaseNPC
 	{
 		base.OnArmourBroken();
 
-		base.OnArmourBroken();
-
 		if ( ArmourBroken )
 			return;
 
