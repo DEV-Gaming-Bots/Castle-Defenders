@@ -68,6 +68,8 @@ public partial class BaseTower : AnimatedEntity
 	[Net]
 	public int NetCost { get; set; }
 
+	public virtual bool CounterStealth { get; set; } = false;
+
 	public TimeSince TimeSinceDeployed;
 	public TimeSince TimeLastUpgrade;
 	public TimeSince TimeLastAttack;
@@ -79,7 +81,7 @@ public partial class BaseTower : AnimatedEntity
 	public override void Spawn()
 	{
 		SetModel( TowerModel );
-		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+		SetupPhysicsFromModel( PhysicsMotionType.Static );
 
 		scanRot = 0;
 
@@ -213,11 +215,20 @@ public partial class BaseTower : AnimatedEntity
 		}
 
 		if ( tr.Entity is BaseNPC npc )
+		{
+			if ( npc.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
+				return null;
+
 			return npc;
+		}
 
 		if ( tr2.Entity is BaseNPC npc2 )
-			return npc2;
+		{
+			if ( npc2.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
+				return null;
 
+			return npc2;
+		}
 		return null;
 
 	}
@@ -234,7 +245,12 @@ public partial class BaseTower : AnimatedEntity
 		foreach ( var ent in ents )
 		{
 			if ( ent is BaseNPC npc )
+			{
+				if ( npc.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
+					break;
+
 				npclist.Add( npc );
+			}
 		}
 
 		return npclist;

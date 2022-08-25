@@ -3,11 +3,11 @@
 	data = 
 	{
 		UI = false
-		Volume = 0.6
+		Volume = 1
 		VolumeRandom = 0
 		Pitch = 1
 		PitchRandom = 0
-		Decibels = 90
+		Decibels = 135
 		Sounds = 
 		[
 			resource:"sounds/raw/geiger1.vsnd",
@@ -15,7 +15,7 @@
 			resource:"sounds/raw/geiger3.vsnd",
 		]
 		SelectionMode = "Random"
-		MaximumDistance = 1870.0942
-		MinimumDistance = 93.504715
+		MaximumDistance = 4167.7114
+		MinimumDistance = 208.38557
 	}
 }

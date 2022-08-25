@@ -68,11 +68,11 @@ public partial class Sniper : BaseTower
 	public override BaseTower RequiredTowers => null;
 	public override int[] TowerLevelCosts => new int[]
 	{
-		150,
-		225,
-		300,
-		475,
-		750,
+		135,
+		220,
+		260,
+		385,
+		525,
 		-1
 	};
 
@@ -81,7 +81,7 @@ public partial class Sniper : BaseTower
 		"",
 		"Upgraded sniper tower with better sniper power",
 		"Enhanced sniper tower with better sniping power",
-		"Heavily modified sniper tower with more powerful sniping",
+		"Heavily modified sniper tower with more powerful sniping with infra-red scope (detects stealth NPCs)",
 		"This tower can snipe incredibly fast and large distances",
 		"This tower is dangerously lethal even from a far distance"
 	};
@@ -111,9 +111,12 @@ public partial class Sniper : BaseTower
 		base.Spawn();
 	}
 
-	public override void ClientSpawn()
+	public override void UpgradeTower()
 	{
-		base.ClientSpawn();
+		base.UpgradeTower();
+
+		if ( TowerLevel == 3 )
+			CounterStealth = true;
 	}
 
 	[ClientRpc]
@@ -129,44 +132,27 @@ public partial class Sniper : BaseTower
 
 		if ( Target == null )
 		{
-			TimeLastAttack = 0;
 			lockedOnTarget = false;
-			
-			if ( laserSight != null )
-			{
-				laserSight.Destroy( true );
-				laserSight = null;
-			}
-			//LaserOff();
+			LaserOff();
 
 			return;
 		}
 
 		if ( (TimeLastAttack * 4) >= AttackTime && !lockedOnTarget )
 		{
+			LaserOn(Target);
 			lockedOnTarget = true;
-			//laserSight = Particles.Create( "particles/sniper_beam.vpcf", Target.EyePosition );
-			//laserSight.SetEntityAttachment( 0, this, "muzzle" );
-			//LaserOn();
 		}
-
-
 	}
 
 	[ClientRpc]
-	protected void LaserOn()
+	protected void LaserOn( BaseNPC target)
 	{
 		Host.AssertClient();
 
-		laserSight = Particles.Create( "particles/sniper_beam.vpcf", Target.Position );
-	}
-
-	[ClientRpc]
-	protected void LaserTarget(BaseNPC target)
-	{
-		laserSight.SetEntityAttachment( 0, this, "muzzle" );
-		
-		Log.Info( laserSight );
+		laserSight = Particles.Create( "particles/sniper_beam.vpcf" );
+		laserSight.SetEntityAttachment( 1, this, "muzzle" );
+		laserSight.SetEntity( 0, target, Vector3.Up * 25 );
 	}
 
 	[ClientRpc]

@@ -18,6 +18,10 @@ public class CompSetUp : Entity
 	public void SetUpCompGame()
 	{
 		var door = CompetitiveDoor.GetTargets( null ).FirstOrDefault() as BrushEntity;
+
+		if ( door == null )
+			return;
+
 		door.Enabled = false;
 		door.Solid = false;
 	}

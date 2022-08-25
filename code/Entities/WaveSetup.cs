@@ -63,6 +63,7 @@ public class WaveSetup : Entity
 	{
 		return spawnToggle;
 	}
+
 	public override void Spawn()
 	{
 		base.Spawn();

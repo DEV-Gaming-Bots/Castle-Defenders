@@ -203,7 +203,7 @@ public partial class BaseNPC : AnimatedEntity
 	}
 	protected virtual void Move( float timeDelta )
 	{
-		var bbox = BBox.FromHeightAndRadius( 64, 4 );
+		var bbox = BBox.FromHeightAndRadius( 16, 4 );
 
 		MoveHelper move = new( Position, Velocity );
 		move.MaxStandableAngle = 50;
@@ -238,11 +238,11 @@ public partial class BaseNPC : AnimatedEntity
 				move.ApplyFriction( tr.Surface.Friction * 10.0f, timeDelta );
 			}
 		}
-		else
+/*		else
 		{
 			GroundEntity = null;
 			move.Velocity += Vector3.Down * 900 * timeDelta;
-		}
+		}*/
 
 		Position = move.Position;
 		Velocity = move.Velocity;
