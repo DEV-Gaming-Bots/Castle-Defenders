@@ -10,6 +10,7 @@ public partial class CDPawn : Player
 	Sound curMusic;
 
 	int scrollInt;
+	int lastScrollInt;
 
 	public CDPawn()
 	{

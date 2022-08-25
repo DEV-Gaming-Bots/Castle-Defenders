@@ -17,11 +17,28 @@ public partial class RadioactiveEmitter : BaseTower
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new string[]
 	{
-		"LEVEL 1 TEMPLATE DESCRIPTION",
-		"LEVEL 2 TEMPLATE DESCRIPTION",
-		"LEVEL 3 TEMPLATE DESCRIPTION",
-		"LEVEL 4 TEMPLATE DESCRIPTION",
-		"LEVEL 5 TEMPLATE DESCRIPTION"
+		"",
+		"Emits even deadier radiation",
+		"Emits serious radiation damage",
+		"Best not to get too close or you're done for",
+		"Now classed as a Chernobyl diaster... for them",
+	};
+	public override int[] TowerLevelCosts => new int[]
+	{
+		425,
+		650,
+		800,
+		1250,
+		-1,
+	};
+
+	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
+	{
+		new(-0.25f, 1.5f, 25),
+		new(-0.5f, 1.5f, 50),
+		new(-1.0f, 1.75f, 75),
+		new(-1.0f, 2.25f, 75),
+		new(-1.0f, 3.50f, 75)
 	};
 
 	public override int TowerMaxLevel => 5;

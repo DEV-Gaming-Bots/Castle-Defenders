@@ -140,7 +140,7 @@ public partial class CDGame
 	}
 
 	[ConCmd.Server( "cd_npc_create" )]
-	public static void SpawnNPC( string npcName )
+	public static void SpawnNPC( string npcName, string team = "blue")
 	{
 		if ( !Instance.Debug )
 		{
@@ -157,6 +157,26 @@ public partial class CDGame
 		}
 
 		npc.Spawn();
+		var spawnerpoint = All.OfType<NPCSpawner>().ToList();
+
+		var blueSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue ).First();
+		var redSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red ).First();
+
+		if ( team.Contains( "blue" ) )
+		{
+			npc.Position = blueSide.Position;
+			npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
+			npc.PathToFollow = BaseNPC.PathTeam.Blue;
+			npc.CastleTarget = blueSide.FindCastle();
+		} 
+		else if ( team.Contains( "red" ) )
+		{
+			npc.Position = redSide.Position;
+			npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartOpposingNode ).FirstOrDefault().Position;
+			npc.PathToFollow = BaseNPC.PathTeam.Red;
+			npc.CastleTarget = redSide.FindCastle();
+		}
+
 	}
 
 	[ConCmd.Admin( "cd_force_start" )]

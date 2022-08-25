@@ -120,7 +120,7 @@ public partial class BaseNPC : AnimatedEntity
 		SetMaterialOverride( Material.Load( matPath ), body );
 	}
 
-	public void FollowPath()
+	public void FindNextPath()
 	{
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Post )
 			Despawn();
@@ -134,36 +134,34 @@ public partial class BaseNPC : AnimatedEntity
 			Despawn();
 			return;
 		}
-
-		if ( Steer.Target.Distance( Position) <= 1.0f )
+		
+		foreach ( var path in All.OfType<NPCPath>() )
 		{
-			foreach ( var path in All.OfType<NPCPath>() )
+			if ( path.Position.Distance( Position ) <= 25.0f )
 			{
-				if ( path.Position.Distance( Position ) <= 25.0f )
+				if ( path.FindSplitPath() != null )
 				{
-					if ( path.FindSplitPath() != null )
+					switch ( Rand.Int( 1, 2 ) )
 					{
-						switch ( Rand.Int( 1, 2 ) )
-						{
-							case 1:
-								Steer.Target = path.FindNormalPath().Position;
-								break;
-							case 2:
-								Steer.Target = path.FindSplitPath().Position;
-								break;
-						}
-
-						break;
+						case 1:
+							Steer.Target = path.FindNormalPath().Position;
+							break;
+						case 2:
+							Steer.Target = path.FindSplitPath().Position;
+							break;
 					}
 
-					if( path.FindNormalPath() != null )
-					{
-						Steer.Target = path.FindNormalPath().Position;
-						break;
-					}
+					break;
+				}
+
+				if( path.FindNormalPath() != null )
+				{
+					Steer.Target = path.FindNormalPath().Position;
+					break;
 				}
 			}
 		}
+		
 	}
 
 	//Server ticking for NPC Navigation
@@ -174,15 +172,13 @@ public partial class BaseNPC : AnimatedEntity
 
 		if ( Steer != null || !IsValid )
 		{
-			FollowPath();
-
 			Steer.Tick( Position );
 
-			if ( !Steer.Output.Finished )
-			{
-				InputVelocity = Steer.Output.Direction.Normal;
-				Velocity = Velocity.AddClamped( InputVelocity * Time.Delta * 500, BaseSpeed * 1.5f );
-			}			
+			InputVelocity = Steer.Output.Direction.Normal;
+			Velocity = Velocity.AddClamped( InputVelocity, BaseSpeed );
+
+			if ( Steer.Target.Distance( Position ) <= 1.0f || Position.Distance(CastleTarget.Position) <= 25.0f)
+				FindNextPath();
 		}
 
 		if ( TimeUntilSpecialRecover > 0.0f )

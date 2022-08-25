@@ -78,6 +78,9 @@ public partial class CDPawn
 		if ( tr.Normal.z < 0.99 )
 			return false;
 
+		if ( GetCash() < SelectedTower.TowerCost )
+			return false;
+
 		if ( SelectedTower is BaseSuperTower )
 		{
 			if ( CDGame.Instance.Competitive )
@@ -116,7 +119,7 @@ public partial class CDPawn
 		if ( GetSelectedSlot() > -1 )
 			scrollInt = GetSelectedSlot() - 1;
 
-		if ( scrollInt > TowerSlots.Length )
+		if ( scrollInt - 1 > TowerSlots.Length )
 			scrollInt = 0;
 		else if (scrollInt < 0)
 			scrollInt = TowerSlots.Length;
@@ -124,16 +127,6 @@ public partial class CDPawn
 		//0 = empty handed
 		
 		SetSlotClient( To.Single( this ), scrollInt );
-
-		if ( SelectedTower != null && scrollInt == 0 )
-		{
-			DestroyPreview();
-			SelectedTower.Delete();
-			SelectedTower = null;
-
-			TowerInHand.Delete();
-			TowerInHand = null;
-		}
 
 		if( CurSuperTower != null && scrollInt == 0 )
 			CurSuperTower = null;
@@ -152,36 +145,32 @@ public partial class CDPawn
 		}
 		//Check if the last slot is equal or greater than
 		//while checking if the time last placed is greater
-		if ( scrollInt >= 0 )
+		if ( lastScrollInt != scrollInt)
 		{
-			if ( SelectedTower != null && scrollInt == 0 )
+			if ( TowerSlots.Length <= scrollInt )
 			{
-				DestroyPreview();
-				SelectedTower.Delete();
-				SelectedTower = null;
+				lastScrollInt = scrollInt;
 
-				TowerInHand.Delete();
-				TowerInHand = null;
-			}
+				if ( SelectedTower != null )
+				{
+					DestroyPreview();
 
-			SetSlotClient( To.Single(this), scrollInt );
-
-			if ( scrollInt == TowerSlots.Length )
-			{
-				DestroyPreview( To.Single( this ) );
-
-				SelectedTower?.Delete();
-				SelectedTower = null;
-
-				TowerInHand?.Delete();
-				TowerInHand = null;
-
+					SelectedTower.Delete();
+					SelectedTower = null;
+				}
 				return;
 			}
 
-			//If the player is past their slots, stop here
-			if ( TowerSlots.Length <= scrollInt)
-				return;
+			if ( TowerSlots.Length <= scrollInt )
+			{
+				if ( SelectedTower != null )
+				{
+					DestroyPreview();
+
+					SelectedTower.Delete();
+					SelectedTower = null;
+				}
+			}
 
 			//If the player has a super tower selected, nullify that tower
 			if ( CurSuperTower != null )
@@ -215,6 +204,8 @@ public partial class CDPawn
 			TowerInHand.EnableHideInFirstPerson = true;
 
 			CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
+
+			lastScrollInt = scrollInt;
 		} 
 
 		if ( SelectedTower != null )

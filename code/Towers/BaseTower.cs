@@ -75,7 +75,6 @@ public partial class BaseTower : AnimatedEntity
 	public BaseNPC Target;
 
 	float scanRot;
-	TimeSince waitNextScan;
 
 	public override void Spawn()
 	{
@@ -193,8 +192,7 @@ public partial class BaseTower : AnimatedEntity
 	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
-		if( waitNextScan >= 2.5f )
-			scanRot++;
+		scanRot++;
 
 		var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( scanRot * 2 ).Forward * RangeDistance + Vector3.Up * 5 )
 			.Ignore( this )
@@ -275,7 +273,6 @@ public partial class BaseTower : AnimatedEntity
 			if ( towerTR.Entity is not BaseNPC )
 			{
 				Target = null;
-				waitNextScan = 0;
 				return;
 			}
 

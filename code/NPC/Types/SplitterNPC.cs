@@ -35,6 +35,7 @@ public partial class Husk : BaseNPC
 		splitted.MinionName = NPCName + " Minion"; 
 
 		splitted.RenderColor = RenderColor;
+		splitted.CastleTarget = CastleTarget;
 		splitted.Steer.Target = Steer.Target;
 
 		splitted.Scale = NPCScale / 2;
