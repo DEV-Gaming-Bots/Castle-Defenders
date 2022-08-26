@@ -161,6 +161,7 @@ public class WaveSetup : Entity
 			Spawn_Count *= 2;
 			NPC_Spawn_Rate /= 2;
 		}
+
 		timeLastSpawn = 0;
 		spawnToggle = true;
 	}

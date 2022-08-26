@@ -461,6 +461,13 @@
 			}
 		},
 	]
+	m_Constraints = 
+	[
+		{
+			_class = "C_OP_ConstrainLineLength"
+			m_flMaxDistance = 25.0
+		},
+	]
 	m_Renderers = 
 	[
 		{

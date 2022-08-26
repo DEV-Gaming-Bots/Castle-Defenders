@@ -196,13 +196,13 @@ public partial class BaseTower : AnimatedEntity
 	{
 		scanRot++;
 
-		var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( scanRot * 2 ).Forward * RangeDistance + Vector3.Up * 5 )
+		var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
 			.Ignore( this )
 			.UseHitboxes( true )
 			.WithoutTags( "cdplayer", "tower" )
 			.Run();
 
-		var tr2 = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( -scanRot * 2 ).Forward * RangeDistance + Vector3.Up * 5 )
+		var tr2 = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( -scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
 			.Ignore( this )
 			.UseHitboxes( true )
 			.WithoutTags( "cdplayer", "tower" )
@@ -216,6 +216,9 @@ public partial class BaseTower : AnimatedEntity
 
 		if ( tr.Entity is BaseNPC npc )
 		{
+			if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
+				return null;
+
 			if ( npc.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
 				return null;
 
@@ -224,6 +227,9 @@ public partial class BaseTower : AnimatedEntity
 
 		if ( tr2.Entity is BaseNPC npc2 )
 		{
+			if ( CDGame.StaticCompetitive && !npc2.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
+				return null;
+
 			if ( npc2.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
 				return null;
 
@@ -248,6 +254,9 @@ public partial class BaseTower : AnimatedEntity
 			{
 				if ( npc.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
 					break;
+
+				if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
+					return null;
 
 				npclist.Add( npc );
 			}

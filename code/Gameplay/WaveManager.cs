@@ -108,7 +108,6 @@ public partial class CDGame
 			playInboundMusic = false;
 		}
 
-
 		if ( TimeRemaining > 0.0f )
 			return;
 
@@ -198,17 +197,14 @@ public partial class CDGame
 
 	public bool ShouldEndWave()
 	{
-		foreach ( var wave in All.OfType<WaveSetup>().ToList() )
+		foreach ( var wave in All.OfType<WaveSetup>() )
 		{
 			if ( wave.CheckSpawnerCondition() == true )
 				return false;
 		}
 
-		foreach ( var npc in All.OfType<BaseNPC>().ToList())
-		{
-			if ( npc.IsValid() )
-				return false;
-		}
+		if ( All.OfType<BaseNPC>().Count() > 0 )
+			return false;
 
 		return true;
 	}

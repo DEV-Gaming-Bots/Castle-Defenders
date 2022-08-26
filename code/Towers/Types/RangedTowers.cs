@@ -115,15 +115,15 @@ public partial class Sniper : BaseTower
 	{
 		base.UpgradeTower();
 
-		if ( TowerLevel == 3 )
+		if ( TowerLevel == 4 )
 			CounterStealth = true;
 	}
 
 	public override void SellTower()
 	{
+		LaserOff();
 		base.SellTower();
 
-		LaserOff();
 	}
 
 	[ClientRpc]

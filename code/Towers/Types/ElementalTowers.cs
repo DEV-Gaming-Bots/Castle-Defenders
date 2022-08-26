@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Sandbox;
 
 
@@ -34,9 +35,9 @@ public partial class Lightning : BaseTower
 	public override string[] TowerLevelDesc => new string[]
 	{
 		"",
-		"An improved version allowing more energic attacks",
-		"An even more updated Lightning tower, Harnessing more power from the storms",
-		"Quite the shocking upgrade, allowing for more damage",
+		"An improved version allowing more energic attacks allowing for interlinked shock attacks",
+		"An even more updated Lightning tower with better linked attacks, Harnessing more power from the storms",
+		"Quite the shocking upgrade, allowing for more damage and links to other hostiles",
 		"Even more shocking power, you don't wanna mess with this",
 		"Surprisingly harnesses the power of Thor's thunder, who would have thought"
 	};
@@ -51,6 +52,13 @@ public partial class Lightning : BaseTower
 
 	bool charged = false;
 	int shockNextLimit = 0;
+	List<Particles> shockParticles;
+
+	public override void Spawn()
+	{
+		base.Spawn();
+		CreateParticleList();
+	}
 
 	public override void UpgradeTower()
 	{
@@ -73,9 +81,46 @@ public partial class Lightning : BaseTower
 
 		if ( (TimeLastAttack * 2) >= AttackTime && !charged )
 		{
+			ClearParticles();
 			PlaySound( "lightning_charge" );
 			charged = true;
 		}
+	}
+
+	[ClientRpc]
+	public void CreateParticleList()
+	{
+		shockParticles = new List<Particles>();
+	}
+
+	[ClientRpc]
+	public void ShockEffects(BaseNPC target, BaseNPC nextTarget = null)
+	{
+		Host.AssertClient();
+
+		if ( target == null )
+			return;
+
+		Particles lightning = Particles.Create( "particles/lightning_beam.vpcf" );
+
+		if ( shockParticles.Count() == 0 )
+		{
+			lightning.SetEntityAttachment( 1, this, "muzzle" );
+			lightning.SetEntity( 0, target, Vector3.Up * 25 );
+		} 
+		else
+		{
+			lightning.SetEntityAttachment( 1, target, "hat" );
+			lightning.SetEntity( 0, nextTarget, Vector3.Up * 25 );
+		}
+
+		shockParticles.Add( lightning );
+	}
+
+	[ClientRpc]
+	public void ClearParticles()
+	{
+		shockParticles.Clear();
 	}
 
 	public override void Attack( BaseNPC target )
@@ -83,37 +128,37 @@ public partial class Lightning : BaseTower
 		base.Attack( target );
 		charged = false;
 
+		ShockEffects( target );
+
 		if ( shockNextLimit <= 0 )
 			return;
+
+		List<BaseNPC> lastTargets = new List<BaseNPC>();
+		lastTargets.Add( target );
 
 		BaseNPC shockTarget = target;
 
 		for ( int i = 0; i < shockNextLimit; i++ )
 		{
-			DebugOverlay.Sphere( shockTarget.Position + shockTarget.Rotation.Backward * 15, 32, Color.Magenta, 2.0f );
-
-			var ents = FindInSphere( shockTarget.Position + shockTarget.Rotation.Backward * 15, 32 );
+			var ents = FindInSphere( shockTarget.Position, 48 );
 
 			foreach ( var ent in ents )
 			{
-				if ( ent is BaseNPC npc && npc != shockTarget )
+				if ( ent is BaseNPC npc && npc != shockTarget && !lastTargets.Contains( npc ) )
+				{
 					shockTarget = npc;
+					break;
+				}
 			}
 
-			if ( shockTarget == null )
+			if ( shockTarget == target )
 				break;
 
+			lastTargets.Add( shockTarget );
+
+			ShockEffects( lastTargets[i], shockTarget );
 			base.Attack( shockTarget );
 		}
 
-	}
-
-	[ClientRpc]
-	public override void FireEffects()
-	{
-		if ( IsPreviewing )
-			return;
-
-		base.FireEffects();
 	}
 }

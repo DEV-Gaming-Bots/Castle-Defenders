@@ -66,13 +66,13 @@ public partial class BaseNPC : AnimatedEntity
 				return 1;
 
 			case CDGame.DiffEnum.Medium:
-				return 2;
-
-			case CDGame.DiffEnum.Hard:
 				return 3;
 
+			case CDGame.DiffEnum.Hard:
+				return 5;
+
 			case CDGame.DiffEnum.Extreme:
-				return 4;
+				return 8;
 		}
 
 		return 0;
@@ -88,7 +88,7 @@ public partial class BaseNPC : AnimatedEntity
 		Health = BaseHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
 
 		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] );
-		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * GetDifficulty();
+		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] );
 
 		Tags.Add( "npc" );
 

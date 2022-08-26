@@ -17,8 +17,8 @@ public partial class Riot : BaseNPC
 	public override int[] MinMaxEXPReward => new int[] { 1, 5 };
 	public override float NPCScale => 0.45f;
 	public override SpecialType NPCType => SpecialType.Armoured;
-	public override float ArmourStrength => 15.0f;
-	public override float Damage => 10;
+	public override float ArmourStrength => 30.0f;
+	public override float Damage => 12.5f;
 
 	float armour;
 
@@ -40,7 +40,7 @@ public partial class Riot : BaseNPC
 		if ( ArmourBroken )
 			return;
 
-		BaseSpeed += 5.0f;
+		BaseSpeed += 7.5f;
 
 		Log.Info( BaseSpeed );
 	}
