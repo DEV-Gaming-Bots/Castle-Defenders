@@ -12,32 +12,45 @@
         background-color: rgb(0, 125, 205);
         flex-direction: column;
         padding: 12px;
+        border: 4px solid black;
 
         .towerName {
             font-size: 38px;
             color: white;
             font-weight: bold;
+            text-align: center;
         }
 
         .towerDesc {
-            font-size: 32px;
+            font-size: 24px;
             color: white;
             margin-top: 8px;
         }
 
         .towerCost {
-            font-size: 32px;
+            font-size: 28px;
             color: white;
             margin-top: 20px;
         }
 
         .towerOwner {
-            //position: absolute;
             font-size: 32px;
             color: white;
             margin-top: 10px;
         }
-        
+
+        .towerNextUpg {
+            font-size: 24px;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .towerStats {
+            font-size: 24px;
+            color: white;
+            margin-top: 10px;
+        }
+
         &.showMenu {
             opacity: 1;
         }

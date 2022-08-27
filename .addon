@@ -152,7 +152,7 @@
         "DisplayType": "Integer",
         "Choices": [],
         "ConVarName": "cd_towerlimit",
-        "DisplayName": "Limit Towers",
+        "DisplayName": "Tower Limit for each player",
         "DefaultValue": "60",
         "Maximum": 60
       }

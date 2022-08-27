@@ -68,6 +68,20 @@ public partial class BaseTower : AnimatedEntity
 	[Net]
 	public int NetCost { get; set; }
 
+	public virtual string[] TowerUpgradeDesc => new string[]
+	{
+		"LEVEL 1",
+		"LEVEL 2",
+		"LEVEL 3",
+		"LEVEL 4"
+	};
+
+	[Net]
+	public string NetUpgradeDesc { get; set; }
+
+	[Net]
+	public string NetStats { get; set; }
+
 	public virtual bool CounterStealth { get; set; } = false;
 
 	public TimeSince TimeSinceDeployed;
@@ -94,12 +108,13 @@ public partial class BaseTower : AnimatedEntity
 		}
 		else
 		{
-
 			NetCost = TowerCost;
+			NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
 		}
+
 		NetName = TowerName;
 		NetDesc = TowerDesc;
-
+		NetStats = $"Attack Delay {AttackTime} | Damage {AttackDamage} | Range {RangeDistance}";
 		Tags.Add( "tower" );
 	}
 
@@ -178,15 +193,18 @@ public partial class BaseTower : AnimatedEntity
 		PlayUpgradeAnimRPC( To.Single( Owner ) );
 
 		(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
-
-		TowerLevel++;
-
+		
 		AttackTime += Upgrades[TowerLevel - 1].AttTime;
 		AttackDamage += Upgrades[TowerLevel - 1].AttDMG;
 		RangeDistance += Upgrades[TowerLevel - 1].NewRange;
-
+		
+		TowerLevel++;
+		
 		NetDesc = TowerLevelDesc[TowerLevel - 1];
 		NetCost = TowerLevelCosts[TowerLevel - 1];
+		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
+
+		NetStats = $"Attack Delay {MathF.Round(AttackTime, 2)} | Damage {AttackDamage} | Range {RangeDistance}";
 
 		TimeLastUpgrade = 0;
 	}

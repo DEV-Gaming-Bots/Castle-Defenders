@@ -33,6 +33,16 @@ public partial class Pistol : BaseTower
 		new(-1.0f, 2.75f, 50)
 	};
 
+	public override string[] TowerUpgradeDesc => new string[]
+	{
+		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG}",
+		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
+		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange}",
+		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
+		$"Attack Speed +{-Upgrades[4].AttTime} | Damage +{Upgrades[4].AttDMG} | Range +{Upgrades[4].NewRange}",
+		"",
+	};
+
 	public override int TowerMaxLevel => 5;
 	public override int TowerCost => 20;
 	public override int[] TowerLevelCosts => new int[]
@@ -80,8 +90,8 @@ public partial class Sniper : BaseTower
 	{
 		"",
 		"Upgraded sniper tower with better sniper power",
-		"Enhanced sniper tower with better sniping power and equipped with a infra-red scope (detects stealth NPCs)",
-		"Heavily modified sniper tower with more powerful sniping",
+		"Modified sniper tower with more powerful sniping",
+		"Enhanced sniper tower with better sniping power and equipped with a infra-red scope",
 		"This tower can snipe incredibly fast and large distances",
 		"This tower is dangerously lethal even from a far distance"
 	};
@@ -93,6 +103,15 @@ public partial class Sniper : BaseTower
 		new(-0.20f, 5.0f, 50),
 		new(-0.25f, 5.0f, 50),
 		new(-0.25f, 7.5f, 100)
+	};
+	public override string[] TowerUpgradeDesc => new string[]
+	{
+		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG} | Range +{Upgrades[0].NewRange}",
+		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
+		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange} | Enables counter-cloak technology",
+		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
+		$"Attack Speed +{-Upgrades[4].AttTime} | Damage +{Upgrades[4].AttDMG} | Range +{Upgrades[4].NewRange}",
+		"",
 	};
 
 	public override int TowerMaxLevel => 6;

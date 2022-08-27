@@ -197,14 +197,18 @@ public partial class CDGame
 
 	public bool ShouldEndWave()
 	{
+		if ( TimeRemaining > -10.0f )
+			return false;
+
 		foreach ( var wave in All.OfType<WaveSetup>() )
 		{
-			if ( wave.CheckSpawnerCondition() == true )
+			if ( wave.CheckSpawnerCondition() )
 				return false;
 		}
 
 		if ( All.OfType<BaseNPC>().Count() > 0 )
 			return false;
+
 
 		return true;
 	}

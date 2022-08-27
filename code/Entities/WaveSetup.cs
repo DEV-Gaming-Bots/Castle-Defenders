@@ -61,6 +61,9 @@ public class WaveSetup : Entity
 
 	public bool CheckSpawnerCondition()
 	{
+		if ( spawnCounter - Spawn_Count == 0 )
+			return false;
+
 		return spawnToggle;
 	}
 
@@ -87,7 +90,6 @@ public class WaveSetup : Entity
 		if ( spawnCounter >= Spawn_Count )
 		{
 			spawnToggle = false;
-			spawnCounter = 0;
 			return;
 		}
 
@@ -162,6 +164,7 @@ public class WaveSetup : Entity
 			NPC_Spawn_Rate /= 2;
 		}
 
+		spawnCounter = 0;
 		timeLastSpawn = 0;
 		spawnToggle = true;
 	}
