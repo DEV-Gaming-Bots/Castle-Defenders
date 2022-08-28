@@ -79,6 +79,8 @@ namespace CastleDefenders.UI.Components
 			public Panel HealthBarRed;
 			private Panel BlueHealth;
 			private Panel RedHealth;
+			public Label BlueHealthText;
+			public Label RedHealthText;
 
 			public Panel GameInfo;
 			public Label ExtraText;
@@ -105,8 +107,10 @@ namespace CastleDefenders.UI.Components
 			{
 				BlueHealth = Add.Panel( "BlueHealthBar hide" );
 				HealthBarBlue = BlueHealth.Add.Panel( "bar" );
+				BlueHealthText = HealthBarBlue.Add.Label("-/-");
 				RedHealth = Add.Panel( "RedHealthBar hide" );
 				HealthBarRed = RedHealth.Add.Panel( "bar" );
+				RedHealthText = HealthBarRed.Add.Label("-/-");
 				Timer = Add.Label( "--:--", "timer" );
 				///////////////
 				TimerHealth = Add.Panel( "timerHealth" );
@@ -127,16 +131,29 @@ namespace CastleDefenders.UI.Components
 				if(!CDGame.StaticCompetitive)
 				{
 					float blueCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).First().CastleHealth;
+					RedHealthText.SetText( $"Health {blueCastleHP}");
 					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP );
 				} 
 				else if (CDGame.StaticCompetitive)
 				{
 					float redCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Red ).First().CastleHealth;
 					float blueCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).First().CastleHealth;
+					BlueHealthText.SetText( $"{blueCastleHP} Health" );
+					RedHealthText.SetText( $"Health {redCastleHP}");
 
 					HealthBarRed.Style.Width = Length.Pixels( redCastleHP * 2 );
 					HealthBarBlue.Style.Width = Length.Pixels( blueCastleHP * 2 );
-					RedHealth.SetClass( "hide", false );
+				}
+				switch (CDGame.StaticCompetitive)
+				{
+					case true:
+						BlueHealth.SetClass( "hide", false );
+						RedHealth.SetClass( "hide", false );
+						break;
+					case false:
+						BlueHealth.SetClass( "hide", false );
+						RedHealth.SetClass( "hide", true );
+						break;
 				}
 			}
 		}

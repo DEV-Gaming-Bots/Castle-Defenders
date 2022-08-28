@@ -107,6 +107,14 @@ GameStatsPanel {
 
         .bar {
             width: 50%;
+            align-items: center;
+            Label {
+                color: white;
+                font-size: 20%;
+                font-family: Poppins;
+                font-weight: bold;
+                position: absolute;
+            }
         }
 
         width: 500px;
@@ -131,6 +139,7 @@ GameStatsPanel {
         .bar {
             background-color: #B40808;
             height: 100%;
+            justify-content: flex-end;
         }
     }
 
