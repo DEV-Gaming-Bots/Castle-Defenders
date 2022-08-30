@@ -31,6 +31,61 @@
 			{
 				key = 
 				{
+					m_id = 87783558
+				}
+				value = 
+				{
+					_class = "CLookAtAnimNode"
+					m_sName = "Aim Head"
+					m_vecPosition = [ 256.0, -64.0 ]
+					m_nNodeID = 
+					{
+						m_id = 87783558
+					}
+					m_networkMode = "ServerAuthoritative"
+					m_sNote = ""
+					m_inputConnection = 
+					{
+						m_nodeID = 
+						{
+							m_id = 316255960
+						}
+						m_outputID = 
+						{
+							m_id = 4294967295
+						}
+					}
+					m_target = "VectorParameter"
+					m_param = 
+					{
+						m_id = 1719947666
+					}
+					m_weightParam = 
+					{
+						m_id = 251493743
+					}
+					m_lookatChainName = "head"
+					m_attachmentName = "forward"
+					m_flYawLimit = 0.0
+					m_flPitchLimit = 180.0
+					m_bResetBase = true
+					m_bLockWhenWaning = false
+					m_bUseHysteresis = false
+					m_flHysteresisInnerAngle = 1.0
+					m_flHysteresisOuterAngle = 20.0
+					m_damping = 
+					{
+						_class = "CAnimInputDamping"
+						m_speedFunction = "Spring"
+						m_fSpeedScale = 20.0
+						m_fMinSpeed = 10.0
+						m_fMaxTension = 1000.0
+					}
+				}
+			},
+			{
+				key = 
+				{
 					m_id = 247648905
 				}
 				value = 
@@ -700,7 +755,7 @@
 				{
 					_class = "CRootAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 336.0, -32.0 ]
+					m_vecPosition = [ 448.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1341962419
@@ -711,7 +766,7 @@
 					{
 						m_nodeID = 
 						{
-							m_id = 316255960
+							m_id = 87783558
 						}
 						m_outputID = 
 						{
@@ -798,6 +853,38 @@
 				m_bPredicted = false
 				m_bDefaultValue = false
 			},
+			{
+				_class = "CFloatAnimParameter"
+				m_name = "w_forward"
+				m_id = 
+				{
+					m_id = 251493743
+				}
+				m_previewButton = "ANIMPARAM_BUTTON_NONE"
+				m_bNetwork = true
+				m_bUseMostRecentValue = false
+				m_bAutoReset = false
+				m_bPredicted = true
+				m_fDefaultValue = 1.0
+				m_fMinValue = 0.0
+				m_fMaxValue = 1.0
+				m_bInterpolate = false
+			},
+			{
+				_class = "CVectorAnimParameter"
+				m_name = "v_forward"
+				m_id = 
+				{
+					m_id = 1719947666
+				}
+				m_previewButton = "ANIMPARAM_BUTTON_NONE"
+				m_bNetwork = true
+				m_bUseMostRecentValue = false
+				m_bAutoReset = false
+				m_bPredicted = true
+				m_defaultValue = [ 0.0, 0.0, 0.0 ]
+				m_bInterpolate = true
+			},
 		]
 	}
 	m_pTagManager = 
@@ -842,7 +929,7 @@
 	}
 	m_previewModels = 
 	[
-		"models/towers/radioactivemitter.vmdl",
+		"models/towers/pistoltower.vmdl",
 	]
 	m_boneMergeModels = [  ]
 }

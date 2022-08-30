@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 
-
 public partial class CDPawn : Player
 {
 	public ClothingContainer Clothing = new();

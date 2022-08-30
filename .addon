@@ -154,6 +154,7 @@
         "ConVarName": "cd_towerlimit",
         "DisplayName": "Tower Limit for each player",
         "DefaultValue": "60",
+        "Minimum": 5,
         "Maximum": 60
       }
     }

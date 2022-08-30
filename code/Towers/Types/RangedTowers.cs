@@ -12,7 +12,7 @@ public partial class Pistol : BaseTower
 	public override string TowerDesc => "A very simple pistol tower";
 
 	//Temporary until we get a pistol model
-	public override string TowerModel => "models/towers/trickstertower.vmdl";
+	public override string TowerModel => "models/towers/pistoltower.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new string[]
@@ -59,6 +59,15 @@ public partial class Pistol : BaseTower
 	public override float AttackDamage { get; set; } = 7.5f;
 	public override int RangeDistance { get; set; } = 125;
 	public override string AttackSound => "pistol_fire";
+
+	[Event.Tick.Server]
+	public override void SimulateTower()
+	{
+		if(Target != null && Target.IsValid())
+			SetAnimParameter( "v_forward", Target.Position );
+
+		base.SimulateTower();
+	}
 
 	[ClientRpc]
 	public override void FireEffects()

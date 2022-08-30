@@ -82,7 +82,7 @@ public partial class TowerMenu : Panel
 
 			if ( tower.NetCost != -1 )
 			{
-				TowerCost.SetText( $"Upgrade Cost: {tower.NetCost}" );
+				TowerCost.SetText( $"Upgrade Cost: ${tower.NetCost}" );
 				NextUpgrade.SetText( $"Next Upgrade: {tower.NetUpgradeDesc}" );
 			}
 			else
