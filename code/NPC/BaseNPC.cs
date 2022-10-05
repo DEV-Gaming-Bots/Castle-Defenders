@@ -25,6 +25,13 @@ public partial class BaseNPC : AnimatedEntity
 		Disruptor,
 		Splitter,
 	}
+	
+	public enum PathPriority
+	{
+		Random,
+		Normal,
+		Split,
+	}
 
 	//Special Types of NPCs:
 	//Standard - No special trait
@@ -40,6 +47,7 @@ public partial class BaseNPC : AnimatedEntity
 
 	public int CashReward;
 	public int ExpReward;
+	public PathPriority pathPriority;
 
 	public NPCPathSteer Steer;
 
@@ -134,34 +142,21 @@ public partial class BaseNPC : AnimatedEntity
 			Despawn();
 			return;
 		}
-		
+
 		foreach ( var path in All.OfType<NPCPath>() )
 		{
 			if ( path.Position.Distance( Position ) <= 25.0f )
 			{
-				if ( path.FindSplitPath() != null )
-				{
-					switch ( Rand.Int( 1, 2 ) )
-					{
-						case 1:
-							Steer.Target = path.FindNormalPath().Position;
-							break;
-						case 2:
-							Steer.Target = path.FindSplitPath().Position;
-							break;
-					}
+				var nextPath = path.FindNextPath( pathPriority );
 
-					break;
-				}
-
-				if( path.FindNormalPath() != null )
+				if ( nextPath != null )
 				{
-					Steer.Target = path.FindNormalPath().Position;
+					Steer.Target = nextPath.Position;
+
 					break;
 				}
 			}
 		}
-		
 	}
 
 	//Server ticking for NPC Navigation

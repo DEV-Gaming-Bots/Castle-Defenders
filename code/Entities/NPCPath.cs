@@ -30,6 +30,38 @@ public partial class NPCPath : ModelEntity
 		NextSplitNode = FindSplitPath();
 	}
 
+	public Entity FindNextPath( BaseNPC.PathPriority pathPriority )
+	{
+		var normalPath = FindNormalPath();
+		var splitPath = FindSplitPath();
+		
+		if ( normalPath == null )
+			return null;
+
+		if ( splitPath == null || pathPriority == BaseNPC.PathPriority.Normal )
+		{
+			return normalPath;
+		}
+
+		if ( pathPriority == BaseNPC.PathPriority.Random )
+		{
+			switch ( Rand.Int( 1, 2 ) )
+			{
+				case 1:
+					return normalPath;
+				case 2:
+					return splitPath;
+			}
+		}
+		
+		if ( pathPriority == BaseNPC.PathPriority.Split )
+		{
+			return splitPath;
+		}
+
+		return normalPath;
+	}
+
 	public Entity FindNormalPath()
 	{
 		var nextNode = NextPath.GetTargets( null ).FirstOrDefault();
