@@ -23,6 +23,9 @@ public partial class NPCPath : ModelEntity
 	[Property, Description( "Should the last node teleport NPC to this node instantly" )]
 	public bool TeleportingNode { get; set; } = false;
 
+	[Property, Description( "A multiplier to the movement speed while approaching this node" )]
+	public float NodeSpeed { get; set; } = 1.0f;
+
 	public Entity NextNode;
 	public Entity NextSplitNode;
 
