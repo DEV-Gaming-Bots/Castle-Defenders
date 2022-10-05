@@ -20,6 +20,9 @@ public partial class NPCPath : ModelEntity
 	[Property, Description( "Like Start node except for the opposing side, only enable this on the red side" )]
 	public bool StartOpposingNode { get; set; } = false;
 
+	[Property, Description( "Should the last node teleport NPC to this node instantly" )]
+	public bool TeleportingNode { get; set; } = false;
+
 	public Entity NextNode;
 	public Entity NextSplitNode;
 

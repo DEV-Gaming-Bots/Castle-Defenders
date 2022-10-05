@@ -153,6 +153,14 @@ public partial class BaseNPC : AnimatedEntity
 				{
 					Steer.Target = nextPath.Position;
 
+					if ( nextPath is NPCPath nextNpcPath )
+					{
+						if ( nextNpcPath.TeleportingNode )
+						{
+							Position = nextNpcPath.Position;
+						}
+					}
+
 					break;
 				}
 			}
