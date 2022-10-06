@@ -12,6 +12,7 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual string BaseModel => "models/citizen/citizen.vmdl";
 	public virtual float BaseHealth => 1;
 	public virtual float BaseSpeed { get; set; } = 1;
+	public virtual float SpeedMultiplier { get; set; } = 1;
 	public virtual int[] MinMaxCashReward => new int[] { 1, 2 };
 	public virtual int[] MinMaxEXPReward => new int[] { 1, 2 };
 	public virtual float NPCScale => 1;
@@ -24,6 +25,13 @@ public partial class BaseNPC : AnimatedEntity
 		Hidden,
 		Disruptor,
 		Splitter,
+	}
+	
+	public enum PathPriority
+	{
+		Random,
+		Normal,
+		Split,
 	}
 
 	//Special Types of NPCs:
@@ -40,6 +48,7 @@ public partial class BaseNPC : AnimatedEntity
 
 	public int CashReward;
 	public int ExpReward;
+	public PathPriority pathPriority;
 
 	public NPCPathSteer Steer;
 
@@ -134,34 +143,31 @@ public partial class BaseNPC : AnimatedEntity
 			Despawn();
 			return;
 		}
-		
+
 		foreach ( var path in All.OfType<NPCPath>() )
 		{
 			if ( path.Position.Distance( Position ) <= 25.0f )
 			{
-				if ( path.FindSplitPath() != null )
+				var nextPath = path.FindNextPath( pathPriority );
+
+				if ( nextPath != null )
 				{
-					switch ( Rand.Int( 1, 2 ) )
+					Steer.Target = nextPath.Position;
+
+					if ( nextPath is NPCPath nextNpcPath )
 					{
-						case 1:
-							Steer.Target = path.FindNormalPath().Position;
-							break;
-						case 2:
-							Steer.Target = path.FindSplitPath().Position;
-							break;
+						if ( nextNpcPath.TeleportingNode )
+						{
+							Position = nextNpcPath.Position;
+						}
+
+						SpeedMultiplier = nextNpcPath.NodeSpeed;
 					}
 
 					break;
 				}
-
-				if( path.FindNormalPath() != null )
-				{
-					Steer.Target = path.FindNormalPath().Position;
-					break;
-				}
 			}
 		}
-		
 	}
 
 	//Server ticking for NPC Navigation
@@ -175,7 +181,7 @@ public partial class BaseNPC : AnimatedEntity
 			Steer.Tick( Position );
 
 			InputVelocity = Steer.Output.Direction.Normal;
-			Velocity = Velocity.AddClamped( InputVelocity, BaseSpeed );
+			Velocity = Velocity.AddClamped( InputVelocity, BaseSpeed * SpeedMultiplier );
 
 			if ( Steer.Target.Distance( Position ) <= 1.0f || Position.Distance(CastleTarget.Position) <= 25.0f)
 				FindNextPath();
@@ -255,10 +261,10 @@ public partial class BaseNPC : AnimatedEntity
 		Rotation = Input.Rotation;
 		EyeRotation = Rotation;
 
-		Velocity += Input.Rotation * new Vector3( Input.Forward, Input.Left, Input.Up ) * BaseSpeed * 5 * Time.Delta;
-		if ( Velocity.Length > BaseSpeed ) Velocity = Velocity.Normal * BaseSpeed;
+		Velocity += Input.Rotation * new Vector3( Input.Forward, Input.Left, Input.Up ) * BaseSpeed * SpeedMultiplier * 5 * Time.Delta;
+		if ( Velocity.Length > BaseSpeed * SpeedMultiplier ) Velocity = Velocity.Normal * BaseSpeed * SpeedMultiplier;
 
-		Velocity = Velocity.Approach( 0, Time.Delta * BaseSpeed * 3 );
+		Velocity = Velocity.Approach( 0, Time.Delta * BaseSpeed * SpeedMultiplier * 3 );
 
 		Position += Velocity * Time.Delta;
 

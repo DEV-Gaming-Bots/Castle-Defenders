@@ -9,7 +9,7 @@ public partial class Spectre : BaseNPC
 {
 	public override string NPCName => "Spectral Entity";
 	public override float BaseHealth => 50;
-	public override float BaseSpeed => 10.0f;
+	public override float BaseSpeed { get; set; } = 10.0f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 50, 135 };
 	public override int[] MinMaxEXPReward => new int[] { 25, 105 };

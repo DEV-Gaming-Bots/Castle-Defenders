@@ -20,6 +20,12 @@ public partial class NPCPath : ModelEntity
 	[Property, Description( "Like Start node except for the opposing side, only enable this on the red side" )]
 	public bool StartOpposingNode { get; set; } = false;
 
+	[Property, Description( "Should the last node teleport NPC to this node instantly" )]
+	public bool TeleportingNode { get; set; } = false;
+
+	[Property, Description( "A multiplier to the movement speed while approaching this node" )]
+	public float NodeSpeed { get; set; } = 1.0f;
+
 	public Entity NextNode;
 	public Entity NextSplitNode;
 
@@ -28,6 +34,38 @@ public partial class NPCPath : ModelEntity
 		base.Spawn();
 		NextNode = FindNormalPath();
 		NextSplitNode = FindSplitPath();
+	}
+
+	public Entity FindNextPath( BaseNPC.PathPriority pathPriority )
+	{
+		var normalPath = FindNormalPath();
+		var splitPath = FindSplitPath();
+		
+		if ( normalPath == null )
+			return null;
+
+		if ( splitPath == null || pathPriority == BaseNPC.PathPriority.Normal )
+		{
+			return normalPath;
+		}
+
+		if ( pathPriority == BaseNPC.PathPriority.Random )
+		{
+			switch ( Rand.Int( 1, 2 ) )
+			{
+				case 1:
+					return normalPath;
+				case 2:
+					return splitPath;
+			}
+		}
+		
+		if ( pathPriority == BaseNPC.PathPriority.Split )
+		{
+			return splitPath;
+		}
+
+		return normalPath;
 	}
 
 	public Entity FindNormalPath()

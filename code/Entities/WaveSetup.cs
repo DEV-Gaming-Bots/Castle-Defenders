@@ -54,8 +54,16 @@ public class WaveSetup : Entity
 	[Property( "NPCSpawnRate" ), Description( "How fast should this NPC spawn" )]
 	public double NPC_Spawn_Rate { get; set; } = 1.0f;
 
+	[Property( "NPCSpawnDelay" ), Description( "After how many seconds should this NPC start spawning" )]
+	public double NPC_Spawn_Delay { get; set; } = 0.0f;
+	
+	[Property( "NPCPathPriority" ), Description( "What direction this NPC will take when the path splits" )]
+	public BaseNPC.PathPriority NPC_Path_Priority { get; set; } = BaseNPC.PathPriority.Random;
+
+
 	bool spawnToggle;
 	TimeSince timeLastSpawn;
+	TimeSince timeSinceWaveStart;
 	int spawnCounter;
 	bool spawnOpposite;
 
@@ -84,6 +92,9 @@ public class WaveSetup : Entity
 		if ( !spawnToggle )
 			return;
 
+		if ( timeSinceWaveStart < NPC_Spawn_Delay )
+			return;
+
 		if ( timeLastSpawn < NPC_Spawn_Rate )
 			return;
 
@@ -109,6 +120,8 @@ public class WaveSetup : Entity
 		}
 
 		npc.Spawn();
+		
+		npc.pathPriority = NPC_Path_Priority;
 
 		if ( CDGame.Instance.Competitive )
 		{
@@ -166,6 +179,7 @@ public class WaveSetup : Entity
 
 		spawnCounter = 0;
 		timeLastSpawn = 0;
+		timeSinceWaveStart = 0;
 		spawnToggle = true;
 	}
 }

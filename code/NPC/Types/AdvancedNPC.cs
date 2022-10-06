@@ -9,7 +9,7 @@ public partial class Ice : BaseNPC
 {
 	public override string NPCName => "Ice Creature";
 	public override float BaseHealth => 225;
-	public override float BaseSpeed => 10;
+	public override float BaseSpeed { get; set; } = 10;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 20, 65 };
 	public override int[] MinMaxEXPReward => new int[] { 10, 70 };
@@ -28,7 +28,7 @@ public partial class Magma : BaseNPC
 {
 	public override string NPCName => "Magma Creature";
 	public override float BaseHealth => 275;
-	public override float BaseSpeed => 17.5f;
+	public override float BaseSpeed { get; set; } = 17.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 15, 45 };
 	public override int[] MinMaxEXPReward => new int[] { 15, 60 };
@@ -47,7 +47,7 @@ public partial class Void : BaseNPC
 {
 	public override string NPCName => "Void Creature";
 	public override float BaseHealth => 450;
-	public override float BaseSpeed => 12.5f;
+	public override float BaseSpeed { get; set; } = 12.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 50, 135 };
 	public override int[] MinMaxEXPReward => new int[] { 25, 105 };

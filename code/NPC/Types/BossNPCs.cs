@@ -9,7 +9,7 @@ public partial class ZombieBoss : BaseNPC
 {
 	public override string NPCName => "Patient Zero";
 	public override float BaseHealth => 150;
-	public override float BaseSpeed => 9.75f;
+	public override float BaseSpeed { get; set; } = 9.75f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 10, 65 };
 	public override int[] MinMaxEXPReward => new int[] { 9, 35 };
@@ -31,7 +31,7 @@ public partial class VoidBoss : BaseNPC
 {
 	public override string NPCName => "Void King";
 	public override float BaseHealth => 1750;
-	public override float BaseSpeed => 7.5f;
+	public override float BaseSpeed { get; set; } = 7.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
 	public override int[] MinMaxCashReward => new int[] { 75, 175 };
 	public override int[] MinMaxEXPReward => new int[] { 45, 165 };
