@@ -29,7 +29,7 @@ public partial class CDHUD : RootPanel
 		AddChild<StatusGame>();
 		AddChild<TowerMenu>();
 		AddChild<PlayerStatus>();
-		//AddChild<PlayerLoadout>();
+		AddChild<PlayerLoadout>();
 		//AddChild( new PlayerTeamSelect(
 		//	() => { Log.Info( "BLUE SELECTED!" ); },
 		//	() => { Log.Info( "RED SELECTED!" ); } ) 

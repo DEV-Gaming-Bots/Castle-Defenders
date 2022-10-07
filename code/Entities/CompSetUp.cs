@@ -23,6 +23,6 @@ public class CompSetUp : Entity
 			return;
 
 		door.Enabled = false;
-		door.Solid = false;
+		door.Collisions = false;
 	}
 }
