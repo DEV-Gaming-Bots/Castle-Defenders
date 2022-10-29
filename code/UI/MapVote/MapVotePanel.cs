@@ -30,7 +30,7 @@ class MapVotePanel : Panel
 			Take = 16,
 		};
 
-		query.Tags.Add( "game:rifter.castletd" );
+		query.Tags.Add( "game:devbots.castletd" );
 
 		var packages = await query.RunAsync( default );
 

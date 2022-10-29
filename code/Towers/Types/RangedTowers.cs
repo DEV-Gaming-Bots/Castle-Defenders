@@ -126,7 +126,7 @@ public partial class Sniper : BaseTower
 	public override int TowerMaxLevel => 6;
 	public override int TowerCost => 125;
 	public override float DeploymentTime => 3.75f;
-	public override float AttackTime { get; set; } = 6.5f;
+	public override float AttackTime { get; set; } = 9.5f;
 	public override float AttackDamage { get; set; } = 25.0f;
 	public override int RangeDistance { get; set; } = 250;
 	public override string AttackSound => "sniper_fire";
