@@ -20,13 +20,13 @@ public partial class Riot : BaseNPC
 	public override float ArmourStrength => 30.0f;
 	public override float Damage => 12.5f;
 
-	float armour;
+	[Net] public float Armour { get; set; }
 
 	public override void Spawn()
 	{
 		base.Spawn();
 		RenderColor = new Color( 170, 170, 170 );
-		armour = ArmourStrength;
+		Armour = ArmourStrength;
 		ArmourBroken = false;
 
 		var vest = new ModelEntity( "models/citizen_clothes/vest/tactical_vest/models/tactical_vest.vmdl" );
@@ -51,11 +51,29 @@ public partial class Riot : BaseNPC
 		base.OnArmourBroken();
 	}
 
+	public override void SetUpPanel()
+	{
+		Panel = new NPCInfo( NPCName, Health, "Armor: " + Armour.ToString() );
+	}
+
+	public override void UpdateUI()
+	{
+		base.UpdateUI();
+
+		if ( Armour <= 0 )
+		{
+			Panel.noteText = "Armor: 0";
+			return;
+		}
+
+		Panel.noteText = "Armor: " + Armour.ToString();
+	}
+
 	public override void TakeDamage( DamageInfo info )
 	{
-		armour -= info.Damage;
+		Armour -= info.Damage;
 
-		if ( armour > 0 )
+		if ( Armour > 0 )
 			return;
 
 		OnArmourBroken();

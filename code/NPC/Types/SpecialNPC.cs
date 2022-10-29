@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using Sandbox.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,11 @@ public partial class Priest : BaseNPC
 
 		var hat = new ModelEntity( "models/citizen_clothes/hat/hat.tophat.vmdl" );
 		hat.SetParent( this, true );
+	}
+
+	public override void SetUpPanel()
+	{
+		Panel = new NPCInfo( NPCName, Health, "Heals nearby NPCs" );
 	}
 
 	[Event.Tick.Server]

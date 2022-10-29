@@ -17,6 +17,7 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual int[] MinMaxEXPReward => new int[] { 1, 2 };
 	public virtual float NPCScale => 1;
 	public virtual float Damage => 1;
+	[Net] public string NPCNameNet => NPCName;
 
 	public List<ModelEntity> clothingEnts;
 
@@ -60,6 +61,8 @@ public partial class BaseNPC : AnimatedEntity
 	public CastleEntity CastleTarget;
 
 	public TimeUntil TimeUntilSpecialRecover;
+
+	public NPCInfo Panel;
 
 	public enum PathTeam
 	{
@@ -115,6 +118,34 @@ public partial class BaseNPC : AnimatedEntity
 	{
 		EnableDrawing = false;
 		Delete();
+	}
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+
+		Panel?.Delete();
+		Panel = null;
+	}
+
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
+
+		SetUpPanel();
+	}
+
+	public virtual void SetUpPanel()
+	{
+		Panel = new NPCInfo(NPCName, Health);
+	}
+
+	[ClientRpc]
+	public virtual void UpdateUI()
+	{
+		Panel.Position = Position + Vector3.Up * 18 * (Scale + 1.10f);
+		Panel.Rotation = Rotation;
+		Panel.CurHealth = MathF.Round(Health, 2);
 	}
 
 	public virtual void OnArmourBroken()
@@ -173,6 +204,8 @@ public partial class BaseNPC : AnimatedEntity
 	[Event.Tick.Server]
 	public virtual void Tick()
 	{
+		UpdateUI( To.Everyone );
+
 		InputVelocity = 0;		
 
 		if ( Steer != null || !IsValid )

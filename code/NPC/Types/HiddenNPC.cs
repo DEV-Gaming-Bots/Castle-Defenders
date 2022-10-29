@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Sandbox;
@@ -22,5 +23,11 @@ public partial class Spectre : BaseNPC
 		base.Spawn();
 
 		RenderColor = Color.Gray.WithAlpha( 0.65f );
+	}
+
+	public override void SetUpPanel()
+	{
+		Panel = new NPCInfo( NPCName, Health, "Undetectable to most towers" );
+
 	}
 }

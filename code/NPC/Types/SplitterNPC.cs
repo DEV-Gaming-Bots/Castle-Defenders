@@ -25,6 +25,11 @@ public partial class Husk : BaseNPC
 		ApplyTextureClient( To.Everyone, "materials/npcs/husk.vmat", "skin" );
 	}
 
+	public override void SetUpPanel()
+	{
+		Panel = new NPCInfo( NPCName, Health, "Splits into smaller versions on death" );
+	}
+
 	public void SpawnSplit()
 	{
 		var splitted = new SplitMinion();
@@ -39,7 +44,7 @@ public partial class Husk : BaseNPC
 		splitted.Steer.Target = Steer.Target;
 
 		splitted.Scale = NPCScale / 2;
-		splitted.Health = Health / 1.25f;
+		splitted.Health = BaseHealth / 2.5f;
 
 		splitted.Position = Position + (Vector3.Random.x * 5) + (Vector3.Random.y * 5);
 		splitted.Rotation = Rotation;
