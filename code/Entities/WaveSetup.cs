@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using Sandbox.UI;
 using SandboxEditor;
 using System.Linq;
 
@@ -16,6 +17,9 @@ public class WaveSetup : Entity
 
 	[Property( "IsBossWave" ), Description( "Is this a boss wave, you should only set only one on a wave" )]
 	public bool IsBossWave { get; set; } = false;
+
+	[Property, Description("A message that will be displayed in the chat")]
+	public string NoteText { get; set; } = "";
 
 	public enum NPCEnum
 	{
@@ -176,6 +180,9 @@ public class WaveSetup : Entity
 			Spawn_Count *= 2;
 			NPC_Spawn_Rate /= 2;
 		}
+
+		if( !string.IsNullOrEmpty(NoteText) )
+			ChatBox.AddChatEntry( To.Everyone, "Game", NoteText );
 
 		spawnCounter = 0;
 		timeLastSpawn = 0;
