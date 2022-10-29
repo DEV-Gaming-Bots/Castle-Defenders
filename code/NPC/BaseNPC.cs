@@ -19,7 +19,7 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual float Damage => 1;
 	[Net] public string NPCNameNet => NPCName;
 
-	public List<ModelEntity> clothingEnts;
+	public List<ModelEntity> ClothingEnts;
 
 	public enum SpecialType
 	{
@@ -51,7 +51,7 @@ public partial class BaseNPC : AnimatedEntity
 
 	public int CashReward;
 	public int ExpReward;
-	public PathPriority pathPriority;
+	public PathPriority nextPathPriority;
 
 	public NPCPathSteer Steer;
 
@@ -64,6 +64,9 @@ public partial class BaseNPC : AnimatedEntity
 
 	public NPCInfo Panel;
 
+	Vector3 lastNode;
+	Entity curNode;
+
 	public enum PathTeam
 	{
 		Blue,
@@ -71,6 +74,15 @@ public partial class BaseNPC : AnimatedEntity
 	}
 
 	public PathTeam PathToFollow;
+
+	public enum EffectEnum
+	{
+		Confusion,
+		Frozen,
+		Melting,
+	}
+
+	public List<(EffectEnum effect, float time, TimeSince timeEffected)> CurrentEffects;
 
 	public int GetDifficulty()
 	{
@@ -96,7 +108,8 @@ public partial class BaseNPC : AnimatedEntity
 	{
 		SetModel( BaseModel );
 
-		clothingEnts = new List<ModelEntity>();
+		CurrentEffects = new();
+		ClothingEnts = new List<ModelEntity>();
 
 		Scale = NPCScale;
 		Health = BaseHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
@@ -111,6 +124,7 @@ public partial class BaseNPC : AnimatedEntity
 		EnableHitboxes = false;
 
 		Steer = new NPCPathSteer();
+		lastNode = Position;
 	}
 
 	//When the NPC reaches the castle, despawn
@@ -159,6 +173,22 @@ public partial class BaseNPC : AnimatedEntity
 		SetMaterialOverride( Material.Load( matPath ), body );
 	}
 
+	public void AddEffect(EffectEnum effect, float time)
+	{
+		if ( CurrentEffects.Contains( CurrentEffects.FirstOrDefault( x => x.effect == effect ) ) )
+			return;
+
+		CurrentEffects.Add( (effect, time, 0.0f) );
+	}
+
+	public void GoReversePath()
+	{
+		if ( lastNode.IsNearlyZero() )
+			Steer.Target = Position;
+		else
+			Steer.Target = lastNode;
+	}
+
 	public void FindNextPath()
 	{
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Post )
@@ -171,19 +201,27 @@ public partial class BaseNPC : AnimatedEntity
 
 			CastleTarget.DamageCastle( dmgInfo.Damage );
 			Despawn();
-			return;
 		}
 
 		foreach ( var path in All.OfType<NPCPath>() )
 		{
+			if(curNode == null)
+			{
+				var nextPath = path.FindNextPath( nextPathPriority );
+				curNode = nextPath;
+				Steer.Target = curNode.Position;
+			}
+
 			if ( path.Position.Distance( Position ) <= 25.0f )
 			{
-				var nextPath = path.FindNextPath( pathPriority );
+				lastNode = path.Position;
+
+				var nextPath = path.FindNextPath( nextPathPriority );
 
 				if ( nextPath != null )
 				{
 					Steer.Target = nextPath.Position;
-
+					curNode = nextPath;
 					if ( nextPath is NPCPath nextNpcPath )
 					{
 						if ( nextNpcPath.TeleportingNode )
@@ -206,7 +244,36 @@ public partial class BaseNPC : AnimatedEntity
 	{
 		UpdateUI( To.Everyone );
 
-		InputVelocity = 0;		
+		if( CurrentEffects.Count > 0 )
+		{
+			foreach ( var effect in CurrentEffects.ToArray() )
+			{
+				switch ( effect.effect )
+				{
+					case EffectEnum.Confusion:
+						GoReversePath();
+						break;
+				}
+
+				if ( effect.timeEffected >= effect.time )
+				{
+					switch ( effect.effect )
+					{
+						case EffectEnum.Confusion:
+							PlaySound( "confusion_recover" );
+							if ( curNode == null )
+								FindNextPath();
+							else
+								Steer.Target = curNode.Position;
+							break;
+					}
+
+					CurrentEffects.Remove( effect );
+				}
+			}
+		}
+
+		InputVelocity = 0;
 
 		if ( Steer != null || !IsValid )
 		{
@@ -215,7 +282,7 @@ public partial class BaseNPC : AnimatedEntity
 			InputVelocity = Steer.Output.Direction.Normal;
 			Velocity = Velocity.AddClamped( InputVelocity, BaseSpeed * SpeedMultiplier );
 
-			if ( Steer.Target.Distance( Position ) <= 1.0f || Position.Distance(CastleTarget.Position) <= 25.0f)
+			if ( Steer.Target.Distance( Position ) <= 1.0f || Position.Distance( CastleTarget.Position ) <= 25.0f )
 				FindNextPath();
 		}
 

@@ -35,7 +35,8 @@ public partial class CDPawn : IPlayerData
 			"Sniper",
 			"RadioactiveEmitter",
 			"Lightning",
-			"TimeDisplacer" 
+			"Trickster",
+			"TimeDisplacer"
 		};
 
 		CDGame.Instance.SaveData( this );

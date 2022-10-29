@@ -31,7 +31,7 @@ public partial class Riot : BaseNPC
 
 		var vest = new ModelEntity( "models/citizen_clothes/vest/tactical_vest/models/tactical_vest.vmdl" );
 		vest.SetParent( this, true );
-		clothingEnts.Add( vest );
+		ClothingEnts.Add( vest );
 	}
 
 	public override void OnArmourBroken()
@@ -40,7 +40,7 @@ public partial class Riot : BaseNPC
 			return;
 
 		//This doesn't work for some reason
-		foreach ( var clothing in clothingEnts.ToArray() )
+		foreach ( var clothing in ClothingEnts.ToArray() )
 		{
 			clothing.SetParent( null, false );
 			clothing.Delete();

@@ -14,9 +14,9 @@ public partial class Lightning : BaseTower
 	public override BaseTower RequiredTowers => null;
 	public override int[] TowerLevelCosts => new int[]
 	{
-		275,
-		375,
-		650,
+		575,
+		635,
+		745,
 		950,
 		1350,
 		-1
@@ -53,7 +53,7 @@ public partial class Lightning : BaseTower
 	};
 
 	public override int TowerMaxLevel => 6;
-	public override int TowerCost => 225;
+	public override int TowerCost => 525;
 	public override float DeploymentTime => 2.25f;
 	public override float AttackTime { get; set; } = 3.25f;
 	public override float AttackDamage { get; set; } = 32.5f;

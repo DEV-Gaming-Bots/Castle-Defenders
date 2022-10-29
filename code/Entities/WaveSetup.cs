@@ -121,7 +121,7 @@ public class WaveSetup : Entity
 
 		npc.Spawn();
 		
-		npc.pathPriority = NPC_Path_Priority;
+		npc.nextPathPriority = NPC_Path_Priority;
 
 		if ( CDGame.Instance.Competitive )
 		{
