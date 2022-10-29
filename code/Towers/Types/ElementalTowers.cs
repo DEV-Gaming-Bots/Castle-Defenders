@@ -133,6 +133,9 @@ public partial class Lightning : BaseTower
 	[ClientRpc]
 	public void ClearParticles()
 	{
+		if ( shockParticles == null )
+			return;
+
 		shockParticles.Clear();
 	}
 

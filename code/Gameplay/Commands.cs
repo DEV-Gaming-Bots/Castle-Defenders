@@ -316,10 +316,10 @@ public partial class CDGame
 		Instance.LoadSave( ConsoleSystem.Caller );
 	}
 
-	[ConCmd.Server( "cd_tower_select" )]
+	[ConCmd.Server( "cd_set_towerslots" )]
 	public static void SelectTower()
 	{
-
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 	}
 
 	[ConCmd.Server( "cd_get_towerslots" )]

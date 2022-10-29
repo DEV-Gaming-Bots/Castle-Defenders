@@ -13,6 +13,9 @@
 *.vtex_c
 *.vmat_c
 
+#Csproj
+*.csproj
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

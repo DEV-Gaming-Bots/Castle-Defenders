@@ -34,6 +34,7 @@ public partial class CDGame : Game
 	public bool ActiveSuperTowerRed { get; set; }
 
 	public int LimitTower;
+
 	public CDGame()
 	{
 		if(IsServer)
@@ -132,6 +133,17 @@ public partial class CDGame : Game
 		}
 
 		base.ClientDisconnect( cl, reason );
+	}
+
+	public override void Shutdown()
+	{
+		foreach ( Client client in Client.All )
+		{
+			if ( client.Pawn is CDPawn ply )
+				SaveData( ply );
+		}
+
+		base.Shutdown();
 	}
 
 	public enum GameStates

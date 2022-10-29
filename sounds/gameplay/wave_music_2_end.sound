@@ -10,7 +10,7 @@
 		Decibels = 70
 		Sounds = 
 		[
-			resource:"sounds/raw/music/wave_music_2_end.vsnd",
+			resource:"sounds/raw/music/wave_music_3_end.vsnd",
 		]
 		SelectionMode = "Random"
 		MaximumDistance = 1143.9335

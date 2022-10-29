@@ -34,6 +34,13 @@ public partial class CDPawn
 		PreviewTower.Position = endPos;
 		PreviewTower.RenderColor = color.WithAlpha(1.0f);
 
+		//Rect rect = new Rect( PreviewTower.Position, new Vector2(64, 64) );
+
+		//Log.Info( rect.Width );
+
+		//Graphics.DrawQuad( rect, Material.Load( "materials/dev/debug_wireframe.vmat" ), color );
+		//Graphics.DrawRoundedRectangle( rect, color.WithAlpha( 0.25f ) );
+
 		DebugOverlay.Circle( PreviewTower.Position + Vector3.Up * 5, Rotation.FromPitch(90), range, color.WithAlpha(0.25f));
 	}
 

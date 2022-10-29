@@ -37,7 +37,7 @@ public partial class TriggerTeam : BaseTrigger
 
 		if ( other is CDPawn player )
 		{
-			if (!Team.ToString().Contains(player.CurTeam.ToString()) )
+			if ( !player.OnOtherTeamSide )
 			{
 				player.OnOtherTeamSide = true;
 
