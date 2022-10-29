@@ -53,7 +53,9 @@ public partial class CDGame : Game
 
 			ActiveSuperTowerBlue = false;
 			ActiveSuperTowerRed = false;
+
 			LoopedTimes = 1;
+
 			LimitTower = StaticLimitTowers;
 		}
 
