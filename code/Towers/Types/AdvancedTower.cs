@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,8 +7,6 @@ public partial class RadioactiveEmitter : BaseTower
 {
 	public override string TowerName => "Radiation Emitter";
 	public override string TowerDesc => "A tower that emits radiation to nearby hostiles even with stealth";
-
-	//Temporary until we get a pistol model
 	public override string TowerModel => "models/towers/radioactivemitter.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
@@ -49,9 +48,10 @@ public partial class RadioactiveEmitter : BaseTower
 	public override int TowerMaxLevel => 5;
 	public override int TowerCost => 350;
 	public override float DeploymentTime => 3.67f;
-	public override float AttackTime => 7.0f;
-	public override float AttackDamage => 7.25f;
-	public override int RangeDistance => 165;
+	public override float AttackTime { get; set; } = 7.0f;
+	public override float AttackDamage { get; set; } = 7.25f;
+	public override int RangeDistance { get; set; } = 165;
+
 	public override string AttackSound => "geiger_radiation";
 	public override bool CounterStealth { get; set; } = true;
 

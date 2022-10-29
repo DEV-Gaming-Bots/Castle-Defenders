@@ -91,7 +91,7 @@ public partial class Lightning : BaseTower
 
 		if ( (TimeLastAttack * 2) >= AttackTime && !charged )
 		{
-			ClearParticles();
+			ClearParticles( To.Everyone );
 			PlaySound( "lightning_charge" );
 			charged = true;
 		}
@@ -137,6 +137,12 @@ public partial class Lightning : BaseTower
 			return;
 
 		shockParticles.Clear();
+	}
+
+	protected override void OnDestroy()
+	{
+		ClearParticles( To.Everyone );
+		base.OnDestroy();
 	}
 
 	public override void Attack( BaseNPC target )

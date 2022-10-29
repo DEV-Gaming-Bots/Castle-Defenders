@@ -91,9 +91,9 @@ public partial class TowerMenu : Panel
 				NextUpgrade.SetText( "" );
 			}
 
+			//Log.Info( tower.NetStats );
+
 			TowerStats.SetText( $"{tower.NetStats}" );
-
-
 		}
 		else
 			TowerPnl.SetClass( "showMenu", false );
