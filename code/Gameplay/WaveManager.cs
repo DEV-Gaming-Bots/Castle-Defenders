@@ -290,13 +290,13 @@ public partial class CDGame
 		{
 			if(winCondition == WinningEnum.BlueWin)
 			{
-				ChatBox.AddChatEntry( "GAME", "Blue team has won!" );
+				ChatBox.AddChatEntry( To.Everyone, "GAME", "Blue team has won!" );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.EndMusic( To.Single(x), "music_win" ) );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 			} 
 			else if (winCondition == WinningEnum.RedWin)
 			{
-				ChatBox.AddChatEntry( "GAME", "Red team has won!" );
+				ChatBox.AddChatEntry( To.Everyone, "GAME", "Red team has won!" );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_win" ) );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 			}
@@ -306,12 +306,12 @@ public partial class CDGame
 		{
 			if( winCondition == WinningEnum.Win )
 			{
-				ChatBox.AddChatEntry( "GAME", "You have successfully defended the castle!" );
+				ChatBox.AddChatEntry( To.Everyone, "GAME", "You have successfully defended the castle!" );
 				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_win" ) );
 			}
 			else if (winCondition == WinningEnum.Lost )
 			{
-				ChatBox.AddChatEntry( "GAME", "The evil forces have overtaken the castle!" );
+				ChatBox.AddChatEntry( To.Everyone, "GAME", "The evil forces have overtaken the castle!" );
 				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 				allowRestart = true;
 			}

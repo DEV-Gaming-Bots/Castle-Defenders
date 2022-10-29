@@ -128,7 +128,7 @@ namespace CastleDefenders.UI.Components
 				base.Tick();
 
 
-				if(!CDGame.Instance.Competitive )
+				if( !CDGame.Instance.Competitive )
 				{
 					float blueCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).First().CastleHealth;
 					RedHealthText.SetText( $"Health {blueCastleHP}");

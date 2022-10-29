@@ -106,12 +106,12 @@ public partial class Sniper : BaseTower
 	};
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.10f, 2.5f, 25),
-		new(-0.10f, 2.5f, 25),
-		new(-0.10f, 2.5f, 25),
-		new(-0.20f, 5.0f, 50),
-		new(-0.25f, 5.0f, 50),
-		new(-0.25f, 7.5f, 100)
+		new(-0.25f, 2.5f, 25),
+		new(-0.30f, 2.5f, 25),
+		new(-0.45f, 2.5f, 25),
+		new(-0.50f, 5.0f, 50),
+		new(-0.50f, 5.0f, 50),
+		new(-0.50f, 7.5f, 100)
 	};
 	public override string[] TowerUpgradeDesc => new string[]
 	{
@@ -127,7 +127,7 @@ public partial class Sniper : BaseTower
 	public override int TowerCost => 125;
 	public override float DeploymentTime => 3.75f;
 	public override float AttackTime { get; set; } = 9.5f;
-	public override float AttackDamage { get; set; } = 25.0f;
+	public override float AttackDamage { get; set; } = 35.0f;
 	public override int RangeDistance { get; set; } = 250;
 	public override string AttackSound => "sniper_fire";
 
