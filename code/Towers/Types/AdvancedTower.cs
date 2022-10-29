@@ -29,10 +29,10 @@ public partial class RadioactiveEmitter : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.25f, 1.5f, 25),
-		new(-0.5f, 1.5f, 50),
-		new(-1.0f, 1.75f, 75),
+		new(-0.25f, 1.75f, 25),
+		new(-0.5f, 1.75f, 50),
 		new(-1.0f, 2.25f, 75),
+		new(-1.0f, 2.75f, 75),
 		new(-1.0f, 3.50f, 75)
 	};
 
@@ -49,7 +49,7 @@ public partial class RadioactiveEmitter : BaseTower
 	public override int TowerCost => 350;
 	public override float DeploymentTime => 3.67f;
 	public override float AttackTime { get; set; } = 7.0f;
-	public override float AttackDamage { get; set; } = 7.25f;
+	public override float AttackDamage { get; set; } = 15.0f;
 	public override int RangeDistance { get; set; } = 165;
 
 	public override string AttackSound => "geiger_radiation";
