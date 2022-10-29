@@ -19,7 +19,7 @@ public partial class Priest : BaseNPC
 	public TimeUntil TimeToHeal;
 	public float HealAmount = 2.5f;
 	public float HealTime = 12.5f;
-	public float HealRadius = 48.0f;
+	public float HealRadius = 64.0f;
 
 	public override void Spawn()
 	{
@@ -38,13 +38,19 @@ public partial class Priest : BaseNPC
 
 		if( TimeToHeal <= 0 )
 		{
-			var ents = FindInSphere(Position, HealRadius );
+			var ents = FindInSphere( Position, HealRadius );
 
 			foreach ( var ent in ents )
 			{
-				if (ent is BaseNPC npc && npc != this)
+				if (ent is BaseNPC npc && npc != this && npc is not Priest)
+				{
 					npc.Health += HealAmount;
+					if ( npc.Health >= npc.BaseHealth )
+						npc.Health = npc.BaseHealth;
+				}
 			}
+
+			PlaySound( "healing" );
 
 			TimeToHeal = HealTime;
 		}

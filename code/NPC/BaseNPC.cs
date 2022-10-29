@@ -18,6 +18,8 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual float NPCScale => 1;
 	public virtual float Damage => 1;
 
+	public List<ModelEntity> clothingEnts;
+
 	public enum SpecialType
 	{
 		Standard,
@@ -87,11 +89,11 @@ public partial class BaseNPC : AnimatedEntity
 		return 0;
 	}
 
-	
-
 	public override void Spawn()
 	{
 		SetModel( BaseModel );
+
+		clothingEnts = new List<ModelEntity>();
 
 		Scale = NPCScale;
 		Health = BaseHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
@@ -117,9 +119,6 @@ public partial class BaseNPC : AnimatedEntity
 
 	public virtual void OnArmourBroken()
 	{
-		if ( ArmourBroken )
-			return;
-
 		ArmourBroken = true;
 	}
 

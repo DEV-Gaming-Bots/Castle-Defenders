@@ -14,7 +14,9 @@
   "CodePath": "/code/",
   "RootNamespace": "Sandbox",
   "Metadata": {
-    "MapList": [],
+    "MapList": [
+      "devbots."
+    ],
     "MapSelect": "Tagged",
     "MinPlayers": 1,
     "MaxPlayers": 8,

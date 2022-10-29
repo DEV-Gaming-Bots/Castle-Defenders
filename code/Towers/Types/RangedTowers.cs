@@ -147,11 +147,16 @@ public partial class Sniper : BaseTower
 			CounterStealth = true;
 	}
 
+	protected override void OnDestroy()
+	{
+		LaserOff(To.Everyone);
+		base.OnDestroy();
+	}
+
 	public override void SellTower()
 	{
 		LaserOff();
 		base.SellTower();
-
 	}
 
 	[ClientRpc]
@@ -168,20 +173,20 @@ public partial class Sniper : BaseTower
 		if ( Target == null )
 		{
 			lockedOnTarget = false;
-			LaserOff();
+			LaserOff(To.Everyone);
 
 			return;
 		}
 
 		if ( (TimeLastAttack * 4) >= AttackTime && !lockedOnTarget )
 		{
-			LaserOn(Target);
+			LaserOn( To.Everyone, Target );
 			lockedOnTarget = true;
 		}
 	}
 
 	[ClientRpc]
-	protected void LaserOn( BaseNPC target)
+	protected void LaserOn( BaseNPC target )
 	{
 		Host.AssertClient();
 

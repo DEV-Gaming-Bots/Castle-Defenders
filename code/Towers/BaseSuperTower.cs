@@ -35,8 +35,7 @@ public partial class BaseSuperTower : BaseTower
 					break;
 			}
 
-			PlayDeployAnimation();
-			PlayDeployAnimRPC( To.Single( Owner ) );
+			PlayDeployAnimRPC( To.Everyone );
 		} 
 		else
 			NetCost = TowerCost;

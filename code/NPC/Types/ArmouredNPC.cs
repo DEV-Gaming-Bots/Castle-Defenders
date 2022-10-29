@@ -31,18 +31,24 @@ public partial class Riot : BaseNPC
 
 		var vest = new ModelEntity( "models/citizen_clothes/vest/tactical_vest/models/tactical_vest.vmdl" );
 		vest.SetParent( this, true );
+		clothingEnts.Add( vest );
 	}
 
 	public override void OnArmourBroken()
 	{
-		base.OnArmourBroken();
-
 		if ( ArmourBroken )
 			return;
 
+		//This doesn't work for some reason
+		foreach ( var clothing in clothingEnts.ToArray() )
+		{
+			clothing.SetParent( null, false );
+			clothing.Delete();
+		}
+
 		BaseSpeed += 7.5f;
 
-		Log.Info( BaseSpeed );
+		base.OnArmourBroken();
 	}
 
 	public override void TakeDamage( DamageInfo info )

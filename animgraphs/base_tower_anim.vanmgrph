@@ -15,7 +15,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -224.0, 128.0 ]
+					m_vecPosition = [ -208.0, 144.0 ]
 					m_nNodeID = 
 					{
 						m_id = 51262193
@@ -92,7 +92,7 @@
 				{
 					_class = "CSingleFrameAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -208.0, -176.0 ]
+					m_vecPosition = [ -208.0, -160.0 ]
 					m_nNodeID = 
 					{
 						m_id = 247648905
@@ -184,7 +184,7 @@
 							m_bIsEndtState = false
 							m_bIsPassthrough = false
 							m_bIsRootMotionExclusive = false
-							m_bAlwaysEvaluate = false
+							m_bAlwaysEvaluate = true
 						},
 						{
 							_class = "CAnimState"
@@ -670,7 +670,7 @@
 				{
 					_class = "CSingleFrameAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -208.0, 304.0 ]
+					m_vecPosition = [ -208.0, 336.0 ]
 					m_nNodeID = 
 					{
 						m_id = 738746167
@@ -712,7 +712,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -208.0, 240.0 ]
+					m_vecPosition = [ -208.0, 272.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1077883657
@@ -784,7 +784,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -224.0, 32.0 ]
+					m_vecPosition = [ -208.0, 32.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1374296187
@@ -806,7 +806,7 @@
 				{
 					_class = "CSingleFrameAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -208.0, 176.0 ]
+					m_vecPosition = [ -208.0, 208.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1532905949
@@ -929,7 +929,7 @@
 	}
 	m_previewModels = 
 	[
-		"models/towers/pistoltower.vmdl",
+		"models/towers/radioactivemitter.vmdl",
 	]
 	m_boneMergeModels = [  ]
 }

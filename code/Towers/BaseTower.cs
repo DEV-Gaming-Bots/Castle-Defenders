@@ -103,8 +103,7 @@ public partial class BaseTower : AnimatedEntity
 		{
 			TimeSinceDeployed = 0;
 			NetCost = TowerLevelCosts[TowerLevel - 1];
-			PlayDeployAnimation();
-			PlayDeployAnimRPC( To.Single( Owner ) );
+			PlayDeployAnimRPC( To.Everyone );
 		}
 		else
 		{
@@ -123,30 +122,13 @@ public partial class BaseTower : AnimatedEntity
 		base.ClientSpawn();
 	}
 
-	[Event.Hotload()]
-	public void HotloadTowers()
-	{
-		
-	}
-
 	[ClientRpc]
 	public void PlayDeployAnimRPC()
 	{
 		SetAnimParameter( "b_deploy", true );
 	}
 
-	public void PlayDeployAnimation()
-	{
-		SetAnimParameter( "b_deploy", true );
-	}
-
-	[ClientRpc]
 	public void PlayUpgradeAnimRPC()
-	{
-		SetAnimParameter( "b_upgrade", true );
-	}
-
-	public void PlayUpgradeAnimation()
 	{
 		SetAnimParameter( "b_upgrade", true );
 	}
@@ -159,7 +141,7 @@ public partial class BaseTower : AnimatedEntity
 		if ( TimeSinceDeployed < DeploymentTime )
 			return false;
 
-		if ( TimeLastUpgrade < 4.0f )
+		if ( TimeLastUpgrade < 5.0f )
 			return false;
 
 		if ( (Owner as CDPawn).GetCash() < TowerLevelCosts[TowerLevel - 1] )
@@ -189,8 +171,7 @@ public partial class BaseTower : AnimatedEntity
 			return;
 		}
 
-		PlayUpgradeAnimation();
-		PlayUpgradeAnimRPC( To.Single( Owner ) );
+		PlayUpgradeAnimRPC();
 
 		(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
 		

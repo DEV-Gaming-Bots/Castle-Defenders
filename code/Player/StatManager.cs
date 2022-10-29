@@ -59,6 +59,9 @@ public partial class CDPawn : IPlayerData
 
 	public void SetUpPlayer()
 	{
+		if ( CDGame.Instance.LoopedTimes > 1 )
+			return;
+
 		Cash = 60 + ((Level - 1) * 5);
 		SelectedTower?.Delete();
 		SelectedTower = null;
