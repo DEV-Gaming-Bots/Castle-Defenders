@@ -10,8 +10,6 @@ public partial class CDHUD : RootPanel
 {
 	public static CDHUD CurrentHud;
 
-	public Scoreboard<ScoreboardEntry> Scoreboard { get; set; }
-
 	public CDHUD()
 	{
 		if( CurrentHud != null )

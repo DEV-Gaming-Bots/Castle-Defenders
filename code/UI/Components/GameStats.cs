@@ -128,13 +128,13 @@ namespace CastleDefenders.UI.Components
 				base.Tick();
 
 
-				if(!CDGame.StaticCompetitive)
+				if(!CDGame.Instance.Competitive )
 				{
 					float blueCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).First().CastleHealth;
 					RedHealthText.SetText( $"Health {blueCastleHP}");
 					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP );
 				} 
-				else if (CDGame.StaticCompetitive)
+				else if (CDGame.Instance.Competitive)
 				{
 					float redCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Red ).First().CastleHealth;
 					float blueCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).First().CastleHealth;
@@ -144,7 +144,8 @@ namespace CastleDefenders.UI.Components
 					HealthBarRed.Style.Width = Length.Pixels( redCastleHP * 2 );
 					HealthBarBlue.Style.Width = Length.Pixels( blueCastleHP * 2 );
 				}
-				switch (CDGame.StaticCompetitive)
+
+				switch ( CDGame.Instance.Competitive )
 				{
 					case true:
 						BlueHealth.SetClass( "hide", false );

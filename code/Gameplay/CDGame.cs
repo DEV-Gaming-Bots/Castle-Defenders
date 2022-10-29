@@ -1,10 +1,12 @@
 ﻿
 using Sandbox;
+using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 
 public partial class CDGame : Game
@@ -23,7 +25,7 @@ public partial class CDGame : Game
 	[ConVar.Replicated( "cd_towerlimit" )]
 	public static int StaticLimitTowers { get; set; }
 
-	public bool Competitive;
+	[Net] public bool Competitive { get; set; }
 
 	public bool RefusePlay;
 
@@ -67,7 +69,7 @@ public partial class CDGame : Game
 	[Event.Hotload]
 	public void UpdateHud()
 	{
-		if ( IsClient )
+		if ( IsClient )			
 			_ = new CDHUD();
 	}
 

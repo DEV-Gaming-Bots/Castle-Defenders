@@ -12,15 +12,9 @@ using SandboxEditor;
 [HammerEntity]
 public partial class TriggerTeam : BaseTrigger
 {
-	public enum TeamSideEnum
-	{
-		Unspecified,
-		Blue,
-		Red
-	}
-
+	
 	[Property, Description("Which side is this team on, the opposite team will be affected by this")]
-	public TeamSideEnum Team { get; set; }
+	public CDPawn.TeamEnum Team { get; set; }
 
 	public override void Spawn()
 	{
@@ -35,9 +29,12 @@ public partial class TriggerTeam : BaseTrigger
 	{
 		base.StartTouch( other );
 
+		if ( !CDGame.Instance.Competitive )
+			return;
+
 		if ( other is CDPawn player )
 		{
-			if ( !player.OnOtherTeamSide )
+			if ( player.CurTeam != Team )
 			{
 				player.OnOtherTeamSide = true;
 
@@ -52,7 +49,7 @@ public partial class TriggerTeam : BaseTrigger
 				player.CurSuperTower = null;
 
 			} 
-			else
+			else if (player.CurTeam == Team)
 				player.OnOtherTeamSide = false;
 		}
 	}

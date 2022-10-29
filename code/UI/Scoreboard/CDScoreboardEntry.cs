@@ -57,7 +57,7 @@ public partial class CDScoreboardEntry : Panel
 			if ( player == null )
 				return;
 
-			SetClass("comp_redteam", player.CurTeam == CDPawn.TeamEnum.Red);
+			SetClass( "comp_redteam", player.CurTeam == CDPawn.TeamEnum.Red);
 			SetClass( "comp_blueteam", player.CurTeam == CDPawn.TeamEnum.Blue );
 		}
 
