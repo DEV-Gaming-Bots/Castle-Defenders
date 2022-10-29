@@ -22,7 +22,7 @@ public partial class CDHUD : RootPanel
 
 
 		AddChild<ChatBox>();
-		Scoreboard = AddChild<Scoreboard<ScoreboardEntry>>();
+		AddChild<CDScoreboard<CDScoreboardEntry>>();
 
 		AddChild<Status>();
 		AddChild<VoiceList>();
@@ -30,6 +30,8 @@ public partial class CDHUD : RootPanel
 		AddChild<TowerMenu>();
 		AddChild<PlayerStatus>();
 		AddChild<PlayerLoadout>();
+		AddChild<VoiceSpeaker>();
+
 		//AddChild( new PlayerTeamSelect(
 		//	() => { Log.Info( "BLUE SELECTED!" ); },
 		//	() => { Log.Info( "RED SELECTED!" ); } ) 

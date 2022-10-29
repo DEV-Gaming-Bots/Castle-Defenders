@@ -143,7 +143,7 @@ public partial class BaseNPC : AnimatedEntity
 	[ClientRpc]
 	public virtual void UpdateUI()
 	{
-		Panel.Position = Position + Vector3.Up * 18 * (Scale + 1.10f);
+		Panel.Position = Position + Vector3.Up * 18 * (Scale + 2.0f);
 		Panel.Rotation = Rotation;
 		Panel.CurHealth = MathF.Round(Health, 2);
 	}
@@ -303,9 +303,16 @@ public partial class BaseNPC : AnimatedEntity
 		EyePosition = Position;
 	}
 
+	DamageInfo lastDMG;
+
 	public override void TakeDamage( DamageInfo info )
 	{
 		Health -= info.Damage;
+
+		var attTower = info.Attacker as BaseTower;
+
+		if(attTower.Owner is CDPawn player)
+			lastDMG.Attacker = player;
 
 		if ( Health <= 0 )
 			OnKilled();
@@ -338,6 +345,7 @@ public partial class BaseNPC : AnimatedEntity
 			} );
 		}
 
+		(lastDMG.Attacker as CDPawn).Client.AddInt( "kills", 1 );
 
 		base.OnKilled();
 	}
