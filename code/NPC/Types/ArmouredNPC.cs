@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
-using Sandbox;
+﻿using Sandbox;
 
-public partial class Riot : BaseNPC
+public sealed partial class Riot : BaseNPC
 {
 	public override string NPCName => "Riot";
 	public override float BaseHealth => 45;
 	public override float BaseSpeed { get; set; } = 12.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new int[] { 5, 20 };
-	public override int[] MinMaxEXPReward => new int[] { 1, 5 };
+	public override int[] MinMaxCashReward => new[] { 5, 20 };
+	public override int[] MinMaxEXPReward => new[] { 1, 5 };
 	public override float NPCScale => 0.45f;
 	public override SpecialType NPCType => SpecialType.Armoured;
 	public override float ArmourStrength => 30.0f;
@@ -53,7 +46,7 @@ public partial class Riot : BaseNPC
 
 	public override void SetUpPanel()
 	{
-		Panel = new NPCInfo( NPCName, Health, "Armor: " + Armour.ToString() );
+		Panel = new NPCInfo( NPCName, Health, "Armor: " + Armour );
 	}
 
 	public override void UpdateUI()
@@ -66,7 +59,7 @@ public partial class Riot : BaseNPC
 			return;
 		}
 
-		Panel.noteText = "Armor: " + Armour.ToString();
+		Panel.noteText = "Armor: " + Armour;
 	}
 
 	public override void TakeDamage( DamageInfo info )
@@ -82,14 +75,14 @@ public partial class Riot : BaseNPC
 	}
 }
 
-public partial class Knight : BaseNPC
+public sealed partial class Knight : BaseNPC
 {
 	public override string NPCName => "Knight";
 	public override float BaseHealth => 95;
 	public override float BaseSpeed { get; set; } = 10.0f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new int[] { 9, 31 };
-	public override int[] MinMaxEXPReward => new int[] { 5, 15 };
+	public override int[] MinMaxCashReward => new[] { 9, 31 };
+	public override int[] MinMaxEXPReward => new[] { 5, 15 };
 	public override float NPCScale => 0.45f;
 	public override SpecialType NPCType => SpecialType.Armoured;
 	public override float ArmourStrength => 125.0f;
@@ -128,7 +121,7 @@ public partial class Knight : BaseNPC
 	}
 	public override void SetUpPanel()
 	{
-		Panel = new NPCInfo( NPCName, Health, "Armor: " + Armour.ToString() );
+		Panel = new NPCInfo( NPCName, Health, "Armor: " + Armour );
 	}
 
 	public override void UpdateUI()
@@ -141,7 +134,7 @@ public partial class Knight : BaseNPC
 			return;
 		}
 
-		Panel.noteText = "Armor: " + Armour.ToString();
+		Panel.noteText = "Armor: " + Armour;
 	}
 	public override void TakeDamage( DamageInfo info )
 	{

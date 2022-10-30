@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using Sandbox;
 using Sandbox.UI;
 
-public partial class CDGame
+public sealed partial class CDGame
 {
 	//Basic Gameplay and wave statuses
 	public enum GameEnum
@@ -75,15 +72,15 @@ public partial class CDGame
 	[Net]
 	public int MaxWaves { get; protected set; }
 
-	int mapAttempts;
+	private int _mapAttempts;
 
-	int musicIndex;
+	private int _musicIndex;
 
-	bool isBossWave;
-	bool allowRestart;
-	bool playInboundMusic = false;
+	private bool _isBossWave;
+	private bool _allowRestart;
+	private bool _playInboundMusic;
 
-	MapVoteEntity mapVote;
+	private MapVoteEntity _mapVote;
 
 	[Event.Tick.Server]
 	public void TickGameplay()
@@ -91,12 +88,12 @@ public partial class CDGame
 		if ( GameStatus == GameEnum.Idle )
 			return;
 
-		if ( Instance.Debug && (Instance.DebugMode == DebugEnum.Gameplay || Instance.DebugMode == DebugEnum.All))
+		if ( Instance.Debug && Instance.DebugMode is DebugEnum.Gameplay or DebugEnum.All)
 			Log.Info( TimeRemaining );
 
-		if(TimeRemaining <= 10.0f && playInboundMusic && WaveStatus == WaveEnum.Pre )
+		if(TimeRemaining <= 10.0f && _playInboundMusic && WaveStatus == WaveEnum.Pre )
 		{
-			var waves = All.OfType<WaveSetup>().ToList().Where( x => x.Wave_Order == CurWave );
+			var waves = All.OfType<WaveSetup>().ToList().Where( x => x.WaveOrder == CurWave );
 
 			foreach ( var wave in waves )
 			{
@@ -107,7 +104,7 @@ public partial class CDGame
 				}
 			}
 
-			playInboundMusic = false;
+			_playInboundMusic = false;
 		}
 
 		if ( TimeRemaining > 0.0f )
@@ -138,7 +135,7 @@ public partial class CDGame
 				return;
 
 			case GameEnum.MapChange:
-				Global.ChangeLevel( mapVote.WinningMap );
+				Global.ChangeLevel( _mapVote.WinningMap );
 				break;
 		}
 
@@ -175,12 +172,12 @@ public partial class CDGame
 			x.TowerInHand = null;
 		} );
 
-		mapVote = new MapVoteEntity();
+		_mapVote = new MapVoteEntity();
 	}
 
 	public bool ShouldRestart()
 	{
-		if ( !allowRestart )
+		if ( !_allowRestart )
 			return false;
 
 		if ( LoopedTimes > 1 )
@@ -189,10 +186,10 @@ public partial class CDGame
 		if ( CurWave > (MaxWaves / 2) )
 			return false;
 
-		if ( mapAttempts > 2 )
+		if ( _mapAttempts > 2 )
 			return false;
 
-		mapAttempts++;
+		_mapAttempts++;
 
 		return true;
 	}
@@ -208,9 +205,8 @@ public partial class CDGame
 				return false;
 		}
 
-		if ( All.OfType<BaseNPC>().Count() > 0 )
+		if ( All.OfType<BaseNPC>().Any() )
 			return false;
-
 
 		return true;
 	}
@@ -235,17 +231,17 @@ public partial class CDGame
 		Instance.ActiveSuperTowerBlue = false;
 		Instance.ActiveSuperTowerRed = false;
 
-		allowRestart = false;
+		_allowRestart = false;
 
 		TimeRemaining = 10.0f;
 		CurWave = 0;
 		GameStatus = GameEnum.Starting;
 
-		int checkWaves = 0;
+		var checkWaves = 0;
 
 		foreach ( var setter in All.OfType<WaveSetup>() )
 		{
-			if ( setter.Wave_Order > checkWaves )
+			if ( setter.WaveOrder > checkWaves )
 				checkWaves++;
 		}
 
@@ -261,18 +257,18 @@ public partial class CDGame
 
 		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic(To.Single(x), "" ) );
 
-		allowRestart = false;
+		_allowRestart = false;
 
-		mapAttempts = 0;
+		_mapAttempts = 0;
 		TimeRemaining = 10.0f;
 		CurWave = 0;
 		GameStatus = GameEnum.Starting;
 
-		int checkWaves = 0;
+		var checkWaves = 0;
 
 		foreach ( var setter in All.OfType<WaveSetup>() )
 		{
-			if( setter.Wave_Order > checkWaves)
+			if( setter.WaveOrder > checkWaves)
 				checkWaves++;
 		}
 
@@ -313,7 +309,7 @@ public partial class CDGame
 			{
 				ChatBox.AddChatEntry( To.Everyone, "GAME", "The evil forces have overtaken the castle!" );
 				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
-				allowRestart = true;
+				_allowRestart = true;
 			}
 		}
 	}
@@ -322,23 +318,23 @@ public partial class CDGame
 	{
 		WaveStatus = WaveEnum.Active;
 
-		var waveSetter = All.OfType<WaveSetup>().ToList().Where( x => x.Wave_Order == CurWave );
+		var waveSetter = All.OfType<WaveSetup>().ToList().Where( x => x.WaveOrder == CurWave );
 
 		foreach ( var setter in waveSetter )
 		{
 			setter.StartSpawning();
 
 			if ( setter.IsBossWave )
-				isBossWave = true;
+				_isBossWave = true;
 		}
 
-		string music = "";
-		musicIndex = Rand.Int( 1, 2 );
+		string music;
+		_musicIndex = Rand.Int( 1, 2 );
 
-		if ( isBossWave )
-			music = "boss_music_" + musicIndex;
+		if ( _isBossWave )
+			music = "boss_music_" + _musicIndex;
 		else
-			music = "wave_music_" + musicIndex;
+			music = "wave_music_" + _musicIndex;
 
 		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), music ) );
 	}
@@ -366,20 +362,19 @@ public partial class CDGame
 			}
 		}
 
-		string endMusic = "";
+		string endMusic;
 
-		if ( isBossWave )
-			endMusic = $"boss_music_{musicIndex}_end";
+		if ( _isBossWave )
+			endMusic = $"boss_music_{_musicIndex}_end";
 		else
-			endMusic = $"wave_music_{musicIndex}_end";
+			endMusic = $"wave_music_{_musicIndex}_end";
 
 		All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single(x), endMusic ) );
 
-		isBossWave = false;
-		playInboundMusic = true;
+		_isBossWave = false;
+		_playInboundMusic = true;
 
 		WaveStatus = WaveEnum.Post;
 		TimeRemaining = 10.0f;
 	}
-
 }

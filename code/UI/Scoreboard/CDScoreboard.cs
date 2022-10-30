@@ -1,10 +1,10 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
-
 using System.Collections.Generic;
 using System.Linq;
-public partial class CDScoreboard<T> : Panel where T : CDScoreboardEntry, new()
+
+public class CDScoreboard<T> : Panel where T : CDScoreboardEntry, new()
 {
 	public Panel Canvas { get; protected set; }
 	Dictionary<Client, T> Rows = new();
@@ -30,9 +30,7 @@ public partial class CDScoreboard<T> : Panel where T : CDScoreboardEntry, new()
 		if ( !IsVisible )
 			return;
 
-		//
 		// Clients that were added
-		//
 		foreach ( var client in Client.All.Except( Rows.Keys ) )
 		{
 			var entry = AddClient( client );
@@ -53,7 +51,6 @@ public partial class CDScoreboard<T> : Panel where T : CDScoreboardEntry, new()
 	{
 		return Input.Down( InputButton.Score );
 	}
-
 
 	protected virtual void AddHeader()
 	{

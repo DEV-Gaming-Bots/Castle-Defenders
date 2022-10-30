@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class RadioactiveEmitter : BaseTower
+public sealed partial class RadioactiveEmitter : BaseTower
 {
 	public override string TowerName => "Radiation Emitter";
 	public override string TowerDesc => "A tower that emits radiation to nearby hostiles even with stealth";
 	public override string TowerModel => "models/towers/radioactivemitter.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
-	public override string[] TowerLevelDesc => new string[]
+	public override string[] TowerLevelDesc => new[]
 	{
 		"",
 		"Emits even deadier radiation",
@@ -18,7 +18,7 @@ public partial class RadioactiveEmitter : BaseTower
 		"Best not to get too close or you're done for",
 		"Now classed as a Chernobyl diaster... for them",
 	};
-	public override int[] TowerLevelCosts => new int[]
+	public override int[] TowerLevelCosts => new[]
 	{
 		425,
 		650,
@@ -36,7 +36,7 @@ public partial class RadioactiveEmitter : BaseTower
 		new(-1.0f, 3.50f, 75)
 	};
 
-	public override string[] TowerUpgradeDesc => new string[]
+	public override string[] TowerUpgradeDesc => new[]
 	{
 		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG} | Range +{Upgrades[0].NewRange}",
 		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
@@ -54,11 +54,6 @@ public partial class RadioactiveEmitter : BaseTower
 
 	public override string AttackSound => "geiger_radiation";
 	public override bool CounterStealth { get; set; } = true;
-
-	public override void Spawn()
-	{
-		base.Spawn();
-	}
 
 	[Event.Tick.Server]
 	public override void SimulateTower()
@@ -84,14 +79,14 @@ public partial class RadioactiveEmitter : BaseTower
 }
 
 
-public partial class Trickster : BaseTower
+public sealed partial class Trickster : BaseTower
 {
 	public override string TowerName => "Trickster";
 	public override string TowerDesc => "A tower that has a chance of confusing the target into walking backwards";
 	public override string TowerModel => "models/towers/trickstertower.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
-	public override string[] TowerLevelDesc => new string[]
+	public override string[] TowerLevelDesc => new[]
 	{
 		"",
 		"Has a better chance of confusing enemies whilst dealing more damage",
@@ -99,7 +94,7 @@ public partial class Trickster : BaseTower
 		"Enemies are more easily fooled into going backwards",
 		"Well... I don't think enemies will have an idea what hit them",
 	};
-	public override int[] TowerLevelCosts => new int[]
+	public override int[] TowerLevelCosts => new[]
 	{
 		350,
 		465,
@@ -115,7 +110,7 @@ public partial class Trickster : BaseTower
 		new(-1.0f, 3.0f, 75)
 	};
 
-	public override string[] TowerUpgradeDesc => new string[]
+	public override string[] TowerUpgradeDesc => new[]
 	{
 		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG} | Range +{Upgrades[0].NewRange} | Confusion Chance +5%",
 		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange} | Confusion Chance +5%",
@@ -172,7 +167,7 @@ public partial class Trickster : BaseTower
 	{
 		base.Attack( target );
 
-		float time = 2.5f * TowerLevel;
+		var time = 2.5f * TowerLevel;
 
 		if ( ConfusionChance >= Rand.Double( 0.0, 100.0 ) )
 		{

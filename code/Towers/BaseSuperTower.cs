@@ -1,7 +1,6 @@
 ﻿using Sandbox;
-using System.Net;
 
-public partial class BaseSuperTower : BaseTower
+public class BaseSuperTower : BaseTower
 {
 	public override string TowerName => "BASE SUPER TOWER";
 	public override string TowerDesc => "BASE SUPER TOWER DESC";
@@ -48,9 +47,7 @@ public partial class BaseSuperTower : BaseTower
 	}
 
 	[Event.Tick.Server]
-	public override void SimulateTower()
-	{
-	}
+	public override void SimulateTower() { }
 
 	public virtual void UseSuperAbility(TraceResult tr)
 	{

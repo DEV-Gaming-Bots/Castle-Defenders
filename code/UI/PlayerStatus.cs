@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public class PlayerStatus : Panel
+public sealed class PlayerStatus : Panel
 {
 	public Panel PlayerPnl;
 	public Label PlayerInfo;
@@ -46,7 +40,5 @@ public class PlayerStatus : Panel
 		}
 
 		SetClass( "playerHover", clTr.Entity is CDPawn);
-
 	}
 }
-

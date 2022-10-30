@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Sandbox;
 
-
-public partial class Lightning : BaseTower
+public sealed partial class Lightning : BaseTower
 {
 	public override string TowerName => "Lightning";
 	public override string TowerDesc => "A tower that has the power of thunder, quite shocking";
 	public override string TowerModel => "models/towers/lightningtower.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
-	public override int[] TowerLevelCosts => new int[]
+	public override int[] TowerLevelCosts => new[]
 	{
 		575,
 		635,
@@ -32,7 +29,7 @@ public partial class Lightning : BaseTower
 		new(-0.50f, 20.0f, 40),
 	};
 
-	public override string[] TowerLevelDesc => new string[]
+	public override string[] TowerLevelDesc => new[]
 	{
 		"",
 		"An improved version allowing more energic attacks allowing for interlinked shock attacks",
@@ -42,7 +39,7 @@ public partial class Lightning : BaseTower
 		"Surprisingly harnesses the power of Thor's thunder, who would have thought"
 	};
 
-	public override string[] TowerUpgradeDesc => new string[]
+	public override string[] TowerUpgradeDesc => new[]
 	{
 		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG}",
 		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
@@ -60,9 +57,9 @@ public partial class Lightning : BaseTower
 	public override int RangeDistance { get; set; } = 125;
 	public override string AttackSound => "lightning_attack";
 
-	bool charged = false;
-	int shockNextLimit = 0;
-	List<Particles> shockParticles;
+	private bool _charged;
+	private int _shockNextLimit;
+	private List<Particles> _shockParticles;
 
 	public override void Spawn()
 	{
@@ -74,7 +71,7 @@ public partial class Lightning : BaseTower
 	{
 		base.UpgradeTower();
 
-		shockNextLimit++;
+		_shockNextLimit++;
 	}
 
 	[Event.Tick.Server]
@@ -85,22 +82,22 @@ public partial class Lightning : BaseTower
 		if ( Target == null )
 		{
 			TimeLastAttack = 0;
-			charged = false;
+			_charged = false;
 			return;
 		}
 
-		if ( (TimeLastAttack * 2) >= AttackTime && !charged )
+		if ( TimeLastAttack * 2 >= AttackTime && !_charged )
 		{
 			ClearParticles( To.Everyone );
 			PlaySound( "lightning_charge" );
-			charged = true;
+			_charged = true;
 		}
 	}
 
 	[ClientRpc]
 	public void CreateParticleList()
 	{
-		shockParticles = new List<Particles>();
+		_shockParticles = new List<Particles>();
 	}
 
 	[ClientRpc]
@@ -111,9 +108,9 @@ public partial class Lightning : BaseTower
 		if ( target == null )
 			return;
 
-		Particles lightning = Particles.Create( "particles/lightning_beam.vpcf" );
+		var lightning = Particles.Create( "particles/lightning_beam.vpcf" );
 
-		if ( shockParticles.Count() == 0 )
+		if ( !_shockParticles.Any() )
 		{
 			lightning.SetEntityAttachment( 1, this, "muzzle" );
 			lightning.SetEntity( 0, target, Vector3.Up * 25 );
@@ -127,16 +124,16 @@ public partial class Lightning : BaseTower
 			lightning.SetEntity( 0, nextTarget, Vector3.Up * 25 );
 		}
 
-		shockParticles.Add( lightning );
+		_shockParticles.Add( lightning );
 	}
 
 	[ClientRpc]
 	public void ClearParticles()
 	{
-		if ( shockParticles == null )
+		if ( _shockParticles == null )
 			return;
 
-		shockParticles.Clear();
+		_shockParticles.Clear();
 	}
 
 	protected override void OnDestroy()
@@ -148,19 +145,19 @@ public partial class Lightning : BaseTower
 	public override void Attack( BaseNPC target )
 	{
 		base.Attack( target );
-		charged = false;
+		_charged = false;
 
 		ShockEffects( target );
 
-		if ( shockNextLimit <= 0 )
+		if ( _shockNextLimit <= 0 )
 			return;
 
-		List<BaseNPC> lastTargets = new List<BaseNPC>();
+		var lastTargets = new List<BaseNPC>();
 		lastTargets.Add( target );
 
-		BaseNPC shockTarget = target;
+		var shockTarget = target;
 
-		for ( int i = 0; i < shockNextLimit; i++ )
+		for ( var i = 0; i < _shockNextLimit; i++ )
 		{
 			var ents = FindInSphere( shockTarget.Position, 48 );
 
@@ -181,6 +178,5 @@ public partial class Lightning : BaseTower
 			ShockEffects( lastTargets[i], shockTarget );
 			base.Attack( shockTarget );
 		}
-
 	}
 }

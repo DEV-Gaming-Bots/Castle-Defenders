@@ -5,8 +5,6 @@ using SandboxEditor;
 [Title( "Opposing Team Spawnpoint" ), Description( "Defines a point where the opposing team in competitive will spawn/teleport" )]
 [HammerEntity, EditorModel( "models/editor/playerstart.vmdl", FixedBounds = true )]
 
-public class OpposingSpawnpoint : Entity
-{
-
-}
+public sealed class OpposingSpawnpoint : Entity
+{ }
 

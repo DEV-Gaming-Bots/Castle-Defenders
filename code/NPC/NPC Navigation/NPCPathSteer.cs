@@ -1,7 +1,4 @@
-﻿using Sandbox;
-using System;
-using System.Buffers;
-public class NPCPathSteer
+﻿public class NPCPathSteer
 {
 	protected NPCNavigation Path { get; private set; }
 

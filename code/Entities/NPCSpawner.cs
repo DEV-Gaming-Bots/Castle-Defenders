@@ -1,12 +1,11 @@
 ﻿using Sandbox;
 using SandboxEditor;
-using System.Linq;
 
 [Library( "info_cd_npcportal" )]
 [EditorModel( "models/npc_portal.vmdl" )]
 [Title( "NPC Spawn Gate" ), Description( "Defines a point where NPCs can spawn" )]
 [HammerEntity]
-public class NPCSpawner : Entity
+public sealed class NPCSpawner : Entity
 {
 	[Property, FGDType("target_destination")]
 	public string CastleTarget { get; set; }
@@ -34,6 +33,5 @@ public class NPCSpawner : Entity
 	public CastleEntity FindCastle()
 	{
 		return FindByName( CastleTarget ) as CastleEntity;
-
 	}
 }

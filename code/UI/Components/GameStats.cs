@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
 namespace CastleDefenders.UI.Components
 {
-	public class GameStats : Panel
+	public sealed class GameStats : Panel
 	{
-		public class GameInfoPanel : Panel
+		public sealed class GameInfoPanel : Panel
 		{
 			public Panel GameInfo;
 
@@ -22,7 +19,7 @@ namespace CastleDefenders.UI.Components
 			public Panel ExtraTextPanel;
 			public Label ExtraText;
 
-			public Panel txtRoundPanel;
+			public Panel TxtRoundPanel;
 			public Label RoundCounter;
 			[Obsolete]
 			public GameInfoPanel()
@@ -30,9 +27,9 @@ namespace CastleDefenders.UI.Components
 				GameInfo = Add.Panel( "GameInfo" );
 				WaveTimerPanel = GameInfo.Add.Panel("timer");
 				WaveTimer = WaveTimerPanel.Add.Label( "-", "text");
-				txtRoundPanel = GameInfo.Add.Panel( "rounds hide" );
-				WaveTimerSmall = txtRoundPanel.Add.Label( "Wave", "waveText" );
-				RoundCounter = txtRoundPanel.Add.Label( "-", "text" );
+				TxtRoundPanel = GameInfo.Add.Panel( "rounds hide" );
+				WaveTimerSmall = TxtRoundPanel.Add.Label( "Wave", "waveText" );
+				RoundCounter = TxtRoundPanel.Add.Label( "-", "text" );
 
 				ExtraTextPanel = Add.Panel( "extraText" );
 				ExtraText = ExtraTextPanel.Add.Label( "-" );
@@ -44,7 +41,7 @@ namespace CastleDefenders.UI.Components
 				public Label BigText;
 				public ExtraGameInfo()
 				{
-					Panel txtRoundPanel = Add.Panel( "extraInfo" );
+					var txtRoundPanel = Add.Panel( "extraInfo" );
 					SmallText = txtRoundPanel.Add.Label( "-", "SmallText" );
 					BigText = txtRoundPanel.Add.Label( "-", "BigText" );
 				}
@@ -68,17 +65,17 @@ namespace CastleDefenders.UI.Components
 
 		}
 
-		public class GameStatsPanel : Panel
+		public sealed class GameStatsPanel : Panel
 		{
 			public Panel TimerHealth;
 
-			public Panel txtRoundPanel;
+			public Panel TxtRoundPanel;
 			public Label Timer;
 
 			public Panel HealthBarBlue;
 			public Panel HealthBarRed;
-			private Panel BlueHealth;
-			private Panel RedHealth;
+			private Panel _blueHealth;
+			private Panel _redHealth;
 			public Label BlueHealthText;
 			public Label RedHealthText;
 
@@ -92,12 +89,12 @@ namespace CastleDefenders.UI.Components
 					switch ( value )
 					{
 						case true:
-							BlueHealth.SetClass( "hide", false );
-							RedHealth.SetClass( "hide", false );
+							_blueHealth.SetClass( "hide", false );
+							_redHealth.SetClass( "hide", false );
 							break;
 						case false:
-							BlueHealth.SetClass( "hide", false );
-							RedHealth.SetClass( "hide", true );
+							_blueHealth.SetClass( "hide", false );
+							_redHealth.SetClass( "hide", true );
 							break;
 					}
 				}
@@ -105,39 +102,38 @@ namespace CastleDefenders.UI.Components
 
 			public GameStatsPanel()
 			{
-				BlueHealth = Add.Panel( "BlueHealthBar hide" );
-				HealthBarBlue = BlueHealth.Add.Panel( "bar" );
+				_blueHealth = Add.Panel( "BlueHealthBar hide" );
+				HealthBarBlue = _blueHealth.Add.Panel( "bar" );
 				BlueHealthText = HealthBarBlue.Add.Label("-/-");
-				RedHealth = Add.Panel( "RedHealthBar hide" );
-				HealthBarRed = RedHealth.Add.Panel( "bar" );
+				_redHealth = Add.Panel( "RedHealthBar hide" );
+				HealthBarRed = _redHealth.Add.Panel( "bar" );
 				RedHealthText = HealthBarRed.Add.Label("-/-");
 				Timer = Add.Label( "--:--", "timer" );
-				///////////////
+				
 				TimerHealth = Add.Panel( "timerHealth" );
-				TimerHealth.AddChild( BlueHealth );
+				TimerHealth.AddChild( _blueHealth );
 				TimerHealth.AddChild( Timer );
-				TimerHealth.AddChild( RedHealth );
-				///////////////
+				TimerHealth.AddChild( _redHealth );
+				
 				GameInfo = Add.Panel( "GameInfo" );
-				///////////////
+				
 				ExtraText = Add.Label( "-", "extratxt" );
 			}
 
 			public override void Tick()
 			{
 				base.Tick();
-
-
+				
 				if( !CDGame.Instance.Competitive )
 				{
-					float blueCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).First().CastleHealth;
+					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).CastleHealth;
 					RedHealthText.SetText( $"Health {blueCastleHP}");
 					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP );
 				} 
 				else if (CDGame.Instance.Competitive)
 				{
-					float redCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Red ).First().CastleHealth;
-					float blueCastleHP = CDGame.All.OfType<CastleEntity>().Where( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).First().CastleHealth;
+					var redCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Red ).CastleHealth;
+					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).CastleHealth;
 					BlueHealthText.SetText( $"{blueCastleHP} Health" );
 					RedHealthText.SetText( $"Health {redCastleHP}");
 
@@ -148,55 +144,56 @@ namespace CastleDefenders.UI.Components
 				switch ( CDGame.Instance.Competitive )
 				{
 					case true:
-						BlueHealth.SetClass( "hide", false );
-						RedHealth.SetClass( "hide", false );
+						_blueHealth.SetClass( "hide", false );
+						_redHealth.SetClass( "hide", false );
 						break;
 					case false:
-						BlueHealth.SetClass( "hide", false );
-						RedHealth.SetClass( "hide", true );
+						_blueHealth.SetClass( "hide", false );
+						_redHealth.SetClass( "hide", true );
 						break;
 				}
 			}
 		}
 	}
-	public class UserSelectUI
+	public sealed class UserSelectUI
 	{
-		public class GameTeamSelectPanel : Panel
+		public sealed class GameTeamSelectPanel : Panel
 		{
-			private Panel root;
+			private Panel _root;
 
 			public GameTeamSelectPanel()
 			{
-				root = Add.Panel( "" );
+				_root = Add.Panel( "" );
 			}
 		}
 
-		public class LoadoutSelectPanel : Panel
+		public sealed class LoadoutSelectPanel : Panel
 		{
-			private Panel root;
-			private Label title;
-			public Panel loadouts;
-			public Panel selectPanel;
-			public Panel selectedLoadoutPanel;
+			private Panel _root;
+			private Label _title;
+			public Panel Loadouts;
+			public Panel SelectPanel;
+			public Panel SelectedLoadoutPanel;
 
 			public LoadoutSelectPanel()
 			{
-				root = Add.Panel( "root" );
-				title = root.Add.Label( "TOWER LOADOUTS", "title" );
-				selectPanel = root.Add.Panel("select" );
-				loadouts = selectPanel.Add.Panel( "loadouts" );
-				selectedLoadoutPanel = selectPanel.Add.Panel( "loadouts" );
+				_root = Add.Panel( "root" );
+				_title = _root.Add.Label( "TOWER LOADOUTS", "title" );
+				SelectPanel = _root.Add.Panel("select" );
+				Loadouts = SelectPanel.Add.Panel( "loadouts" );
+				SelectedLoadoutPanel = SelectPanel.Add.Panel( "loadouts" );
 			}
 
-			public class Loadout : Panel
+			public sealed class Loadout : Panel
 			{
-				private int lvlunlock;
+				private int _lvlUnlock;
 				public Panel loadout;
-				public Loadout( string Name, int LevelUnlock, Action OnClick )
+				
+				public Loadout( string name, int levelUnlock, Action onClick )
 				{
-					lvlunlock = LevelUnlock;
+					_lvlUnlock = levelUnlock;
 					loadout = Add.Panel( "loadout" );
-					loadout.Add.Label( Name );
+					loadout.Add.Label( name );
 				}
 
 				public override void Tick()
@@ -218,9 +215,9 @@ namespace CastleDefenders.UI.Components
 				}
 			}
 
-			public void AddLoutout( string Name , int LevelUnlock , Action OnClick )
+			public void AddLoudout( string name , int levelUnlock , Action onClick )
 			{
-				loadouts.AddChild(new Loadout(Name, LevelUnlock, OnClick));
+				Loadouts.AddChild(new Loadout(name, levelUnlock, onClick));
 			}
 		}
 	}

@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public class PlayerTeamSelect : Panel
+public sealed class PlayerTeamSelect : Panel
 {
-	public Panel BLUETEAM;
-	public Panel REDTEAM;
+	public Panel BlueTeam;
+	public Panel RedTeam;
 	public Panel GameInfoPanel;
 	public Label DifficultyText;
 
-	public PlayerTeamSelect( Action OnBlueClick, Action OnRedClick )
+	public PlayerTeamSelect( Action onBlueClick, Action onRedClick )
 	{
 		StyleSheet.Load( "UI/PlayerTeamSelect.scss" );
 
@@ -24,23 +19,21 @@ public class PlayerTeamSelect : Panel
 		DifficultyText = GameInfoPanel.Add.Label( "Difficulty: -", "text" );
 		// gameinfo end
 
-		Panel centerPanel = Add.Panel( "centerPanel" );
-		BLUETEAM = centerPanel.Add.Panel( "blue" );
-		BLUETEAM.Add.Label( "BLUE", "text" );
-		BLUETEAM.AddEventListener( "onClick", () =>
+		var centerPanel = Add.Panel( "centerPanel" );
+		BlueTeam = centerPanel.Add.Panel( "blue" );
+		BlueTeam.Add.Label( "BLUE", "text" );
+		BlueTeam.AddEventListener( "onClick", () =>
 		{
-			OnBlueClick();
+			onBlueClick();
 		} );
 		///////// ADD GAMEINFO PANEL //////////
 		centerPanel.AddChild( GameInfoPanel );
 		///////////////////////////////////////
-		REDTEAM = centerPanel.Add.Panel( "red" );
-		REDTEAM.Add.Label( "RED", "text" );
-		REDTEAM.AddEventListener( "onClick", () =>
+		RedTeam = centerPanel.Add.Panel( "red" );
+		RedTeam.Add.Label( "RED", "text" );
+		RedTeam.AddEventListener( "onClick", () =>
 		{
-			OnRedClick();
+			onRedClick();
 		} );
-
-
 	}
 }

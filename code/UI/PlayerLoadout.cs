@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public class PlayerLoadout : Panel
+public sealed class PlayerLoadout : Panel
 {
 	public static Panel Slots;
-
-	static int lastSlot = -1;
+	private static int _lastSlot = -1;
 
 	public PlayerLoadout()
 	{
@@ -26,13 +20,13 @@ public class PlayerLoadout : Panel
 		Slots.AddChild( s );
 	}
 
-	public partial class Slot : Panel
+	public sealed class Slot : Panel
 	{
 		public Slot( string slotName, int slotNum )
 		{
-			Panel Slot = Add.Panel( $"slot" );
-			Slot.SetClass( slotName, true );
-			Slot.Add.Label( $" {slotNum} ", "slot-num" );
+			var slot = Add.Panel( "slot" );
+			slot.SetClass( slotName, true );
+			slot.Add.Label( $" {slotNum} ", "slot-num" );
 		}
 	}
 
@@ -41,12 +35,12 @@ public class PlayerLoadout : Panel
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
 			return;
 
-		if ( lastSlot != -1 )
-			Slots.GetChild( lastSlot ).GetChild( 0 ).SetClass( "selected", false );
+		if ( _lastSlot != -1 )
+			Slots.GetChild( _lastSlot ).GetChild( 0 ).SetClass( "selected", false );
 
 		if( slotNum >= 0 )
 			Slots.GetChild( slotNum ).GetChild( 0 ).SetClass( "selected", true );
 
-		lastSlot = slotNum;
+		_lastSlot = slotNum;
 	}
 }

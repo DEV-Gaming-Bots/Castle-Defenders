@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Sandbox;
 using SandboxEditor;
 
 [Library( "cd_comp_setup" )]
 [Title( "Competitive Setup" ), Description( "Sets up the map for competitive" )]
 [HammerEntity]
-
-public class CompSetUp : Entity
+public sealed class CompSetUp : Entity
 {
 	[Property, Description("The comp doors, will toggle depending if competitive is on or not")]
 	public EntityTarget CompetitiveDoor { get; set; }
 
 	public void SetUpCompGame()
 	{
-		var door = CompetitiveDoor.GetTargets( null ).FirstOrDefault() as BrushEntity;
+		var door = CompetitiveDoor.GetTargets().FirstOrDefault() as BrushEntity;
 
 		if ( door == null )
 			return;

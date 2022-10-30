@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sandbox.UI;
+﻿using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public class NPCInfo : WorldPanel
+public sealed class NPCInfo : WorldPanel
 {
 	public Label NpcInfo;
 	public double CurHealth;
@@ -22,7 +17,6 @@ public class NPCInfo : WorldPanel
 		this.noteText = noteText;
 
 		NpcInfo = Add.Label( $"{NpcName}\nHealth: {CurHealth}\n{this.noteText}");
-
 	}
 
 	public override void Tick()
@@ -31,4 +25,3 @@ public class NPCInfo : WorldPanel
 		NpcInfo.SetText( $"{NpcName}\nHealth: {CurHealth}\n{noteText}" );
 	}
 }
-

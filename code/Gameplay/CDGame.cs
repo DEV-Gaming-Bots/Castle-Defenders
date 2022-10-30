@@ -1,15 +1,7 @@
-﻿
-using Sandbox;
-using Sandbox.UI;
-using Sandbox.UI.Construct;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using Sandbox;
 using System.Linq;
-using System.Security;
-using System.Threading.Tasks;
 
-public partial class CDGame : Game
+public sealed partial class CDGame : Game
 {
 	public static CDGame Instance => Current as CDGame;
 
@@ -73,10 +65,7 @@ public partial class CDGame : Game
 			_ = new CDHUD();
 	}
 
-	public override void DoPlayerSuicide( Client cl )
-	{
-		return;
-	}
+	public override void DoPlayerSuicide( Client cl ) { }
 
 	public override void ClientJoined( Client client )
 	{
@@ -98,8 +87,9 @@ public partial class CDGame : Game
 			{
 				StartCompGame();
 				return;
-			} 
-			else if (!Competitive)
+			}
+
+			if (!Competitive)
 				StartGame();
 		}
 		if ( GameStatus == GameEnum.Active )
@@ -108,22 +98,17 @@ public partial class CDGame : Game
 
 	public bool CanPlayComp()
 	{
-		if ( All.OfType<CompSetUp>().Count() <= 0 )
+		if ( !All.OfType<CompSetUp>().Any() )
 		{
 			Log.Error( "This map does not have competitive support, switching to Co-Op" );
 			Competitive = false;
 			return false;
 		}
 
-		if ( Client.All.Count() < 2 )
+		if ( Client.All.Count < 2 )
 			return false;
 
 		return true;
-	}
-
-	public override void PostLevelLoaded()
-	{
-		base.PostLevelLoaded();
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
@@ -141,7 +126,7 @@ public partial class CDGame : Game
 
 	public override void Shutdown()
 	{
-		foreach ( Client client in Client.All )
+		foreach ( var client in Client.All )
 		{
 			if ( client.Pawn is CDPawn ply )
 				SaveData( ply );

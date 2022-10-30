@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public partial class CDScoreboardEntry : Panel
+public class CDScoreboardEntry : Panel
 {
 	public Client Client;
 
@@ -23,7 +23,7 @@ public partial class CDScoreboardEntry : Panel
 		Ping = Add.Label( "", "ping" );
 	}
 
-	RealTimeSince TimeSinceUpdate = 0;
+	private RealTimeSince _timeSinceUpdate = 0;
 
 	public override void Tick()
 	{
@@ -35,10 +35,10 @@ public partial class CDScoreboardEntry : Panel
 		if ( !Client.IsValid() )
 			return;
 
-		if ( TimeSinceUpdate < 0.1f )
+		if ( _timeSinceUpdate < 0.1f )
 			return;
 
-		TimeSinceUpdate = 0;
+		_timeSinceUpdate = 0;
 		UpdateData();
 	}
 

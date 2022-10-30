@@ -1,12 +1,7 @@
 ﻿using Sandbox;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-public partial class Pistol : BaseTower
+public sealed partial class Pistol : BaseTower
 {
 	public override string TowerName => "Pistol";
 	public override string TowerDesc => "A very simple pistol tower";
@@ -15,7 +10,7 @@ public partial class Pistol : BaseTower
 	public override string TowerModel => "models/towers/pistoltower.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
-	public override string[] TowerLevelDesc => new string[]
+	public override string[] TowerLevelDesc => new[]
 	{
 		"",
 		"A pistol with an increased range, damage and fire-rate",
@@ -33,7 +28,7 @@ public partial class Pistol : BaseTower
 		new(-1.0f, 2.75f, 50)
 	};
 
-	public override string[] TowerUpgradeDesc => new string[]
+	public override string[] TowerUpgradeDesc => new[]
 	{
 		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG}",
 		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
@@ -45,7 +40,7 @@ public partial class Pistol : BaseTower
 
 	public override int TowerMaxLevel => 5;
 	public override int TowerCost => 20;
-	public override int[] TowerLevelCosts => new int[]
+	public override int[] TowerLevelCosts => new[]
 	{
 		25,
 		45,
@@ -76,7 +71,7 @@ public partial class Pistol : BaseTower
 	}
 }
 
-public partial class Sniper : BaseTower
+public sealed partial class Sniper : BaseTower
 {
 	public override string TowerName => "Sniper";
 	public override string TowerDesc => "A sniper tower that can fire from a large distance";
@@ -85,7 +80,7 @@ public partial class Sniper : BaseTower
 	public override string TowerModel => "models/towers/snipertower.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
-	public override int[] TowerLevelCosts => new int[]
+	public override int[] TowerLevelCosts => new[]
 	{
 		145,
 		235,
@@ -95,7 +90,7 @@ public partial class Sniper : BaseTower
 		-1
 	};
 
-	public override string[] TowerLevelDesc => new string[]
+	public override string[] TowerLevelDesc => new[]
 	{
 		"",
 		"Upgraded sniper tower with better sniper power",
@@ -113,7 +108,7 @@ public partial class Sniper : BaseTower
 		new(-0.50f, 5.0f, 50),
 		new(-0.50f, 7.5f, 100)
 	};
-	public override string[] TowerUpgradeDesc => new string[]
+	public override string[] TowerUpgradeDesc => new[]
 	{
 		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG} | Range +{Upgrades[0].NewRange}",
 		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
@@ -131,13 +126,8 @@ public partial class Sniper : BaseTower
 	public override int RangeDistance { get; set; } = 250;
 	public override string AttackSound => "sniper_fire";
 
-	bool lockedOnTarget;
-	Particles laserSight;
-
-	public override void Spawn()
-	{
-		base.Spawn();
-	}
+	private bool _lockedOnTarget;
+	private Particles _laserSight;
 
 	public override void UpgradeTower()
 	{
@@ -172,41 +162,41 @@ public partial class Sniper : BaseTower
 
 		if ( Target == null )
 		{
-			lockedOnTarget = false;
+			_lockedOnTarget = false;
 			LaserOff(To.Everyone);
 
 			return;
 		}
 
-		if ( (TimeLastAttack * 4) >= AttackTime && !lockedOnTarget )
+		if ( TimeLastAttack * 4 >= AttackTime && !_lockedOnTarget )
 		{
 			LaserOn( To.Everyone, Target );
-			lockedOnTarget = true;
+			_lockedOnTarget = true;
 		}
 	}
 
 	[ClientRpc]
-	protected void LaserOn( BaseNPC target )
+	private void LaserOn( BaseNPC target )
 	{
 		Host.AssertClient();
 
 		if ( target == null )
 			return;
 
-		laserSight = Particles.Create( "particles/sniper_beam.vpcf" );
-		laserSight.SetEntityAttachment( 1, this, "muzzle" );
-		laserSight.SetEntity( 0, target, Vector3.Up * 25 );
+		_laserSight = Particles.Create( "particles/sniper_beam.vpcf" );
+		_laserSight.SetEntityAttachment( 1, this, "muzzle" );
+		_laserSight.SetEntity( 0, target, Vector3.Up * 25 );
 	}
 
 	[ClientRpc]
-	protected void LaserOff()
+	private void LaserOff()
 	{
 		Host.AssertClient();
 
-		if ( laserSight != null )
+		if ( _laserSight != null )
 		{
-			laserSight.Destroy( true );
-			laserSight = null;
+			_laserSight.Destroy( true );
+			_laserSight = null;
 		}
 	}
 
@@ -214,7 +204,7 @@ public partial class Sniper : BaseTower
 	{
 		LaserOff();
 
-		lockedOnTarget = false;
+		_lockedOnTarget = false;
 
 		base.Attack( target );
 	}

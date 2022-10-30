@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Sandbox;
 
-public partial class CDGame
+public sealed partial class CDGame
 {
 	public bool Debug;
 	public enum DebugEnum
@@ -30,24 +26,14 @@ public partial class CDGame
 	[ConCmd.Admin( "cd_debugmode" )]
 	public static void DebugModeSet(int mode)
 	{
-		switch(mode)
+		Instance.DebugMode = mode switch
 		{
-			case 1:
-				Instance.DebugMode = DebugEnum.Default;
-				break;
-			case 2:
-				Instance.DebugMode = DebugEnum.Tower;
-				break;
-			case 3:
-				Instance.DebugMode = DebugEnum.Gameplay;
-				break;
-			case 4:
-				Instance.DebugMode = DebugEnum.Path;
-				break;
-			case 5:
-				Instance.DebugMode = DebugEnum.All;
-				break;
-		}
+			1 => DebugEnum.Default,
+			2 => DebugEnum.Tower,
+			3 => DebugEnum.Gameplay,
+			4 => DebugEnum.Path,
+			5 => DebugEnum.All,
+		};
 
 		Log.Info( "Debug Mode: " + Instance.DebugMode );
 	}
@@ -68,7 +54,7 @@ public partial class CDGame
 
 		if( !string.IsNullOrEmpty(targetName) )
 		{
-			All.OfType<CDPawn>().ToList().Where( x => x.Client.Name.ToLower().Contains(targetName.ToLower()) ).FirstOrDefault()
+			All.OfType<CDPawn>().ToList().FirstOrDefault( x => x.Client.Name.ToLower().Contains(targetName.ToLower()) )
 				.AddCash( amount );
 		}
 		else
@@ -157,33 +143,32 @@ public partial class CDGame
 		}
 
 		npc.Spawn();
-		var spawnerpoint = All.OfType<NPCSpawner>().ToList();
+		var spawnerPoint = All.OfType<NPCSpawner>().ToList();
 
-		var blueSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue ).FirstOrDefault();
-		var redSide = spawnerpoint.Where( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red ).FirstOrDefault();
+		var blueSide = spawnerPoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue );
+		var redSide = spawnerPoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red );
 
 		if ( team.Contains( "blue" ) )
 		{
 			npc.Position = blueSide.Position;
-			npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
+			npc.Steer.Target = All.OfType<NPCPath>().FirstOrDefault( x => x.StartNode ).Position;
 			npc.PathToFollow = BaseNPC.PathTeam.Blue;
 			npc.CastleTarget = blueSide.FindCastle();
 		} 
 		else if ( team.Contains( "red" ) )
 		{
 			npc.Position = redSide.Position;
-			npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartOpposingNode ).FirstOrDefault().Position;
+			npc.Steer.Target = All.OfType<NPCPath>().FirstOrDefault( x => x.StartOpposingNode ).Position;
 			npc.PathToFollow = BaseNPC.PathTeam.Red;
 			npc.CastleTarget = redSide.FindCastle();
 		} 
 		else
 		{
 			npc.Position = blueSide.Position;
-			npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
+			npc.Steer.Target = All.OfType<NPCPath>().FirstOrDefault( x => x.StartNode ).Position;
 			npc.PathToFollow = BaseNPC.PathTeam.Blue;
 			npc.CastleTarget = blueSide.FindCastle();
 		}
-
 	}
 
 	[ConCmd.Admin( "cd_force_start" )]
@@ -281,7 +266,6 @@ public partial class CDGame
 			return;
 		}
 
-
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 
 		if ( player == null )
@@ -312,7 +296,6 @@ public partial class CDGame
 			return;
 		}
 
-
 		Instance.LoadSave( ConsoleSystem.Caller );
 	}
 
@@ -326,7 +309,7 @@ public partial class CDGame
 	public static void GetSlots()
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
-		int slotNum = 1;
+		var slotNum = 1;
 
 		foreach ( var item in player.TowerSlots )
 		{

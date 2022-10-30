@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using Sandbox;
-using System.IO;
-using System.Threading.Tasks;
 
 public partial class BaseNPC : AnimatedEntity
 {
@@ -13,8 +11,8 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual float BaseHealth => 1;
 	public virtual float BaseSpeed { get; set; } = 1;
 	public virtual float SpeedMultiplier { get; set; } = 1;
-	public virtual int[] MinMaxCashReward => new int[] { 1, 2 };
-	public virtual int[] MinMaxEXPReward => new int[] { 1, 2 };
+	public virtual int[] MinMaxCashReward => new[] { 1, 2 };
+	public virtual int[] MinMaxEXPReward => new[] { 1, 2 };
 	public virtual float NPCScale => 1;
 	public virtual float Damage => 1;
 	[Net] public string NPCNameNet => NPCName;
@@ -51,12 +49,12 @@ public partial class BaseNPC : AnimatedEntity
 
 	public int CashReward;
 	public int ExpReward;
-	public PathPriority nextPathPriority;
+	public PathPriority NextPathPriority;
 
 	public NPCPathSteer Steer;
 
-	Vector3 InputVelocity;
-	Vector3 LookDir;
+	private Vector3 _inputVelocity;
+	private Vector3 _lookDir;
 
 	public CastleEntity CastleTarget;
 
@@ -64,8 +62,8 @@ public partial class BaseNPC : AnimatedEntity
 
 	public NPCInfo Panel;
 
-	Vector3 lastNode;
-	Entity curNode;
+	private Vector3 _lastNode;
+	private Entity _curNode;
 
 	public enum PathTeam
 	{
@@ -86,22 +84,13 @@ public partial class BaseNPC : AnimatedEntity
 
 	public int GetDifficulty()
 	{
-		switch ( CDGame.Instance.Difficulty )
+		return CDGame.Instance.Difficulty switch
 		{
-			case CDGame.DiffEnum.Easy:
-				return 1;
-
-			case CDGame.DiffEnum.Medium:
-				return 3;
-
-			case CDGame.DiffEnum.Hard:
-				return 5;
-
-			case CDGame.DiffEnum.Extreme:
-				return 8;
-		}
-
-		return 0;
+			CDGame.DiffEnum.Easy => 1,
+			CDGame.DiffEnum.Medium => 3,
+			CDGame.DiffEnum.Hard => 5,
+			CDGame.DiffEnum.Extreme => 8
+		};
 	}
 
 	public override void Spawn()
@@ -124,7 +113,7 @@ public partial class BaseNPC : AnimatedEntity
 		EnableHitboxes = false;
 
 		Steer = new NPCPathSteer();
-		lastNode = Position;
+		_lastNode = Position;
 	}
 
 	//When the NPC reaches the castle, despawn
@@ -183,10 +172,10 @@ public partial class BaseNPC : AnimatedEntity
 
 	public void GoReversePath()
 	{
-		if ( lastNode.IsNearlyZero() )
+		if ( _lastNode.IsNearlyZero() )
 			Steer.Target = Position;
 		else
-			Steer.Target = lastNode;
+			Steer.Target = _lastNode;
 	}
 
 	public void FindNextPath()
@@ -196,8 +185,7 @@ public partial class BaseNPC : AnimatedEntity
 
 		if ( CastleTarget.IsValid() && Position.Distance( CastleTarget.Position ) <= 25.0f )
 		{
-			DamageInfo dmgInfo = new DamageInfo();
-			dmgInfo.Damage = Damage * GetDifficulty();
+			var dmgInfo = new DamageInfo { Damage = Damage * GetDifficulty() };
 
 			CastleTarget.DamageCastle( dmgInfo.Damage );
 			Despawn();
@@ -205,23 +193,23 @@ public partial class BaseNPC : AnimatedEntity
 
 		foreach ( var path in All.OfType<NPCPath>() )
 		{
-			if(curNode == null)
+			if(_curNode == null)
 			{
-				var nextPath = path.FindNextPath( nextPathPriority );
-				curNode = nextPath;
-				Steer.Target = curNode.Position;
+				var nextPath = path.FindNextPath( NextPathPriority );
+				_curNode = nextPath;
+				Steer.Target = _curNode.Position;
 			}
 
 			if ( path.Position.Distance( Position ) <= 25.0f )
 			{
-				lastNode = path.Position;
+				_lastNode = path.Position;
 
-				var nextPath = path.FindNextPath( nextPathPriority );
+				var nextPath = path.FindNextPath( NextPathPriority );
 
 				if ( nextPath != null )
 				{
 					Steer.Target = nextPath.Position;
-					curNode = nextPath;
+					_curNode = nextPath;
 					if ( nextPath is NPCPath nextNpcPath )
 					{
 						if ( nextNpcPath.TeleportingNode )
@@ -261,10 +249,10 @@ public partial class BaseNPC : AnimatedEntity
 					{
 						case EffectEnum.Confusion:
 							PlaySound( "confusion_recover" );
-							if ( curNode == null )
+							if ( _curNode == null )
 								FindNextPath();
 							else
-								Steer.Target = curNode.Position;
+								Steer.Target = _curNode.Position;
 							break;
 					}
 
@@ -273,14 +261,14 @@ public partial class BaseNPC : AnimatedEntity
 			}
 		}
 
-		InputVelocity = 0;
+		_inputVelocity = 0;
 
 		if ( Steer != null || !IsValid )
 		{
 			Steer.Tick( Position );
 
-			InputVelocity = Steer.Output.Direction.Normal;
-			Velocity = Velocity.AddClamped( InputVelocity, BaseSpeed * SpeedMultiplier );
+			_inputVelocity = Steer.Output.Direction.Normal;
+			Velocity = Velocity.AddClamped( _inputVelocity, BaseSpeed * SpeedMultiplier );
 
 			if ( Steer.Target.Distance( Position ) <= 1.0f || Position.Distance( CastleTarget.Position ) <= 25.0f )
 				FindNextPath();
@@ -294,24 +282,23 @@ public partial class BaseNPC : AnimatedEntity
 		var walkVelocity = Velocity.WithZ( 0 );
 		if ( walkVelocity.Length > 0.5f )
 		{
-			var turnSpeed = walkVelocity.Length.LerpInverse( 0, 100, true );
+			var turnSpeed = walkVelocity.Length.LerpInverse( 0, 100 );
 			var targetRotation = Rotation.LookAt( walkVelocity.Normal, Vector3.Up );
 			Rotation = Rotation.Lerp( Rotation, targetRotation, turnSpeed * Time.Delta * 20.0f );
 		}
 
 		var animHelper = new NPCAnimationHelper( this );
 
-		LookDir = Vector3.Lerp( LookDir, InputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
-		animHelper.WithLookAt( EyePosition + LookDir );
+		_lookDir = Vector3.Lerp( _lookDir, _inputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
+		animHelper.WithLookAt( EyePosition + _lookDir );
 		animHelper.WithVelocity( Velocity );
-		animHelper.WithWishVelocity( InputVelocity );
+		animHelper.WithWishVelocity( _inputVelocity );
 	}
 	protected virtual void Move( float timeDelta )
 	{
 		var bbox = BBox.FromHeightAndRadius( 16, 4 );
 
-		MoveHelper move = new( Position, Velocity );
-		move.MaxStandableAngle = 50;
+		MoveHelper move = new( Position, Velocity ) { MaxStandableAngle = 50 };
 		move.Trace = move.Trace.Ignore( this ).Size( bbox );
 
 		if ( !Velocity.IsNearlyZero( 0.001f ) )
@@ -331,12 +318,12 @@ public partial class BaseNPC : AnimatedEntity
 				move.Position = tr.EndPosition;
 			}
 			
-			if ( InputVelocity.Length > 0 )
+			if ( _inputVelocity.Length > 0 )
 			{
-				var movement = move.Velocity.Dot( InputVelocity.Normal );
-				move.Velocity = move.Velocity - movement * InputVelocity.Normal;
+				var movement = move.Velocity.Dot( _inputVelocity.Normal );
+				move.Velocity -= movement * _inputVelocity.Normal;
 				move.ApplyFriction( tr.Surface.Friction * 10.0f, timeDelta );
-				move.Velocity += movement * InputVelocity.Normal;
+				move.Velocity += movement * _inputVelocity.Normal;
 			}
 			else
 			{
@@ -370,7 +357,7 @@ public partial class BaseNPC : AnimatedEntity
 		EyePosition = Position;
 	}
 
-	DamageInfo lastDMG;
+	private DamageInfo _lastDmg;
 
 	public override void TakeDamage( DamageInfo info )
 	{
@@ -379,7 +366,7 @@ public partial class BaseNPC : AnimatedEntity
 		var attTower = info.Attacker as BaseTower;
 
 		if(attTower.Owner is CDPawn player)
-			lastDMG.Attacker = player;
+			_lastDmg.Attacker = player;
 
 		if ( Health <= 0 )
 			OnKilled();
@@ -412,7 +399,7 @@ public partial class BaseNPC : AnimatedEntity
 			} );
 		}
 
-		(lastDMG.Attacker as CDPawn).Client.AddInt( "kills", 1 );
+		(_lastDmg.Attacker as CDPawn).Client.AddInt( "kills", 1 );
 
 		base.OnKilled();
 	}

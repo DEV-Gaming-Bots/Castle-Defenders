@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sandbox;
-public partial class Husk : BaseNPC
+﻿using Sandbox;
+
+public sealed class Husk : BaseNPC
 {
 	public override string NPCName => "Husk";
 	public override float BaseHealth => 100;
 	public override float BaseSpeed { get; set; } = 10;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new int[] { 7, 33 };
-	public override int[] MinMaxEXPReward => new int[] { 7, 30 };
+	public override int[] MinMaxCashReward => new[] { 7, 33 };
+	public override int[] MinMaxEXPReward => new[] { 7, 30 };
 	public override float NPCScale => 0.65f;
 	public override SpecialType NPCType => SpecialType.Splitter;
 	public override int SplitAmount => 3;
@@ -46,7 +42,7 @@ public partial class Husk : BaseNPC
 		splitted.Scale = NPCScale / 2;
 		splitted.Health = BaseHealth / 2.5f;
 
-		splitted.Position = Position + (Vector3.Random.x * 5) + (Vector3.Random.y * 5);
+		splitted.Position = Position + Vector3.Random.x * 5 + Vector3.Random.y * 5;
 		splitted.Rotation = Rotation;
 
 		splitted.BaseSpeed = BaseSpeed * 1.5f;
@@ -61,7 +57,7 @@ public partial class Husk : BaseNPC
 
 		base.OnKilled();
 
-		for ( int i = 0; i < SplitAmount; i++ )
+		for ( var i = 0; i < SplitAmount; i++ )
 			SpawnSplit();
 	}
 }

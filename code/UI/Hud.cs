@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sandbox;
-using Sandbox.UI;
+﻿using Sandbox.UI;
 
-public partial class CDHUD : RootPanel
+public sealed class CDHUD : RootPanel
 {
 	public static CDHUD CurrentHud;
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using Sandbox;
+﻿using Sandbox;
 
 public interface IPlayerData
 {
@@ -13,7 +8,7 @@ public interface IPlayerData
 	string[] TowerSlots { get; set; }
 }
 
-public class PlayerData : IPlayerData
+public sealed class PlayerData : IPlayerData
 {
 	public int EXP { get; set; }
 	public int ReqEXP { get; set; }
@@ -21,7 +16,7 @@ public class PlayerData : IPlayerData
 	[Net] public string[] TowerSlots { get; set; }
 }
 
-public partial class CDGame
+public sealed partial class CDGame
 {
 	public void SaveData( CDPawn player )
 	{
@@ -40,16 +35,13 @@ public partial class CDGame
 		return FileSystem.Data.ReadJson<PlayerData>( cl.PlayerId + ".json" ) != null;
 	}
 
-	public bool LoadSave( Client cl )
+	public void LoadSave( Client cl )
 	{
 		IPlayerData loadData = FileSystem.Data.ReadJson<PlayerData>( cl.PlayerId + ".json");
 
-		if ( loadData is null )
-			return false;
+		if ( loadData is null ) return;
 
 		(cl.Pawn as CDPawn).LoadStats( loadData );
-
-		return true;
 	}
 }
 

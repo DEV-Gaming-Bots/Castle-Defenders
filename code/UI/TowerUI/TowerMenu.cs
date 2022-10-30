@@ -1,9 +1,8 @@
-﻿using System;
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public partial class TowerMenu : Panel
+public sealed class TowerMenu : Panel
 {
 	public Panel TowerPnl;
 	public Label TowerName;

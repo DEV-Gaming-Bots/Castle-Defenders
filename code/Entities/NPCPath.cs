@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Sandbox;
 using SandboxEditor;
 
 [Library("cd_npc_path")]
 [Title( "NPC Path Nodes" ), Description( "Indicates a pathway for NPCs to follow" )]
 [HammerEntity]
-public partial class NPCPath : ModelEntity
+public sealed class NPCPath : ModelEntity
 {
 	[Property, Description("Path to the next path node")]
 	public EntityTarget NextPath { get; set; }
@@ -80,7 +79,7 @@ public partial class NPCPath : ModelEntity
 		if ( !SplitPathOrder.IsValid() )
 			return null;
 
-		var splitNode = SplitPathOrder.GetTargets( null ).FirstOrDefault();
+		var splitNode = SplitPathOrder.GetTargets().FirstOrDefault();
 
 		return splitNode;
 	}

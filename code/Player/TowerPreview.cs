@@ -1,9 +1,6 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
-using Sandbox;
+﻿using Sandbox;
 
-public partial class CDPawn
+public sealed partial class CDPawn
 {
 	public ModelEntity PreviewTower;
 	public ModelEntity TowerInHand;
@@ -14,8 +11,8 @@ public partial class CDPawn
 	[Net]
 	public BaseSuperTower CurSuperTower { get; set; }
 
-	[Net] float Rot { get; set; }
-	bool isRotating;
+	[Net] private float Rot { get; set; }
+	private bool _isRotating;
 
 	[ClientRpc]
 	public void CreatePreview(string towerModel)
@@ -105,7 +102,7 @@ public partial class CDPawn
 			{
 				if ( CurTeam == TeamEnum.Blue && CDGame.Instance.ActiveSuperTowerBlue )
 					return false;
-				else if ( CurTeam == TeamEnum.Red && CDGame.Instance.ActiveSuperTowerRed )
+				if ( CurTeam == TeamEnum.Red && CDGame.Instance.ActiveSuperTowerRed )
 					return false;
 			}
 			else if ( CDGame.Instance.ActiveSuperTowerBlue )
@@ -133,22 +130,22 @@ public partial class CDPawn
 		if ( !IsServer )
 			return;
 
-		isRotating = Input.Down( InputButton.Reload );
+		_isRotating = Input.Down( InputButton.Reload );
 
-		if ( Input.MouseWheel != 0 && !isRotating )
-			scrollInt -= Input.MouseWheel;
+		if ( Input.MouseWheel != 0 && !_isRotating )
+			_scrollInt -= Input.MouseWheel;
 
 		if ( GetSelectedSlot() > -1 )
-			scrollInt = GetSelectedSlot() - 1;
+			_scrollInt = GetSelectedSlot() - 1;
 
-		if ( scrollInt > TowerSlots.Length )
-			scrollInt = 0;
-		else if (scrollInt < 0)
-			scrollInt = TowerSlots.Length;
+		if ( _scrollInt > TowerSlots.Length )
+			_scrollInt = 0;
+		else if (_scrollInt < 0)
+			_scrollInt = TowerSlots.Length;
 
-		SetSlotClient( To.Single( this ), scrollInt );
+		SetSlotClient( To.Single( this ), _scrollInt );
 
-		if( CurSuperTower != null && scrollInt == 0 )
+		if( CurSuperTower != null && _scrollInt == 0 )
 			CurSuperTower = null;
 
 		if( CurSuperTower != null )
@@ -170,11 +167,11 @@ public partial class CDPawn
 
 		//Check if the last slot is equal or greater than
 		//while checking if the time last placed is greater
-		if ( lastScrollInt != scrollInt )
+		if ( _lastScrollInt != _scrollInt )
 		{
-			if ( TowerSlots.Length <= scrollInt )
+			if ( TowerSlots.Length <= _scrollInt )
 			{
-				lastScrollInt = scrollInt;
+				_lastScrollInt = _scrollInt;
 
 				if ( SelectedTower != null )
 				{
@@ -189,7 +186,7 @@ public partial class CDPawn
 				return;
 			}
 
-			if ( TowerSlots.Length <= scrollInt )
+			if ( TowerSlots.Length <= _scrollInt )
 			{
 				if ( SelectedTower != null )
 				{
@@ -213,7 +210,7 @@ public partial class CDPawn
 				SelectedTower = null;
 			}
 
-			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[scrollInt] );
+			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[_scrollInt] );
 			SelectedTower.Owner = this;
 			SelectedTower.RenderColor = new Color( 255, 255, 255, 0 );
 			SelectedTower.Spawn();
@@ -233,7 +230,7 @@ public partial class CDPawn
 
 			CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
 
-			lastScrollInt = scrollInt;
+			_lastScrollInt = _scrollInt;
 		} 
 
 		if ( SelectedTower != null )
@@ -243,7 +240,7 @@ public partial class CDPawn
 			.Size( 0.1f )
 			.Run();
 
-			if ( isRotating )
+			if ( _isRotating )
 			{
 				Rot += Input.MouseWheel * 15;
 				
@@ -295,7 +292,7 @@ public partial class CDPawn
 			return;
 
 		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
-			.UseHitboxes( true )
+			.UseHitboxes()
 			.WithTag( "tower" )
 			.Run();
 

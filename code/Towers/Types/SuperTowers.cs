@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Sandbox;
 
-public partial class TimeDisplacer : BaseSuperTower
+public sealed class TimeDisplacer : BaseSuperTower
 {
 	public override string TowerName => "Time Displacer";
 	public override string TowerDesc => "A sort of time experiment able to teleport hostiles back to spawn";
@@ -19,14 +15,14 @@ public partial class TimeDisplacer : BaseSuperTower
 	{
 		var ents = FindInSphere( tr.EndPosition, RangeDistance );
 
-		float timeToRecover = 1.0f;
+		var timeToRecover = 1.0f;
 
 		foreach( var ent in ents )
 		{
 			if (ent is BaseNPC npc)
 			{
 				npc.Position = All.OfType<NPCSpawner>().FirstOrDefault().Position;
-				npc.Steer.Target = All.OfType<NPCPath>().Where( x => x.StartNode ).FirstOrDefault().Position;
+				npc.Steer.Target = All.OfType<NPCPath>().FirstOrDefault( x => x.StartNode ).Position;
 				npc.TimeUntilSpecialRecover = timeToRecover;
 				timeToRecover += 1.0f;
 			}

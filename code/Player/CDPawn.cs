@@ -2,14 +2,14 @@
 using System;
 using System.Linq;
 
-public partial class CDPawn : Player
+public sealed partial class CDPawn : Player
 {
-	public ClothingContainer Clothing = new();
+	private readonly ClothingContainer _clothing = new();
 
-	Sound curMusic;
+	private Sound _curMusic;
 
-	int scrollInt;
-	int lastScrollInt;
+	private int _scrollInt;
+	private int _lastScrollInt;
 
 	[Net]
 	public int TotalTowers { get; set; }
@@ -17,14 +17,11 @@ public partial class CDPawn : Player
 	[Net]
 	public int TowerLimit { get; set; }
 
-	public CDPawn()
-	{
-
-	}
+	public CDPawn() { }
 
 	public CDPawn( Client cl ) : this()
 	{
-		Clothing.LoadFromClient( cl );
+		_clothing.LoadFromClient( cl );
 	}
 
 	public void SpawnAtLocation()
@@ -41,14 +38,14 @@ public partial class CDPawn : Player
 	[ClientRpc]
 	public void PlayMusic(string music)
 	{
-		curMusic = Sound.FromScreen( music );
+		_curMusic = Sound.FromScreen( music );
 	}
 
 	[ClientRpc]
 	public void EndMusic( string musicEnd )
 	{
-		curMusic.Stop();
-		curMusic = Sound.FromScreen( musicEnd );
+		_curMusic.Stop();
+		_curMusic = Sound.FromScreen( musicEnd );
 	}
 
 	[ClientRpc]
@@ -82,7 +79,7 @@ public partial class CDPawn : Player
 		SpawnAtLocation();
 
 		SetModel( "models/citizen/citizen.vmdl_c" );
-		Clothing.DressEntity( this );
+		_clothing.DressEntity( this );
 
 		CameraMode = new FirstPersonCamera();
 		Animator = new StandardPlayerAnimator();
@@ -112,7 +109,7 @@ public partial class CDPawn : Player
 
 		DoTowerOverview();
 
-		if ( CDGame.Instance.DebugMode == CDGame.DebugEnum.Path || CDGame.Instance.DebugMode == CDGame.DebugEnum.All )
+		if ( CDGame.Instance.DebugMode is CDGame.DebugEnum.Path or CDGame.DebugEnum.All )
 		{
 			foreach ( var path in All.OfType<NPCPath>() )
 			{
@@ -131,7 +128,7 @@ public partial class CDPawn : Player
 			return;
 
 		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
-			.UseHitboxes( true )
+			.UseHitboxes()
 			.WithTag( "tower" )
 			.Run();
 

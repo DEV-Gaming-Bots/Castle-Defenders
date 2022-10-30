@@ -1,16 +1,16 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 
-public class NPCNavigation
+public sealed class NPCNavigation
 {
 	public Vector3 TargetPosition;
-	public List<Vector3> Points = new List<Vector3>();
+	public List<Vector3> Points = new();
 
 	public bool IsEmpty => Points.Count <= 1;
 
 	public void Update( Vector3 from, Vector3 to )
 	{
-		bool needsBuild = false;
+		var needsBuild = false;
 
 		if ( !TargetPosition.AlmostEqual( to, 5 ) )
 		{
@@ -20,16 +20,16 @@ public class NPCNavigation
 
 		if ( needsBuild )
 		{
-			var from_fixed = NavMesh.GetClosestPoint( from );
-			var tofixed = NavMesh.GetClosestPoint( to );
+			var fromFixed = NavMesh.GetClosestPoint( from );
+			var toFixed = NavMesh.GetClosestPoint( to );
 
-			if ( from_fixed == null )
+			if ( fromFixed == null )
 				return;
 
 			Points.Clear();
 
 			NavMesh.GetClosestPoint( from );
-			NavMesh.BuildPath( from_fixed.Value, tofixed.Value, Points );
+			NavMesh.BuildPath( fromFixed.Value, toFixed.Value, Points );
 			//Points.Add( NavMesh.GetClosestPoint( to ) );
 		}
 

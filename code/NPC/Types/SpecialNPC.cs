@@ -1,19 +1,13 @@
 ﻿using Sandbox;
-using Sandbox.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-public partial class Priest : BaseNPC
+public sealed class Priest : BaseNPC
 {
 	public override string NPCName => "Priest";
 	public override float BaseHealth => 65;
 	public override float BaseSpeed { get; set; } = 11.0f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new int[] { 1, 15 };
-	public override int[] MinMaxEXPReward => new int[] { 1, 5 };
+	public override int[] MinMaxCashReward => new[] { 1, 15 };
+	public override int[] MinMaxEXPReward => new[] { 1, 5 };
 	public override float NPCScale => 0.55f;
 	public override float Damage => 2.5f;
 

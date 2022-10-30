@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using Sandbox;
-
 
 public partial class BaseTower : AnimatedEntity
 {
@@ -17,7 +14,7 @@ public partial class BaseTower : AnimatedEntity
 	public virtual BaseTower RequiredTowers => null;
 
 	//Levelling 
-	public virtual string[] TowerLevelDesc => new string[] 
+	public virtual string[] TowerLevelDesc => new[] 
 	{ 
 		"LEVEL 1",
 		"LEVEL 2",
@@ -25,7 +22,7 @@ public partial class BaseTower : AnimatedEntity
 		"LEVEL 4"
 	};
 
-	public virtual int[] TowerLevelCosts => new int[]
+	public virtual int[] TowerLevelCosts => new[]
 	{
 		1,
 		2,
@@ -35,10 +32,7 @@ public partial class BaseTower : AnimatedEntity
 
 	//Each upgrade reduces attack time, increase damage and range
 	//TODO: figure out variant paths
-	public virtual List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
-	{
-
-	};
+	public virtual List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new();
 
 	public virtual int TowerMaxLevel => 2;
 
@@ -68,7 +62,7 @@ public partial class BaseTower : AnimatedEntity
 	[Net]
 	public int NetCost { get; set; }
 
-	public virtual string[] TowerUpgradeDesc => new string[]
+	public virtual string[] TowerUpgradeDesc => new[]
 	{
 		"LEVEL 1",
 		"LEVEL 2",
@@ -82,7 +76,7 @@ public partial class BaseTower : AnimatedEntity
 	[Net]
 	public string NetStats { get; set; }
 
-	public virtual bool CounterStealth { get; set; } = false;
+	public virtual bool CounterStealth { get; set; }
 
 	public TimeSince TimeSinceDeployed;
 	public TimeSince TimeLastUpgrade;
@@ -90,14 +84,14 @@ public partial class BaseTower : AnimatedEntity
 
 	public BaseNPC Target;
 
-	float scanRot;
+	private float _scanRot;
 
 	public override void Spawn()
 	{
 		SetModel( TowerModel );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
-		scanRot = 0;
+		_scanRot = 0;
 
 		if ( !IsPreviewing )
 		{
@@ -115,11 +109,6 @@ public partial class BaseTower : AnimatedEntity
 		NetDesc = TowerDesc;
 		NetStats = $"Attack Delay {AttackTime} | Damage {AttackDamage} | Range {RangeDistance}";
 		Tags.Add( "tower" );
-	}
-
-	public override void ClientSpawn()
-	{
-		base.ClientSpawn();
 	}
 
 	[ClientRpc]
@@ -193,21 +182,21 @@ public partial class BaseTower : AnimatedEntity
 	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
-		scanRot++;
+		_scanRot++;
 
-		var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
+		var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( _scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
 			.Ignore( this )
-			.UseHitboxes( true )
+			.UseHitboxes()
 			.WithoutTags( "cdplayer", "tower" )
 			.Run();
 
-		var tr2 = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( -scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
+		var tr2 = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( -_scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
 			.Ignore( this )
-			.UseHitboxes( true )
+			.UseHitboxes()
 			.WithoutTags( "cdplayer", "tower" )
 			.Run();
 
-		if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
+		if ( CDGame.Instance.Debug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
 		{
 			DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
 			DebugOverlay.Line( tr2.StartPosition, tr2.EndPosition );
@@ -240,11 +229,11 @@ public partial class BaseTower : AnimatedEntity
 
 	public List<BaseNPC> ScanForEnemies()
 	{
-		List<BaseNPC> npclist = new List<BaseNPC>();
+		var npcList = new List<BaseNPC>();
 
 		var ents = FindInSphere( Position, RangeDistance );
 
-		if ( CDGame.Instance.Debug && (CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
+		if ( CDGame.Instance.Debug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
 			DebugOverlay.Sphere( Position, RangeDistance, Color.Yellow);
 
 		foreach ( var ent in ents )
@@ -257,11 +246,11 @@ public partial class BaseTower : AnimatedEntity
 				if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
 					return null;
 
-				npclist.Add( npc );
+				npcList.Add( npc );
 			}
 		}
 
-		return npclist;
+		return npcList;
 	}
 
 	[Event.Tick.Server]
@@ -319,9 +308,7 @@ public partial class BaseTower : AnimatedEntity
 		FireEffects();
 
 		TimeLastAttack = 0;
-		DamageInfo dmgInfo = new DamageInfo();
-		dmgInfo.Attacker = this;
-		dmgInfo.Damage = AttackDamage;
+		var dmgInfo = new DamageInfo { Attacker = this, Damage = AttackDamage };
 
 		target.TakeDamage( dmgInfo );
 	}

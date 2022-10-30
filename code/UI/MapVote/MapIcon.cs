@@ -1,10 +1,9 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
 using System.Threading.Tasks;
 
 [UseTemplate]
-class MapIcon : Panel
+sealed class MapIcon : Panel
 {
 	public string VoteCount { get; set; } = "0";
 	public string Title { get; set; } = "...";
@@ -19,7 +18,7 @@ class MapIcon : Panel
 		_ = FetchMapInformation();
 	}
 
-	async Task FetchMapInformation()
+	private async Task FetchMapInformation()
 	{
 		var package = await Package.Fetch( Ident, true );
 		if ( package == null ) return;

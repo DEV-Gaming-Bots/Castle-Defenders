@@ -1,12 +1,11 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 
-partial class MapVoteEntity : Entity
+sealed partial class MapVoteEntity : Entity
 {
-	static MapVoteEntity Current;
-	MapVotePanel Panel;
+	private static MapVoteEntity _current;
+	private MapVotePanel _panel;
 
 	[Net]
 	public IDictionary<Client, string> Votes { get; set; }
@@ -22,41 +21,41 @@ partial class MapVoteEntity : Entity
 		base.Spawn();
 
 		Transmit = TransmitType.Always;
-		Current = this;
+		_current = this;
 	}
 
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();
 
-		Current = this;
-		Panel = new MapVotePanel();
-		CDHUD.CurrentHud.AddChild( Panel );
+		_current = this;
+		_panel = new MapVotePanel();
+		CDHUD.CurrentHud.AddChild( _panel );
 	}
 
 	protected override void OnDestroy()
 	{
 		base.OnDestroy();
 
-		Panel?.Delete();
-		Panel = null;
+		_panel?.Delete();
+		_panel = null;
 
-		if ( Current == this )
-			Current = null;
+		if ( _current == this )
+			_current = null;
 	}
 
 	[Event.Frame]
 	public void OnFrame()
 	{
-		if ( Panel != null )
+		if ( _panel != null )
 		{
 			var seconds = VoteTimeLeft.Relative.FloorToInt().Clamp( 0, 60 );
 
-			Panel.TimeText = $"00:{seconds:00}";
+			_panel.TimeText = $"00:{seconds:00}";
 		}
 	}
 
-	void CullInvalidClients()
+	private void CullInvalidClients()
 	{
 		foreach ( var entry in Votes.Keys.Where( x => !x.IsValid() ).ToArray() )
 		{
@@ -64,7 +63,7 @@ partial class MapVoteEntity : Entity
 		}
 	}
 
-	void UpdateWinningMap()
+	private void UpdateWinningMap()
 	{
 		if ( Votes.Count == 0 )
 			return;
@@ -72,7 +71,7 @@ partial class MapVoteEntity : Entity
 		WinningMap = Votes.GroupBy( x => x.Value ).OrderBy( x => x.Count() ).First().Key;
 	}
 
-	void SetVote( Client client, string map )
+	private void SetVote( Client client, string map )
 	{
 		CullInvalidClients();
 		Votes[client] = map;
@@ -82,19 +81,18 @@ partial class MapVoteEntity : Entity
 	}
 
 	[ClientRpc]
-	void RefreshUI()
+	private void RefreshUI()
 	{
-		Panel.UpdateFromVotes( Votes );
+		_panel.UpdateFromVotes( Votes );
 	}
 
 	[ConCmd.Server]
 	public static void SetVote( string map )
 	{
-		if ( Current == null || ConsoleSystem.Caller == null )
+		if ( _current == null || ConsoleSystem.Caller == null )
 			return;
 
-		Current.SetVote( ConsoleSystem.Caller, map );
+		_current.SetVote( ConsoleSystem.Caller, map );
 	}
-
 }
 

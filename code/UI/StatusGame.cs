@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
 using CastleDefenders.UI.Components;
 
-public class StatusGame : Panel
+public sealed class StatusGame : Panel
 {
 	public TimeSince TimerElapsed;
 	//public GameStats.GameInfoPanel gameInfo = new();
-	public GameStats.GameStatsPanel gameStats = new();
+	public GameStats.GameStatsPanel GameStats = new();
 	public GameStats.GameInfoPanel.ExtraGameInfo Loop = new();
 	public GameStats.GameInfoPanel.ExtraGameInfo Waves = new();
 	public StatusGame()
@@ -20,7 +15,7 @@ public class StatusGame : Panel
 		StyleSheet.Load( "UI/StatusGame.scss" );
 
 		//AddChild( gameInfo );
-		AddChild( gameStats );
+		AddChild( GameStats );
 
 		//gameInfo.TextTimer = "bruh";
 		//gameInfo.TextRounds = "lmao";
@@ -30,10 +25,7 @@ public class StatusGame : Panel
 	{
 		base.Tick();
 
-		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
-			return;
-
-		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Idle )
+		if ( CDGame.Instance.GameStatus is CDGame.GameEnum.MapChange or CDGame.GameEnum.Idle )
 			return;
 
 		var timer = TimeSpan.FromSeconds( CDGame.Instance.TimeRemaining );
@@ -79,16 +71,16 @@ public class StatusGame : Panel
 
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Starting )
 		{
-			gameStats.Timer.SetText( $"{timer.ToString( @"m\:ss" )}" );
-			gameStats.ExtraText.SetText( "Starting" );
+			GameStats.Timer.SetText( $"{timer.ToString( @"m\:ss" )}" );
+			GameStats.ExtraText.SetText( "Starting" );
 			Waves.SetClass( "hide", true );
 			return;
 		}
 
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Post )
 		{
-			gameStats.Timer.SetText( $"{timer.ToString( @"m\:ss" )}" );
-			gameStats.ExtraText.SetText( "Game Over" );
+			GameStats.Timer.SetText( $"{timer.ToString( @"m\:ss" )}" );
+			GameStats.ExtraText.SetText( "Game Over" );
 			Waves.SetClass( "hide", true );
 			return;
 		}
@@ -96,34 +88,34 @@ public class StatusGame : Panel
 		switch ( CDGame.Instance.WaveStatus )
 		{
 			case CDGame.WaveEnum.Pre:
-				gameStats.Timer.SetText( $"{timer.ToString( @"m\:ss")}" );
-				gameStats.ExtraText.SetText( "Pre Wave" );
+				GameStats.Timer.SetText( $"{timer.ToString( @"m\:ss")}" );
+				GameStats.ExtraText.SetText( "Pre Wave" );
 				Waves.SetClass( "hide", false);
 				break;
 			case CDGame.WaveEnum.Active:
-				gameStats.Timer.SetText( $"{timer.ToString( @"m\:ss")}" );
-				gameStats.ExtraText.SetText( "Active Wave" );
+				GameStats.Timer.SetText( $"{timer.ToString( @"m\:ss")}" );
+				GameStats.ExtraText.SetText( "Active Wave" );
 				Waves.SetClass( "hide", false);
 				break;
 			case CDGame.WaveEnum.Post:
-				gameStats.Timer.SetText( $"{timer.ToString( @"m\:ss")}" );
-				gameStats.ExtraText.SetText( "Post Wave" );
+				GameStats.Timer.SetText( $"{timer.ToString( @"m\:ss")}" );
+				GameStats.ExtraText.SetText( "Post Wave" );
 				Waves.SetClass( "hide", true);
 				break;
 		}
-		gameStats.GameInfo.AddChild( Waves );
+		GameStats.GameInfo.AddChild( Waves );
 
-		string loopedString = "";
+		var loopedString = "";
 
 		if(CDGame.Instance.LoopGame && CDGame.Instance.LoopedTimes > 1)
 		{
-			gameStats.GameInfo.AddChild( Loop );
+			GameStats.GameInfo.AddChild( Loop );
 			//gameInfo.GameInfo.AddChild( Loop );
 			Loop.BigText.SetText( $"{CDGame.Instance.LoopedTimes - 1}" );
 			Loop.SmallText.SetText( $"Loop" );
 		}
 
-		gameStats.IsCompetitive = CDGame.Instance.Competitive;
+		GameStats.IsCompetitive = CDGame.Instance.Competitive;
 
 		Waves.SmallText.SetText( "Wave" );
 		Waves.BigText.SetText( $"{CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}{loopedString}" );

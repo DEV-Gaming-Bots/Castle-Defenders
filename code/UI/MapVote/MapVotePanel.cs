@@ -1,12 +1,11 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 [UseTemplate]
-class MapVotePanel : Panel
+sealed class MapVotePanel : Panel
 {
 	public string TitleText { get; set; } = "Map Vote";
 	public string SubtitleText { get; set; } = "Choose your next map";
@@ -53,11 +52,6 @@ class MapVotePanel : Panel
 
 		MapIcons.Add( icon );
 		return icon;
-	}
-
-	public override void Tick()
-	{
-		base.Tick();
 	}
 
 	internal void UpdateFromVotes( IDictionary<Client, string> votes )

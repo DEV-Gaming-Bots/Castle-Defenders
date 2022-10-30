@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Sandbox;
 using static PlayerLoadout;
 
-public partial class CDPawn : IPlayerData
+public sealed partial class CDPawn : IPlayerData
 {
 	//OldEXP is used to display animations for the client
 	//The rest is self-explanatory 
@@ -29,7 +28,7 @@ public partial class CDPawn : IPlayerData
 		OldEXP = 0;
 		ReqEXP = 250;
 
-		TowerSlots = new string[]
+		TowerSlots = new[]
 		{
 			"Pistol",
 			"Sniper",
@@ -63,7 +62,7 @@ public partial class CDPawn : IPlayerData
 		if ( CDGame.Instance.LoopedTimes > 1 )
 			return;
 
-		Cash = 60 + ((Level - 1) * 5);
+		Cash = 60 + (Level - 1) * 5;
 		SelectedTower?.Delete();
 		SelectedTower = null;
 
@@ -71,8 +70,8 @@ public partial class CDPawn : IPlayerData
 		{
 			while(CurTeam == TeamEnum.Unknown)
 			{
-				int blueCount = All.OfType<CDPawn>().ToList().Where( x => x.CurTeam == TeamEnum.Blue ).Count();
-				int redCount = All.OfType<CDPawn>().ToList().Where( x => x.CurTeam == TeamEnum.Red ).Count();
+				var blueCount = All.OfType<CDPawn>().Count( x => x.CurTeam == TeamEnum.Blue );
+				var redCount = All.OfType<CDPawn>().Count( x => x.CurTeam == TeamEnum.Red );
 				switch (Rand.Int(1, 2))
 				{
 					case 1:

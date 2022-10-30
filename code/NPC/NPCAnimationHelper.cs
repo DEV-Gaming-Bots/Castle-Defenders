@@ -7,11 +7,11 @@ namespace Sandbox
 	/// </summary>
 	public struct NPCAnimationHelper
 	{
-		AnimatedEntity Owner;
+		private readonly AnimatedEntity _owner;
 
 		public NPCAnimationHelper( AnimatedEntity entity )
 		{
-			Owner = entity;
+			_owner = entity;
 		}
 
 		/// <summary>
@@ -19,44 +19,42 @@ namespace Sandbox
 		/// </summary>
 		public void WithLookAt( Vector3 look, float eyesWeight = 1.0f, float headWeight = 1.0f, float bodyWeight = 1.0f )
 		{
-			Owner.SetAnimLookAt( "aim_eyes", look );
-			Owner.SetAnimLookAt( "aim_head", look );
-			Owner.SetAnimLookAt( "aim_body", look );
+			_owner.SetAnimLookAt( "aim_eyes", look );
+			_owner.SetAnimLookAt( "aim_head", look );
+			_owner.SetAnimLookAt( "aim_body", look );
 			
-			Owner.SetAnimParameter( "aim_head_weight", headWeight );
-			Owner.SetAnimParameter( "aim_body_weight", bodyWeight );
+			_owner.SetAnimParameter( "aim_head_weight", headWeight );
+			_owner.SetAnimParameter( "aim_body_weight", bodyWeight );
 		}
 
 		public void WithVelocity( Vector3 Velocity )
 		{
-			var dir = Velocity;
-			var forward = Owner.Rotation.Forward.Dot( dir );
-			var sideward = Owner.Rotation.Right.Dot( dir );
+			var forward = _owner.Rotation.Forward.Dot( Velocity );
+			var sideward = _owner.Rotation.Right.Dot( Velocity );
 
 			var angle = MathF.Atan2( sideward, forward ).RadianToDegree().NormalizeDegrees();
 
-			Owner.SetAnimParameter( "move_direction", angle );
-			Owner.SetAnimParameter( "move_speed", Velocity.Length );
-			Owner.SetAnimParameter( "move_groundspeed", Velocity.WithZ( 0 ).Length );
-			Owner.SetAnimParameter( "move_y", sideward );
-			Owner.SetAnimParameter( "move_x", forward );
-			Owner.SetAnimParameter( "move_z", Velocity.z );
+			_owner.SetAnimParameter( "move_direction", angle );
+			_owner.SetAnimParameter( "move_speed", Velocity.Length );
+			_owner.SetAnimParameter( "move_groundspeed", Velocity.WithZ( 0 ).Length );
+			_owner.SetAnimParameter( "move_y", sideward );
+			_owner.SetAnimParameter( "move_x", forward );
+			_owner.SetAnimParameter( "move_z", Velocity.z );
 		}
 
 		public void WithWishVelocity( Vector3 Velocity )
 		{
-			var dir = Velocity;
-			var forward = Owner.Rotation.Forward.Dot( dir );
-			var sideward = Owner.Rotation.Right.Dot( dir );
+			var forward = _owner.Rotation.Forward.Dot( Velocity );
+			var sideward = _owner.Rotation.Right.Dot( Velocity );
 
 			var angle = MathF.Atan2( sideward, forward ).RadianToDegree().NormalizeDegrees();
 
-			Owner.SetAnimParameter( "wish_direction", angle );
-			Owner.SetAnimParameter( "wish_speed", Velocity.Length );
-			Owner.SetAnimParameter( "wish_groundspeed", Velocity.WithZ( 0 ).Length );
-			Owner.SetAnimParameter( "wish_y", sideward );
-			Owner.SetAnimParameter( "wish_x", forward );
-			Owner.SetAnimParameter( "wish_z", Velocity.z );
+			_owner.SetAnimParameter( "wish_direction", angle );
+			_owner.SetAnimParameter( "wish_speed", Velocity.Length );
+			_owner.SetAnimParameter( "wish_groundspeed", Velocity.WithZ( 0 ).Length );
+			_owner.SetAnimParameter( "wish_y", sideward );
+			_owner.SetAnimParameter( "wish_x", forward );
+			_owner.SetAnimParameter( "wish_z", Velocity.z );
 		}
 	}
 }

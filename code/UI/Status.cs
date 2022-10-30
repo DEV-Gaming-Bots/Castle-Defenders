@@ -1,9 +1,8 @@
-﻿using System;
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public partial class Status : Panel
+public sealed class Status : Panel
 {
 	public Panel CashPnl;
 	public Label CurCashLbl;
@@ -33,7 +32,7 @@ public partial class Status : Panel
 		if ( player == null )
 			return;
 
-		int plyCash = player.GetCash();
+		var plyCash = player.GetCash();
 
 		CurCashLbl.SetText( plyCash.ToString("C0") );
 		CurEXPLbl.SetText( $"Level: {player.GetLevel()}\nXP: {player.GetEXP()}/{player.GetReqEXP()}" );
