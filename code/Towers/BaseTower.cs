@@ -98,7 +98,11 @@ public partial class BaseTower : AnimatedEntity
 		scanRot = 0;
 
 		TimeSinceDeployed = 0;
-		NetCost = TowerLevelCosts[TowerLevel - 1];
+
+		if ( IsPreviewing )
+			NetCost = TowerCost;
+		else
+			NetCost = TowerLevelCosts[TowerLevel - 1];
 
 		NetName = TowerName;
 		NetDesc = TowerDesc;

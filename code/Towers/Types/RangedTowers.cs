@@ -44,7 +44,7 @@ public partial class Pistol : BaseTower
 	};
 
 	public override int TowerMaxLevel => 5;
-	public override int TowerCost => 25;
+	public override int TowerCost => 20;
 	public override int[] TowerLevelCosts => new int[]
 	{
 		25,
