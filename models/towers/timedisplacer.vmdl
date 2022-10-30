@@ -113,7 +113,7 @@
 							{
 								_class = "AnimEvent"
 								event_class = "AE_CL_PLAYSOUND_POSITION"
-								event_frame = 6
+								event_frame = 0
 								event_keys = 
 								{
 									name = "build_start"
@@ -125,7 +125,7 @@
 							{
 								_class = "AnimEvent"
 								event_class = "AE_CL_PLAYSOUND_POSITION"
-								event_frame = 9
+								event_frame = 3
 								event_keys = 
 								{
 									name = "build_finish"
@@ -137,7 +137,7 @@
 							{
 								_class = "AnimEvent"
 								event_class = "AE_CL_PLAYSOUND_POSITION"
-								event_frame = 17
+								event_frame = 12
 								event_keys = 
 								{
 									name = "timedisplacer_deploy"
@@ -159,7 +159,7 @@
 						anim_markup_ordered = false
 						disable_compression = false
 						source_filename = "models/raw/timedisplacer/timedisplacer.fbx"
-						start_frame = -1
+						start_frame = 7
 						end_frame = -1
 						framerate = 6.0
 						take = 0

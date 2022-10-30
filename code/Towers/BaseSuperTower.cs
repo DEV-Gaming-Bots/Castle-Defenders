@@ -15,35 +15,31 @@ public partial class BaseSuperTower : BaseTower
 		SetModel( TowerModel );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
 
-		if ( !IsPreviewing )
-		{
-			TimeSinceDeployed = 0;
-			NetCost = -1;
-
-			switch( (Owner as CDPawn).CurTeam )
-			{
-				case CDPawn.TeamEnum.Blue:
-					CDGame.Instance.ActiveSuperTowerBlue = true;
-					break;
-
-				case CDPawn.TeamEnum.Red:
-					CDGame.Instance.ActiveSuperTowerRed = true;
-					break;
-
-				default:
-					CDGame.Instance.ActiveSuperTowerBlue = true;
-					break;
-			}
-
-			PlayDeployAnimRPC( To.Everyone );
-		} 
-		else
-			NetCost = TowerCost;
-		
-		Tags.Add( "tower" );
-
 		NetName = TowerName;
 		NetDesc = TowerDesc;
+		NetCost = TowerCost;
+
+		Tags.Add( "tower" );
+		
+		if ( IsPreviewing )
+			return;
+
+		TimeSinceDeployed = 0;
+
+		switch( (Owner as CDPawn).CurTeam )
+		{
+			case CDPawn.TeamEnum.Blue:
+				CDGame.Instance.ActiveSuperTowerBlue = true;
+				break;
+
+			case CDPawn.TeamEnum.Red:
+				CDGame.Instance.ActiveSuperTowerRed = true;
+				break;
+
+			default:
+				CDGame.Instance.ActiveSuperTowerBlue = true;
+				break;
+		}
 
 	}
 
@@ -57,6 +53,26 @@ public partial class BaseSuperTower : BaseTower
 		FireEffectAtLocation(tr.EndPosition);
 
 		Despawn();
+	}
+
+	public override void SellTower()
+	{
+		switch ( (Owner as CDPawn).CurTeam )
+		{
+			case CDPawn.TeamEnum.Blue:
+				CDGame.Instance.ActiveSuperTowerBlue = false;
+				break;
+
+			case CDPawn.TeamEnum.Red:
+				CDGame.Instance.ActiveSuperTowerRed = false;
+				break;
+
+			default:
+				CDGame.Instance.ActiveSuperTowerBlue = false;
+				break;
+		}
+
+		base.SellTower();
 	}
 
 	public void Despawn()

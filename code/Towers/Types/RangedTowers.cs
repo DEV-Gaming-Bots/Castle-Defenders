@@ -44,7 +44,7 @@ public partial class Pistol : BaseTower
 	};
 
 	public override int TowerMaxLevel => 5;
-	public override int TowerCost => 20;
+	public override int TowerCost => 25;
 	public override int[] TowerLevelCosts => new int[]
 	{
 		25,
@@ -55,7 +55,7 @@ public partial class Pistol : BaseTower
 	};
 
 	public override float DeploymentTime => 3.72f;
-	public override float AttackTime { get; set; } = 3.0f;
+	public override float AttackTime { get; set; } = 3.5f;
 	public override float AttackDamage { get; set; } = 7.5f;
 	public override int RangeDistance { get; set; } = 125;
 	public override string AttackSound => "pistol_fire";
