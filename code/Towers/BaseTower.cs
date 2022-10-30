@@ -5,9 +5,9 @@ using Sandbox;
 public partial class BaseTower : AnimatedEntity
 {
 	//Basic information
-	public virtual string TowerName => "BASE TOWER";
-	public virtual string TowerDesc => "BASE TOWER FOR ALL TOWERS";
-	public virtual string TowerModel => "";
+	public virtual string TowerName { get; set; } = "BASE TOWER";
+	public virtual string TowerDesc { get; set; } = "BASE TOWER FOR ALL TOWERS";
+	public virtual string TowerModel { get; set; } = "";
 
 	//Requirements
 	public virtual int UnlockLevel => 0;
@@ -39,18 +39,16 @@ public partial class BaseTower : AnimatedEntity
 	public int TowerLevel = 1;
 
 	//Costs
-	public virtual int TowerCost => 1;
+	public virtual int TowerCost { get; set; } = 1;
 
 	//Attacking + Deployment
-	public virtual float DeploymentTime => 1.0f;
+	public virtual float DeploymentTime { get; set; } = 1.0f;
 	public virtual float AttackTime { get; set; } = 1.0f;
 	public virtual float AttackDamage { get; set; } = 1.0f;
 
 	//How far it can see
 	public virtual int RangeDistance { get; set; } = 10;
 	public virtual string AttackSound => "";
-
-	[Net]
 	public bool IsPreviewing { get; set; } = true;
 
 	[Net]
@@ -93,21 +91,28 @@ public partial class BaseTower : AnimatedEntity
 
 		_scanRot = 0;
 
-		if ( !IsPreviewing )
-		{
-			TimeSinceDeployed = 0;
-			NetCost = TowerLevelCosts[TowerLevel - 1];
-			PlayDeployAnimRPC( To.Everyone );
-		}
-		else
-		{
+		TimeSinceDeployed = 0;
+
+		if ( IsPreviewing )
 			NetCost = TowerCost;
-			NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
-		}
+		else
+			NetCost = TowerLevelCosts[TowerLevel - 1];
 
 		NetName = TowerName;
 		NetDesc = TowerDesc;
 		NetStats = $"Attack Delay {AttackTime} | Damage {AttackDamage} | Range {RangeDistance}";
+		Tags.Add( "tower" );
+	}
+
+	public void PreviewSpawn()
+	{
+		SetModel( TowerModel );
+		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
+
+		NetCost = TowerCost;
+		NetName = TowerName;
+		NetDesc = TowerDesc;
+
 		Tags.Add( "tower" );
 	}
 
@@ -224,7 +229,6 @@ public partial class BaseTower : AnimatedEntity
 			return npc2;
 		}
 		return null;
-
 	}
 
 	public List<BaseNPC> ScanForEnemies()

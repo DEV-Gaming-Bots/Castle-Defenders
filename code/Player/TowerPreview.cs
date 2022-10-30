@@ -113,9 +113,7 @@ public sealed partial class CDPawn
 		foreach ( var nearby in FindInSphere( tr.EndPosition, 24 ) )
 		{
 			if ( nearby is BaseTower tower && tower != SelectedTower )
-			{
 				return false;
-			}
 		}
 
 		//Second check, look for blocked areas
@@ -152,6 +150,7 @@ public sealed partial class CDPawn
 		{
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
 			.WithoutTags( "cdplayer", "npc" )
+			.Ignore( this )
 			.Run();
 
 			if( Input.Pressed(InputButton.PrimaryAttack) )
@@ -177,7 +176,7 @@ public sealed partial class CDPawn
 				{
 					DestroyPreview();
 
-					SelectedTower.Delete();
+					SelectedTower?.Delete();
 					SelectedTower = null;
 
 					TowerInHand.Delete();
@@ -192,7 +191,7 @@ public sealed partial class CDPawn
 				{
 					DestroyPreview();
 
-					SelectedTower.Delete();
+					SelectedTower?.Delete();
 					SelectedTower = null;
 				}
 			}
@@ -206,16 +205,15 @@ public sealed partial class CDPawn
 			{
 				DestroyPreview();
 
-				SelectedTower.Delete();
+				SelectedTower?.Delete();
 				SelectedTower = null;
 			}
 
 			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[_scrollInt] );
 			SelectedTower.Owner = this;
 			SelectedTower.RenderColor = new Color( 255, 255, 255, 0 );
-			SelectedTower.Spawn();
 
-			if( TowerInHand != null )
+			if ( TowerInHand != null )
 			{
 				TowerInHand.Delete();
 				TowerInHand = null;
@@ -270,10 +268,11 @@ public sealed partial class CDPawn
 
 				placedTower.Position = SelectedTower.Position;
 				placedTower.Rotation = SelectedTower.Rotation;
+
 				placedTower.IsPreviewing = false;
 				placedTower.Owner = this;
-
 				placedTower.Spawn();
+				placedTower.PlayDeployAnimRPC( To.Everyone );
 				TotalTowers++;
 			}
 		}
@@ -315,6 +314,9 @@ public sealed partial class CDPawn
 
 			if( Input.Pressed( InputButton.PrimaryAttack ) )
 				CurSuperTower = superTower;
+
+			if ( Input.Pressed( InputButton.SecondaryAttack ) )
+				superTower.SellTower();
 		}
 	}
 
@@ -324,7 +326,6 @@ public sealed partial class CDPawn
 		{
 			SelectedTower.Position = tr.EndPosition;
 			SelectedTower.Rotation = Rotation.FromYaw(rot);
-			SelectedTower.IsPreviewing = true;
 		}
 	}
 
