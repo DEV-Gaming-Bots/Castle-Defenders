@@ -14,6 +14,9 @@ public partial class CDPawn
 	[Net]
 	public BaseSuperTower CurSuperTower { get; set; }
 
+	[Net] float Rot { get; set; }
+	bool isRotating;
+
 	[ClientRpc]
 	public void CreatePreview(string towerModel)
 	{
@@ -26,12 +29,13 @@ public partial class CDPawn
 	}
 
 	[ClientRpc]
-	public void UpdatePreview(Vector3 endPos, Color color, float range)
+	public void UpdatePreview(Vector3 endPos, Color color, float range, float rot)
 	{
 		if ( PreviewTower == null )
 			return;
 
 		PreviewTower.Position = endPos;
+		PreviewTower.Rotation = Rotation.FromYaw( rot );
 		PreviewTower.RenderColor = color.WithAlpha(1.0f);
 
 		//Rect rect = new Rect( PreviewTower.Position, new Vector2(64, 64) );
@@ -63,6 +67,7 @@ public partial class CDPawn
 	{
 		DebugOverlay.Circle( pos + Vector3.Up * 5, Rotation.FromPitch( 90 ), superTower.RangeDistance, Color.Blue.WithAlpha( 0.30f ) );
 	}
+
 	public void SimulatePreview()
 	{
 		if ( SelectedTower == null )
@@ -73,10 +78,14 @@ public partial class CDPawn
 			.WithoutTags( "cdplayer", "tower", "npc" )
 			.Run();
 
+		Color canPlaceCol = Color.White;
+
 		if ( !CanPlace( tr ) )
-			UpdatePreview( tr.EndPosition, new Color( 255, 0, 0, 0.5f ), SelectedTower.RangeDistance );
+			canPlaceCol = Color.Red.WithAlpha( 0.5f );
 		else if ( CanPlace( tr ) )
-			UpdatePreview( tr.EndPosition, new Color( 0, 255, 0, 0.5f ), SelectedTower.RangeDistance );
+			canPlaceCol = Color.Green.WithAlpha( 0.5f );
+
+		UpdatePreview( tr.EndPosition, canPlaceCol, SelectedTower.RangeDistance, Rot );
 	}
 
 	public bool CanPlace( TraceResult tr )
@@ -124,7 +133,9 @@ public partial class CDPawn
 		if ( !IsServer )
 			return;
 
-		if ( Input.MouseWheel != 0)
+		isRotating = Input.Down( InputButton.Reload );
+
+		if ( Input.MouseWheel != 0 && !isRotating )
 			scrollInt -= Input.MouseWheel;
 
 		if ( GetSelectedSlot() > -1 )
@@ -135,8 +146,6 @@ public partial class CDPawn
 		else if (scrollInt < 0)
 			scrollInt = TowerSlots.Length;
 
-		//0 = empty handed
-		
 		SetSlotClient( To.Single( this ), scrollInt );
 
 		if( CurSuperTower != null && scrollInt == 0 )
@@ -158,9 +167,10 @@ public partial class CDPawn
 			if(Input.Pressed(InputButton.SecondaryAttack))
 				CurSuperTower = null;
 		}
+
 		//Check if the last slot is equal or greater than
 		//while checking if the time last placed is greater
-		if ( lastScrollInt != scrollInt)
+		if ( lastScrollInt != scrollInt )
 		{
 			if ( TowerSlots.Length <= scrollInt )
 			{
@@ -233,8 +243,18 @@ public partial class CDPawn
 			.Size( 0.1f )
 			.Run();
 
+			if ( isRotating )
+			{
+				Rot += Input.MouseWheel * 15;
+				
+				if ( Rot > 360 )
+					Rot = 0;
+				else if ( Rot < 0 )
+					Rot = 360;
+			}
+
 			if ( SelectedTower != null )
-				SimulatePlacement( tr );
+				SimulatePlacement( tr, Rot );
 
 			if ( !CanPlace( tr ) )
 				return;
@@ -270,7 +290,6 @@ public partial class CDPawn
 
 	public void DoTowerOverview()
 	{
-
 		//We have a selected tower in preview, stop here
 		if ( SelectedTower.IsValid() || TowerInHand.IsValid())
 			return;
@@ -302,11 +321,12 @@ public partial class CDPawn
 		}
 	}
 
-	public void SimulatePlacement( TraceResult tr )
+	public void SimulatePlacement( TraceResult tr, float rot )
 	{
 		if ( SelectedTower.IsValid() )
 		{
 			SelectedTower.Position = tr.EndPosition;
+			SelectedTower.Rotation = Rotation.FromYaw(rot);
 			SelectedTower.IsPreviewing = true;
 		}
 	}
