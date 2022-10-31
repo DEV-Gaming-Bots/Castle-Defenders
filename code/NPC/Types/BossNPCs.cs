@@ -18,6 +18,7 @@ public sealed class ZombieBoss : BaseNPC
 		var coat = new ModelEntity( "models/citizen_clothes/jacket/labcoat.vmdl" );
 		coat.SetParent( this, true );
 
+		ApplyTexture( "materials/npcs/zombie.vmat" );
 		ApplyTextureClient( To.Everyone, "materials/npcs/zombie.vmat" );
 	}
 }
@@ -37,6 +38,7 @@ public sealed class VoidBoss : BaseNPC
 	{
 		base.Spawn();
 
+		ApplyTexture( "materials/npcs/void.vmat" );
 		ApplyTextureClient( To.Everyone, "materials/npcs/void.vmat" );
 	}
 }

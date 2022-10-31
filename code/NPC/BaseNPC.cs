@@ -33,6 +33,7 @@ public partial class BaseNPC : AnimatedEntity
 		Random,
 		Normal,
 		Split,
+		Alternate,
 	}
 
 	//Special Types of NPCs:
@@ -154,6 +155,11 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual void OnArmourBroken()
 	{
 		ArmourBroken = true;
+	}
+
+	public virtual void ApplyTexture(string matPath, string body = "skin")
+	{
+		SetMaterialOverride( Material.Load( matPath ), body );
 	}
 
 	[ClientRpc]

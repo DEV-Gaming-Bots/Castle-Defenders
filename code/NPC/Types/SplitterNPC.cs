@@ -17,7 +17,8 @@ public sealed class Husk : BaseNPC
 	{
 		base.Spawn();
 		RenderColor = new Color( 170, 170, 170 );
-
+		
+		ApplyTexture( "materials/npcs/husk.vmat" );
 		ApplyTextureClient( To.Everyone, "materials/npcs/husk.vmat", "skin" );
 	}
 
@@ -31,6 +32,7 @@ public sealed class Husk : BaseNPC
 		var splitted = new SplitMinion();
 		splitted.Spawn();
 		
+		ApplyTexture( "materials/npcs/husk.vmat" );
 		splitted.ApplyTextureClient( To.Everyone, "materials/npcs/husk.vmat", "skin" );
 
 		splitted.MinionName = NPCName + " Minion"; 

@@ -27,6 +27,7 @@ public sealed class Zombie : BaseNPC
 	{
 		base.Spawn();
 
+		ApplyTexture( "materials/npcs/zombie.vmat" );
 		ApplyTextureClient( To.Everyone, "materials/npcs/zombie.vmat" );
 	}
 }
