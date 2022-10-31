@@ -15,6 +15,7 @@ public sealed class Ice : BaseNPC
 	{
 		base.Spawn();
 
+		ApplyTexture( "materials/npcs/ice.vmat" );
 		ApplyTextureClient( To.Everyone, "materials/npcs/ice.vmat" );
 	}
 }
@@ -34,6 +35,7 @@ public sealed class Magma : BaseNPC
 	{
 		base.Spawn();
 
+		ApplyTexture( "materials/npcs/magma.vmat" );
 		ApplyTextureClient( To.Everyone, "materials/npcs/magma.vmat" );
 	}
 }
@@ -53,6 +55,7 @@ public sealed class Void : BaseNPC
 	{
 		base.Spawn();
 
+		ApplyTexture( "materials/npcs/void.vmat" );
 		ApplyTextureClient( To.Everyone, "materials/npcs/void.vmat" );
 	}
 }
