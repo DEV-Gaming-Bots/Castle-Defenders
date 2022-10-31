@@ -28,6 +28,8 @@ public sealed class NPCPath : ModelEntity
 	public Entity NextNode;
 	public Entity NextSplitNode;
 
+	private bool _takeNormalPath = false;
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -61,6 +63,18 @@ public sealed class NPCPath : ModelEntity
 		
 		if ( pathPriority == BaseNPC.PathPriority.Split )
 		{
+			return splitPath;
+		}
+		
+		if ( pathPriority == BaseNPC.PathPriority.Alternate )
+		{
+			_takeNormalPath = !_takeNormalPath;
+			
+			if ( _takeNormalPath )
+			{
+				return normalPath;
+			}
+			
 			return splitPath;
 		}
 
