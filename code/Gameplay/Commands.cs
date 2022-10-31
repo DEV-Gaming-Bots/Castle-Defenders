@@ -134,7 +134,7 @@ public sealed partial class CDGame
 			return;
 		}
 
-		var npc = TypeLibrary.Create<BaseNPC>( npcName );
+		var npc = CreateByName( npcName ) as BaseNPC;
 
 		if ( npc == null )
 		{
