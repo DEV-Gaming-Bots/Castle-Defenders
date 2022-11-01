@@ -66,7 +66,8 @@ public sealed class TowerMenu : Panel
 				TowerCost.SetText( "Use your 'Primary Fire' to use this ability" );
 				NextUpgrade.SetText( "When using, use your 'Primary Fire' again on an area to activate" );
 			}
-			TowerStats.SetText("Ability: Reverts NPCs back to spawn, their health will not be restored");
+
+			TowerStats.SetText(superTower.NetAbility);
 			return;
 		}
 

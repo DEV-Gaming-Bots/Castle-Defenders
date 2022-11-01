@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public class BaseSuperTower : BaseTower
+public partial class BaseSuperTower : BaseTower
 {
 	public override string TowerName => "BASE SUPER TOWER";
 	public override string TowerDesc => "BASE SUPER TOWER DESC";
@@ -8,6 +8,7 @@ public class BaseSuperTower : BaseTower
 	public override int TowerCost => 1;
 	public override int UnlockLevel => 0;
 	public override int RangeDistance => 25;
+	[Net] public string NetAbility { get; set; } = "";
 
 	public override void Spawn()
 	{

@@ -21,6 +21,12 @@ public sealed partial class CDPawn : IPlayerData
 		AddSlot( new Slot( item, slot ) );
 	}
 
+	[ClientRpc]
+	public void ChangeSlot(string name, int slot)
+	{
+		ReplaceSlot( slot, name );
+	}
+
 	public void NewPlayerStats()
 	{
 		Level = 1;

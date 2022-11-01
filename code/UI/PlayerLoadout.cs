@@ -30,6 +30,18 @@ public sealed class PlayerLoadout : Panel
 		}
 	}
 
+	public static void ReplaceSlot(int slotNum, string slotName)
+	{
+		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
+			return;
+
+		//	Slots.GetChild( slotNum ).GetChild( 0 ).Set
+		Log.Info( slotName );
+		Log.Info( slotNum );
+		Slots.GetChild( slotNum ).GetChild( 0 ).SetClass( slotName, true );
+	}
+
+
 	public static void SetSlot( int slotNum )
 	{
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )

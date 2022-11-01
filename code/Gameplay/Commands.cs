@@ -299,16 +299,37 @@ public sealed partial class CDGame
 		Instance.LoadSave( ConsoleSystem.Caller );
 	}
 
-	[ConCmd.Server( "cd_set_towerslots" )]
-	public static void SelectTower()
+	[ConCmd.Server( "cd_set_towerslot" )]
+	public static void SelectTower(int slot, string name)
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+		
+		if ( player == null )
+			return;
+
+		if ( name.ToLower().Contains( "hands" ) )
+		{
+			player.ChangeSlot( "Hands", player.TowerSlots.Length - 1 );
+			return;
+		}
+
+		if ( TypeLibrary.GetDescription<Entity>( name ) == null )
+		{
+			Log.Error( "Invalid replacement slot name" );
+			return;
+		}
+
+		player.TowerSlots[slot] = name;
+		player.ChangeSlot( name, slot );
 	}
 
 	[ConCmd.Server( "cd_get_towerslots" )]
 	public static void GetSlots()
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+		if ( player == null )
+			return;
+
 		var slotNum = 1;
 
 		foreach ( var item in player.TowerSlots )
