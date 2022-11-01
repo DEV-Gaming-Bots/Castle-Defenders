@@ -31,10 +31,11 @@ public sealed partial class CDPawn : IPlayerData
 		TowerSlots = new[]
 		{
 			"Pistol",
+			"SMG",
 			"Sniper",
+			"Trickster",
 			"RadioactiveEmitter",
 			"Lightning",
-			"Trickster",
 			"TimeDisplacer"
 		};
 
@@ -62,7 +63,8 @@ public sealed partial class CDPawn : IPlayerData
 		if ( CDGame.Instance.LoopedTimes > 1 )
 			return;
 
-		Cash = 60 + (Level - 1) * 5;
+		Cash = 60 + (Level - 1) * 10;
+
 		SelectedTower?.Delete();
 		SelectedTower = null;
 

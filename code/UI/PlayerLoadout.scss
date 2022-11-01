@@ -40,9 +40,14 @@ PlayerLoadout {
             background-image: url(ui/towers/pistol.jpg);
         }
 
+        &.SMG {
+            background-image: url(ui/towers/smg.jpg);
+        }
+
         &.Sniper {
             background-image: url(ui/towers/sniper.jpg);
         }
+
 
         &.RadioactiveEmitter {
             background-image: url(ui/towers/radioactiveemitter.jpg);

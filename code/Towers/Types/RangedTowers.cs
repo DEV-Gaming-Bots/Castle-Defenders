@@ -71,6 +71,70 @@ public sealed partial class Pistol : BaseTower
 	}
 }
 
+public sealed partial class SMG : BaseTower
+{
+	public override string TowerName => "SMG";
+	public override string TowerDesc => "A fast shooting submachine tower";
+	public override string TowerModel => "models/towers/smgtower.vmdl";
+	public override int UnlockLevel => 0;
+	public override BaseTower RequiredTowers => null;
+	public override string[] TowerLevelDesc => new[]
+	{
+		"",
+		"A two barrel SMG for more damage along with better firing",
+		"A more improved version with a spinning barrel",
+		"Now there are 4 total spinning barrels, who are they to judge"
+	};
+
+	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
+	{
+		new(-0.25f, 2.5f, 0),
+		new(-0.25f, 2.5f, 25),
+		new(-0.50f, 4.0f, 25),
+		new(-0.75f, 4.0f, 25)
+	};
+
+	public override string[] TowerUpgradeDesc => new[]
+	{
+		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG}",
+		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
+		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange}",
+		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
+		"",
+	};
+
+	public override int TowerMaxLevel => 4;
+	public override int TowerCost => 35;
+	public override int[] TowerLevelCosts => new[]
+	{
+		45,
+		165,
+		235,
+		-1,
+	};
+
+	public override float DeploymentTime => 3.72f;
+	public override float AttackTime { get; set; } = 1.75f;
+	public override float AttackDamage { get; set; } = 2.5f;
+	public override int RangeDistance { get; set; } = 100;
+	public override string AttackSound => "pistol_fire";
+
+	[Event.Tick.Server]
+	public override void SimulateTower()
+	{
+		//if ( Target != null && Target.IsValid() )
+			//SetAnimParameter( "v_forward", Target.Position );
+
+		base.SimulateTower();
+	}
+
+	[ClientRpc]
+	public override void FireEffects()
+	{
+		base.FireEffects();
+	}
+}
+
 public sealed partial class Sniper : BaseTower
 {
 	public override string TowerName => "Sniper";

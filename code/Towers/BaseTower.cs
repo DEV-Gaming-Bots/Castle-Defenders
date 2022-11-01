@@ -100,7 +100,9 @@ public partial class BaseTower : AnimatedEntity
 
 		NetName = TowerName;
 		NetDesc = TowerDesc;
+		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
 		NetStats = $"Attack Delay {AttackTime} | Damage {AttackDamage} | Range {RangeDistance}";
+
 		Tags.Add( "tower" );
 	}
 
@@ -116,7 +118,6 @@ public partial class BaseTower : AnimatedEntity
 		Tags.Add( "tower" );
 	}
 
-	[ClientRpc]
 	public void PlayDeployAnimRPC()
 	{
 		SetAnimParameter( "b_deploy", true );

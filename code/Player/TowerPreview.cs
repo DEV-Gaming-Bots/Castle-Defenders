@@ -272,7 +272,7 @@ public sealed partial class CDPawn
 				placedTower.IsPreviewing = false;
 				placedTower.Owner = this;
 				placedTower.Spawn();
-				placedTower.PlayDeployAnimRPC( To.Everyone );
+				placedTower.PlayDeployAnimRPC();
 				TotalTowers++;
 			}
 		}
