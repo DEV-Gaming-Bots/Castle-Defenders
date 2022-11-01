@@ -74,7 +74,8 @@ public partial class BaseTower : AnimatedEntity
 	[Net]
 	public string NetStats { get; set; }
 
-	public virtual bool CounterStealth { get; set; }
+	public virtual bool CounterStealth { get; set; } = false;
+	public virtual bool CounterAirborne { get; set; } = false;
 
 	public TimeSince TimeSinceDeployed;
 	public TimeSince TimeLastUpgrade;
@@ -185,6 +186,20 @@ public partial class BaseTower : AnimatedEntity
 		TimeLastUpgrade = 0;
 	}
 
+	//Determine if the tower can attack this npc special type
+	private bool CanTargetEnemy(BaseNPC npc)
+	{
+		//Target is cloaked
+		if ( npc.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
+			return false;
+
+		//Target is in the air
+		if ( npc.NPCType == BaseNPC.SpecialType.Airborne && !CounterAirborne )
+			return false;
+
+		return true;
+	}
+
 	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
@@ -213,7 +228,7 @@ public partial class BaseTower : AnimatedEntity
 			if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
 				return null;
 
-			if ( npc.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
+			if ( !CanTargetEnemy(npc) )
 				return null;
 
 			return npc;
@@ -224,11 +239,12 @@ public partial class BaseTower : AnimatedEntity
 			if ( CDGame.StaticCompetitive && !npc2.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
 				return null;
 
-			if ( npc2.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
+			if ( !CanTargetEnemy( npc2 ) )
 				return null;
 
 			return npc2;
 		}
+
 		return null;
 	}
 
@@ -245,8 +261,8 @@ public partial class BaseTower : AnimatedEntity
 		{
 			if ( ent is BaseNPC npc )
 			{
-				if ( npc.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
-					break;
+				if ( !CanTargetEnemy( npc ) )
+					continue;
 
 				if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
 					return null;

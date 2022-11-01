@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Authentication;
 
 namespace Sandbox
 {
@@ -9,9 +10,15 @@ namespace Sandbox
 	{
 		private readonly AnimatedEntity _owner;
 
+
 		public NPCAnimationHelper( AnimatedEntity entity )
 		{
 			_owner = entity;
+		}
+
+		public void DoFlying()
+		{
+			_owner.SetAnimParameter( "b_noclip", true );
 		}
 
 		/// <summary>

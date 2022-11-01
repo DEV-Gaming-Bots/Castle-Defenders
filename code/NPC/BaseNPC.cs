@@ -26,6 +26,7 @@ public partial class BaseNPC : AnimatedEntity
 		Hidden,
 		Disruptor,
 		Splitter,
+		Airborne,
 	}
 	
 	public enum PathPriority
@@ -184,7 +185,7 @@ public partial class BaseNPC : AnimatedEntity
 			Steer.Target = _lastNode;
 	}
 
-	public void FindNextPath()
+	public virtual void FindNextPath(Vector3 groundPos)
 	{
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Post )
 			Despawn();
@@ -206,7 +207,7 @@ public partial class BaseNPC : AnimatedEntity
 				Steer.Target = _curNode.Position;
 			}
 
-			if ( path.Position.Distance( Position ) <= 25.0f )
+			if ( path.Position.Distance( groundPos ) <= 25.0f )
 			{
 				_lastNode = path.Position;
 
@@ -232,13 +233,9 @@ public partial class BaseNPC : AnimatedEntity
 		}
 	}
 
-	//Server ticking for NPC Navigation
-	[Event.Tick.Server]
-	public virtual void Tick()
+	private void StatusEffectTick()
 	{
-		UpdateUI( To.Everyone );
-
-		if( CurrentEffects.Count > 0 )
+		if ( CurrentEffects.Count > 0 )
 		{
 			foreach ( var effect in CurrentEffects.ToArray() )
 			{
@@ -256,7 +253,7 @@ public partial class BaseNPC : AnimatedEntity
 						case EffectEnum.Confusion:
 							PlaySound( "confusion_recover" );
 							if ( _curNode == null )
-								FindNextPath();
+								FindNextPath(Position);
 							else
 								Steer.Target = _curNode.Position;
 							break;
@@ -266,6 +263,15 @@ public partial class BaseNPC : AnimatedEntity
 				}
 			}
 		}
+	}
+
+	//Server ticking for NPC Navigation
+	[Event.Tick.Server]
+	public virtual void Tick()
+	{
+		UpdateUI( To.Everyone );
+
+		StatusEffectTick();
 
 		_inputVelocity = 0;
 
@@ -276,8 +282,18 @@ public partial class BaseNPC : AnimatedEntity
 			_inputVelocity = Steer.Output.Direction.Normal;
 			Velocity = Velocity.AddClamped( _inputVelocity, BaseSpeed * SpeedMultiplier );
 
-			if ( Steer.Target.Distance( Position ) <= 1.0f || Position.Distance( CastleTarget.Position ) <= 25.0f )
-				FindNextPath();
+			Vector3 groundPos = Position;
+
+			var trGr = Trace.Ray( Position, Position + Vector3.Down * 32 )
+				.Ignore( this )
+				.EntitiesOnly()
+				.Run();
+
+			if ( NPCType == SpecialType.Airborne )
+				groundPos = trGr.EndPosition;
+
+			if ( Steer.Target.Distance( groundPos ) <= 1.0f || Position.Distance( CastleTarget.Position ) <= 25.0f )
+				FindNextPath( groundPos );
 		}
 
 		if ( TimeUntilSpecialRecover > 0.0f )
@@ -300,6 +316,7 @@ public partial class BaseNPC : AnimatedEntity
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithWishVelocity( _inputVelocity );
 	}
+
 	protected virtual void Move( float timeDelta )
 	{
 		var bbox = BBox.FromHeightAndRadius( 16, 4 );
@@ -336,11 +353,11 @@ public partial class BaseNPC : AnimatedEntity
 				move.ApplyFriction( tr.Surface.Friction * 10.0f, timeDelta );
 			}
 		}
-/*		else
+		else
 		{
 			GroundEntity = null;
 			move.Velocity += Vector3.Down * 900 * timeDelta;
-		}*/
+		}
 
 		Position = move.Position;
 		Velocity = move.Velocity;

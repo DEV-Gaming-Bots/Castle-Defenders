@@ -54,6 +54,9 @@ public sealed partial class RadioactiveEmitter : BaseTower
 
 	public override string AttackSound => "geiger_radiation";
 	public override bool CounterStealth { get; set; } = true;
+	
+	//TEMPORARY
+	public override bool CounterAirborne { get; set; } = true;
 
 	[Event.Tick.Server]
 	public override void SimulateTower()

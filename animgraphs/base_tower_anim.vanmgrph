@@ -37,7 +37,7 @@
 				{
 					_class = "CLookAtAnimNode"
 					m_sName = "Aim Head"
-					m_vecPosition = [ 256.0, -64.0 ]
+					m_vecPosition = [ 272.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 87783558
@@ -878,10 +878,10 @@
 					m_id = 1719947666
 				}
 				m_previewButton = "ANIMPARAM_BUTTON_NONE"
-				m_bNetwork = true
+				m_bNetwork = false
 				m_bUseMostRecentValue = false
 				m_bAutoReset = false
-				m_bPredicted = true
+				m_bPredicted = false
 				m_defaultValue = [ 0.0, 0.0, 0.0 ]
 				m_bInterpolate = true
 			},
@@ -929,7 +929,7 @@
 	}
 	m_previewModels = 
 	[
-		"models/towers/radioactivemitter.vmdl",
+		"models/towers/pistoltower.vmdl",
 	]
 	m_boneMergeModels = [  ]
 }
