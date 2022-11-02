@@ -3,7 +3,7 @@ using Sandbox;
 
 public sealed partial class CDGame
 {
-	public bool Debug;
+	[Net] public bool Debug { get; set; }
 	public enum DebugEnum
 	{
 		Default,

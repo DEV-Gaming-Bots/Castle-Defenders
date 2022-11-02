@@ -23,7 +23,8 @@ public sealed class CDHUD : RootPanel
 		AddChild<PlayerStatus>();
 		AddChild<PlayerLoadout>();
 		AddChild<VoiceSpeaker>();
-		AddChild<DebugMenu>();
+
+		//AddChild<DebugMenu>();
 
 		//AddChild( new PlayerTeamSelect(
 		//	() => { Log.Info( "BLUE SELECTED!" ); },

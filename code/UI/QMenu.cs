@@ -9,6 +9,8 @@ using Components.Qmenu; // <-- Important for the debug menu
 
 public class DebugMenu : RootPanel
 {
+	public static bool IsOpen;
+
 	public DebugMenu()
 	{
 		// Debug menu template

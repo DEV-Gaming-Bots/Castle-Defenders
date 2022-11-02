@@ -76,10 +76,18 @@ public sealed partial class CDGame : Game
 		pawn.SetTowerLimit( LimitTower );
 		client.Pawn = pawn;
 
-		if ( !HasSavefile( client ) )
-			pawn.NewPlayerStats();
-		else
-			LoadSave( client );
+		if ( HasSavefile( client ) )
+			FileSystem.Data.DeleteFile( $"{client.PlayerId}.json" );
+
+		pawn.NewPlayerStats();
+
+		//Uncomment this when we're confident the games state
+		//-ItsRifter
+
+		//if ( !HasSavefile( client ) )
+		//	pawn.NewPlayerStats();
+		//else
+		//LoadSave( client );
 
 		if ( GameStatus == GameEnum.Idle && !RefusePlay )
 		{

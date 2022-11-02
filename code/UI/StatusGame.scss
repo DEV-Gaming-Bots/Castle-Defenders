@@ -12,6 +12,10 @@ GameInfoPanel {
         }
     }
 
+    &.debugOpen {
+        opacity: 0;
+    }
+
     flex-direction: column;
 
 
@@ -25,7 +29,6 @@ GameInfoPanel {
     }
 
     .timer, .rounds {
-
         transition: margin-top 1s ease;
         margin-top: -150px;
         padding-top: 16px;
@@ -82,7 +85,6 @@ GameInfoPanel {
             display: none;
         }
     }
-
 }
 GameStatsPanel {
     position: absolute;

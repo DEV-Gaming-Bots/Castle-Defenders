@@ -26,7 +26,6 @@ public sealed partial class CDGame
 		Log.Info( "Commiting save for " + player.Client.Name );
 
 		FileSystem.Data.WriteJson( player.Client.PlayerId + ".json", (IPlayerData)player );
-
 		Log.Info( player.Client.Name + "'s data has been saved" );
 	}
 

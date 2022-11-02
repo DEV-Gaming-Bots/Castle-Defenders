@@ -43,11 +43,16 @@ namespace Components.Qmenu
 		{
 			base.Tick();
 
+			if ( !CDGame.Instance.Debug )
+				return;
+
 			if (Input.Down(InputButton.Menu) && lastKeyPress > 0.3)
 			{
 				lastKeyPress = 0;
 				toggle_open = !toggle_open;
 				SetClass( "open", toggle_open );
+
+				DebugMenu.IsOpen = toggle_open;
 			}
 		}
 		public class Actions

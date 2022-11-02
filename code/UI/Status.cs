@@ -37,5 +37,7 @@ public sealed class Status : Panel
 		CurCashLbl.SetText( plyCash.ToString("C0") );
 		CurEXPLbl.SetText( $"Level: {player.GetLevel()}\nXP: {player.GetEXP()}/{player.GetReqEXP()}" );
 
+		SetClass( "debugOpen", DebugMenu.IsOpen );
+
 	}
 }

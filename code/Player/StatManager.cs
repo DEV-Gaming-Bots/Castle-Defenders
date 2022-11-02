@@ -45,7 +45,7 @@ public sealed partial class CDPawn : IPlayerData
 			"TimeDisplacer"
 		};
 
-		CDGame.Instance.SaveData( this );
+		//CDGame.Instance.SaveData( this );
 	}
 
 	public void LoadStats(IPlayerData playerData)

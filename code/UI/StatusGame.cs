@@ -119,5 +119,7 @@ public sealed class StatusGame : Panel
 
 		Waves.SmallText.SetText( "Wave" );
 		Waves.BigText.SetText( $"{CDGame.Instance.CurWave}/{CDGame.Instance.MaxWaves}{loopedString}" );
+
+		SetClass( "debugOpen", DebugMenu.IsOpen );
 	}
 }

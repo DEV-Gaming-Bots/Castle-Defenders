@@ -22,6 +22,10 @@
         color: white;
     }
 
+    &.debugOpen {
+        opacity: 0;
+    }
+
     &.playerHover {
         opacity: 1;
     }

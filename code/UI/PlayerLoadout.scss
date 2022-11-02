@@ -19,6 +19,10 @@ PlayerLoadout {
         background-position: center;
         background-size: contain;
 
+        &.debugOpen {
+            opacity: 0;
+        }
+
         .slot-num {
             color: white;
             font-weight: 800;
@@ -47,7 +51,6 @@ PlayerLoadout {
         &.Sniper {
             background-image: url(ui/towers/sniper.jpg);
         }
-
 
         &.RadioactiveEmitter {
             background-image: url(ui/towers/radioactiveemitter.jpg);

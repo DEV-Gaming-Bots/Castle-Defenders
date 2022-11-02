@@ -3,6 +3,11 @@
     bottom: 25px;
     width: 100%;
     flex-direction: row;
+    opacity: 1;
+
+    &.debugOpen {
+        opacity: 0;
+    }
 
     .cashPnl, .expPnl {
         height: 62px;
