@@ -1,0 +1,55 @@
+// Dropdown
+.dropdown_indicator, iconpanel {
+    font-family: MaterialIconsTwoTone;
+    background-color: black;
+    color: white;
+}
+
+dropdown {
+    background-color: black;
+    display: block;
+    flex-direction: row;
+    align-content: flex-end;
+    color: black;
+}
+
+option, select, dropdown {
+    background-color: black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 2px;
+    min-width: 100px;
+    color: black;
+
+    label {
+        color: black;
+        text-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+}
+
+.popup-panel {
+    position: absolute;
+    background-color: rgba(0,0,0,0.8);
+    border: 1px solid black;
+    backdrop-filter: blur(12px);
+    flex-direction: column;
+    color: white;
+
+    button {
+        padding: 4px;
+
+        iconpanel {
+            font-size: 32px;
+        }
+
+        &:hover {
+            background-color: rgb(200,200,200);
+            color: black;
+        }
+    }
+
+    .active {
+        background-color: white;
+        color: black;
+    }
+}

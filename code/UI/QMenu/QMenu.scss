@@ -1,0 +1,118 @@
+select {
+    padding: 12px;
+    background-color: white;
+}
+
+QMenu {
+
+    &.open {
+        pointer-events: all;
+
+        .PNL-L {
+            transform: translateX(0%);
+        }
+
+        .PNL {
+            opacity: 1;
+        }
+    }
+
+    Label {
+        color: white;
+        text-shadow: 2px 2px 2px rgba(0,0,0,0.8);
+
+        &.title {
+            font-size: 24%;
+            font-family: Poppins;
+            font-weight: bold;
+        }
+
+        &.b {
+            font-weight: bold;
+        }
+
+        &.warn {
+            color: rgb(255,255,71);
+        }
+
+        &.err {
+            color: rgb(255, 71, 71);
+        }
+    }
+
+    .PNL-L {
+        transform: translateX(-100%);
+    }
+
+    .PNL {
+        opacity: 0;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+        padding: 0 12px;
+        background-color: rgba(24,24,24,0.8);
+        backdrop-filter: blur(12px);
+        border-right: 3px solid #545454;
+    }
+
+    .PNL .panel-inner {
+        flex-direction: row;
+        flex-wrap: wrap;
+        overflow: scroll;
+        max-width: 500px;
+        padding-top: 24px;
+    }
+
+    .column {
+        flex-direction: column;
+    }
+
+    Normal, Warning, Alert {
+        position: relative;
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    SectionHeader {
+        padding: 8px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        border-bottom: 2px solid rgba(200,200,200,0.8);
+        font-size: 24px;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    Normal {
+        background-color: #ffffffa0;
+        border: 3px solid #767676a0;
+
+        Label {
+            color: black;
+            text-shadow: none;
+        }
+    }
+
+    Warning {
+        background-color: #fffb8aa0;
+        border: 3px solid #e3d80aa0;
+    }
+
+    Alert {
+        background-color: #ff8a8aa0;
+        border: 3px solid #e30a0aa0;
+    }
+    // Button
+    .btn-action {
+        color: white;
+        padding: 12px 24px;
+        background-color: rgba(12,12,12,0.6);
+
+        &:hover {
+            background-color: rgba(32,32,32,0.9);
+        }
+
+        &:active {
+            background-color: rgba(64,64,64,1);
+        }
+    }
+}
