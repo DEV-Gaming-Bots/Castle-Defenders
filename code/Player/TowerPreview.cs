@@ -1,4 +1,8 @@
 ﻿using Sandbox;
+using Sandbox.UI;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 public sealed partial class CDPawn
 {
@@ -13,6 +17,8 @@ public sealed partial class CDPawn
 
 	[Net] private float Rot { get; set; }
 	private bool _isRotating;
+
+	TimeSince timeLastNotify;
 
 	[ClientRpc]
 	public void CreatePreview(string towerModel)
@@ -35,14 +41,44 @@ public sealed partial class CDPawn
 		PreviewTower.Rotation = Rotation.FromYaw( rot );
 		PreviewTower.RenderColor = color.WithAlpha(1.0f);
 
-		//Rect rect = new Rect( PreviewTower.Position, new Vector2(64, 64) );
+		Circle( PreviewTower.Position + Vector3.Up * 5, Rotation.FromPitch(90), range, color.WithAlpha(0.45f), false);
+	}
 
-		//Log.Info( rect.Width );
+	public void Circle( Vector3 startPos, Rotation rot, float radius, Color colour, bool hollow = true, int segments = 32, float degrees = 360 )
+	{
+		var up = rot.Up;
+		var right = rot.Right;
 
-		//Graphics.DrawQuad( rect, Material.Load( "materials/dev/debug_wireframe.vmat" ), color );
-		//Graphics.DrawRoundedRectangle( rect, color.WithAlpha( 0.25f ) );
+		float fsegPi = degrees.DegreeToRadian() / segments;
+		
+		Vector3 lp = default;
 
-		DebugOverlay.Circle( PreviewTower.Position + Vector3.Up * 5, Rotation.FromPitch(90), range, color.WithAlpha(0.25f));
+		for ( int i = 0; i <= segments; i++ )
+		{
+			var x = MathF.Sin( i * fsegPi ) * radius;
+			var y = MathF.Cos( i * fsegPi ) * radius;
+			var p = startPos + up * x + right * y;
+		
+			if( hollow )
+			{
+				if ( i > 0 ) Line( p, lp, colour );
+			}
+			else
+			{
+				if ( i > 0 )
+				{
+					Line( p, startPos, colour );
+					Line( p, lp, colour );
+				}
+			}
+
+			lp = p;
+		}
+	}
+
+	public void Line( Vector3 startPos, Vector3 endPos, Color colour )
+	{
+		DebugOverlay.Line( startPos, endPos, colour );
 	}
 
 	[ClientRpc]
@@ -57,12 +93,12 @@ public sealed partial class CDPawn
 
 	public void ShowRadius(BaseTower tower)
 	{
-		DebugOverlay.Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.RangeDistance, Color.Blue.WithAlpha(0.2f) );
+		Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.RangeDistance, Color.Green.WithAlpha( 0.75f ), false );
 	}
 
 	public void ShowSuperRadius(BaseSuperTower superTower, Vector3 pos)
 	{
-		DebugOverlay.Circle( pos + Vector3.Up * 5, Rotation.FromPitch( 90 ), superTower.RangeDistance, Color.Blue.WithAlpha( 0.30f ) );
+		Circle( superTower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), superTower.RangeDistance, Color.Green.WithAlpha( 0.75f ), false );
 	}
 
 	public void SimulatePreview()
@@ -85,15 +121,19 @@ public sealed partial class CDPawn
 		UpdatePreview( tr.EndPosition, canPlaceCol, SelectedTower.RangeDistance, Rot );
 	}
 
+	public void NotifyPlayer(string message)
+	{
+		if ( timeLastNotify < 1.5f )
+			return;
+
+		ChatBox.AddChatEntry( To.Single( this ), "GAME", message );
+
+		timeLastNotify = 0;
+	}
+
 	public bool CanPlace( TraceResult tr )
 	{
 		if ( tr.Normal.z < 0.99 )
-			return false;
-
-		if ( TotalTowers >= TowerLimit )
-			return false;
-
-		if ( GetCash() < SelectedTower.TowerCost )
 			return false;
 
 		if ( SelectedTower is BaseSuperTower )
@@ -248,19 +288,31 @@ public sealed partial class CDPawn
 					Rot = 360;
 			}
 
-			if ( SelectedTower != null )
-				SimulatePlacement( tr, Rot );
-
-			if ( !CanPlace( tr ) )
-				return;
+			SimulatePlacement( tr, Rot );
 
 			if ( Input.Pressed( InputButton.PrimaryAttack ) )
 			{
 				if ( SelectedTower == null )
 					return;
 
-				if ( GetCash() < SelectedTower.TowerCost )
+				if(!CanPlace(tr))
+				{
+					NotifyPlayer( "You can't deploy there!" );
 					return;
+				}
+
+				if ( GetCash() < SelectedTower.TowerCost )
+				{
+					NotifyPlayer( "You don't have enough cash to buy this!" );
+					return;
+				}
+
+				if(TotalTowers >= TowerLimit)
+				{
+					NotifyPlayer( "You've hit the total tower limit, try selling old towers!" );
+					return;
+				}
+
 
 				TakeCash( SelectedTower.TowerCost );
 

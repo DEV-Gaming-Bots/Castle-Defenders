@@ -56,6 +56,7 @@ public class CDScoreboard<T> : Panel where T : CDScoreboardEntry, new()
 	{
 		Header = Add.Panel( "header" );
 		Header.Add.Label( "Name", "name" );
+		Header.Add.Label( "DMG", "damage" );
 		Header.Add.Label( "Kills", "kills" );
 		Header.Add.Label( "Cash", "cash" );
 		Header.Add.Label( "Level", "level" );

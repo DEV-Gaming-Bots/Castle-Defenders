@@ -7,6 +7,7 @@ public class CDScoreboardEntry : Panel
 	public Client Client;
 
 	public Label PlayerName;
+	public Label Damage;
 	public Label Kills;
 	public Label Money;
 	public Label Level;
@@ -17,6 +18,7 @@ public class CDScoreboardEntry : Panel
 		AddClass( "entry" );
 
 		PlayerName = Add.Label( "PlayerName", "name" );
+		Damage = Add.Label( "", "damage" );
 		Kills = Add.Label( "", "kills" );
 		Money = Add.Label( "", "Cash" );
 		Level = Add.Label( "", "level" );
@@ -46,6 +48,7 @@ public class CDScoreboardEntry : Panel
 	{
 		PlayerName.Text = Client.Name;
 
+		Damage.Text = (Client.Pawn as CDPawn).GetDamage().ToString();
 		Kills.Text = Client.GetInt( "kills" ).ToString();
 		Money.Text = (Client.Pawn as CDPawn).GetCash().ToString();
 		Level.Text = (Client.Pawn as CDPawn).GetLevel().ToString();

@@ -331,6 +331,8 @@ public partial class BaseTower : AnimatedEntity
 		TimeLastAttack = 0;
 		var dmgInfo = new DamageInfo { Attacker = this, Damage = AttackDamage };
 
+		(Owner as CDPawn).TotalDamage += (int)dmgInfo.Damage;
+
 		target.TakeDamage( dmgInfo );
 	}
 

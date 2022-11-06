@@ -84,15 +84,17 @@ public partial class BaseNPC : AnimatedEntity
 
 	public List<(EffectEnum effect, float time, TimeSince timeEffected)> CurrentEffects;
 
-	public int GetDifficulty()
+	public float GetDifficulty()
 	{
-		return CDGame.Instance.Difficulty switch
+		switch(CDGame.Instance.Difficulty)
 		{
-			CDGame.DiffEnum.Easy => 1,
-			CDGame.DiffEnum.Medium => 3,
-			CDGame.DiffEnum.Hard => 5,
-			CDGame.DiffEnum.Extreme => 8
-		};
+			case CDGame.DiffEnum.Easy: return 1.0f;
+			case CDGame.DiffEnum.Medium: return 2.25f;
+			case CDGame.DiffEnum.Hard: return 4.5f;
+			case CDGame.DiffEnum.Extreme: return 6.75f;
+		}
+
+		return 0;
 	}
 
 	public override void Spawn()
