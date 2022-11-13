@@ -9,12 +9,12 @@ Layer0
 	F_METALNESS_TEXTURE 1
 
 	//---- Ambient Occlusion ----
-	TextureAmbientOcclusion "textures/pistol_tower/Base_ambient_occlusion.png"
+	TextureAmbientOcclusion "materials/raw/pistoltower/base_ambient_occlusion.png"
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "textures/pistol_tower/Pistol Tower_Base_BaseColor.png"
+	TextureColor "materials/raw/pistoltower/pistol tower_base_basecolor.png"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -27,13 +27,13 @@ Layer0
 	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Metalness ----
-	TextureMetalness "textures/pistol_tower/Pistol Tower_Base_Metallic.png"
+	TextureMetalness "materials/raw/pistoltower/pistol tower_base_metallic.png"
 
 	//---- Normal ----
-	TextureNormal "textures/pistol_tower/Pistol Tower_Base_Normal.png"
+	TextureNormal "materials/raw/pistoltower/pistol tower_base_normal.png"
 
 	//---- Roughness ----
-	TextureRoughness "textures/pistol_tower/Pistol Tower_Base_Roughness.png"
+	TextureRoughness "materials/raw/pistoltower/pistol tower_base_roughness.png"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"

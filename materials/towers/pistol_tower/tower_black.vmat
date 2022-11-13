@@ -4,17 +4,10 @@ Layer0
 {
 	shader "simple.vfx"
 
-	//---- PBR ----
-	F_AMBIENT_OCCLUSION_TEXTURE 1
-	F_METALNESS_TEXTURE 1
-
-	//---- Ambient Occlusion ----
-	TextureAmbientOcclusion "textures/pistol_tower/Black_ambient_occlusion.png"
-
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "textures/pistol_tower/Pistol Tower_Black_BaseColor.png"
+	TextureColor "materials/raw/pistoltower/pistol tower_black_basecolor.png"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -27,13 +20,13 @@ Layer0
 	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Metalness ----
-	TextureMetalness "textures/pistol_tower/Pistol Tower_Black_Metallic.png"
+	g_flMetalness "0.000"
 
 	//---- Normal ----
-	TextureNormal "textures/pistol_tower/Pistol Tower_Black_Normal.png"
+	TextureNormal "materials/default/default_normal.tga"
 
 	//---- Roughness ----
-	TextureRoughness "textures/pistol_tower/Pistol Tower_Black_Roughness.png"
+	TextureRoughness "tools/images/modeldoc_editor/preview_mesh_default.png"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"

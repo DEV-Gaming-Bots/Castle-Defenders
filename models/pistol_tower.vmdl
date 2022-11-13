@@ -15,43 +15,43 @@
 						[
 							{
 								from = "barrel.vmat"
-								to = "materials/pistol_tower/tower_barrel.vmat"
+								to = "materials/towers/pistol_tower/tower_barrel.vmat"
 							},
 							{
 								from = "base.vmat"
-								to = "materials/pistol_tower/tower_base.vmat"
+								to = "materials/towers/pistol_tower/tower_base.vmat"
 							},
 							{
 								from = "black.vmat"
-								to = "materials/pistol_tower/tower_black.vmat"
+								to = "materials/towers/pistol_tower/tower_black.vmat"
 							},
 							{
 								from = "foot.vmat"
-								to = "materials/pistol_tower/tower_feet.vmat"
+								to = "materials/towers/pistol_tower/tower_feet.vmat"
 							},
 							{
 								from = "gunbox.vmat"
-								to = "materials/pistol_tower/tower_gunbox.vmat"
+								to = "materials/towers/pistol_tower/tower_gunbox.vmat"
 							},
 							{
 								from = "lowerleg.vmat"
-								to = "materials/pistol_tower/tower_legs.vmat"
+								to = "materials/towers/pistol_tower/tower_legs.vmat"
 							},
 							{
 								from = "screw.vmat"
-								to = "materials/pistol_tower/tower_screws.vmat"
+								to = "materials/towers/pistol_tower/tower_screws.vmat"
 							},
 							{
 								from = "upperleg.vmat"
-								to = "materials/pistol_tower/tower_upper_legs.vmat"
+								to = "materials/towers/pistol_tower/tower_upper_legs.vmat"
 							},
 							{
 								from = "midbase.vmat"
-								to = "materials/pistol_tower/tower_base_mid.vmat"
+								to = "materials/towers/pistol_tower/tower_base_mid.vmat"
 							},
 							{
 								from = "topbase.vmat"
-								to = "materials/pistol_tower/tower_base_top.vmat"
+								to = "materials/towers/pistol_tower/tower_base_top.vmat"
 							},
 						]
 						use_global_default = false
@@ -242,7 +242,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "models/pistol.fbx"
+						filename = "models/raw/pistoltower/pistol.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 0.15
