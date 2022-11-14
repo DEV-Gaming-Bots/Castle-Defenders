@@ -81,8 +81,8 @@ public sealed partial class Knight : BaseNPC
 	public override float BaseHealth => 95;
 	public override float BaseSpeed { get; set; } = 10.0f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new[] { 9, 31 };
-	public override int[] MinMaxEXPReward => new[] { 5, 15 };
+	public override int[] MinMaxCashReward => new[] { 13, 37 };
+	public override int[] MinMaxEXPReward => new[] { 5, 20 };
 	public override float NPCScale => 0.45f;
 	public override SpecialType NPCType => SpecialType.Armoured;
 	public override float ArmourStrength => 125.0f;

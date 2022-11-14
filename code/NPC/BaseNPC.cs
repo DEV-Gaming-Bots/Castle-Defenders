@@ -15,6 +15,8 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual int[] MinMaxEXPReward => new[] { 1, 2 };
 	public virtual float NPCScale => 1;
 	public virtual float Damage => 1;
+	public virtual bool IsBoss => false;
+
 	[Net] public string NPCNameNet => NPCName;
 
 	public List<ModelEntity> ClothingEnts;
@@ -64,8 +66,8 @@ public partial class BaseNPC : AnimatedEntity
 
 	public NPCInfo Panel;
 
-	private Vector3 _lastNode;
-	private Entity _curNode;
+	public Vector3 LastNode;
+	public Entity CurNode;
 
 	public enum PathTeam
 	{
@@ -94,7 +96,20 @@ public partial class BaseNPC : AnimatedEntity
 			case CDGame.DiffEnum.Extreme: return 6.75f;
 		}
 
-		return 0;
+		return 0.0f;
+	}
+
+	public float ScaleRewards()
+	{
+		switch ( CDGame.Instance.Difficulty )
+		{
+			case CDGame.DiffEnum.Easy: return 0.75f;
+			case CDGame.DiffEnum.Medium: return 1.5f;
+			case CDGame.DiffEnum.Hard: return 2.25f;
+			case CDGame.DiffEnum.Extreme: return 3.0f;
+		}
+
+		return 0.0f;
 	}
 
 	public override void Spawn()
@@ -107,8 +122,8 @@ public partial class BaseNPC : AnimatedEntity
 		Scale = NPCScale;
 		Health = BaseHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
 
-		CashReward = Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] );
-		ExpReward = Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] );
+		CashReward = (int)(Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] ) * ScaleRewards() / 1.65f);
+		ExpReward = (int)(Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * ScaleRewards());
 
 		Tags.Add( "npc" );
 
@@ -117,7 +132,7 @@ public partial class BaseNPC : AnimatedEntity
 		EnableHitboxes = false;
 
 		Steer = new NPCPathSteer();
-		_lastNode = Position;
+		LastNode = Position;
 	}
 
 	//When the NPC reaches the castle, despawn
@@ -181,10 +196,10 @@ public partial class BaseNPC : AnimatedEntity
 
 	public void GoReversePath()
 	{
-		if ( _lastNode.IsNearlyZero() )
+		if ( LastNode.IsNearlyZero() )
 			Steer.Target = Position;
 		else
-			Steer.Target = _lastNode;
+			Steer.Target = LastNode;
 	}
 
 	public virtual void FindNextPath(Vector3 groundPos)
@@ -202,23 +217,23 @@ public partial class BaseNPC : AnimatedEntity
 
 		foreach ( var path in All.OfType<NPCPath>() )
 		{
-			if(_curNode == null)
+			if(CurNode == null)
 			{
 				var nextPath = path.FindNextPath( NextPathPriority );
-				_curNode = nextPath;
-				Steer.Target = _curNode.Position;
+				CurNode = nextPath;
+				Steer.Target = CurNode.Position;
 			}
 
 			if ( path.Position.Distance( groundPos ) <= 25.0f )
 			{
-				_lastNode = path.Position;
+				LastNode = path.Position;
 
 				var nextPath = path.FindNextPath( NextPathPriority );
 
 				if ( nextPath != null )
 				{
 					Steer.Target = nextPath.Position;
-					_curNode = nextPath;
+					CurNode = nextPath;
 					if ( nextPath is NPCPath nextNpcPath )
 					{
 						if ( nextNpcPath.TeleportingNode )
@@ -254,10 +269,10 @@ public partial class BaseNPC : AnimatedEntity
 					{
 						case EffectEnum.Confusion:
 							PlaySound( "confusion_recover" );
-							if ( _curNode == null )
+							if ( CurNode == null )
 								FindNextPath(Position);
 							else
-								Steer.Target = _curNode.Position;
+								Steer.Target = CurNode.Position;
 							break;
 					}
 

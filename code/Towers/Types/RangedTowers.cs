@@ -91,7 +91,7 @@ public sealed partial class SMG : BaseTower
 		new(-0.1f, 0.5f, 0),
 		new(-0.1f, 1.0f, 25),
 		new(-0.15f, 1.5f, 25),
-		new(-0.25f, 2.5f, 25)
+		new(-0.25f, 2.25f, 25)
 	};
 
 	public override string[] TowerUpgradeDesc => new[]
@@ -115,7 +115,7 @@ public sealed partial class SMG : BaseTower
 
 	public override float DeploymentTime => 3.72f;
 	public override float AttackTime { get; set; } = 0.75f;
-	public override float AttackDamage { get; set; } = 2.5f;
+	public override float AttackDamage { get; set; } = 4.75f;
 	public override int RangeDistance { get; set; } = 100;
 	public override string AttackSound => "pistol_fire";
 

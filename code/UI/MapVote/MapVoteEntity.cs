@@ -4,8 +4,8 @@ using System.Linq;
 
 sealed partial class MapVoteEntity : Entity
 {
-	private static MapVoteEntity _current;
-	private MapVotePanel _panel;
+	static MapVoteEntity _current;
+	MapVotePanel _panel;
 
 	[Net]
 	public IDictionary<Client, string> Votes { get; set; }
@@ -69,6 +69,7 @@ sealed partial class MapVoteEntity : Entity
 			return;
 
 		WinningMap = Votes.GroupBy( x => x.Value ).OrderBy( x => x.Count() ).First().Key;
+		Log.Info( WinningMap );
 	}
 
 	private void SetVote( Client client, string map )

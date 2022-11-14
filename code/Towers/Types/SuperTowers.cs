@@ -31,10 +31,24 @@ public partial class TimeDisplacer : BaseSuperTower
 		{
 			if (ent is BaseNPC npc)
 			{
-				npc.Position = All.OfType<NPCSpawner>().FirstOrDefault().Position;
-				npc.Steer.Target = All.OfType<NPCPath>().FirstOrDefault( x => x.StartNode ).Position;
+				if( npc.IsBoss )
+				{
+					if ( npc.LastNode.IsNearlyZero() )
+					{
+						npc.Position = All.OfType<NPCSpawner>().FirstOrDefault().Position;
+						npc.Steer.Target = All.OfType<NPCPath>().FirstOrDefault( x => x.StartNode ).Position;
+					}
+					else
+						npc.Position = npc.LastNode;
+				} 
+				else
+				{
+					npc.Position = All.OfType<NPCSpawner>().FirstOrDefault().Position;
+					npc.Steer.Target = All.OfType<NPCPath>().FirstOrDefault( x => x.StartNode ).Position;
+				}
+
 				npc.TimeUntilSpecialRecover = timeToRecover;
-				timeToRecover += 1.0f;
+				timeToRecover += 1.5f;
 			}
 		}
 

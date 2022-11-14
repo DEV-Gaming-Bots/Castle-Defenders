@@ -6,10 +6,12 @@ public sealed class ZombieBoss : BaseNPC
 	public override float BaseHealth => 150;
 	public override float BaseSpeed { get; set; } = 9.75f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new[] { 10, 65 };
-	public override int[] MinMaxEXPReward => new[] { 9, 35 };
+	public override int[] MinMaxCashReward => new[] { 25, 85 };
+	public override int[] MinMaxEXPReward => new[] { 12, 40 };
 	public override float NPCScale => 0.45f;
 	public override float Damage => 25.0f;
+
+	public override bool IsBoss => true;
 
 	public override void Spawn()
 	{
@@ -29,10 +31,12 @@ public sealed class VoidBoss : BaseNPC
 	public override float BaseHealth => 1750;
 	public override float BaseSpeed { get; set; } = 7.5f;
 	public override string BaseModel => "models/citizen/citizen.vmdl";
-	public override int[] MinMaxCashReward => new[] { 75, 175 };
+	public override int[] MinMaxCashReward => new[] { 225, 475 };
 	public override int[] MinMaxEXPReward => new[] { 45, 165 };
 	public override float NPCScale => 0.85f;
 	public override float Damage => 125.0f;
+
+	public override bool IsBoss => true;
 
 	public override void Spawn()
 	{

@@ -98,7 +98,7 @@ public sealed partial class CDPawn
 
 	public void ShowSuperRadius(BaseSuperTower superTower, Vector3 pos)
 	{
-		Circle( superTower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), superTower.RangeDistance, Color.Green.WithAlpha( 0.75f ), false );
+		Circle( pos + Vector3.Up * 5, Rotation.FromPitch( 90 ), superTower.RangeDistance, Color.Green.WithAlpha( 0.75f ), false );
 	}
 
 	public void SimulatePreview()
