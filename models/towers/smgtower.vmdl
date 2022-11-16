@@ -11,7 +11,7 @@
 				[
 					{
 						_class = "ModelModifier_ScaleAndMirror"
-						scale = 0.05
+						scale = 0.15
 						mirror_x = false
 						mirror_y = false
 						mirror_z = false
@@ -29,34 +29,48 @@
 						remaps = 
 						[
 							{
-								from = "lvl1.vmat"
-								to = "materials/towers/bluecastle.vmat"
+								from = "barrel.vmat"
+								to = "materials/towers/smg_tower/barrel.vmat"
 							},
 							{
 								from = "base.vmat"
-								to = "materials/towers/basetower.vmat"
+								to = "materials/towers/smg_tower/base.vmat"
 							},
 							{
-								from = "barrel.vmat"
-								to = "materials/towers/basetower.vmat"
+								from = "black.vmat"
+								to = "materials/towers/pistol_tower/tower_black.vmat"
+							},
+							{
+								from = "foot.vmat"
+								to = "materials/towers/smg_tower/feet.vmat"
+							},
+							{
+								from = "gunbox.vmat"
+								to = "materials/towers/smg_tower/gunbox.vmat"
+							},
+							{
+								from = "lowerleg.vmat"
+								to = "materials/towers/pistol_tower/tower_legs.vmat"
+							},
+							{
+								from = "midbase.vmat"
+								to = "materials/towers/pistol_tower/tower_base_mid.vmat"
+							},
+							{
+								from = "screw.vmat"
+								to = "materials/towers/pistol_tower/tower_screws.vmat"
+							},
+							{
+								from = "topbase.vmat"
+								to = "materials/towers/pistol_tower/tower_base_top.vmat"
+							},
+							{
+								from = "upperleg.vmat"
+								to = "materials/towers/pistol_tower/tower_upper_legs.vmat"
 							},
 						]
 						use_global_default = false
 						global_default_material = ""
-					},
-				]
-			},
-			{
-				_class = "PhysicsShapeList"
-				children = 
-				[
-					{
-						_class = "PhysicsHullFromRender"
-						parent_bone = ""
-						surface_prop = "default"
-						collision_tags = "solid"
-						faceMergeAngle = 20.0
-						maxHullVertices = 32
 					},
 				]
 			},
@@ -77,16 +91,7 @@
 						import_filter = 
 						{
 							exclude_by_default = false
-							exception_list = 
-							[
-								"Cylinder_007",
-								"Cube",
-								"Cylinder_004",
-								"Cube_005",
-								"Cube_001",
-								"Cylinder_002",
-								"Cylinder_003",
-							]
+							exception_list = [  ]
 						}
 					},
 				]
