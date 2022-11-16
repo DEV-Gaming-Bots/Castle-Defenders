@@ -6,14 +6,15 @@ Layer0
 
 	//---- PBR ----
 	F_AMBIENT_OCCLUSION_TEXTURE 1
+	F_METALNESS_TEXTURE 1
 
 	//---- Ambient Occlusion ----
-	TextureAmbientOcclusion "materials/raw/pistoltower/pistol tower_black_basecolor.png"
+	TextureAmbientOcclusion "materials/raw/smgtower/Foot_ambient_occlusion.png"
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "materials/raw/pistoltower/pistol tower_black_basecolor.png"
+	TextureColor "materials/raw/smgtower/SMG Tower_Foot_BaseColor.png"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -26,13 +27,13 @@ Layer0
 	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Metalness ----
-	g_flMetalness "0.000"
+	TextureMetalness "materials/raw/smgtower/SMG Tower_Foot_Metallic.png"
 
 	//---- Normal ----
-	TextureNormal "materials/default/default_normal.tga"
+	TextureNormal "materials/raw/smgtower/SMG Tower_Foot_Normal.png"
 
 	//---- Roughness ----
-	TextureRoughness "materials/default/default_rough.tga"
+	TextureRoughness "materials/raw/smgtower/SMG Tower_Foot_Roughness.png"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"
