@@ -37,7 +37,7 @@
 				{
 					_class = "CLookAtAnimNode"
 					m_sName = "Aim Head"
-					m_vecPosition = [ 272.0, -64.0 ]
+					m_vecPosition = [ 432.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 87783558
@@ -113,7 +113,7 @@
 				{
 					_class = "CStateMachineAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 48.0, -64.0 ]
+					m_vecPosition = [ 32.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 316255960
@@ -282,8 +282,13 @@
 									m_bDisabled = false
 								},
 							]
-							m_tags = [  ]
-							m_tagBehaviors = [  ]
+							m_tags = 
+							[
+								{
+									m_id = 1226064419
+								},
+							]
+							m_tagBehaviors = [ 2 ]
 							m_name = "Idle"
 							m_inputConnection = 
 							{
@@ -403,8 +408,13 @@
 									m_bDisabled = false
 								},
 							]
-							m_tags = [  ]
-							m_tagBehaviors = [  ]
+							m_tags = 
+							[
+								{
+									m_id = 1511400924
+								},
+							]
+							m_tagBehaviors = [ 2 ]
 							m_name = "Idle 2"
 							m_inputConnection = 
 							{
@@ -524,8 +534,13 @@
 									m_bDisabled = false
 								},
 							]
-							m_tags = [  ]
-							m_tagBehaviors = [  ]
+							m_tags = 
+							[
+								{
+									m_id = 1126255713
+								},
+							]
+							m_tagBehaviors = [ 2 ]
 							m_name = "Idle 3"
 							m_inputConnection = 
 							{
@@ -609,8 +624,13 @@
 						{
 							_class = "CAnimState"
 							m_transitions = [  ]
-							m_tags = [  ]
-							m_tagBehaviors = [  ]
+							m_tags = 
+							[
+								{
+									m_id = 1487216587
+								},
+							]
+							m_tagBehaviors = [ 2 ]
 							m_name = "Idle 4"
 							m_inputConnection = 
 							{
@@ -657,6 +677,28 @@
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "deploy"
+					m_playbackSpeed = 1.0
+					m_bLoop = false
+				}
+			},
+			{
+				key = 
+				{
+					m_id = 674607280
+				}
+				value = 
+				{
+					_class = "CSequenceAnimNode"
+					m_sName = "attack"
+					m_vecPosition = [ 48.0, 192.0 ]
+					m_nNodeID = 
+					{
+						m_id = 674607280
+					}
+					m_networkMode = "ServerAuthoritative"
+					m_sNote = ""
+					m_tagSpans = [  ]
+					m_sequenceName = "attack"
 					m_playbackSpeed = 1.0
 					m_bLoop = false
 				}
@@ -755,7 +797,7 @@
 				{
 					_class = "CRootAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 448.0, -64.0 ]
+					m_vecPosition = [ 672.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1341962419
@@ -885,12 +927,60 @@
 				m_defaultValue = [ 0.0, 0.0, 0.0 ]
 				m_bInterpolate = true
 			},
+			{
+				_class = "CBoolAnimParameter"
+				m_name = "b_attack"
+				m_id = 
+				{
+					m_id = 113068434
+				}
+				m_previewButton = "ANIMPARAM_BUTTON_NONE"
+				m_bNetwork = true
+				m_bUseMostRecentValue = false
+				m_bAutoReset = true
+				m_bPredicted = false
+				m_bDefaultValue = false
+			},
 		]
 	}
 	m_pTagManager = 
 	{
 		_class = "CAnimTagManager"
-		m_tags = [  ]
+		m_tags = 
+		[
+			{
+				_class = "CStringAnimTag"
+				m_name = "upgrade0"
+				m_tagID = 
+				{
+					m_id = 1226064419
+				}
+			},
+			{
+				_class = "CStringAnimTag"
+				m_name = "upgrade1"
+				m_tagID = 
+				{
+					m_id = 1511400924
+				}
+			},
+			{
+				_class = "CStringAnimTag"
+				m_name = "upgrade2"
+				m_tagID = 
+				{
+					m_id = 1126255713
+				}
+			},
+			{
+				_class = "CStringAnimTag"
+				m_name = "upgrade3"
+				m_tagID = 
+				{
+					m_id = 1487216587
+				}
+			},
+		]
 	}
 	m_pMovementManager = 
 	{
@@ -929,7 +1019,7 @@
 	}
 	m_previewModels = 
 	[
-		"models/towers/pistoltower.vmdl",
+		"models/towers/pistol_tower.vmdl",
 	]
 	m_boneMergeModels = [  ]
 }
