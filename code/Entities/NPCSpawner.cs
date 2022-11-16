@@ -1,5 +1,7 @@
 ﻿using Sandbox;
+using System.ComponentModel.DataAnnotations;
 using SandboxEditor;
+using System.Linq;
 
 [Library( "info_cd_npcportal" )]
 [EditorModel( "models/npc_portal.vmdl" )]
@@ -17,14 +19,31 @@ public sealed class NPCSpawner : Entity
 		Blue,
 		Red
 	}
-
 	[Property]
 	public TeamEnum AttackTeamSide { get; set; } = TeamEnum.Blue;
+	public enum ModelType
+	{
+		Classic,
+		Stone
+	}
+	[Property]
+	public ModelType PortalType { get; set; } = ModelType.Classic;
+
 
 	public override void Spawn()
 	{
 		var portal = new ModelEntity();
-		portal.SetModel( "models/npc_portal.vmdl" );
+		
+		if ( PortalType == ModelType.Classic )
+		{
+			portal.SetModel( "models/npc_portal.vmdl" );
+		}
+
+		if ( PortalType == ModelType.Stone )
+		{
+			portal.SetModel( "models/npc_portal_stone.vmdl" );
+		}
+		//portal.SetModel( "models/npc_portal.vmdl" );
 		portal.Position = Position;
 		portal.Rotation = Rotation;
 		portal.Spawn();
