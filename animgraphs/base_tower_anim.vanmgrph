@@ -14,7 +14,7 @@
 				value = 
 				{
 					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Upgrade 2"
 					m_vecPosition = [ -208.0, 144.0 ]
 					m_nNodeID = 
 					{
@@ -37,7 +37,7 @@
 				{
 					_class = "CLookAtAnimNode"
 					m_sName = "Aim Head"
-					m_vecPosition = [ 432.0, -64.0 ]
+					m_vecPosition = [ 336.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 87783558
@@ -91,7 +91,7 @@
 				value = 
 				{
 					_class = "CSingleFrameAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Preview"
 					m_vecPosition = [ -208.0, -160.0 ]
 					m_nNodeID = 
 					{
@@ -667,7 +667,7 @@
 				value = 
 				{
 					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Deploy"
 					m_vecPosition = [ -208.0, -96.0 ]
 					m_nNodeID = 
 					{
@@ -689,8 +689,8 @@
 				value = 
 				{
 					_class = "CSequenceAnimNode"
-					m_sName = "attack"
-					m_vecPosition = [ 32.0, 128.0 ]
+					m_sName = "attack1"
+					m_vecPosition = [ 32.0, 112.0 ]
 					m_nNodeID = 
 					{
 						m_id = 674607280
@@ -711,7 +711,7 @@
 				value = 
 				{
 					_class = "CSingleFrameAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Idle 3"
 					m_vecPosition = [ -208.0, 336.0 ]
 					m_nNodeID = 
 					{
@@ -732,7 +732,7 @@
 				value = 
 				{
 					_class = "CSingleFrameAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Idle 2"
 					m_vecPosition = [ -208.0, 80.0 ]
 					m_nNodeID = 
 					{
@@ -753,7 +753,7 @@
 				value = 
 				{
 					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Upgrade 3"
 					m_vecPosition = [ -208.0, 272.0 ]
 					m_nNodeID = 
 					{
@@ -775,7 +775,7 @@
 				value = 
 				{
 					_class = "CSingleFrameAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Idle"
 					m_vecPosition = [ -208.0, -32.0 ]
 					m_nNodeID = 
 					{
@@ -797,7 +797,7 @@
 				{
 					_class = "CRootAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 672.0, -64.0 ]
+					m_vecPosition = [ 656.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1341962419
@@ -825,7 +825,7 @@
 				value = 
 				{
 					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Upgrade 1"
 					m_vecPosition = [ -208.0, 32.0 ]
 					m_nNodeID = 
 					{
@@ -847,7 +847,7 @@
 				value = 
 				{
 					_class = "CSingleFrameAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Idle 2"
 					m_vecPosition = [ -208.0, 208.0 ]
 					m_nNodeID = 
 					{
