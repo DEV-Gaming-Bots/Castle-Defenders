@@ -690,7 +690,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "attack"
-					m_vecPosition = [ 48.0, 192.0 ]
+					m_vecPosition = [ 32.0, 128.0 ]
 					m_nNodeID = 
 					{
 						m_id = 674607280
@@ -1020,6 +1020,7 @@
 	m_previewModels = 
 	[
 		"models/towers/pistol_tower.vmdl",
+		"models/towers/smgtower.vmdl",
 	]
 	m_boneMergeModels = [  ]
 }
