@@ -58,7 +58,7 @@
 					m_target = "VectorParameter"
 					m_param = 
 					{
-						m_id = 1719947666
+						m_id = 735848024
 					}
 					m_weightParam = 
 					{
@@ -690,7 +690,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "attack1"
-					m_vecPosition = [ 32.0, 112.0 ]
+					m_vecPosition = [ 32.0, -128.0 ]
 					m_nNodeID = 
 					{
 						m_id = 674607280
@@ -913,21 +913,6 @@
 				m_bInterpolate = false
 			},
 			{
-				_class = "CVectorAnimParameter"
-				m_name = "v_forward"
-				m_id = 
-				{
-					m_id = 1719947666
-				}
-				m_previewButton = "ANIMPARAM_BUTTON_NONE"
-				m_bNetwork = false
-				m_bUseMostRecentValue = false
-				m_bAutoReset = false
-				m_bPredicted = false
-				m_defaultValue = [ 0.0, 0.0, 0.0 ]
-				m_bInterpolate = true
-			},
-			{
 				_class = "CBoolAnimParameter"
 				m_name = "b_attack"
 				m_id = 
@@ -940,6 +925,21 @@
 				m_bAutoReset = true
 				m_bPredicted = false
 				m_bDefaultValue = false
+			},
+			{
+				_class = "CVectorAnimParameter"
+				m_name = "v_forward"
+				m_id = 
+				{
+					m_id = 735848024
+				}
+				m_previewButton = "ANIMPARAM_BUTTON_NONE"
+				m_bNetwork = true
+				m_bUseMostRecentValue = false
+				m_bAutoReset = false
+				m_bPredicted = false
+				m_defaultValue = [ 0.0, 0.0, 0.0 ]
+				m_bInterpolate = false
 			},
 		]
 	}

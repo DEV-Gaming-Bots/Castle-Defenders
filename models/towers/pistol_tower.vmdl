@@ -114,11 +114,11 @@
 								},
 								{
 									name = "barrel"
-									weight = 0.35
+									weight = 0.0
 								},
 								{
-									name = "muzzel"
-									weight = 0.25
+									name = "muzze"
+									weight = 0.0
 								},
 							]
 						}
@@ -149,16 +149,16 @@
 						name = "muzzle"
 						parent_bone = "muzzel"
 						relative_origin = [ 0.0, 0.0, 0.0 ]
-						relative_angles = [ -0.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
 					},
 					{
 						_class = "Attachment"
 						name = "forward"
-						parent_bone = "barrel"
+						parent_bone = "head"
 						relative_origin = [ 0.0, 0.0, 0.0 ]
-						relative_angles = [ -0.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, 0.0, 90.0 ]
 						weight = 1.0
 						ignore_rotation = false
 					},
