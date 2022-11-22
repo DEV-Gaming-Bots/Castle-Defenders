@@ -50,10 +50,10 @@
 				children = 
 				[
 					{
-						_class = "PhysicsMeshFile"
+						_class = "PhysicsHullFile"
 						name = "NPC_Portal_phy"
 						parent_bone = ""
-						surface_prop = "brick"
+						surface_prop = "default"
 						collision_tags = "solid"
 						recenter_on_parent_bone = false
 						offset_origin = [ 0.0, 0.0, 0.0 ]
@@ -63,8 +63,10 @@
 						align_origin_z_type = "None"
 						filename = "models/raw/NPC_Portal_phy.fbx"
 						import_scale = 1.0
-						maxMeshVertices = 0
-						qemError = 0.0
+						faceMergeAngle = 5.0
+						maxHullVertices = 0
+						import_mode = "HullPerMesh"
+						optimization_algorithm = "IFR"
 						import_filter = 
 						{
 							exclude_by_default = false
