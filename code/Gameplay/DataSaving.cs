@@ -1,11 +1,13 @@
 ﻿using Sandbox;
+using System.Collections;
+using System.Collections.Generic;
 
 public interface IPlayerData
 {
 	int EXP { get; set; }
 	int ReqEXP { get; set; }
 	int Level { get; set; }
-	string[] TowerSlots { get; set; }
+	IDictionary<int, string> TowerSlots { get; set; }
 }
 
 public sealed class PlayerData : IPlayerData
@@ -13,7 +15,7 @@ public sealed class PlayerData : IPlayerData
 	public int EXP { get; set; }
 	public int ReqEXP { get; set; }
 	public int Level { get; set; }
-	[Net] public string[] TowerSlots { get; set; }
+	public IDictionary<int, string> TowerSlots { get; set; }
 }
 
 public sealed partial class CDGame

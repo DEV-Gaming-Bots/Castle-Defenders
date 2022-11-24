@@ -176,10 +176,10 @@ public sealed partial class CDPawn
 		if ( GetSelectedSlot() > -1 )
 			_scrollInt = GetSelectedSlot() - 1;
 
-		if ( _scrollInt > TowerSlots.Length )
+		if ( _scrollInt > TowerSlots.Count )
 			_scrollInt = 0;
 		else if (_scrollInt < 0)
-			_scrollInt = TowerSlots.Length;
+			_scrollInt = TowerSlots.Count;
 
 		SetSlotClient( To.Single( this ), _scrollInt );
 
@@ -208,7 +208,7 @@ public sealed partial class CDPawn
 		//while checking if the time last placed is greater
 		if ( _lastScrollInt != _scrollInt )
 		{
-			if ( TowerSlots.Length <= _scrollInt )
+			if ( TowerSlots.Count <= _scrollInt )
 			{
 				_lastScrollInt = _scrollInt;
 
@@ -225,7 +225,7 @@ public sealed partial class CDPawn
 				return;
 			}
 
-			if ( TowerSlots.Length <= _scrollInt )
+			if ( TowerSlots.Count <= _scrollInt )
 			{
 				if ( SelectedTower != null )
 				{

@@ -61,6 +61,8 @@ public sealed partial class Pistol : BaseTower
 		if ( Target != null && Target.IsValid() )
 			SetAnimParameter( "v_forward", Target.Position );
 
+		SetAnimParameter( "b_attack", Target != null );
+
 		base.SimulateTower();
 	}
 

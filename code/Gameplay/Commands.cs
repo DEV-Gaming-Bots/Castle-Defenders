@@ -309,7 +309,7 @@ public sealed partial class CDGame
 
 		if ( name.ToLower().Contains( "hands" ) )
 		{
-			player.ChangeSlot( "Hands", player.TowerSlots.Length - 1 );
+			player.ChangeSlot( "Hands", player.TowerSlots.Count );
 			return;
 		}
 
@@ -334,7 +334,8 @@ public sealed partial class CDGame
 
 		foreach ( var item in player.TowerSlots )
 		{
-			player.UpdateSlots( To.Single( player ), item, slotNum );
+			Log.Info( item.Key );
+			player.UpdateSlots( To.Single( player ), item.Value, item.Key + 1);
 			slotNum++;
 		}
 

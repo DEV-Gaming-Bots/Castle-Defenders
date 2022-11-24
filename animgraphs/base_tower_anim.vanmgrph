@@ -20,7 +20,7 @@
 					{
 						m_id = 51262193
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "upg_2"
@@ -37,18 +37,18 @@
 				{
 					_class = "CLookAtAnimNode"
 					m_sName = "Aim Head"
-					m_vecPosition = [ 336.0, -64.0 ]
+					m_vecPosition = [ 464.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 87783558
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_inputConnection = 
 					{
 						m_nodeID = 
 						{
-							m_id = 316255960
+							m_id = 2132006355
 						}
 						m_outputID = 
 						{
@@ -86,39 +86,18 @@
 			{
 				key = 
 				{
-					m_id = 247648905
-				}
-				value = 
-				{
-					_class = "CSingleFrameAnimNode"
-					m_sName = "Preview"
-					m_vecPosition = [ -208.0, -160.0 ]
-					m_nNodeID = 
-					{
-						m_id = 247648905
-					}
-					m_networkMode = "ServerAuthoritative"
-					m_sNote = ""
-					m_sequenceName = "idle"
-					m_nFrameIndex = 0
-					m_tagSpans = [  ]
-				}
-			},
-			{
-				key = 
-				{
 					m_id = 316255960
 				}
 				value = 
 				{
 					_class = "CStateMachineAnimNode"
-					m_sName = "Unnamed"
+					m_sName = "Upgrading/Idle"
 					m_vecPosition = [ 32.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 316255960
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_states = 
 					[
@@ -144,7 +123,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.0
+									m_blendDuration = 0.2
 									m_destState = 
 									{
 										m_id = 191548342
@@ -161,14 +140,19 @@
 									m_bDisabled = false
 								},
 							]
-							m_tags = [  ]
-							m_tagBehaviors = [  ]
-							m_name = "Preview"
+							m_tags = 
+							[
+								{
+									m_id = 1226064419
+								},
+							]
+							m_tagBehaviors = [ 2 ]
+							m_name = "Idle"
 							m_inputConnection = 
 							{
 								m_nodeID = 
 								{
-									m_id = 247648905
+									m_id = 1084377600
 								}
 								m_outputID = 
 								{
@@ -177,14 +161,14 @@
 							}
 							m_stateID = 
 							{
-								m_id = 1359729183
+								m_id = 1324460502
 							}
-							m_position = [ -352.0, -112.0 ]
+							m_position = [ -320.0, 80.0 ]
 							m_bIsStartState = true
 							m_bIsEndtState = false
 							m_bIsPassthrough = false
 							m_bIsRootMotionExclusive = false
-							m_bAlwaysEvaluate = true
+							m_bAlwaysEvaluate = false
 						},
 						{
 							_class = "CAnimState"
@@ -673,7 +657,7 @@
 					{
 						m_id = 345446203
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "deploy"
@@ -695,12 +679,12 @@
 					{
 						m_id = 674607280
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "attack"
 					m_playbackSpeed = 1.0
-					m_bLoop = false
+					m_bLoop = true
 				}
 			},
 			{
@@ -717,7 +701,7 @@
 					{
 						m_id = 738746167
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_sequenceName = "upg3_idle"
 					m_nFrameIndex = 0
@@ -738,7 +722,7 @@
 					{
 						m_id = 1069501439
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_sequenceName = "upg1_idle"
 					m_nFrameIndex = 0
@@ -759,7 +743,7 @@
 					{
 						m_id = 1077883657
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "upg_3"
@@ -781,7 +765,7 @@
 					{
 						m_id = 1084377600
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_sequenceName = "idle"
 					m_nFrameIndex = 0
@@ -802,7 +786,7 @@
 					{
 						m_id = 1341962419
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_inputConnection = 
 					{
@@ -831,7 +815,7 @@
 					{
 						m_id = 1374296187
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "upg_1"
@@ -853,11 +837,162 @@
 					{
 						m_id = 1532905949
 					}
-					m_networkMode = "ServerAuthoritative"
+					m_networkMode = "ClientSimulate"
 					m_sNote = ""
 					m_sequenceName = "upg2_idle"
 					m_nFrameIndex = 0
 					m_tagSpans = [  ]
+				}
+			},
+			{
+				key = 
+				{
+					m_id = 2132006355
+				}
+				value = 
+				{
+					_class = "CStateMachineAnimNode"
+					m_sName = "Attacking"
+					m_vecPosition = [ 288.0, -64.0 ]
+					m_nNodeID = 
+					{
+						m_id = 2132006355
+					}
+					m_networkMode = "ClientSimulate"
+					m_sNote = ""
+					m_states = 
+					[
+						{
+							_class = "CAnimState"
+							m_transitions = 
+							[
+								{
+									_class = "CAnimStateTransition"
+									m_conditions = 
+									[
+										{
+											_class = "CParameterAnimCondition"
+											m_comparisonOp = 0
+											m_paramID = 
+											{
+												m_id = 113068434
+											}
+											m_comparisonValue = 
+											{
+												m_nType = 1
+												m_data = true
+											}
+										},
+									]
+									m_blendDuration = 0.2
+									m_destState = 
+									{
+										m_id = 1132680184
+									}
+									m_bReset = true
+									m_resetCycleOption = "Beginning"
+									m_flFixedCycleValue = 0.0
+									m_blendCurve = 
+									{
+										m_vControlPoint1 = [ 0.5, 0.0 ]
+										m_vControlPoint2 = [ 0.5, 1.0 ]
+									}
+									m_bForceFootPlant = false
+									m_bDisabled = false
+								},
+							]
+							m_tags = [  ]
+							m_tagBehaviors = [  ]
+							m_name = "Active"
+							m_inputConnection = 
+							{
+								m_nodeID = 
+								{
+									m_id = 316255960
+								}
+								m_outputID = 
+								{
+									m_id = 4294967295
+								}
+							}
+							m_stateID = 
+							{
+								m_id = 1359729183
+							}
+							m_position = [ -368.0, -112.0 ]
+							m_bIsStartState = true
+							m_bIsEndtState = false
+							m_bIsPassthrough = false
+							m_bIsRootMotionExclusive = false
+							m_bAlwaysEvaluate = false
+						},
+						{
+							_class = "CAnimState"
+							m_transitions = 
+							[
+								{
+									_class = "CAnimStateTransition"
+									m_conditions = 
+									[
+										{
+											_class = "CParameterAnimCondition"
+											m_comparisonOp = 0
+											m_paramID = 
+											{
+												m_id = 113068434
+											}
+											m_comparisonValue = 
+											{
+												m_nType = 1
+												m_data = false
+											}
+										},
+									]
+									m_blendDuration = 0.2
+									m_destState = 
+									{
+										m_id = 1359729183
+									}
+									m_bReset = true
+									m_resetCycleOption = "Beginning"
+									m_flFixedCycleValue = 0.0
+									m_blendCurve = 
+									{
+										m_vControlPoint1 = [ 0.5, 0.0 ]
+										m_vControlPoint2 = [ 0.5, 1.0 ]
+									}
+									m_bForceFootPlant = false
+									m_bDisabled = false
+								},
+							]
+							m_tags = [  ]
+							m_tagBehaviors = [  ]
+							m_name = "Attacking"
+							m_inputConnection = 
+							{
+								m_nodeID = 
+								{
+									m_id = 674607280
+								}
+								m_outputID = 
+								{
+									m_id = 4294967295
+								}
+							}
+							m_stateID = 
+							{
+								m_id = 1132680184
+							}
+							m_position = [ -176.0, -112.0 ]
+							m_bIsStartState = false
+							m_bIsEndtState = false
+							m_bIsPassthrough = false
+							m_bIsRootMotionExclusive = false
+							m_bAlwaysEvaluate = false
+						},
+					]
+					m_bBlockWaningTags = false
+					m_bLockStateWhenWaning = false
 				}
 			},
 		]
@@ -889,7 +1024,7 @@
 					m_id = 469317961
 				}
 				m_previewButton = "ANIMPARAM_BUTTON_NONE"
-				m_bNetwork = true
+				m_bNetwork = false
 				m_bUseMostRecentValue = false
 				m_bAutoReset = true
 				m_bPredicted = false

@@ -17,7 +17,7 @@ public partial class BaseNPC : AnimatedEntity
 	public virtual float Damage => 1;
 	public virtual bool IsBoss => false;
 
-	[Net] public string NPCNameNet => NPCName;
+	[Net] public string NPCNameNet { get; set; }
 
 	public List<ModelEntity> ClothingEnts;
 
@@ -114,6 +114,7 @@ public partial class BaseNPC : AnimatedEntity
 
 	public override void Spawn()
 	{
+		NPCNameNet = NPCName;
 		SetModel( BaseModel );
 
 		CurrentEffects = new();

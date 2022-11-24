@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Sandbox;
 using static PlayerLoadout;
@@ -11,7 +13,7 @@ public sealed partial class CDPawn : IPlayerData
 	[Net] public int Level { get; set; }
 	[Net] public int TotalDamage { get; set; }
 
-	[Net, Local] public string[] TowerSlots { get; set; }
+	[Net] public IDictionary<int, string> TowerSlots { get; set; }
 
 	[ClientRpc]
 	public void UpdateSlots(string item, int slot)
@@ -31,16 +33,13 @@ public sealed partial class CDPawn : IPlayerData
 		EXP = 0;
 		ReqEXP = 250;
 
-		TowerSlots = new[]
-		{
-			"Pistol",
-			"SMG",
-			"Sniper",
-			"Trickster",
-			"RadioactiveEmitter",
-			"Lightning",
-			"TimeDisplacer"
-		};
+		TowerSlots.Add( 0, "Pistol" );
+		TowerSlots.Add( 1, "SMG" );
+		TowerSlots.Add( 2, "Sniper" );
+		TowerSlots.Add( 3, "Trickster" );
+		TowerSlots.Add( 4, "RadioactiveEmitter" );
+		TowerSlots.Add( 5, "Lightning" );
+		TowerSlots.Add( 6, "TimeDisplacer" );
 
 		//CDGame.Instance.SaveData( this );
 	}

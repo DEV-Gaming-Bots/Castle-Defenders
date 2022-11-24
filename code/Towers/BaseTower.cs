@@ -97,8 +97,10 @@ public partial class BaseTower : AnimatedEntity
 		if ( IsPreviewing )
 			NetCost = TowerCost;
 		else
+		{
 			NetCost = TowerLevelCosts[TowerLevel - 1];
-
+			PlayDeployAnimRPC( To.Everyone );
+		}
 		NetName = TowerName;
 		NetDesc = TowerDesc;
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
@@ -119,11 +121,13 @@ public partial class BaseTower : AnimatedEntity
 		Tags.Add( "tower" );
 	}
 
+	[ClientRpc]
 	public void PlayDeployAnimRPC()
 	{
 		SetAnimParameter( "b_deploy", true );
 	}
 
+	[ClientRpc]
 	public void PlayUpgradeAnimRPC()
 	{
 		SetAnimParameter( "b_upgrade", true );
@@ -167,7 +171,7 @@ public partial class BaseTower : AnimatedEntity
 			return;
 		}
 
-		PlayUpgradeAnimRPC();
+		PlayUpgradeAnimRPC(To.Everyone);
 
 		(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
 		
