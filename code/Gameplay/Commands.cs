@@ -334,7 +334,6 @@ public sealed partial class CDGame
 
 		foreach ( var item in player.TowerSlots )
 		{
-			Log.Info( item.Key );
 			player.UpdateSlots( To.Single( player ), item.Value, item.Key + 1);
 			slotNum++;
 		}
