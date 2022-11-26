@@ -1,0 +1,28 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		Name = "Spectre"
+		Description = "A ghostly entity"
+		StartHealth = 65
+		StartArmor = 0
+		Damage = 20
+		Speed = 1.35
+		Scale = 0.4
+		IsABoss = false
+		KillReward = 
+		{
+			MinXP = 5
+			MaxXP = 35
+			MinCash = 11
+			MaxCash = 29
+		}
+		NPCType = "Hidden"
+		OverrideMaterial = null
+		OverrideColor = "0,0,0,0.50352"
+		Hat = null
+		Top = null
+		Bottom = null
+		Feet = null
+	}
+}

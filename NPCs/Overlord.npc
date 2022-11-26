@@ -1,0 +1,28 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		Name = "Overlord"
+		Description = "A commanding entity that spawns hostiles"
+		StartHealth = 425
+		StartArmor = 0
+		Damage = 65
+		Speed = 10
+		Scale = 0.8
+		IsABoss = true
+		KillReward = 
+		{
+			MinXP = 60
+			MaxXP = 70
+			MinCash = 45
+			MaxCash = 85
+		}
+		NPCType = "Standard"
+		OverrideMaterial = null
+		OverrideColor = "0.51053,0,0,1"
+		Hat = resource:"models/citizen_clothes/hat/bucket_helmet/models/bucket_helmet.vmdl"
+		Top = null
+		Bottom = null
+		Feet = null
+	}
+}

@@ -31,7 +31,7 @@ public partial class TimeDisplacer : BaseSuperTower
 		{
 			if (ent is BaseNPC npc)
 			{
-				if( npc.IsBoss )
+				if( npc.AssetFile.IsABoss )
 				{
 					if ( npc.LastNode.IsNearlyZero() )
 					{

@@ -194,11 +194,11 @@ public partial class BaseTower : AnimatedEntity
 	private bool CanTargetEnemy(BaseNPC npc)
 	{
 		//Target is cloaked
-		if ( npc.NPCType == BaseNPC.SpecialType.Hidden && !CounterStealth )
+		if ( npc.AssetFile.NPCType == BaseNPCAsset.SpecialType.Hidden && !CounterStealth )
 			return false;
 
 		//Target is in the air
-		if ( npc.NPCType == BaseNPC.SpecialType.Airborne && !CounterAirborne )
+		if ( npc.AssetFile.NPCType == BaseNPCAsset.SpecialType.Airborne && !CounterAirborne )
 			return false;
 
 		return true;

@@ -19,6 +19,7 @@ public sealed class NPCSpawner : Entity
 		Blue,
 		Red
 	}
+
 	[Property]
 	public TeamEnum AttackTeamSide { get; set; } = TeamEnum.Blue;
 	public enum ModelType
@@ -26,9 +27,9 @@ public sealed class NPCSpawner : Entity
 		Classic,
 		Stone
 	}
+
 	[Property]
 	public ModelType PortalType { get; set; } = ModelType.Classic;
-
 
 	public override void Spawn()
 	{
@@ -43,7 +44,7 @@ public sealed class NPCSpawner : Entity
 		{
 			portal.SetModel( "models/npc_portal_stone.vmdl" );
 		}
-		//portal.SetModel( "models/npc_portal.vmdl" );
+
 		portal.Position = Position;
 		portal.Rotation = Rotation;
 		portal.Spawn();

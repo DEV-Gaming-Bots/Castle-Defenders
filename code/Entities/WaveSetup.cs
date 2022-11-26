@@ -52,18 +52,17 @@ public sealed class WaveSetup : Entity
 		VoidBoss,
 	}
 
-	[Property( "NPCToSpawn" ), Description( "What NPC should this spawn" )]
-	public NPCEnum NPCsToSpawn { get; set; } = NPCEnum.Unspecified;
+	[Property( "NPCToSpawn" ), Title( "Spawning NPC" ), Description( "What NPC should this spawn" )]
+	public BaseNPCAsset NPCsToSpawn { get; set; }
 
-	[Property( "NPCSpawnRate" ), Description( "How fast should this NPC spawn" )]
+	[Property( "NPCSpawnRate" ), Title("Spawn Rate"), Description( "How fast should this NPC spawn" )]
 	public double NPCSpawnRate { get; set; } = 1.0f;
 
-	[Property( "NPCSpawnDelay" ), Description( "After how many seconds should this NPC start spawning" )]
+	[Property( "NPCSpawnDelay" ), Title( "Spawn Delay" ), Description( "After how many seconds should this NPC start spawning" )]
 	public double NPCSpawnDelay { get; set; } = 0.0f;
-	
-	[Property( "NPCPathPriority" ), Description( "What direction this NPC will take when the path splits" )]
-	public BaseNPC.PathPriority NPCPathPriority { get; set; } = BaseNPC.PathPriority.Random;
 
+	[Property( "NPCPathPriority" ), Title( "Path Priority" ), Description( "What direction this NPC will take when the path splits" )]
+	public BaseNPC.PathPriority NPCPathPriority { get; set; } = BaseNPC.PathPriority.Random;
 
 	private bool _spawnToggle;
 	private TimeSince _timeLastSpawn;
@@ -86,8 +85,8 @@ public sealed class WaveSetup : Entity
 		_spawnCounter = 0;
 		_spawnOpposite = false;
 
-		if( NPCsToSpawn == NPCEnum.Unspecified )
-			Log.Error( "One of the WaveSetup ents has unspecified NPCs, expect errors!" );
+		if( NPCsToSpawn is null )
+			Log.Error( "One of the WaveSetup ents has null NPCs, expect errors!" );
 	}
 
 	[Event.Tick.Server]
@@ -108,22 +107,22 @@ public sealed class WaveSetup : Entity
 			return;
 		}
 
-		if ( NPCsToSpawn == NPCEnum.Unspecified )
+		if ( NPCsToSpawn is null )
 		{
 			_spawnToggle = false;
 			return;
 		}
 
-		var npc = TypeLibrary.Create<BaseNPC>( NPCsToSpawn.ToString() );
-		
-		if( npc == null )
+		var npc = new BaseNPC();
+
+		npc.UseAssetAndSpawn( NPCsToSpawn );
+
+		if ( npc == null )
 		{
 			Log.Error( "This wave setup failed to spawn" );
 			_spawnToggle = false;
 			return;
 		}
-
-		npc.Spawn();
 		
 		npc.NextPathPriority = NPCPathPriority;
 

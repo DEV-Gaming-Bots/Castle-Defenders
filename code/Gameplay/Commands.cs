@@ -126,7 +126,7 @@ public sealed partial class CDGame
 	}
 
 	[ConCmd.Server( "cd_npc_create" )]
-	public static void SpawnNPC( string npcName, string team = "blue")
+	public static void SpawnNPC( string npcName, bool spawnOpposite = false)
 	{
 		if ( !Instance.Debug )
 		{
@@ -134,28 +134,24 @@ public sealed partial class CDGame
 			return;
 		}
 
-		var npc = CreateByName( npcName ) as BaseNPC;
+		var npc = new BaseNPC();
 
-		if ( npc == null )
-		{
-			Log.Error( "Invalid npc name" );
-			return;
-		}
+		if ( ResourceLibrary.TryGet( $"npcs/{npcName}.npc", out BaseNPCAsset asset ) )
+			npc.UseAssetAndSpawn( asset );
 
-		npc.Spawn();
 		var spawnerPoint = All.OfType<NPCSpawner>().ToList();
 
 		var blueSide = spawnerPoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Blue );
 		var redSide = spawnerPoint.FirstOrDefault( x => x.AttackTeamSide == NPCSpawner.TeamEnum.Red );
 
-		if ( team.Contains( "blue" ) )
+		if ( !spawnOpposite && Instance.Competitive )
 		{
 			npc.Position = blueSide.Position;
 			npc.Steer.Target = All.OfType<NPCPath>().FirstOrDefault( x => x.StartNode ).Position;
 			npc.PathToFollow = BaseNPC.PathTeam.Blue;
 			npc.CastleTarget = blueSide.FindCastle();
 		} 
-		else if ( team.Contains( "red" ) )
+		else if ( spawnOpposite && Instance.Competitive )
 		{
 			npc.Position = redSide.Position;
 			npc.Steer.Target = All.OfType<NPCPath>().FirstOrDefault( x => x.StartOpposingNode ).Position;

@@ -5,32 +5,16 @@ using Sandbox;
 
 public partial class BaseNPC : AnimatedEntity
 {
-	//Basics
-	public virtual string NPCName => "Default NPC";
-	public virtual string BaseModel => "models/citizen/citizen.vmdl";
-	public virtual float BaseHealth => 1;
-	public virtual float BaseSpeed { get; set; } = 1;
-	public virtual float SpeedMultiplier { get; set; } = 1;
-	public virtual int[] MinMaxCashReward => new[] { 1, 2 };
-	public virtual int[] MinMaxEXPReward => new[] { 1, 2 };
-	public virtual float NPCScale => 1;
-	public virtual float Damage => 1;
-	public virtual bool IsBoss => false;
+	public float BaseHealth;
+	public float BaseSpeed { get; set; } = 1;
+	public float SpeedMultiplier { get; set; } = 1;
+	public int[] MinMaxCashReward => new[] { 1, 2 };
+	public int[] MinMaxEXPReward => new[] { 1, 2 };
+	public float NPCScale = 1;
+	public float Damage = 1;
 
 	[Net] public string NPCNameNet { get; set; }
 
-	public List<ModelEntity> ClothingEnts;
-
-	public enum SpecialType
-	{
-		Standard,
-		Armoured,
-		Hidden,
-		Disruptor,
-		Splitter,
-		Airborne,
-	}
-	
 	public enum PathPriority
 	{
 		Random,
@@ -39,15 +23,10 @@ public partial class BaseNPC : AnimatedEntity
 		Alternate,
 	}
 
-	//Special Types of NPCs:
-	//Standard - No special trait
-	//Armoured - Takes more hits before armor breaks
-	//Hidden - Invisible to towers without special ability
-	//Disrupter - Disrupts nearby towers with exceptions
-	//Splitter - Splits into multiple weaker versions of the NPC upon death
-	public virtual SpecialType NPCType => SpecialType.Standard;
-	public virtual float ArmourStrength => 0;
-	public virtual int SplitAmount => 0;
+	public float ArmourStrength = 0;
+	public int SplitAmount => 0;
+
+	public bool IsMinion = false;
 
 	public bool ArmourBroken;
 
@@ -112,23 +91,66 @@ public partial class BaseNPC : AnimatedEntity
 		return 0.0f;
 	}
 
+	public BaseNPCAsset AssetFile;
+
+	public void UseAssetAndSpawn(BaseNPCAsset asset)
+	{
+		SetModel( "models/citizen/citizen.vmdl" );
+		SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
+
+		if( asset.OverrideMaterial != null)
+			SetMaterialOverride( asset.OverrideMaterial );
+
+		if( !string.IsNullOrEmpty(asset.Hat) )
+		{
+			ModelEntity hat = new ModelEntity(asset.Hat);
+			hat.SetParent( this, true );
+		}
+
+		if ( !string.IsNullOrEmpty( asset.Top ) )
+		{
+			ModelEntity top = new ModelEntity( asset.Top );
+			top.SetParent( this, true );
+		}
+
+		if ( !string.IsNullOrEmpty( asset.Bottom ) )
+		{
+			ModelEntity bottom = new ModelEntity( asset.Bottom );
+			bottom.SetParent( this, true );
+		}
+
+		if ( !string.IsNullOrEmpty( asset.Feet ) )
+		{
+			ModelEntity feet = new ModelEntity( asset.Feet );
+			feet.SetParent( this, true );
+		}
+
+		NPCNameNet = asset.Name;
+		Health = asset.StartHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
+		BaseSpeed = asset.Speed;
+		Damage = asset.Damage;
+		Scale = asset.Scale;
+
+		if ( asset.NPCType == BaseNPCAsset.SpecialType.Armoured )
+			ArmourStrength = asset.StartArmor;
+
+		if ( asset.OverrideColor != Color.White)
+			RenderColor = asset.OverrideColor;
+
+		CashReward = (int)(Rand.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash ) * ScaleRewards());
+		ExpReward = (int)(Rand.Int( asset.KillReward.MinXP, asset.KillReward.MaxXP ) * ScaleRewards());
+
+		AssetFile = asset;
+
+		Spawn();
+	}
+
 	public override void Spawn()
 	{
-		NPCNameNet = NPCName;
-		SetModel( BaseModel );
-
 		CurrentEffects = new();
-		ClothingEnts = new List<ModelEntity>();
-
-		Scale = NPCScale;
-		Health = BaseHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
-
-		CashReward = (int)(Rand.Int( MinMaxCashReward[0], MinMaxCashReward[1] ) * ScaleRewards() / 1.65f);
-		ExpReward = (int)(Rand.Int( MinMaxEXPReward[0], MinMaxEXPReward[1] ) * ScaleRewards());
 
 		Tags.Add( "npc" );
 
-		SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
 		EnableTraceAndQueries = true;
 		EnableHitboxes = false;
 
@@ -160,7 +182,7 @@ public partial class BaseNPC : AnimatedEntity
 
 	public virtual void SetUpPanel()
 	{
-		Panel = new NPCInfo(NPCName, Health);
+		Panel = new NPCInfo(NPCNameNet, Health);
 	}
 
 	[ClientRpc]
@@ -293,7 +315,7 @@ public partial class BaseNPC : AnimatedEntity
 
 		_inputVelocity = 0;
 
-		if ( Steer != null || !IsValid )
+		if ( (Steer != null && AssetFile != null) || !IsValid )
 		{
 			Steer.Tick( Position );
 
@@ -302,12 +324,12 @@ public partial class BaseNPC : AnimatedEntity
 
 			Vector3 groundPos = Position;
 
-			var trGr = Trace.Ray( Position, Position + Vector3.Down * 32 )
+			var trGr = Trace.Ray( Position, Position + Vector3.Down * 32 * Scale )
 				.Ignore( this )
 				.EntitiesOnly()
 				.Run();
 
-			if ( NPCType == SpecialType.Airborne )
+			if ( AssetFile.NPCType == BaseNPCAsset.SpecialType.Airborne )
 				groundPos = trGr.EndPosition;
 
 			if ( Steer.Target.Distance( groundPos ) <= 1.0f || Position.Distance( CastleTarget.Position ) <= 25.0f )
@@ -415,7 +437,26 @@ public partial class BaseNPC : AnimatedEntity
 
 	public void Split()
 	{
+		if ( IsMinion )
+			return;
 
+		for ( int i = 0; i < 3; i++ )
+		{
+			BaseNPC minion = new BaseNPC();
+			minion.AssetFile = AssetFile;
+			minion.NPCNameNet = NPCNameNet + " Minion";
+			minion.Position = Position + Vector3.Random.x * 25 + Vector3.Random.y * 25;
+			minion.Model = Model;
+			minion.Scale = AssetFile.Scale / 2.0f;
+			minion.SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
+			minion.SetMaterialOverride( AssetFile.OverrideMaterial );
+			minion.Health = AssetFile.StartHealth / 2;
+			minion.BaseSpeed = AssetFile.Speed * 2;
+			minion.CastleTarget = CastleTarget;
+			minion.Spawn();
+			minion.IsMinion = true;
+			minion.FindNextPath( minion.Position );
+		}
 	}
 
 	public override void OnKilled()
@@ -441,6 +482,9 @@ public partial class BaseNPC : AnimatedEntity
 		}
 
 		(_lastDmg.Attacker as CDPawn).Client.AddInt( "kills", 1 );
+
+		if ( AssetFile.NPCType == BaseNPCAsset.SpecialType.Splitter )
+			Split();
 
 		base.OnKilled();
 	}

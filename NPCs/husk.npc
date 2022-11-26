@@ -1,0 +1,28 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		Name = "Husk"
+		Description = "A decaying husk that splits on death"
+		StartHealth = 100
+		StartArmor = 0
+		Damage = 30
+		Speed = 10
+		Scale = 0.75
+		IsABoss = false
+		KillReward = 
+		{
+			MinXP = 25
+			MaxXP = 45
+			MinCash = 26
+			MaxCash = 34
+		}
+		NPCType = "Splitter"
+		OverrideMaterial = resource:"materials/npcs/husk.vmat"
+		OverrideColor = "1,1,1,1"
+		Hat = null
+		Top = null
+		Bottom = null
+		Feet = null
+	}
+}

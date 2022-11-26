@@ -1,0 +1,28 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		Name = "Knight"
+		Description = "A knight with a steel outfit"
+		StartHealth = 50
+		StartArmor = 75
+		Damage = 10
+		Speed = 22.25
+		Scale = 0.5
+		IsABoss = false
+		KillReward = 
+		{
+			MinXP = 15
+			MaxXP = 40
+			MinCash = 18
+			MaxCash = 42
+		}
+		NPCType = "Armoured"
+		OverrideMaterial = null
+		OverrideColor = "1,1,1,1"
+		Hat = resource:"models/citizen_clothes/hat/bucket_helmet/models/bucket_helmet.vmdl"
+		Top = resource:"models/citizen_clothes/vest/chest_armour/models/chest_armour.vmdl"
+		Bottom = resource:"models/citizen_clothes/trousers/legarmour/models/leg_armour.vmdl"
+		Feet = resource:"models/citizen_clothes/shoes/boots/models/black_boots.vmdl"
+	}
+}
