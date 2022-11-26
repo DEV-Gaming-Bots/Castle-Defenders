@@ -674,7 +674,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "attack1"
-					m_vecPosition = [ 32.0, -128.0 ]
+					m_vecPosition = [ 32.0, 144.0 ]
 					m_nNodeID = 
 					{
 						m_id = 674607280
@@ -684,7 +684,7 @@
 					m_tagSpans = [  ]
 					m_sequenceName = "attack"
 					m_playbackSpeed = 1.0
-					m_bLoop = true
+					m_bLoop = false
 				}
 			},
 			{
@@ -946,6 +946,12 @@
 												m_nType = 1
 												m_data = false
 											}
+										},
+										{
+											_class = "CFinishedCondition"
+											m_comparisonOp = 0
+											m_option = "FinishedConditionOption_OnFinished"
+											m_bIsFinished = true
 										},
 									]
 									m_blendDuration = 0.2

@@ -58,18 +58,20 @@ public sealed partial class Pistol : BaseTower
 	[Event.Tick.Server]
 	public override void SimulateTower()
 	{
+		base.SimulateTower();
+
 		if ( Target != null && Target.IsValid() )
 			SetAnimParameter( "v_forward", Target.Position );
 
-		SetAnimParameter( "b_attack", Target != null );
-
-		base.SimulateTower();
+		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}
 
 	[ClientRpc]
 	public override void FireEffects()
 	{
 		base.FireEffects();
+
+		Particles.Create( "particles/bullet_muzzleflash.vpcf", this, "muzzle" );
 	}
 }
 
@@ -124,16 +126,21 @@ public sealed partial class SMG : BaseTower
 	[Event.Tick.Server]
 	public override void SimulateTower()
 	{
-		//if ( Target != null && Target.IsValid() )
-			//SetAnimParameter( "v_forward", Target.Position );
-
 		base.SimulateTower();
+
+		if ( Target != null && Target.IsValid() )
+			SetAnimParameter( "v_forward", Target.Position );
+
+		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}
 
 	[ClientRpc]
 	public override void FireEffects()
 	{
 		base.FireEffects();
+
+		Particles.Create( "particles/bullet_muzzleflash.vpcf", this, "muzzle_l" );
+		Particles.Create( "particles/bullet_muzzleflash.vpcf", this, "muzzle_r" );
 	}
 }
 

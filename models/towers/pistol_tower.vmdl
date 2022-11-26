@@ -68,9 +68,9 @@
 						parent_bone = "root"
 						surface_prop = "metal"
 						collision_tags = "solid"
-						origin = [ -0.55994, 96.167267, -0.446096 ]
+						origin = [ 1.040933, 96.167267, -2.046969 ]
 						angles = [ 45.0, 0.0, 0.0 ]
-						dimensions = [ 202.97821, 192.350189, 201.20166 ]
+						dimensions = [ 198.450256, 192.350189, 201.20166 ]
 					},
 				]
 			},
@@ -149,7 +149,7 @@
 						name = "muzzle"
 						parent_bone = "muzzel"
 						relative_origin = [ 0.0, 0.0, 0.0 ]
-						relative_angles = [ 0.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, 90.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
 					},
@@ -192,28 +192,6 @@
 					{
 						_class = "AnimFile"
 						name = "attack"
-						children = 
-						[
-							{
-								_class = "AnimEvent"
-								event_class = "AE_CL_CREATE_PARTICLE_EFFECT"
-								event_frame = 0
-								event_keys = 
-								{
-									name = resource:"particles/bullet_muzzleflash.vpcf"
-									detach_from_owner = false
-									always_run = false
-									stop_on_seq_change = false
-									stop_immediately = false
-									use_layer_sequence = false
-									tags = ""
-									attachment_point = "muzzle"
-									attachment_type = "point_follow"
-									attachment_point_cp1 = ""
-									attachment_type_cp1 = "point_follow"
-								}
-							},
-						]
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""
