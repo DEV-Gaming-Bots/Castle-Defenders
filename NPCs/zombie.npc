@@ -7,7 +7,7 @@
 		StartHealth = 35
 		StartArmor = 0
 		Damage = 6.75
-		Speed = 0.8
+		Speed = 15
 		Scale = 0.5
 		IsABoss = false
 		KillReward = 

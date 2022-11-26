@@ -23,7 +23,7 @@ public partial class BaseNPC : AnimatedEntity
 		Alternate,
 	}
 
-	public float ArmourStrength = 0;
+	[Net] public float ArmourStrength { get; set; } = -1;
 	public int SplitAmount => 0;
 
 	public bool IsMinion = false;
@@ -182,15 +182,16 @@ public partial class BaseNPC : AnimatedEntity
 
 	public virtual void SetUpPanel()
 	{
-		Panel = new NPCInfo(NPCNameNet, Health);
+		Panel = new NPCInfo( NPCNameNet, Health, ArmourStrength);
 	}
 
 	[ClientRpc]
 	public virtual void UpdateUI()
 	{
-		Panel.Position = Position + Vector3.Up * 18 * (Scale + 2.0f);
+		Panel.Position = Position + Vector3.Up * 22 * (Scale + 1.35f);
 		Panel.Rotation = Rotation;
-		Panel.CurHealth = MathF.Round(Health, 2);
+		Panel.CurHealth = MathF.Round( Health, 2 );
+		Panel.CurArmor = MathF.Round( ArmourStrength, 2 );
 	}
 
 	public virtual void OnArmourBroken()
@@ -424,7 +425,19 @@ public partial class BaseNPC : AnimatedEntity
 
 	public override void TakeDamage( DamageInfo info )
 	{
-		Health -= info.Damage;
+		if ( ArmourStrength > 0 )
+		{
+			float remainDMG = info.Damage;
+			remainDMG -= ArmourStrength;
+
+			ArmourStrength -= info.Damage;
+			ArmourStrength = ArmourStrength.Clamp( 0, AssetFile.StartArmor );
+
+			if ( ArmourStrength <= 0 && remainDMG > 0 )
+				Health -= remainDMG;
+		}
+		else
+			Health -= info.Damage;
 
 		var attTower = info.Attacker as BaseTower;
 
