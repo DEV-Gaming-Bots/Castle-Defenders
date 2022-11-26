@@ -9,7 +9,7 @@
 
 	public virtual void Tick( Vector3 currentPosition )
 	{
-		if ( Target.IsNearlyZero() )
+		if ( Target.IsNearlyZero() || Target.IsNaN )
 			return;
 
 		Path.Update( currentPosition, Target );
