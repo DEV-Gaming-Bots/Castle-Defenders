@@ -458,16 +458,21 @@ public partial class BaseNPC : AnimatedEntity
 			BaseNPC minion = new BaseNPC();
 			minion.AssetFile = AssetFile;
 			minion.NPCNameNet = NPCNameNet + " Minion";
-			minion.Position = Position + Vector3.Up * 10 + Vector3.Random.x * 25 + Vector3.Random.y * 25;
-			minion.Model = Model;
+			minion.Position = Position + Vector3.Up * 25 + Vector3.Random.x * 25 + Vector3.Random.y * 25;
 			minion.Scale = AssetFile.Scale / 2.0f;
+
+			minion.Model = Model;
 			minion.SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
 			minion.SetMaterialOverride( AssetFile.OverrideMaterial );
+
 			minion.Health = AssetFile.StartHealth / 2;
 			minion.BaseSpeed = AssetFile.Speed * 2;
 			minion.CastleTarget = CastleTarget;
 			minion.Spawn();
 			minion.IsMinion = true;
+
+			minion.CurNode = CurNode;
+			minion.LastNode = LastNode;
 			minion.FindNextPath( minion.Position );
 		}
 	}
