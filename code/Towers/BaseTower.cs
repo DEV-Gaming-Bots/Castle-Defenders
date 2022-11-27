@@ -271,7 +271,7 @@ public partial class BaseTower : AnimatedEntity
 				if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
 					return null;
 
-				var wallTr = Trace.Ray( Position + Vector3.Up * 5, npc.Position + Vector3.Up * 10)
+				var wallTr = Trace.Ray( Position + Vector3.Up * 15, npc.Position + Vector3.Up * 10)
 				.Ignore( this )
 				.UseHitboxes()
 				.WithoutTags( "cdplayer", "tower" )

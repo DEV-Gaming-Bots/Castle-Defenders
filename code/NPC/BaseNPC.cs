@@ -458,7 +458,7 @@ public partial class BaseNPC : AnimatedEntity
 			BaseNPC minion = new BaseNPC();
 			minion.AssetFile = AssetFile;
 			minion.NPCNameNet = NPCNameNet + " Minion";
-			minion.Position = Position + Vector3.Random.x * 25 + Vector3.Random.y * 25;
+			minion.Position = Position + Vector3.Up * 10 + Vector3.Random.x * 25 + Vector3.Random.y * 25;
 			minion.Model = Model;
 			minion.Scale = AssetFile.Scale / 2.0f;
 			minion.SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
