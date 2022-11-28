@@ -4,7 +4,7 @@
 	{
 		Name = "Infected"
 		Description = "Basically an undead creature"
-		StartHealth = 35
+		StartHealth = 50
 		StartArmor = 0
 		Damage = 6.75
 		Speed = 15

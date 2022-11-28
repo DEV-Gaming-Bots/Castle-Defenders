@@ -4,7 +4,7 @@
 	{
 		Name = "Magma Creature"
 		Description = "A very hot magma creature"
-		StartHealth = 90
+		StartHealth = 120
 		StartArmor = 0
 		Damage = 25
 		Speed = 17.5
