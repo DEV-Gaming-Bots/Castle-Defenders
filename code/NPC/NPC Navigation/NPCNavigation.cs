@@ -65,7 +65,7 @@ public sealed class NPCNavigation
 	public Vector3 GetDirection( Vector3 position )
 	{
 		if ( Points.Count <= 0 )
-			return position.WithZ(0).Normal;
+			return position;
 
 		if ( Points.Count == 1 )
 		{

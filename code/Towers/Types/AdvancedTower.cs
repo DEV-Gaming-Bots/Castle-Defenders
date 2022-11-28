@@ -16,7 +16,7 @@ public sealed partial class RadioactiveEmitter : BaseTower
 		"Emits even deadier radiation",
 		"Emits serious radiation damage",
 		"Best not to get too close or you're done for",
-		"Now classed as a Chernobyl diaster... for them",
+		"Now classed as a Chernobyl disaster... for them",
 	};
 	public override int[] TowerLevelCosts => new[]
 	{

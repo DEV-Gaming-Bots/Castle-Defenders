@@ -108,7 +108,7 @@ public sealed partial class SMG : BaseTower
 	};
 
 	public override int TowerMaxLevel => 4;
-	public override int TowerCost => 35;
+	public override int TowerCost => 45;
 	public override int[] TowerLevelCosts => new[]
 	{
 		60,
@@ -119,7 +119,7 @@ public sealed partial class SMG : BaseTower
 
 	public override float DeploymentTime => 3.72f;
 	public override float AttackTime { get; set; } = 0.75f;
-	public override float AttackDamage { get; set; } = 4.75f;
+	public override float AttackDamage { get; set; } = 4.25f;
 	public override int RangeDistance { get; set; } = 100;
 	public override string AttackSound => "pistol_fire";
 

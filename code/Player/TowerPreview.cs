@@ -7,7 +7,6 @@ using System.Text;
 public sealed partial class CDPawn
 {
 	public ModelEntity PreviewTower;
-	public ModelEntity TowerInHand;
 
 	[Net]
 	public BaseTower SelectedTower { get; set; }
@@ -218,10 +217,8 @@ public sealed partial class CDPawn
 
 					SelectedTower?.Delete();
 					SelectedTower = null;
-
-					TowerInHand.Delete();
-					TowerInHand = null;
 				}
+
 				return;
 			}
 
@@ -252,19 +249,6 @@ public sealed partial class CDPawn
 			SelectedTower = TypeLibrary.Create<BaseTower>( TowerSlots[_scrollInt] );
 			SelectedTower.Owner = this;
 			SelectedTower.RenderColor = new Color( 255, 255, 255, 0 );
-
-			if ( TowerInHand != null )
-			{
-				TowerInHand.Delete();
-				TowerInHand = null;
-			}
-
-			TowerInHand = new ModelEntity( SelectedTower.GetModelName() );
-
-			TowerInHand.SetParent(this, true);
-			TowerInHand.Spawn();
-			TowerInHand.LocalScale = 0.5f;
-			TowerInHand.EnableHideInFirstPerson = true;
 
 			CreatePreview( To.Single( this ), SelectedTower.GetModelName() );
 
@@ -339,7 +323,7 @@ public sealed partial class CDPawn
 	public void DoTowerOverview()
 	{
 		//We have a selected tower in preview, stop here
-		if ( SelectedTower.IsValid() || TowerInHand.IsValid())
+		if ( SelectedTower.IsValid() )
 			return;
 
 		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )

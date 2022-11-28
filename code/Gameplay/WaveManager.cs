@@ -167,9 +167,6 @@ public sealed partial class CDGame
 		{
 			x.PreviewTower?.Delete();
 			x.PreviewTower = null;
-
-			x.TowerInHand?.Delete();
-			x.TowerInHand = null;
 		} );
 
 		_mapVote = new MapVoteEntity();

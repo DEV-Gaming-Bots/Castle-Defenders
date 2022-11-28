@@ -78,7 +78,6 @@ public partial class BaseTower : AnimatedEntity
 	public virtual bool CounterAirborne { get; set; } = false;
 
 	public TimeSince TimeSinceDeployed;
-	public TimeSince TimeLastUpgrade;
 	public TimeSince TimeLastAttack;
 
 	public BaseNPC Target;
@@ -141,9 +140,6 @@ public partial class BaseTower : AnimatedEntity
 		if ( TimeSinceDeployed < DeploymentTime )
 			return false;
 
-		if ( TimeLastUpgrade < 5.0f )
-			return false;
-
 		if ( (Owner as CDPawn).GetCash() < TowerLevelCosts[TowerLevel - 1] )
 			return false;
 
@@ -186,8 +182,6 @@ public partial class BaseTower : AnimatedEntity
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
 
 		NetStats = $"Attack Delay {MathF.Round(AttackTime, 2)} | Damage {AttackDamage} | Range {RangeDistance}";
-
-		TimeLastUpgrade = 0;
 	}
 
 	//Determine if the tower can attack this npc special type

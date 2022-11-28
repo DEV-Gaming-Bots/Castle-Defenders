@@ -458,7 +458,7 @@ public partial class BaseNPC : AnimatedEntity
 			BaseNPC minion = new BaseNPC();
 			minion.AssetFile = AssetFile;
 			minion.NPCNameNet = NPCNameNet + " Minion";
-			minion.Position = Position + Vector3.Up * 25 + Vector3.Random.x * 25 + Vector3.Random.y * 25;
+			minion.Position = Position + Vector3.Up * 25 + Vector3.Random.x * 35 + Vector3.Random.y * 35;
 			minion.Scale = AssetFile.Scale / 2.0f;
 
 			minion.Model = Model;
@@ -472,7 +472,6 @@ public partial class BaseNPC : AnimatedEntity
 			minion.IsMinion = true;
 
 			minion.CurNode = CurNode;
-			minion.LastNode = LastNode;
 			minion.FindNextPath( minion.Position );
 		}
 	}
