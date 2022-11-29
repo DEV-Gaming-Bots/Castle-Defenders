@@ -252,9 +252,6 @@ public partial class BaseTower : AnimatedEntity
 
 		var ents = FindInSphere( Position, RangeDistance );
 
-		if ( CDGame.Instance.Debug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
-			DebugOverlay.Sphere( Position, RangeDistance, Color.Yellow);
-
 		foreach ( var ent in ents )
 		{
 			if ( ent is BaseNPC npc )
@@ -267,13 +264,21 @@ public partial class BaseTower : AnimatedEntity
 
 				var wallTr = Trace.Ray( Position + Vector3.Up * 15, npc.Position + Vector3.Up * 10)
 				.Ignore( this )
-				.UseHitboxes()
-				.WithoutTags( "cdplayer", "tower" )
 				.Run();
 
-				if ( wallTr.Entity == npc )
-					npcList.Add( npc );
+				if ( wallTr.Entity is WorldEntity )
+					continue;
+
+				npcList.Add( npc );
 			}
+		}
+
+		if ( CDGame.Instance.Debug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
+		{
+			DebugOverlay.Sphere( Position, RangeDistance, Color.Yellow );
+
+			foreach (var npc in npcList)
+				DebugOverlay.Line( Position, npc.Position, Color.Yellow, AttackTime );
 		}
 
 		return npcList;
