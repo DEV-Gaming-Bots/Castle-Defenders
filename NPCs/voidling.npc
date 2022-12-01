@@ -2,19 +2,23 @@
 {
 	data = 
 	{
-		Name = "Basic NPC"
-		Description = "Description Info"
-		StartHealth = 5
+		Name = "Void Creature"
+		Description = "A creature from the void"
+		StartHealth = 500
 		StartArmor = 0
-		Damage = 5
-		Speed = 1
-		Scale = 1
+		Damage = 75
+		Speed = 10
+		Scale = 0.45
 		IsABoss = false
 		KillReward = 
 		{
+			MinXP = 45
+			MaxXP = 85
+			MinCash = 50
+			MaxCash = 100
 		}
 		NPCType = "Standard"
-		OverrideMaterial = null
+		OverrideMaterial = resource:"materials/npcs/void.vmat"
 		OverrideColor = "1,1,1,1"
 		Hat = null
 		Top = null

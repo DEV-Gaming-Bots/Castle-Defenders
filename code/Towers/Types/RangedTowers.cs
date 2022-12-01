@@ -118,7 +118,7 @@ public sealed partial class SMG : BaseTower
 	};
 
 	public override float DeploymentTime => 3.72f;
-	public override float AttackTime { get; set; } = 0.75f;
+	public override float AttackTime { get; set; } = 1.15f;
 	public override float AttackDamage { get; set; } = 4.25f;
 	public override int RangeDistance { get; set; } = 100;
 	public override string AttackSound => "pistol_fire";
@@ -266,18 +266,15 @@ public sealed partial class Sniper : BaseTower
 	{
 		Host.AssertClient();
 
-		if ( _laserSight != null )
-		{
-			_laserSight.Destroy( true );
-			_laserSight = null;
-		}
+		_laserSight?.Destroy( true );
+		_laserSight = null;
 	}
 
 	public override void Attack( BaseNPC target )
 	{
-		LaserOff();
 
 		_lockedOnTarget = false;
+		LaserOff(To.Everyone);
 
 		base.Attack( target );
 	}

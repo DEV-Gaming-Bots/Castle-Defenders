@@ -333,7 +333,7 @@ public sealed partial class CDPawn
 
 		if ( tr.Entity is BaseTower tower && tower.Owner == this && tr.Entity is not BaseSuperTower )
 		{
-			if ( Input.Pressed( InputButton.PrimaryAttack ) && tower.CanUpgrade() )
+			if ( Input.Pressed( InputButton.PrimaryAttack ) )
 				tower.UpgradeTower();
 
 			if ( Input.Pressed( InputButton.SecondaryAttack ) )

@@ -15,7 +15,7 @@ public sealed class WaveSetup : Entity
 	[Property( "SpawnCount" ), Description( "How many times should this spawn for that NPC" )]
 	public int SpawnCount { get; set; } = 1;
 
-	[Property( "IsBossWave" ), Description( "Is this a boss wave, you should only set only one on a wave" )]
+	[Property( "IsBossWave" ), Description( "Is this a boss wave, you should set only one on a wave" )]
 	public bool IsBossWave { get; set; } = false;
 
 	[Property, Description("A message that will be displayed in the chat")]

@@ -157,10 +157,25 @@
 				]
 				default_root_bone_name = ""
 			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_tags = "solid"
+						origin = [ -0.747665, -0.493542, 106.607742 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						dimensions = [ 203.27597, 200.731277, 223.215485 ]
+					},
+				]
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = ""
+		anim_graph_name = "animgraphs/base_tower_anim_misc.vanmgrph"
 		base_model_name = ""
 	}
 }

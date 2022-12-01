@@ -12,6 +12,10 @@
 		IsABoss = false
 		KillReward = 
 		{
+			MinXP = 20
+			MaxXP = 40
+			MinCash = 15
+			MaxCash = 53
 		}
 		NPCType = "Standard"
 		OverrideMaterial = resource:"materials/npcs/magma.vmat"

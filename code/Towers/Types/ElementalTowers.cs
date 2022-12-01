@@ -110,7 +110,7 @@ public sealed partial class Lightning : BaseTower
 
 		var lightning = Particles.Create( "particles/lightning_beam.vpcf" );
 
-		if ( !_shockParticles.Any() )
+		if ( _shockParticles.Count <= 0)
 		{
 			lightning.SetEntityAttachment( 1, this, "muzzle" );
 			lightning.SetEntity( 0, target, Vector3.Up * 25 );

@@ -37,9 +37,10 @@ public sealed partial class CDPawn : IPlayerData
 		TowerSlots.Add( 1, "SMG" );
 		TowerSlots.Add( 2, "Sniper" );
 		TowerSlots.Add( 3, "Trickster" );
-		TowerSlots.Add( 4, "RadioactiveEmitter" );
-		TowerSlots.Add( 5, "Lightning" );
-		TowerSlots.Add( 6, "TimeDisplacer" );
+		TowerSlots.Add( 4, "Radar" );
+		TowerSlots.Add( 5, "RadioactiveEmitter" );
+		TowerSlots.Add( 6, "Lightning" );
+		TowerSlots.Add( 7, "TimeDisplacer" );
 
 		//CDGame.Instance.SaveData( this );
 	}

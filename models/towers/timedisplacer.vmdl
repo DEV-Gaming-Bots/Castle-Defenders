@@ -202,7 +202,7 @@
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
-		anim_graph_name = "animgraphs/base_tower_anim.vanmgrph"
+		anim_graph_name = "animgraphs/base_tower_anim_misc.vanmgrph"
 		base_model_name = ""
 	}
 }

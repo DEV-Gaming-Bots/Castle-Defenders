@@ -79,10 +79,17 @@ public partial class BaseTower : AnimatedEntity
 
 	public TimeSince TimeSinceDeployed;
 	public TimeSince TimeLastAttack;
+	public TimeSince TimeLastUpg;
 
 	public BaseNPC Target;
 
-	private float _scanRot;
+	public bool HasEnhanced;
+
+	float _scanRot;
+
+	float baseAttSpeed;
+	int baseRange;
+	float baseDamage;
 
 	public override void Spawn()
 	{
@@ -97,9 +104,15 @@ public partial class BaseTower : AnimatedEntity
 			NetCost = TowerCost;
 		else
 		{
+			baseDamage = AttackDamage;
+			baseAttSpeed = AttackTime;
+			baseRange = RangeDistance;
+			HasEnhanced = false;
+
 			NetCost = TowerLevelCosts[TowerLevel - 1];
 			PlayDeployAnimRPC( To.Everyone );
 		}
+
 		NetName = TowerName;
 		NetDesc = TowerDesc;
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
@@ -137,7 +150,10 @@ public partial class BaseTower : AnimatedEntity
 		if ( TowerLevel >= TowerMaxLevel )
 			return false;
 
-		if ( TimeSinceDeployed < DeploymentTime )
+		if ( TimeLastUpg <= 1.5 )
+			return false;
+
+		if ( TimeSinceDeployed <= DeploymentTime )
 			return false;
 
 		if ( (Owner as CDPawn).GetCash() < TowerLevelCosts[TowerLevel - 1] )
@@ -159,29 +175,52 @@ public partial class BaseTower : AnimatedEntity
 		Delete();
 	}
 
+	public void ResetAndRestoreStats()
+	{
+		AttackTime = baseAttSpeed;
+		AttackDamage = baseDamage;
+		RangeDistance = baseRange;
+
+		for ( int i = 1; i <= TowerLevel-1; i++ )
+		{
+			AttackTime += Upgrades[i-1].AttTime;
+			AttackDamage += Upgrades[i-1].AttDMG;
+			RangeDistance += Upgrades[i-1].NewRange;
+		}
+
+		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
+		NetStats = $"Attack Delay {MathF.Round( AttackTime, 2 )} | Damage {MathF.Round( AttackDamage, 2 )} | Range {RangeDistance}";
+	}
+
 	public virtual void UpgradeTower()
 	{
+		if ( !CanUpgrade() )
+			return;
+
 		if ( Upgrades.Count <= TowerLevel - 1)
 		{
 			Log.Error( "Theres currently no upgrades for the next level" );
 			return;
 		}
 
+		HasEnhanced = false;
+		TimeLastUpg = 0;
+
 		PlayUpgradeAnimRPC(To.Everyone);
 
 		(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
-		
+
 		AttackTime += Upgrades[TowerLevel - 1].AttTime;
 		AttackDamage += Upgrades[TowerLevel - 1].AttDMG;
 		RangeDistance += Upgrades[TowerLevel - 1].NewRange;
-		
+
 		TowerLevel++;
 		
 		NetDesc = TowerLevelDesc[TowerLevel - 1];
 		NetCost = TowerLevelCosts[TowerLevel - 1];
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
 
-		NetStats = $"Attack Delay {MathF.Round(AttackTime, 2)} | Damage {AttackDamage} | Range {RangeDistance}";
+		NetStats = $"Attack Delay {MathF.Round( AttackTime, 2 )} | Damage {MathF.Round( AttackDamage, 2 )} | Range {RangeDistance}";
 	}
 
 	//Determine if the tower can attack this npc special type

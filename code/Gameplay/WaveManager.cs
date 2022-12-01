@@ -64,13 +64,13 @@ public sealed partial class CDGame
 	public int LoopedTimes { get; set; }
 
 	[Net]
-	public TimeUntil TimeRemaining { get; protected set; }
+	public TimeUntil TimeRemaining { get; private set; }
 
 	[Net]
-	public int CurWave { get; protected set; }
+	public int CurWave { get; private set; }
 
 	[Net]
-	public int MaxWaves { get; protected set; }
+	public int MaxWaves { get; private set; }
 
 	private int _mapAttempts;
 
@@ -339,7 +339,7 @@ public sealed partial class CDGame
 	public void StartPreWave()
 	{
 		CurWave++;
-		TimeRemaining = 20.0f;
+		TimeRemaining = 10.0f;
 		WaveStatus = WaveEnum.Pre;
 	}
 

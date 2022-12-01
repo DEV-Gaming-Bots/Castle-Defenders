@@ -126,7 +126,7 @@ public partial class BaseNPC : AnimatedEntity
 		}
 
 		NPCNameNet = asset.Name;
-		Health = asset.StartHealth * GetDifficulty() * CDGame.Instance.LoopedTimes;
+		Health = asset.StartHealth * (GetDifficulty() + CDGame.Instance.LoopedTimes - 1);
 		BaseSpeed = asset.Speed;
 		Damage = asset.Damage;
 		Scale = asset.Scale;
@@ -137,7 +137,7 @@ public partial class BaseNPC : AnimatedEntity
 		if ( asset.OverrideColor != Color.White)
 			RenderColor = asset.OverrideColor;
 
-		CashReward = (int)(Rand.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash ) * ScaleRewards());
+		CashReward = (int)(Rand.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash ) * ScaleRewards() / 2.25f);
 		ExpReward = (int)(Rand.Int( asset.KillReward.MinXP, asset.KillReward.MaxXP ) * ScaleRewards());
 
 		AssetFile = asset;
