@@ -465,14 +465,13 @@ public partial class BaseNPC : AnimatedEntity
 			minion.SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
 			minion.SetMaterialOverride( AssetFile.OverrideMaterial );
 
-			minion.Health = AssetFile.StartHealth / 2;
+			minion.Health = AssetFile.StartHealth / 4;
 			minion.BaseSpeed = AssetFile.Speed * 2;
 			minion.CastleTarget = CastleTarget;
 			minion.Spawn();
 			minion.IsMinion = true;
 
-			minion.CurNode = CurNode;
-			minion.FindNextPath( minion.Position );
+			minion.Steer.Target = Steer.Target;
 		}
 	}
 

@@ -348,8 +348,7 @@ public sealed partial class CDGame
 
 		Instance.ClearNPCs();
 		Instance.PostWave();
-		Instance.CurWave = wave - 1;
-		
+		Instance.CurWave = Instance.CurWave.Clamp(wave - 1, Instance.MaxWaves);
 	}
 
 	[ConCmd.Server( "cd_wave_restart" )]
