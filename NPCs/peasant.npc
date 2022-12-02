@@ -4,7 +4,7 @@
 	{
 		Name = "Peasant"
 		Description = "A basic peasant hostile"
-		StartHealth = 20
+		StartHealth = 15
 		StartArmor = 0
 		Damage = 2.5
 		Speed = 17.5
@@ -14,8 +14,8 @@
 		{
 			MinXP = 5
 			MaxXP = 15
-			MinCash = 3
-			MaxCash = 10
+			MinCash = 7
+			MaxCash = 11
 		}
 		NPCType = "Standard"
 		OverrideMaterial = null

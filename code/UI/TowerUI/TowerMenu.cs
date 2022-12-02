@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using System.Security.Cryptography.X509Certificates;
 
 public sealed class TowerMenu : Panel
 {
@@ -11,6 +12,13 @@ public sealed class TowerMenu : Panel
 	public Label TowerOwner;
 	public Label TowerStats;
 	public Label NextUpgrade;
+
+	public Panel InputGlyphPnl;
+	public Label PrimMouseLabel;
+	public Image MousePrim;
+
+	public Label SecondMouseLabel;
+	public Image MouseSecond;
 
 	public TowerMenu()
 	{
@@ -23,6 +31,20 @@ public sealed class TowerMenu : Panel
 		NextUpgrade = TowerPnl.Add.Label( "Next Upgrade: ???", "towerNextUpg" );
 		TowerStats = TowerPnl.Add.Label( "Statistics: ???", "towerStats" );
 		TowerOwner = TowerPnl.Add.Label( "", "towerOwner" );
+
+
+		InputGlyphPnl = Add.Panel( "inputPnl" );
+
+		MousePrim = InputGlyphPnl.Add.Image(null, "primMouse" );
+		MousePrim.SetTexture( Input.GetGlyph( InputButton.PrimaryAttack ).ResourcePath );
+
+		PrimMouseLabel = InputGlyphPnl.Add.Label( "???", "text" );
+
+		MouseSecond = InputGlyphPnl.Add.Image( null, "secondMouse" );
+		MouseSecond.SetTexture( Input.GetGlyph( InputButton.SecondaryAttack ).ResourcePath );
+
+		SecondMouseLabel = InputGlyphPnl.Add.Label( "???", "text" );
+
 	}
 
 	public override void Tick()
@@ -45,7 +67,10 @@ public sealed class TowerMenu : Panel
 			TowerStats.SetText( "" );
 
 			TowerPnl.SetClass( "showMenu", true );
+			InputGlyphPnl.SetClass( "showInputs", true );
 
+			PrimMouseLabel.SetText( "Place Tower" );
+			SecondMouseLabel.SetText( "" );
 			return;
 		}
 
@@ -61,11 +86,10 @@ public sealed class TowerMenu : Panel
 			TowerName.SetText( superTower.NetName );
 			TowerDesc.SetText( superTower.NetDesc );
 
-			if( superTower.Owner == player)
-			{
-				TowerCost.SetText( "Use your 'Primary Fire' to use this ability" );
-				NextUpgrade.SetText( "When using, use your 'Primary Fire' again on an area to activate" );
-			}
+			InputGlyphPnl.SetClass( "showInputs", true );
+
+			PrimMouseLabel.SetText( "Use Active Ability, Press again to use" );
+			SecondMouseLabel.SetText( "Cancel ability while using" );
 
 			TowerStats.SetText(superTower.NetAbility);
 			return;
@@ -75,7 +99,7 @@ public sealed class TowerMenu : Panel
 		{
 			TowerPnl.SetClass( "showMenu", true );
 
-			TowerOwner.SetText( $"Owner: {tower.Owner.Client.Name}");
+			TowerOwner.SetText( $"Owner: {tower.Owner.Client.Name}" );
 
 			TowerName.SetText( tower.NetName );
 			TowerDesc.SetText( tower.NetDesc );
@@ -91,11 +115,17 @@ public sealed class TowerMenu : Panel
 				NextUpgrade.SetText( "" );
 			}
 
-			//Log.Info( tower.NetStats );
-
 			TowerStats.SetText( $"{tower.NetStats}" );
+
+			InputGlyphPnl.SetClass( "showInputs", true );
+
+			PrimMouseLabel.SetText( "Upgrade" );
+			SecondMouseLabel.SetText( "Sell" );
 		}
 		else
+		{
 			TowerPnl.SetClass( "showMenu", false );
+			InputGlyphPnl.SetClass( "showInputs", false );
+		}
 	}
 }

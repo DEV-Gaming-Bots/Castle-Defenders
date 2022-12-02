@@ -374,4 +374,10 @@ public sealed partial class CDGame
 		WaveStatus = WaveEnum.Post;
 		TimeRemaining = 10.0f;
 	}
+
+	public void ClearNPCs()
+	{
+		All.OfType<WaveSetup>().ToList().ToList().ForEach( x => x.StopSpawning() ); 
+		All.OfType<BaseNPC>().ToList().ToList().ForEach( x => x.Delete() );
+	}
 }

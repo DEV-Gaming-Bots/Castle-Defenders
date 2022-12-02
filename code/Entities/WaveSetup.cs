@@ -187,4 +187,9 @@ public sealed class WaveSetup : Entity
 		_timeSinceWaveStart = 0;
 		_spawnToggle = true;
 	}
+
+	public void StopSpawning()
+	{
+		_spawnToggle = false;
+	}
 }

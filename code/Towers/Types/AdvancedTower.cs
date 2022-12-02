@@ -145,6 +145,14 @@ public sealed partial class Trickster : BaseTower
 
 	public override void UpgradeTower()
 	{
+		if ( IsPreviewing )
+			return;
+
+		if ( TimeSinceDeployed < DeploymentTime )
+			return;
+
+		if ( !IsServer ) return;
+
 		switch ( TowerLevel )
 		{
 			case 1:

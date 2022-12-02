@@ -14,8 +14,8 @@
 		{
 			MinXP = 7
 			MaxXP = 25
-			MinCash = 10
-			MaxCash = 30
+			MinCash = 15
+			MaxCash = 40
 		}
 		NPCType = "Standard"
 		OverrideMaterial = resource:"materials/npcs/zombie.vmat"

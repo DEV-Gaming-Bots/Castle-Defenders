@@ -336,4 +336,33 @@ public sealed partial class CDGame
 
 		player.UpdateSlots( To.Single( player ), "Hands", 0 );
 	}
+
+	[ConCmd.Server("cd_wave_set")]
+	public static void SetWave(int wave)
+	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+		Instance.ClearNPCs();
+		Instance.PostWave();
+		Instance.CurWave = wave - 1;
+		
+	}
+
+	[ConCmd.Server( "cd_wave_restart" )]
+	public static void RestartWave()
+	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+		Instance.ClearNPCs();
+		Instance.PostWave();
+		Instance.CurWave -= 1;
+	}
 }
