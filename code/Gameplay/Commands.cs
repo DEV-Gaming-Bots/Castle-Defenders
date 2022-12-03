@@ -63,39 +63,8 @@ public sealed partial class CDGame
 		}
 	}
 
-	[ConCmd.Server( "cd_diff_set_dedi" )]
-	public static void SetDifficultyDedicated( string diffName )
-	{
-		if(!Host.IsDedicatedServer)
-		{
-			Log.Error( "This command is for dedicated servers only" );
-			return;
-		}
-
-		switch ( diffName.ToLower() )
-		{
-			case "easy":
-				Instance.Difficulty = DiffEnum.Easy;
-				break;
-			case "medium":
-				Instance.Difficulty = DiffEnum.Medium;
-				break;
-			case "hard":
-				Instance.Difficulty = DiffEnum.Hard;
-				break;
-			case "extreme":
-				Instance.Difficulty = DiffEnum.Extreme;
-				break;
-			default:
-				Log.Error( "Invalid setter for difficulty" );
-				return;
-		}
-
-		Log.Info( "Updated difficulty to " + Instance.Difficulty );
-	}
-
 	[ConCmd.Admin( "cd_diff_set" )]
-	public static void SetDifficulty( string diffName )
+	public static void SetDifficulty( int diffInt )
 	{
 		if ( !Instance.Debug )
 		{
@@ -103,18 +72,18 @@ public sealed partial class CDGame
 			return;
 		}
 
-		switch(diffName.ToLower())
+		switch( diffInt )
 		{
-			case "easy":
+			case 1:
 				Instance.Difficulty = DiffEnum.Easy;
 				break;
-			case "medium":
+			case 2:
 				Instance.Difficulty = DiffEnum.Medium;
 				break;
-			case "hard":
+			case 3:
 				Instance.Difficulty = DiffEnum.Hard;
 				break;
-			case "extreme":
+			case 4:
 				Instance.Difficulty = DiffEnum.Extreme;
 				break;
 			default:

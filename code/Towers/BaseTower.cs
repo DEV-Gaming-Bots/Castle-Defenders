@@ -116,7 +116,7 @@ public partial class BaseTower : AnimatedEntity
 		NetName = TowerName;
 		NetDesc = TowerDesc;
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
-		NetStats = $"Attack Delay {AttackTime} | Damage {AttackDamage} | Range {RangeDistance}";
+		NetStats = $"DPS {MathF.Round( AttackDamage * AttackTime, 2 )} | Range {RangeDistance}";
 
 		Tags.Add( "tower" );
 	}
@@ -189,7 +189,7 @@ public partial class BaseTower : AnimatedEntity
 		}
 
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
-		NetStats = $"Attack Delay {MathF.Round( AttackTime, 2 )} | Damage {MathF.Round( AttackDamage, 2 )} | Range {RangeDistance}";
+		NetStats = $"DPS {MathF.Round( AttackDamage * AttackTime, 2 )} | Range {RangeDistance}";
 	}
 
 	public virtual void UpgradeTower()
@@ -220,7 +220,7 @@ public partial class BaseTower : AnimatedEntity
 		NetCost = TowerLevelCosts[TowerLevel - 1];
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
 
-		NetStats = $"Attack Delay {MathF.Round( AttackTime, 2 )} | Damage {MathF.Round( AttackDamage, 2 )} | Range {RangeDistance}";
+		NetStats = $"DPS {MathF.Round(AttackDamage * AttackTime, 2)} | Range {RangeDistance}";
 	}
 
 	//Determine if the tower can attack this npc special type

@@ -15,7 +15,7 @@
 			MinXP = 15
 			MaxXP = 40
 			MinCash = 18
-			MaxCash = 42
+			MaxCash = 35
 		}
 		NPCType = "Armoured"
 		OverrideMaterial = null

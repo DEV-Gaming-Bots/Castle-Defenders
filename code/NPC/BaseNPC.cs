@@ -137,7 +137,7 @@ public partial class BaseNPC : AnimatedEntity
 		if ( asset.OverrideColor != Color.White)
 			RenderColor = asset.OverrideColor;
 
-		CashReward = (int)(Rand.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash ) * ScaleRewards() / 2.25f);
+		CashReward = Rand.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash );
 		ExpReward = (int)(Rand.Int( asset.KillReward.MinXP, asset.KillReward.MaxXP ) * ScaleRewards());
 
 		AssetFile = asset;
@@ -458,7 +458,7 @@ public partial class BaseNPC : AnimatedEntity
 			BaseNPC minion = new BaseNPC();
 			minion.AssetFile = AssetFile;
 			minion.NPCNameNet = NPCNameNet + " Minion";
-			minion.Position = Position + Vector3.Up * 25 + Vector3.Random.x * 35 + Vector3.Random.y * 35;
+			minion.Position = Position + Vector3.Up * 50 + Vector3.Random.x * 25 + Vector3.Random.y * 25;
 			minion.Scale = AssetFile.Scale / 2.0f;
 
 			minion.Model = Model;

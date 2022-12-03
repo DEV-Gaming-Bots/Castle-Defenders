@@ -105,12 +105,15 @@ public sealed partial class Lightning : BaseTower
 	{
 		Host.AssertClient();
 
+		if ( _shockParticles == null )
+			_shockParticles = new List<Particles>();
+
 		if ( target == null )
 			return;
 
 		var lightning = Particles.Create( "particles/lightning_beam.vpcf" );
 
-		if ( _shockParticles.Count <= 0)
+		if ( _shockParticles.Count <= 0 )
 		{
 			lightning.SetEntityAttachment( 1, this, "muzzle" );
 			lightning.SetEntity( 0, target, Vector3.Up * 25 );

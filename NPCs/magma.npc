@@ -14,7 +14,7 @@
 		{
 			MinXP = 20
 			MaxXP = 40
-			MinCash = 15
+			MinCash = 25
 			MaxCash = 53
 		}
 		NPCType = "Standard"

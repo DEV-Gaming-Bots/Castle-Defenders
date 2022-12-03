@@ -87,7 +87,7 @@ public sealed partial class SMG : BaseTower
 		"",
 		"A two barrel SMG for more damage along with better firing",
 		"A more improved version with a spinning barrel",
-		"Now there are 4 total spinning barrels, who are they to judge"
+		"A very fast spinning smg, don't mess with it"
 	};
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
@@ -121,7 +121,7 @@ public sealed partial class SMG : BaseTower
 	public override float AttackTime { get; set; } = 1.15f;
 	public override float AttackDamage { get; set; } = 4.25f;
 	public override int RangeDistance { get; set; } = 100;
-	public override string AttackSound => "pistol_fire";
+	public override string AttackSound => "smg_fire";
 
 	[Event.Tick.Server]
 	public override void SimulateTower()

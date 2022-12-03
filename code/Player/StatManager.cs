@@ -31,18 +31,16 @@ public sealed partial class CDPawn : IPlayerData
 	{
 		Level = 1;
 		EXP = 0;
-		ReqEXP = 250;
+		ReqEXP = 500;
 
+		CDGame.Instance.SaveData( this );
+	}
+
+	public void SetTowerSlots()
+	{
 		TowerSlots.Add( 0, "Pistol" );
 		TowerSlots.Add( 1, "SMG" );
 		TowerSlots.Add( 2, "Sniper" );
-		TowerSlots.Add( 3, "Trickster" );
-		TowerSlots.Add( 4, "Radar" );
-		TowerSlots.Add( 5, "RadioactiveEmitter" );
-		TowerSlots.Add( 6, "Lightning" );
-		TowerSlots.Add( 7, "TimeDisplacer" );
-
-		//CDGame.Instance.SaveData( this );
 	}
 
 	public void LoadStats(IPlayerData playerData)
@@ -50,7 +48,7 @@ public sealed partial class CDPawn : IPlayerData
 		Level = playerData.Level;
 		EXP = playerData.EXP;
 		ReqEXP = playerData.ReqEXP;
-		TowerSlots = playerData.TowerSlots;
+		//TowerSlots = playerData.TowerSlots;
 	}
 
 	[Net]
@@ -66,7 +64,7 @@ public sealed partial class CDPawn : IPlayerData
 		if ( CDGame.Instance.LoopedTimes > 1 )
 			return;
 
-		Cash = 60 + (Level - 1) * 10;
+		Cash = 60 + (Level - 1) * 5;
 
 		SelectedTower?.Delete();
 		SelectedTower = null;
@@ -131,7 +129,7 @@ public sealed partial class CDPawn : IPlayerData
 			{
 				Level++;
 				EXP -= ReqEXP;
-				ReqEXP += (Level - 1) * 250;
+				ReqEXP += (int)(7 * Math.Pow( Level + 3, 3 ) );
 			}
 		}
 	}
