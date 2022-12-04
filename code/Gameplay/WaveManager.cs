@@ -246,7 +246,7 @@ public sealed partial class CDGame
 	}
 	public void StartGame()
 	{
-		All.OfType<CDPawn>().ToList().ForEach( x => x.DestroyPreview() );
+		All.OfType<CDPawn>().ToList().ForEach( x => x.ResetPlayer() );
 
 		Map.Reset(DefaultCleanupFilter);
 

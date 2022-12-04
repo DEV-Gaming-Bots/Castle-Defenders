@@ -70,9 +70,9 @@ public partial class BaseNPC : AnimatedEntity
 		switch(CDGame.Instance.Difficulty)
 		{
 			case CDGame.DiffEnum.Easy: return 1.0f;
-			case CDGame.DiffEnum.Medium: return 2.25f;
-			case CDGame.DiffEnum.Hard: return 4.5f;
-			case CDGame.DiffEnum.Extreme: return 6.75f;
+			case CDGame.DiffEnum.Medium: return 1.75f;
+			case CDGame.DiffEnum.Hard: return 3.25f;
+			case CDGame.DiffEnum.Extreme: return 6.5f;
 		}
 
 		return 0.0f;
@@ -137,7 +137,10 @@ public partial class BaseNPC : AnimatedEntity
 		if ( asset.OverrideColor != Color.White)
 			RenderColor = asset.OverrideColor;
 
+
 		CashReward = Rand.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash );
+		CashReward /= (int)Client.All.Count / 2;
+
 		ExpReward = (int)(Rand.Int( asset.KillReward.MinXP, asset.KillReward.MaxXP ) * ScaleRewards());
 
 		AssetFile = asset;

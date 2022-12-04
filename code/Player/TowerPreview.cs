@@ -90,6 +90,12 @@ public sealed partial class CDPawn
 		PreviewTower = null;
 	}
 
+	public void ResetPlayer()
+	{
+		TotalTowers = 0;
+		DestroyPreview();
+	}
+
 	public void ShowRadius(BaseTower tower)
 	{
 		Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.RangeDistance, Color.Green.WithAlpha( 0.75f ), false );

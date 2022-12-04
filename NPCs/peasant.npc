@@ -14,8 +14,8 @@
 		{
 			MinXP = 5
 			MaxXP = 15
-			MinCash = 9
-			MaxCash = 13
+			MinCash = 5
+			MaxCash = 10
 		}
 		NPCType = "Standard"
 		OverrideMaterial = null
