@@ -131,11 +131,11 @@ public sealed partial class CDGame
 					return;
 				}
 
-				StartMapVote();
+				//StartMapVote();
 				return;
 
 			case GameEnum.MapChange:
-				Global.ChangeLevel( _mapVote.WinningMap );
+				Global.ChangeLevel( Global.MapName );
 				break;
 		}
 

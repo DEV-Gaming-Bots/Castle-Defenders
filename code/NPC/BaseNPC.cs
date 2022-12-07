@@ -139,7 +139,8 @@ public partial class BaseNPC : AnimatedEntity
 
 
 		CashReward = Rand.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash );
-		CashReward /= (int)Client.All.Count / 2;
+		CashReward /= Client.All.Count;
+		CashReward = CashReward.Clamp( 1, asset.KillReward.MaxCash );
 
 		ExpReward = (int)(Rand.Int( asset.KillReward.MinXP, asset.KillReward.MaxXP ) * ScaleRewards());
 
@@ -411,10 +412,14 @@ public partial class BaseNPC : AnimatedEntity
 	{
 		base.Simulate( cl );
 
-		Rotation = Input.Rotation;
+		var moveInput = Input.AnalogLook.ToRotation();
+
+		Rotation = moveInput;
 		EyeRotation = Rotation;
 
-		Velocity += Input.Rotation * new Vector3( Input.Forward, Input.Left, Input.Up ) * BaseSpeed * SpeedMultiplier * 5 * Time.Delta;
+		//Velocity += Input.AnalogLook.ToRotation() * new Vector3( Input.Forward, Input.Left, Input.Up ) * BaseSpeed * SpeedMultiplier * 5 * Time.Delta;
+
+		Velocity += Input.AnalogLook.ToRotation() * Input.AnalogMove * BaseSpeed * SpeedMultiplier * 5 * Time.Delta;
 		if ( Velocity.Length > BaseSpeed * SpeedMultiplier ) Velocity = Velocity.Normal * BaseSpeed * SpeedMultiplier;
 
 		Velocity = Velocity.Approach( 0, Time.Delta * BaseSpeed * SpeedMultiplier * 3 );
@@ -512,7 +517,7 @@ public partial class BaseNPC : AnimatedEntity
 	{
 		base.FrameSimulate( cl );
 
-		Rotation = Input.Rotation;
+		Rotation = Input.AnalogLook.ToRotation();
 		EyeRotation = Rotation;
 		Position += Velocity * Time.Delta;
 	}

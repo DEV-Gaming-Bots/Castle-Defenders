@@ -22,7 +22,7 @@ sealed class MapVotePanel : Panel
 
 	public async Task PopulateMaps()
 	{
-		var query = new Package.Query
+		/*var query = new Package.Query
 		{
 			Type = Package.Type.Map,
 			Order = Package.Order.User,
@@ -36,7 +36,7 @@ sealed class MapVotePanel : Panel
 		foreach ( var package in packages )
 		{
 			AddMap( package.FullIdent );
-		}
+		}*/
 	}
 
 	private MapIcon AddMap( string fullIdent )

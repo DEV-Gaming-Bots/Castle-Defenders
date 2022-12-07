@@ -107,7 +107,7 @@ public sealed partial class Radar : BaseTower
 	{
 		foreach ( BaseTower tower in towersScanned.ToArray())
 		{
-			if ( tower is Radar )
+			if ( tower is Radar || tower == this )
 				continue;
 
 			tower.ResetAndRestoreStats();
@@ -138,8 +138,7 @@ public sealed partial class Radar : BaseTower
 
 		foreach ( var ent in ents )
 		{
-
-			if ( ent is BaseTower tower && !towersScanned.Contains( tower ) && tower is not Radar && !tower.IsPreviewing )
+			if ( ent is BaseTower tower && !towersScanned.Contains( tower ) && !(tower is Radar || tower == this) && !tower.IsPreviewing )
 				towersScanned.Add( tower );
 		}
 	}
