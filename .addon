@@ -12,7 +12,6 @@
   ],
   "HasCode": true,
   "CodePath": "/code/",
-  "RootNamespace": "Sandbox",
   "Metadata": {
     "MapList": [
       "devbots."
@@ -166,6 +165,54 @@
     "Summary": "A tower defence game",
     "Description": "[W.I.P]\n\nA lot of things in this game will probably change as development progress, nothing is final\n\nImportant things to know for playtesting:\nPerformance may be impacted depending on how many towers or NPCs there are\nCompetitive mode will only work on maps that support it else it\u0027ll revert to Cooperative\n\nSupertowers (like the time displacer) have one use active abilities\nuse your primary fire on the supertower and again on a target area\n\n[FOR MAPPERS]\nYou will need the base NPC pack for your map to function, You can also create your own\nhttps://github.com/DEV-Gaming-Bots/CastleTD-NPC-Creator\n\nCredits:\nItsRifter - Creator/Programmer\nSharpMars - Programmer\nTameranian - Modeller\nBaik - Modeller\nAlexVeeBee - UI/UX Designer\nFreesound.org - Providing sounds\nFootagecrate.com - Providing music",
     "ReplaceTags": "",
-    "Public": true
+    "Public": true,
+    "PackageSettings": [
+      {
+        "DisplayType": "Boolean",
+        "Choices": [],
+        "ConVarName": "cd_competitve",
+        "DisplayName": "Competitive Mode",
+        "DefaultValue": "false",
+        "Description": "",
+        "Group": ""
+      },
+      {
+        "DisplayType": "Choice",
+        "Choices": [
+          {
+            "Value": "Easy",
+            "Name": "Easy"
+          },
+          {
+            "Value": "Medium",
+            "Name": "Medium"
+          },
+          {
+            "Value": "Hard",
+            "Name": "Hard"
+          },
+          {
+            "Value": "Extreme",
+            "Name": "Extreme"
+          }
+        ],
+        "ConVarName": "cd_diff",
+        "DisplayName": "Difficulty",
+        "DefaultValue": "Easy",
+        "Description": "",
+        "Group": ""
+      },
+      {
+        "DisplayType": "Integer",
+        "Choices": [],
+        "ConVarName": "cd_towerlimit",
+        "DisplayName": "Tower Limit",
+        "DefaultValue": "30",
+        "Description": "How many towers can each player place",
+        "Group": "",
+        "Minimum": 5,
+        "Maximum": 60
+      }
+    ]
   }
 }

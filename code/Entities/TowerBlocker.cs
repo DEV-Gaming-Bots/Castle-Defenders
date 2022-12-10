@@ -1,11 +1,11 @@
 ﻿using Sandbox;
-using SandboxEditor;
+using Editor;
 
 [Library( "cd_tower_blocker" )]
 [Title( "Tower Blocker" ), Description( "Prevents spawning of towers" )]
 [Solid, RenderFields]
 [HammerEntity]
-public sealed class TowerBlocker : ModelEntity
+public  class TowerBlocker : ModelEntity
 {
 	public override void Spawn()
 	{

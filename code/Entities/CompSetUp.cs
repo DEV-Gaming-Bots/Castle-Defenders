@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Sandbox;
-using SandboxEditor;
+using Editor;
 
 [Library( "cd_comp_setup" )]
 [Title( "Competitive Setup" ), Description( "Sets up the map for competitive" )]
 [HammerEntity]
-public sealed class CompSetUp : Entity
+public  class CompSetUp : Entity
 {
 	[Property, Description("The comp doors, will toggle depending if competitive is on or not")]
 	public EntityTarget CompetitiveDoor { get; set; }

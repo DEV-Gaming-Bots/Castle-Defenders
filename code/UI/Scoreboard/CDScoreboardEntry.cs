@@ -4,7 +4,7 @@ using Sandbox.UI.Construct;
 
 public class CDScoreboardEntry : Panel
 {
-	public Client Client;
+	public IClient Client;
 
 	public Label PlayerName;
 	public Label Damage;
@@ -64,10 +64,10 @@ public class CDScoreboardEntry : Panel
 			SetClass( "comp_blueteam", player.CurTeam == CDPawn.TeamEnum.Blue );
 		}
 
-		SetClass( "me", Client == Local.Client );
+		SetClass( "me", Client == Game.LocalClient );
 	}
 
-	public virtual void UpdateFrom( Client client )
+	public virtual void UpdateFrom( IClient client )
 	{
 		Client = client;
 		UpdateData();

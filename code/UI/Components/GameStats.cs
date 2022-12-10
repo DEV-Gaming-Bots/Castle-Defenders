@@ -6,9 +6,9 @@ using Sandbox.UI.Construct;
 
 namespace CastleDefenders.UI.Components
 {
-	public sealed class GameStats : Panel
+	public  class GameStats : Panel
 	{
-		public sealed class GameInfoPanel : Panel
+		public  class GameInfoPanel : Panel
 		{
 			public Panel GameInfo;
 
@@ -65,7 +65,7 @@ namespace CastleDefenders.UI.Components
 
 		}
 
-		public sealed class GameStatsPanel : Panel
+		public  class GameStatsPanel : Panel
 		{
 			public Panel TimerHealth;
 
@@ -155,9 +155,9 @@ namespace CastleDefenders.UI.Components
 			}
 		}
 	}
-	public sealed class UserSelectUI
+	public  class UserSelectUI
 	{
-		public sealed class GameTeamSelectPanel : Panel
+		public  class GameTeamSelectPanel : Panel
 		{
 			private Panel _root;
 
@@ -167,7 +167,7 @@ namespace CastleDefenders.UI.Components
 			}
 		}
 
-		public sealed class LoadoutSelectPanel : Panel
+		public  class LoadoutSelectPanel : Panel
 		{
 			private Panel _root;
 			private Label _title;
@@ -184,7 +184,7 @@ namespace CastleDefenders.UI.Components
 				SelectedLoadoutPanel = SelectPanel.Add.Panel( "loadouts" );
 			}
 
-			public sealed class Loadout : Panel
+			public  class Loadout : Panel
 			{
 				private int _lvlUnlock;
 				public Panel loadout;
@@ -203,7 +203,7 @@ namespace CastleDefenders.UI.Components
 					if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
 						return;
 
-					var player = Local.Pawn as CDPawn;
+					var player = Game.LocalPawn as CDPawn;
 
 					if ( player == null )
 						return;

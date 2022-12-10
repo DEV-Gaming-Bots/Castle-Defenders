@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public sealed partial class RadioactiveEmitter : BaseTower
+public  partial class RadioactiveEmitter : BaseTower
 {
 	public override string TowerName => "Radiation Emitter";
 	public override string TowerDesc => "A tower that emits radiation to nearby hostiles even with stealth";
@@ -82,7 +82,7 @@ public sealed partial class RadioactiveEmitter : BaseTower
 }
 
 
-public sealed partial class Trickster : BaseTower
+public  partial class Trickster : BaseTower
 {
 	public override string TowerName => "Trickster";
 	public override string TowerDesc => "A tower that has a chance of confusing the target into walking backwards";
@@ -151,7 +151,7 @@ public sealed partial class Trickster : BaseTower
 		if ( TimeSinceDeployed < DeploymentTime )
 			return;
 
-		if ( !IsServer ) return;
+		if ( !Game.IsServer ) return;
 
 		switch ( TowerLevel )
 		{
@@ -180,7 +180,7 @@ public sealed partial class Trickster : BaseTower
 
 		var time = 2.5f * TowerLevel;
 
-		if ( ConfusionChance >= Rand.Double( 0.0, 100.0 ) )
+		if ( ConfusionChance >= Game.Random.Double( 0.0, 100.0 ) )
 		{
 			target.AddEffect( BaseNPC.EffectEnum.Confusion, time );
 			target.PlaySound( "confusion_apply" );

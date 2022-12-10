@@ -1,6 +1,6 @@
 ﻿using Sandbox.UI;
 
-public sealed class CDHUD : RootPanel
+public  class CDHUD : RootPanel
 {
 	public static CDHUD CurrentHud;
 

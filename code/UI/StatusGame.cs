@@ -3,7 +3,7 @@ using Sandbox;
 using Sandbox.UI;
 using CastleDefenders.UI.Components;
 
-public sealed class StatusGame : Panel
+public  class StatusGame : Panel
 {
 	public TimeSince TimerElapsed;
 	//public GameStats.GameInfoPanel gameInfo = new();
@@ -107,7 +107,7 @@ public sealed class StatusGame : Panel
 
 		var loopedString = "";
 
-		if(CDGame.Instance.LoopGame && CDGame.Instance.LoopedTimes > 1)
+		if(CDGame.Instance.LoopedTimes > 1)
 		{
 			GameStats.GameInfo.AddChild( Loop );
 			//gameInfo.GameInfo.AddChild( Loop );

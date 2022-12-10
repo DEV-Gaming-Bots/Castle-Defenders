@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public sealed partial class CDPawn
+public  partial class CDPawn
 {
 	public ModelEntity PreviewTower;
 
@@ -111,7 +111,7 @@ public sealed partial class CDPawn
 		if ( SelectedTower == null )
 			return;
 
-		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+		var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
 			.Ignore( this )
 			.WithoutTags( "cdplayer", "tower", "npc" )
 			.Run();
@@ -170,7 +170,7 @@ public sealed partial class CDPawn
 
 	public void DoTDInputs()
 	{
-		if ( !IsServer )
+		if ( !Game.IsServer )
 			return;
 
 		_isRotating = Input.Down( InputButton.Reload );
@@ -263,7 +263,7 @@ public sealed partial class CDPawn
 
 		if ( SelectedTower != null )
 		{
-			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+			var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
 			.WithoutTags( "cdplayer", "tower", "npc" )
 			.Size( 0.1f )
 			.Run();
@@ -373,7 +373,7 @@ public sealed partial class CDPawn
 
 	public int GetSelectedSlot()
 	{
-		if ( IsClient )
+		if ( Game.IsClient )
 			return -1;
 
 		if ( Input.Pressed( InputButton.Slot1 ) )

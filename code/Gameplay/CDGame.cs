@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System.Linq;
 
-public sealed partial class CDGame : Game
+public partial class CDGame : GameManager
 {
 	public static CDGame Instance => Current as CDGame;
 
@@ -11,15 +11,10 @@ public sealed partial class CDGame : Game
 	[ConVar.Replicated( "cd_diff" )]
 	public static DiffEnum StaticDifficulty { get; set; }
 
-	[ConVar.Replicated( "cd_loopgame" )]
-	public static bool StaticLoopGame { get; set; }
-
 	[ConVar.Replicated( "cd_towerlimit" )]
 	public static int StaticLimitTowers { get; set; }
 
 	[Net] public bool Competitive { get; set; }
-
-	public bool RefusePlay;
 
 	[Net]
 	public bool ActiveSuperTowerBlue { get; set; }
@@ -31,10 +26,9 @@ public sealed partial class CDGame : Game
 
 	public CDGame()
 	{
-		if(IsServer)
+		if( Game.IsServer )
 		{
 			Debug = false;
-			RefusePlay = false;
 			DebugMode = DebugEnum.Default;
 
 			GameStatus = GameEnum.Idle;
@@ -43,7 +37,6 @@ public sealed partial class CDGame : Game
 
 			Difficulty = StaticDifficulty;
 			Competitive = StaticCompetitive;
-			LoopGame = StaticLoopGame;
 
 			ActiveSuperTowerBlue = false;
 			ActiveSuperTowerRed = false;
@@ -53,7 +46,7 @@ public sealed partial class CDGame : Game
 			LimitTower = StaticLimitTowers;
 		}
 
-		if ( IsClient )
+		if ( Game.IsClient )
 			_ = new CDHUD();
 	}
 
@@ -61,21 +54,19 @@ public sealed partial class CDGame : Game
 	[Event.Hotload]
 	public void UpdateHud()
 	{
-		if ( IsClient )			
+		if ( Game.IsClient )			
 			_ = new CDHUD();
 	}
 
-	public override void DoPlayerSuicide( Client cl ) { }
-
-	public override void ClientJoined( Client client )
+	public override void ClientJoined( IClient client )
 	{
 		base.ClientJoined( client );
 
-		var pawn = new CDPawn( client );
+		var pawn = new CDPawn(client);
+		client.Pawn = pawn;
 		pawn.Spawn();
 		pawn.SetTowerLimit( LimitTower );
-		client.Pawn = pawn;
-	
+		
 		if ( !HasSavefile( client ) )
 			pawn.NewPlayerStats();
 		else
@@ -83,7 +74,7 @@ public sealed partial class CDGame : Game
 
 		pawn.SetTowerSlots();
 
-		if ( GameStatus == GameEnum.Idle && !RefusePlay )
+		if ( GameStatus == GameEnum.Idle )
 		{
 			if ( Competitive && CanPlayComp() )
 			{
@@ -94,6 +85,7 @@ public sealed partial class CDGame : Game
 			if (!Competitive)
 				StartGame();
 		}
+
 		if ( GameStatus == GameEnum.Active )
 			pawn.SetUpPlayer();
 	}
@@ -107,13 +99,13 @@ public sealed partial class CDGame : Game
 			return false;
 		}
 
-		if ( Client.All.Count < 2 )
+		if ( Game.Clients.Count < 2 )
 			return false;
 
 		return true;
 	}
 
-	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+	public override void ClientDisconnect( IClient cl, NetworkDisconnectionReason reason )
 	{
 		if ( cl.Pawn is CDPawn ply )
 		{
@@ -128,7 +120,7 @@ public sealed partial class CDGame : Game
 
 	public override void Shutdown()
 	{
-		foreach ( var client in Client.All )
+		foreach ( var client in Game.Clients )
 		{
 			if ( client.Pawn is CDPawn ply )
 				SaveData( ply );

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Sandbox;
 
-public sealed partial class CDGame
+public  partial class CDGame
 {
 	[Net] public bool Debug { get; set; }
 	public enum DebugEnum
@@ -26,14 +26,24 @@ public sealed partial class CDGame
 	[ConCmd.Admin( "cd_debugmode" )]
 	public static void DebugModeSet(int mode)
 	{
-		Instance.DebugMode = mode switch
+		switch(mode)
 		{
-			1 => DebugEnum.Default,
-			2 => DebugEnum.Tower,
-			3 => DebugEnum.Gameplay,
-			4 => DebugEnum.Path,
-			5 => DebugEnum.All,
-		};
+			case 1:
+				Instance.DebugMode = DebugEnum.Default;
+				break;
+			case 2:
+				Instance.DebugMode = DebugEnum.Tower;
+				break;
+			case 3:
+				Instance.DebugMode = DebugEnum.Gameplay;
+				break;
+			case 4:
+				Instance.DebugMode = DebugEnum.Path;
+				break;
+			case 5:
+				Instance.DebugMode = DebugEnum.All;
+				break;
+		}
 
 		Log.Info( "Debug Mode: " + Instance.DebugMode );
 	}
@@ -245,7 +255,7 @@ public sealed partial class CDGame
 		if ( !Instance.Debug )
 			return;
 
-		foreach ( var cl in Client.All )
+		foreach ( var cl in Game.Clients )
 		{
 			if ( cl.Pawn is CDPawn player )
 				Instance.SaveData( player );
@@ -278,7 +288,7 @@ public sealed partial class CDGame
 			return;
 		}
 
-		if ( TypeLibrary.GetDescription<Entity>( name ) == null )
+		if ( TypeLibrary.GetType<Entity>( name ) == null )
 		{
 			Log.Error( "Invalid replacement slot name" );
 			return;

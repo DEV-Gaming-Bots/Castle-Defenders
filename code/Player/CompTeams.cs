@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public sealed partial class CDPawn
+public  partial class CDPawn
 {
 	public enum TeamEnum
 	{

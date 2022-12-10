@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-[UseTemplate]
-sealed class MapVotePanel : Panel
+ class MapVotePanel : Panel
 {
 	public string TitleText { get; set; } = "Map Vote";
 	public string SubtitleText { get; set; } = "Choose your next map";
@@ -22,21 +21,12 @@ sealed class MapVotePanel : Panel
 
 	public async Task PopulateMaps()
 	{
-		/*var query = new Package.Query
-		{
-			Type = Package.Type.Map,
-			Order = Package.Order.User,
-			Take = 16,
-		};
+		var query = await Package.FindAsync( "type:map order:user game:devbots.castletd, 8" );
 
-		query.Tags.Add( "game:devbots.castletd" );
-
-		var packages = await query.RunAsync( default );
-
-		foreach ( var package in packages )
+		foreach ( var package in query.Packages )
 		{
 			AddMap( package.FullIdent );
-		}*/
+		}
 	}
 
 	private MapIcon AddMap( string fullIdent )
@@ -54,7 +44,7 @@ sealed class MapVotePanel : Panel
 		return icon;
 	}
 
-	internal void UpdateFromVotes( IDictionary<Client, string> votes )
+	internal void UpdateFromVotes( IDictionary<IClient, string> votes )
 	{
 		foreach ( var icon in MapIcons )
 			icon.VoteCount = "0";

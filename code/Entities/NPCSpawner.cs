@@ -1,13 +1,13 @@
 ﻿using Sandbox;
 using System.ComponentModel.DataAnnotations;
-using SandboxEditor;
+using Editor;
 using System.Linq;
 
 [Library( "info_cd_npcportal" )]
 [EditorModel( "models/npc_portal.vmdl" )]
 [Title( "NPC Spawn Gate" ), Description( "Defines a point where NPCs can spawn" )]
 [HammerEntity]
-public sealed class NPCSpawner : Entity
+public  class NPCSpawner : Entity
 {
 	[Property, FGDType("target_destination")]
 	public string CastleTarget { get; set; }

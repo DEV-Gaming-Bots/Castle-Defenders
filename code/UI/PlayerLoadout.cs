@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public sealed class PlayerLoadout : Panel
+public  class PlayerLoadout : Panel
 {
 	public static Panel Slots;
 	private static int _lastSlot = -1;
@@ -20,7 +20,7 @@ public sealed class PlayerLoadout : Panel
 		Slots.AddChild( s );
 	}
 
-	public sealed class Slot : Panel
+	public  class Slot : Panel
 	{
 		public Slot( string slotName, int slotNum )
 		{

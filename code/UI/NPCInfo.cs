@@ -1,7 +1,7 @@
 ﻿using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public sealed class NPCInfo : WorldPanel
+public  class NPCInfo : WorldPanel
 {
 	public Label NpcInfo;
 	public double CurHealth;

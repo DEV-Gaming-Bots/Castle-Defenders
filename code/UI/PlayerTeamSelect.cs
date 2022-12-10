@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public sealed class PlayerTeamSelect : Panel
+public  class PlayerTeamSelect : Panel
 {
 	public Panel BlueTeam;
 	public Panel RedTeam;

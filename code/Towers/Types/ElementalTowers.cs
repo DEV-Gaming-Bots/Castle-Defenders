@@ -2,7 +2,7 @@
 using System.Linq;
 using Sandbox;
 
-public sealed partial class Lightning : BaseTower
+public partial class Lightning : BaseTower
 {
 	public override string TowerName => "Lightning";
 	public override string TowerDesc => "A tower that has the power of thunder, quite shocking";
@@ -103,7 +103,7 @@ public sealed partial class Lightning : BaseTower
 	[ClientRpc]
 	public void ShockEffects(BaseNPC target, BaseNPC nextTarget = null)
 	{
-		Host.AssertClient();
+		Game.AssertClient();
 
 		if ( _shockParticles == null )
 			_shockParticles = new List<Particles>();

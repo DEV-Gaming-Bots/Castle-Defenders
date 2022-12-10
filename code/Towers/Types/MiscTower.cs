@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public sealed partial class Radar : BaseTower
+public  partial class Radar : BaseTower
 {
 	public override string TowerName => "Radar";
 	public override string TowerDesc => "A scanning tower that detects hidden hostiles while also enhancing towers";
@@ -71,7 +71,7 @@ public sealed partial class Radar : BaseTower
 		if ( TimeSinceDeployed < DeploymentTime )
 			return;
 
-		if ( !IsServer ) return;
+		if ( !Game.IsServer ) return;
 
 		ValidateTowers();
 		ScanForNearbyTowers();
@@ -80,7 +80,7 @@ public sealed partial class Radar : BaseTower
 
 	public override void SellTower()
 	{
-		if ( IsServer )
+		if ( Game.IsServer )
 			RemoveEnhancement();
 
 		base.SellTower();
@@ -88,7 +88,7 @@ public sealed partial class Radar : BaseTower
 
 	public override void UpgradeTower()
 	{
-		if ( IsServer && CanUpgrade() ) 
+		if ( Game.IsServer && CanUpgrade() ) 
 			towersScanned.ToList().ForEach( x => x.HasEnhanced = false );
 
 		base.UpgradeTower();

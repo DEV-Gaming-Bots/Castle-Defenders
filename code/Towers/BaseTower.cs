@@ -164,7 +164,7 @@ public partial class BaseTower : AnimatedEntity
 
 	public virtual void SellTower()
 	{
-		if ( !IsServer )
+		if ( !Game.IsServer )
 			return;
 
 		if(TowerLevel == 1)
@@ -389,14 +389,14 @@ public partial class BaseTower : AnimatedEntity
 	[ClientRpc]
 	public virtual void FireEffects()
 	{
-		Host.AssertClient();
+		Game.AssertClient();
 		PlaySound( AttackSound );
 	}
 
 	[ClientRpc]
 	public virtual void FireEffectAtLocation(Vector3 pos)
 	{
-		Host.AssertClient();
+		Game.AssertClient();
 		Sound.FromWorld( AttackSound, pos );
 	}
 }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-sealed partial class MapVoteEntity : Entity
+ partial class MapVoteEntity : Entity
 {
 	static MapVoteEntity _current;
 	MapVotePanel _panel;
 
 	[Net]
-	public IDictionary<Client, string> Votes { get; set; }
+	public IDictionary<IClient, string> Votes { get; set; }
 
 	[Net]
 	public string WinningMap { get; set; } = "devbots.aperturelab";
@@ -44,7 +44,7 @@ sealed partial class MapVoteEntity : Entity
 			_current = null;
 	}
 
-	[Event.Frame]
+	[Event.Client.Frame]
 	public void OnFrame()
 	{
 		if ( _panel != null )
@@ -72,7 +72,7 @@ sealed partial class MapVoteEntity : Entity
 		Log.Info( WinningMap );
 	}
 
-	private void SetVote( Client client, string map )
+	private void SetVote( IClient client, string map )
 	{
 		CullInvalidClients();
 		Votes[client] = map;

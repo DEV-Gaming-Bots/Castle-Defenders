@@ -138,11 +138,11 @@ public partial class BaseNPC : AnimatedEntity
 			RenderColor = asset.OverrideColor;
 
 
-		CashReward = Rand.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash );
-		CashReward /= Client.All.Count;
+		CashReward = Game.Random.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash );
+		CashReward /= Game.Clients.Count;
 		CashReward = CashReward.Clamp( 1, asset.KillReward.MaxCash );
 
-		ExpReward = (int)(Rand.Int( asset.KillReward.MinXP, asset.KillReward.MaxXP ) * ScaleRewards());
+		ExpReward = (int)(Game.Random.Int( asset.KillReward.MinXP, asset.KillReward.MaxXP ) * ScaleRewards());
 
 		AssetFile = asset;
 
@@ -357,7 +357,7 @@ public partial class BaseNPC : AnimatedEntity
 		var animHelper = new NPCAnimationHelper( this );
 
 		_lookDir = Vector3.Lerp( _lookDir, _inputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
-		animHelper.WithLookAt( EyePosition + _lookDir );
+		animHelper.WithLookAt( AimRay.Position + _lookDir );
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithWishVelocity( _inputVelocity );
 	}
@@ -408,14 +408,14 @@ public partial class BaseNPC : AnimatedEntity
 		Velocity = move.Velocity;
 	}
 
-	public override void Simulate( Client cl )
+	public override void Simulate( IClient cl )
 	{
 		base.Simulate( cl );
 
 		var moveInput = Input.AnalogLook.ToRotation();
 
 		Rotation = moveInput;
-		EyeRotation = Rotation;
+		//EyeRotation = Rotation;
 
 		//Velocity += Input.AnalogLook.ToRotation() * new Vector3( Input.Forward, Input.Left, Input.Up ) * BaseSpeed * SpeedMultiplier * 5 * Time.Delta;
 
@@ -426,7 +426,7 @@ public partial class BaseNPC : AnimatedEntity
 
 		Position += Velocity * Time.Delta;
 
-		EyePosition = Position;
+		//EyePosition = Position;
 	}
 
 	private DamageInfo _lastDmg;
@@ -485,7 +485,7 @@ public partial class BaseNPC : AnimatedEntity
 
 	public override void OnKilled()
 	{
-		if ( !IsServer )
+		if ( !Game.IsServer )
 			return;
 
 		if(CDGame.Instance.Competitive)
@@ -513,12 +513,12 @@ public partial class BaseNPC : AnimatedEntity
 		base.OnKilled();
 	}
 
-	public override void FrameSimulate( Client cl )
+	public override void FrameSimulate( IClient cl )
 	{
 		base.FrameSimulate( cl );
 
 		Rotation = Input.AnalogLook.ToRotation();
-		EyeRotation = Rotation;
+		//EyeRotation = Rotation;
 		Position += Velocity * Time.Delta;
 	}
 }

@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public sealed class Status : Panel
+public  class Status : Panel
 {
 	public Panel CashPnl;
 	public Label CurCashLbl;
@@ -27,7 +27,7 @@ public sealed class Status : Panel
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
 			return;
 
-		var player = Local.Pawn as CDPawn;
+		var player = Game.LocalPawn as CDPawn;
 
 		if ( player == null )
 			return;

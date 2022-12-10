@@ -3,7 +3,7 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System.Security.Cryptography.X509Certificates;
 
-public sealed class TowerMenu : Panel
+public  class TowerMenu : Panel
 {
 	public Panel TowerPnl;
 	public Label TowerName;
@@ -51,7 +51,7 @@ public sealed class TowerMenu : Panel
 	{
 		base.Tick();
 
-		var player = Local.Pawn as CDPawn;
+		var player = Game.LocalPawn as CDPawn;
 
 		if ( player == null )
 			return;

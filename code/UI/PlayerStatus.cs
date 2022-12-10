@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public sealed class PlayerStatus : Panel
+public  class PlayerStatus : Panel
 {
 	public Panel PlayerPnl;
 	public Label PlayerInfo;
@@ -24,12 +24,12 @@ public sealed class PlayerStatus : Panel
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
 			return;
 
-		var pawn = Local.Pawn;
+		var pawn = Game.LocalPawn;
 
 		if ( pawn == null )
 			return;
 
-		var clTr = Trace.Ray( pawn.EyePosition, pawn.EyePosition + pawn.EyeRotation.Forward * 999 )
+		var clTr = Trace.Ray( pawn.AimRay.Position, pawn.AimRay.Position + pawn.AimRay.Forward * 999 )
 			.Ignore( pawn )
 			.Run();
 

@@ -1,7 +1,7 @@
 ﻿using Sandbox.UI;
 using CastleDefenders.UI.Components;
 
-public sealed class LoadoutSelect : Panel
+public  class LoadoutSelect : Panel
 {
 	public UserSelectUI.LoadoutSelectPanel LoadoutPanel = new();
 

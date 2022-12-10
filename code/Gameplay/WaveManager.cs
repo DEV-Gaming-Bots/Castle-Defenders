@@ -2,7 +2,7 @@
 using Sandbox;
 using Sandbox.UI;
 
-public sealed partial class CDGame
+public  partial class CDGame
 {
 	//Basic Gameplay and wave statuses
 	public enum GameEnum
@@ -57,9 +57,6 @@ public sealed partial class CDGame
 
 	public DiffEnum Difficulty;
 	
-	[Net]
-	public bool LoopGame { get; set; }
-
 	[Net]
 	public int LoopedTimes { get; set; }
 
@@ -125,17 +122,11 @@ public sealed partial class CDGame
 					return;
 				}
 
-				if ( LoopGame )
-				{
-					LoopRestartGame();
-					return;
-				}
-
-				//StartMapVote();
+				StartMapVote();
 				return;
 
 			case GameEnum.MapChange:
-				Global.ChangeLevel( Global.MapName );
+				Game.ChangeLevel( _mapVote.WinningMap );
 				break;
 		}
 
@@ -221,7 +212,7 @@ public sealed partial class CDGame
 
 	public void StartCompGame()
 	{
-		Map.Reset( DefaultCleanupFilter );
+		//Game.ResetMap();
 
 		All.OfType<CompSetUp>().FirstOrDefault().SetUpCompGame();
 
@@ -246,9 +237,9 @@ public sealed partial class CDGame
 	}
 	public void StartGame()
 	{
-		All.OfType<CDPawn>().ToList().ForEach( x => x.ResetPlayer() );
+		//Game.ResetMap( null );
 
-		Map.Reset(DefaultCleanupFilter);
+		All.OfType<CDPawn>().ToList().ForEach( x => x.ResetPlayer() );
 
 		Instance.ActiveSuperTowerBlue = false;
 
@@ -326,7 +317,7 @@ public sealed partial class CDGame
 		}
 
 		string music;
-		_musicIndex = Rand.Int( 1, 2 );
+		_musicIndex = Game.Random.Int( 1, 2 );
 
 		if ( _isBossWave )
 			music = "boss_music_" + _musicIndex;

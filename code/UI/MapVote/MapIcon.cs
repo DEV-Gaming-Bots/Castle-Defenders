@@ -2,8 +2,7 @@
 using Sandbox.UI;
 using System.Threading.Tasks;
 
-[UseTemplate]
-sealed class MapIcon : Panel
+ class MapIcon : Panel
 {
 	public string VoteCount { get; set; } = "0";
 	public string Title { get; set; } = "...";

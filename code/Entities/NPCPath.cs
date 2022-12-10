@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Sandbox;
-using SandboxEditor;
+using Editor;
 
 [Library("cd_npc_path")]
 [Title( "NPC Path Nodes" ), Description( "Indicates a pathway for NPCs to follow" )]
 [HammerEntity]
-public sealed class NPCPath : ModelEntity
+public  class NPCPath : ModelEntity
 {
 	[Property, Description("Path to the next path node")]
 	public EntityTarget NextPath { get; set; }
@@ -52,7 +52,7 @@ public sealed class NPCPath : ModelEntity
 
 		if ( pathPriority == BaseNPC.PathPriority.Random )
 		{
-			switch ( Rand.Int( 1, 2 ) )
+			switch ( Game.Random.Int( 1, 2 ) )
 			{
 				case 1:
 					return normalPath;

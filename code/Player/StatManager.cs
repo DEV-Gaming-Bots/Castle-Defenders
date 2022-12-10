@@ -5,7 +5,7 @@ using System.Linq;
 using Sandbox;
 using static PlayerLoadout;
 
-public sealed partial class CDPawn : IPlayerData
+public  partial class CDPawn : IPlayerData
 {
 	[Net] public int Cash { get; private set; }
 	[Net] public int EXP { get; set; }
@@ -75,7 +75,8 @@ public sealed partial class CDPawn : IPlayerData
 			{
 				var blueCount = All.OfType<CDPawn>().Count( x => x.CurTeam == TeamEnum.Blue );
 				var redCount = All.OfType<CDPawn>().Count( x => x.CurTeam == TeamEnum.Red );
-				switch (Rand.Int(1, 2))
+				
+				switch ( Game.Random.Int(1, 2))
 				{
 					case 1:
 						if( blueCount > redCount )

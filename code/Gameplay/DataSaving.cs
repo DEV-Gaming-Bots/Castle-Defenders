@@ -10,7 +10,7 @@ public interface IPlayerData
 	IDictionary<int, string> TowerSlots { get; set; }
 }
 
-public sealed class PlayerData : IPlayerData
+public  class PlayerData : IPlayerData
 {
 	public int EXP { get; set; }
 	public int ReqEXP { get; set; }
@@ -18,7 +18,7 @@ public sealed class PlayerData : IPlayerData
 	public IDictionary<int, string> TowerSlots { get; set; }
 }
 
-public sealed partial class CDGame
+public  partial class CDGame
 {
 	public void SaveData( CDPawn player )
 	{
@@ -27,18 +27,18 @@ public sealed partial class CDGame
 
 		Log.Info( "Commiting save for " + player.Client.Name );
 
-		FileSystem.Data.WriteJson( player.Client.PlayerId + ".json", (IPlayerData)player );
+		FileSystem.Data.WriteJson( player.Client.SteamId + ".json", (IPlayerData)player );
 		Log.Info( player.Client.Name + "'s data has been saved" );
 	}
 
-	public bool HasSavefile(Client cl)
+	public bool HasSavefile( IClient cl )
 	{
-		return FileSystem.Data.ReadJson<PlayerData>( cl.PlayerId + ".json" ) != null;
+		return FileSystem.Data.ReadJson<PlayerData>( cl.SteamId + ".json" ) != null;
 	}
 
-	public void LoadSave( Client cl )
+	public void LoadSave( IClient cl )
 	{
-		IPlayerData loadData = FileSystem.Data.ReadJson<PlayerData>( cl.PlayerId + ".json");
+		IPlayerData loadData = FileSystem.Data.ReadJson<PlayerData>( cl.SteamId + ".json");
 
 		if ( loadData is null ) return;
 

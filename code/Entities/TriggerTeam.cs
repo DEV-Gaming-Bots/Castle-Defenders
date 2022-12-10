@@ -1,10 +1,10 @@
 ﻿using Sandbox;
-using SandboxEditor;
+using Editor;
 
 [Library( "cd_comp_teamtrigger" )]
 [Title( "Team Trigger" ), Description( "A team trigger, you should set 2 of these on each side" )]
 [HammerEntity]
-public sealed class TriggerTeam : BaseTrigger
+public  class TriggerTeam : BaseTrigger
 {
 	
 	[Property, Description("Which side is this team on, the opposite team will be affected by this")]

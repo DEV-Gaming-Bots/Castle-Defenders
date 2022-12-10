@@ -17,7 +17,7 @@ public struct Rewards
 public class BaseNPCAsset : GameResource
 {
 	[Category( "Meta Info" )]
-	public new string Name { get; set; } = "Basic NPC";
+	public string Name { get; set; } = "Basic NPC";
 
 	[Category( "Meta Info" )]
 	public string Description { get; set; } = "Description Info";

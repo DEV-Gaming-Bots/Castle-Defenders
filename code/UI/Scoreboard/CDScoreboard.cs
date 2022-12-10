@@ -7,7 +7,7 @@ using System.Linq;
 public class CDScoreboard<T> : Panel where T : CDScoreboardEntry, new()
 {
 	public Panel Canvas { get; protected set; }
-	Dictionary<Client, T> Rows = new();
+	Dictionary<IClient, T> Rows = new();
 
 	public Panel Header { get; protected set; }
 
@@ -31,13 +31,13 @@ public class CDScoreboard<T> : Panel where T : CDScoreboardEntry, new()
 			return;
 
 		// Clients that were added
-		foreach ( var client in Client.All.Except( Rows.Keys ) )
+		foreach ( var client in Game.Clients.Except( Rows.Keys ) )
 		{
 			var entry = AddClient( client );
 			Rows[client] = entry;
 		}
 
-		foreach ( var client in Rows.Keys.Except( Client.All ) )
+		foreach ( var client in Rows.Keys.Except( Game.Clients ) )
 		{
 			if ( Rows.TryGetValue( client, out var row ) )
 			{
@@ -63,7 +63,7 @@ public class CDScoreboard<T> : Panel where T : CDScoreboardEntry, new()
 		Header.Add.Label( "Ping", "ping" );
 	}
 
-	protected virtual T AddClient( Client entry )
+	protected virtual T AddClient( IClient entry )
 	{
 		var p = Canvas.AddChild<T>();
 		p.Client = entry;

@@ -1,13 +1,13 @@
 ﻿using Sandbox;
 using Sandbox.UI;
-using SandboxEditor;
+using Editor;
 using System.Linq;
 
 [Library( "cd_wave_setup" )]
 [Title("Wave Setup"), Description( "Sets up the wave" )]
 [VisGroup( VisGroup.Logic )]
 [HammerEntity]
-public sealed class WaveSetup : Entity
+public  class WaveSetup : Entity
 {
 	[Property( "WaveOrder" ), Description( "What order should this go, you can have multiple in a wave" )]
 	public int WaveOrder { get; set; } = 1;

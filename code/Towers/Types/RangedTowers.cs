@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 
-public sealed partial class Pistol : BaseTower
+public  partial class Pistol : BaseTower
 {
 	public override string TowerName => "Pistol";
 	public override string TowerDesc => "A very simple pistol tower";
@@ -75,7 +75,7 @@ public sealed partial class Pistol : BaseTower
 	}
 }
 
-public sealed partial class SMG : BaseTower
+public  partial class SMG : BaseTower
 {
 	public override string TowerName => "SMG";
 	public override string TowerDesc => "A fast shooting submachine tower";
@@ -144,7 +144,7 @@ public sealed partial class SMG : BaseTower
 	}
 }
 
-public sealed partial class Sniper : BaseTower
+public  partial class Sniper : BaseTower
 {
 	public override string TowerName => "Sniper";
 	public override string TowerDesc => "A sniper tower that can fire from a large distance";
@@ -251,7 +251,7 @@ public sealed partial class Sniper : BaseTower
 	[ClientRpc]
 	private void LaserOn( BaseNPC target )
 	{
-		Host.AssertClient();
+		Game.AssertClient();
 
 		if ( target == null )
 			return;
@@ -264,7 +264,7 @@ public sealed partial class Sniper : BaseTower
 	[ClientRpc]
 	private void LaserOff()
 	{
-		Host.AssertClient();
+		Game.AssertClient();
 
 		_laserSight?.Destroy( true );
 		_laserSight = null;
