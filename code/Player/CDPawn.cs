@@ -137,7 +137,7 @@ public partial class CDPawn : AnimatedEntity
 		var animHelper = new CitizenAnimationHelper( this );
 		animHelper.AimAngle = ViewAngles.ToRotation();
 		animHelper.IsGrounded = GroundEntity != null;
-		animHelper.WithLookAt(AimRay.Position + AimRay.Forward);
+		animHelper.WithLookAt(EyePosition + EyeRotation.Forward);
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithWishVelocity( Controller.WishVelocity );
 	}
@@ -218,10 +218,10 @@ public partial class CDPawn : AnimatedEntity
 		rot.x = 0;
 		rot.y = 0;
 
-		LocalRotation = rot;
+		//LocalRotation = rot;
 
 		Camera.Position = EyePosition;
-		Camera.Rotation = ViewAngles.ToRotation();
+		Camera.Rotation = EyeRotation;
 
 		// Set field of view to whatever the user chose in options
 		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Sandbox.Game.Preferences.FieldOfView );

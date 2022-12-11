@@ -79,6 +79,13 @@ public  partial class CDGame
 
 	private MapVoteEntity _mapVote;
 
+	public Entity[] MapCleanupFilter()
+	{
+		var list = All.Where( x => x is CDPawn || x.Parent is CDPawn ).ToArray();
+
+		return list;
+	}
+
 	[Event.Tick.Server]
 	public void TickGameplay()
 	{
@@ -212,7 +219,7 @@ public  partial class CDGame
 
 	public void StartCompGame()
 	{
-		//Game.ResetMap();
+		Game.ResetMap( MapCleanupFilter() );
 
 		All.OfType<CompSetUp>().FirstOrDefault().SetUpCompGame();
 
@@ -235,9 +242,10 @@ public  partial class CDGame
 
 		MaxWaves = checkWaves;
 	}
+
 	public void StartGame()
 	{
-		//Game.ResetMap( null );
+		Game.ResetMap( MapCleanupFilter() );
 
 		All.OfType<CDPawn>().ToList().ForEach( x => x.ResetPlayer() );
 

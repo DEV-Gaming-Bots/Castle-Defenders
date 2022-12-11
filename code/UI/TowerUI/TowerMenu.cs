@@ -23,6 +23,8 @@ public  class TowerMenu : Panel
 	public Label UseLabel;
 	public Image UseImage;
 
+	Entity curTowerHover;
+
 	public TowerMenu()
 	{
 		StyleSheet.Load( "ui/towerui/towermenu.scss" );
@@ -55,6 +57,24 @@ public  class TowerMenu : Panel
 
 	}
 
+	[Event.Client.Frame]
+	public void FrameScan()
+	{
+		var player = Game.LocalPawn as CDPawn;
+
+		if ( player == null )
+			return;
+
+		var clTr = Trace.Ray( player.AimRay.Position, player.AimRay.Position + player.AimRay.Forward * 175 )
+			.UseHitboxes( true )
+			.WithTag( "tower" )
+			.Run();
+
+		DebugOverlay.Line( clTr.StartPosition, clTr.EndPosition );
+
+		curTowerHover = clTr.Entity;
+	}
+
 	public override void Tick()
 	{
 		base.Tick();
@@ -80,12 +100,7 @@ public  class TowerMenu : Panel
 			return;
 		}
 
-		var clTr = Trace.Ray( player.AimRay.Position, player.AimRay.Position + player.AimRay.Forward * 175 )
-			.UseHitboxes( true )
-			.WithTag( "tower" )
-			.Run();
-
-		if(clTr.Entity is BaseSuperTower superTower)
+		if( curTowerHover is BaseSuperTower superTower)
 		{
 			TowerOwnerAndPriority.SetText( $"Owner: {superTower.Owner.Client.Name}" );
 			TowerName.SetText( superTower.NetName );
@@ -99,7 +114,7 @@ public  class TowerMenu : Panel
 			return;
 		}
 
-		if ( clTr.Entity is BaseTower tower )
+		if ( curTowerHover is BaseTower tower )
 		{
 
 			TowerOwnerAndPriority.SetText( $"Owner: {tower.Owner.Client.Name} | Priority: {tower.TargetPriority}" );
@@ -125,7 +140,7 @@ public  class TowerMenu : Panel
 			UseLabel.SetText( "\nUSE KEY: Change Priority" );
 		}
 
-		TowerPnl.SetClass( "showMenu", clTr.Entity is BaseTower || clTr.Entity is BaseSuperTower );
-		InputGlyphPnl.SetClass( "showInputs", clTr.Entity is BaseTower || clTr.Entity is BaseSuperTower );
+		TowerPnl.SetClass( "showMenu", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
+		InputGlyphPnl.SetClass( "showInputs", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
 	}
 }
