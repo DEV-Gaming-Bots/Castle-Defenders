@@ -3,7 +3,6 @@ using System.Linq;
 
 public partial class CDGame : GameManager
 {
-	CDHUD CDHUDMAIN;
 	public static CDGame Instance => Current as CDGame;
 
 	[ConVar.Replicated( "cd_competitve" )]
@@ -48,7 +47,7 @@ public partial class CDGame : GameManager
 		}
 
 		if ( Game.IsClient )
-			CDHUDMAIN = new CDHUD();
+			_ = new CDHUD();
 	}
 
 	//TEMPORARY
@@ -57,8 +56,9 @@ public partial class CDGame : GameManager
 	{
 		if ( Game.IsClient )
 		{
-			CDHUDMAIN.Delete();
-			CDHUDMAIN = new CDHUD();
+			_ = new CDHUD();
+
+			ConsoleSystem.Run( "cd_update_slots" );
 		}
 	}
 
@@ -75,8 +75,6 @@ public partial class CDGame : GameManager
 			pawn.NewPlayerStats();
 		else
 			LoadSave( client );
-
-		pawn.SetTowerSlots();
 
 		if ( GameStatus == GameEnum.Idle )
 		{

@@ -87,27 +87,10 @@ public  class TowerMenu : Panel
 		if ( player == null )
 			return;
 
-		if(player.SelectedTower != null)
-		{
-			TowerName.SetText( player.SelectedTower.NetName );
-			TowerDesc.SetText( player.SelectedTower.NetDesc );
-			TowerCost.SetText( $"Build Cost: ${player.SelectedTower.NetCost}" );
+		TowerPnl.SetClass( "showMenu", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
+		InputGlyphPnl.SetClass( "showInputs", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
 
-			TowerOwnerAndPriority.SetText( "" );
-			NextUpgrade.SetText( "" );
-			TowerStats.SetText( "" );
-
-			PrimMouseLabel.SetText( "Place Tower" );
-			SecondMouseLabel.SetText( "" );
-			UseLabel.SetText( "" );
-
-			mousePrimary.Style.Set( "display: flex;" );
-			mouseSecondary.Style.Set( "display: none;" );
-
-			return;
-		}
-
-		if( curTowerHover is BaseSuperTower superTower)
+		if ( curTowerHover is BaseSuperTower superTower)
 		{
 			TowerOwnerAndPriority.SetText( $"Owner: {superTower.Owner.Client.Name}" );
 			TowerName.SetText( superTower.NetName );
@@ -118,11 +101,31 @@ public  class TowerMenu : Panel
 			UseLabel.SetText( "" );
 
 			TowerStats.SetText(superTower.NetAbility);
+
 			return;
 		}
 
 		if ( curTowerHover is BaseTower tower )
 		{
+			if(tower.IsPreviewing)
+			{
+				TowerName.SetText( tower.NetName );
+				TowerDesc.SetText( tower.NetDesc );
+				TowerCost.SetText( $"Build Cost: ${tower.NetCost}" );
+
+				TowerOwnerAndPriority.SetText( "" );
+				NextUpgrade.SetText( "" );
+				TowerStats.SetText( "" );
+
+				PrimMouseLabel.SetText( "Place Tower" );
+				SecondMouseLabel.SetText( "" );
+				UseLabel.SetText( "" );
+
+				mousePrimary.Style.Set( "display: flex;" );
+				mouseSecondary.Style.Set( "display: none;" );
+
+				return;
+			}
 
 			TowerOwnerAndPriority.SetText( $"Owner: {tower.Owner.Client.Name}" );
 			Priority.SetText( $"Priority: {tower.TargetPriority}" );
@@ -151,7 +154,5 @@ public  class TowerMenu : Panel
 			UseLabel.SetText( "\nUSE KEY: Change Priority" );
 		}
 
-		TowerPnl.SetClass( "showMenu", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
-		InputGlyphPnl.SetClass( "showInputs", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
 	}
 }

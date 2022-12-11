@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Sandbox;
 
 public partial class BaseTower : AnimatedEntity
@@ -105,11 +106,29 @@ public partial class BaseTower : AnimatedEntity
 
 	[Net] public PriorityEnum TargetPriority { get; protected set; }
 
+	public static int StaticUnlockLevel { get; set; }
+
+	public static int GetUnlockLevel()
+	{
+		return StaticUnlockLevel;
+	}
+
+	public static int GetUnlockLevel(string towerName)
+	{
+		var tower = TypeLibrary.Create<BaseTower>( towerName );
+
+		int lvl = tower.UnlockLevel;
+		tower.Delete();
+
+		return lvl;
+	}
+
 	public override void Spawn()
 	{
+		StaticUnlockLevel = UnlockLevel;
+
 		SetModel( TowerModel );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
-
 		_scanRot = 0;
 
 		TimeSinceDeployed = 0;

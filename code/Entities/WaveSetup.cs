@@ -181,7 +181,7 @@ public  class WaveSetup : Entity
 		}
 
 		if ( !string.IsNullOrEmpty( NoteText ) )
-			WindowPopup.CreatePopUp( To.Everyone, NoteText );
+			WindowPopup.CreatePopUp( To.Everyone, NoteText, 5.0f, PopupVertical.Center, PopupHorizontal.Left );
 
 		_spawnCounter = 0;
 		_timeLastSpawn = 0;

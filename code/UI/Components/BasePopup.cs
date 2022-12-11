@@ -82,7 +82,6 @@ namespace Components.popup
 		public async Task LifeTime(float time)
 		{
 			await Task.DelaySeconds( time );
-
 			this?.Delete();
 		}
 	}

@@ -12,7 +12,7 @@ public  partial class Radar : BaseTower
 	public override string TowerName => "Radar";
 	public override string TowerDesc => "A scanning tower that detects hidden hostiles while also enhancing towers";
 	public override string TowerModel => "models/towers/radartower.vmdl";
-	public override int UnlockLevel => 6;
+	public override int UnlockLevel => 2;
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new[]
 	{

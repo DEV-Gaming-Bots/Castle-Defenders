@@ -73,6 +73,31 @@ public  partial class CDGame
 		}
 	}
 
+	[ConCmd.Server( "cd_exp_give" )]
+	public static void GiveEXP( int amount, string targetName = "" )
+	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+		var player = ConsoleSystem.Caller.Pawn as CDPawn;
+
+		if ( player == null )
+			return;
+
+		if ( !string.IsNullOrEmpty( targetName ) )
+		{
+			All.OfType<CDPawn>().ToList().FirstOrDefault( x => x.Client.Name.ToLower().Contains( targetName.ToLower() ) )
+				.AddEXP( amount );
+		}
+		else
+		{
+			player.AddEXP( amount );
+		}
+	}
+
 	[ConCmd.Admin( "cd_diff_set" )]
 	public static void SetDifficulty( int diffInt )
 	{
@@ -275,7 +300,7 @@ public  partial class CDGame
 	}
 
 	[ConCmd.Server( "cd_set_towerslot" )]
-	public static void SelectTower(int slot, string name)
+	public static void SetTowerSlot(int slot, string name)
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 		
@@ -294,18 +319,27 @@ public  partial class CDGame
 			return;
 		}
 
+		slot -= 1;
+
+		if ( player.TowerSlots[slot] == null )
+		{
+			Log.Error( "Invalid replacement slot index" );
+			return;
+		}
+
 		player.TowerSlots[slot] = name;
 		player.ChangeSlot( name, slot );
 	}
 
-	[ConCmd.Server( "cd_get_towerslots" )]
-	public static void GetSlots()
+	[ConCmd.Server( "cd_update_slots" )]
+	public static void UpdateTowerSlots()
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 		if ( player == null )
 			return;
 
 		var slotNum = 1;
+		player.ClearTowerSlots();
 
 		foreach ( var item in player.TowerSlots )
 		{

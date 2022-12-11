@@ -8,7 +8,7 @@ public  partial class RadioactiveEmitter : BaseTower
 	public override string TowerName => "Radiation Emitter";
 	public override string TowerDesc => "A tower that emits radiation to nearby hostiles even with stealth";
 	public override string TowerModel => "models/towers/radioactivemitter.vmdl";
-	public override int UnlockLevel => 12;
+	public override int UnlockLevel => 4;
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new[]
 	{
@@ -87,7 +87,7 @@ public  partial class Trickster : BaseTower
 	public override string TowerName => "Trickster";
 	public override string TowerDesc => "A tower that has a chance of confusing the target into walking backwards";
 	public override string TowerModel => "models/towers/trickstertower.vmdl";
-	public override int UnlockLevel => 7;
+	public override int UnlockLevel => 2;
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new[]
 	{

@@ -22,6 +22,12 @@ public  partial class CDPawn : IPlayerData
 	}
 
 	[ClientRpc]
+	public void ClearTowerSlots()
+	{
+		ClearSlots();
+	}
+
+	[ClientRpc]
 	public void ChangeSlot(string name, int slot)
 	{
 		ReplaceSlot( slot, name );
@@ -33,14 +39,24 @@ public  partial class CDPawn : IPlayerData
 		EXP = 0;
 		ReqEXP = 500;
 
-		CDGame.Instance.SaveData( this );
-	}
-
-	public void SetTowerSlots()
-	{
 		TowerSlots.Add( 0, "Pistol" );
 		TowerSlots.Add( 1, "SMG" );
 		TowerSlots.Add( 2, "Sniper" );
+
+		CDGame.Instance.SaveData( this );
+		ConsoleSystem.Run( "cd_update_slots" );
+	}
+
+	public void AddTowerSlots(string newTower)
+	{
+		foreach ( var item in TowerSlots )
+		{
+			if ( item.Value == newTower )
+				return;
+		}
+
+		TowerSlots.Add( TowerSlots.Count, newTower );
+		ConsoleSystem.Run( "cd_update_slots" );
 	}
 
 	public void LoadStats(IPlayerData playerData)
@@ -48,7 +64,9 @@ public  partial class CDPawn : IPlayerData
 		Level = playerData.Level;
 		EXP = playerData.EXP;
 		ReqEXP = playerData.ReqEXP;
-		//TowerSlots = playerData.TowerSlots;
+		TowerSlots = playerData.TowerSlots;
+
+		ConsoleSystem.Run( "cd_update_slots" );
 	}
 
 	[Net]
@@ -56,7 +74,7 @@ public  partial class CDPawn : IPlayerData
 
 	public string GetSlotIndex(int index)
 	{
-		return "Pistol";
+		return TowerSlots[index];
 	}
 
 	public void SetUpPlayer()
@@ -131,6 +149,24 @@ public  partial class CDPawn : IPlayerData
 				Level++;
 				EXP -= ReqEXP;
 				ReqEXP += (int)(7 * Math.Pow( Level + 3, 3 ) );
+				UnlockTowerCheck();
+			}
+		}
+	}
+
+	public void UnlockTowerCheck()
+	{
+		foreach ( var tower in TypeLibrary.GetTypes<BaseTower>() )
+		{
+			if ( tower.ClassName.Contains( "TemplateTower" )
+				|| tower.ClassName.Contains( "BaseTower" )
+				|| tower.ClassName.Contains( "BaseSuperTower" )
+				)
+				continue;
+
+			if( Level >= BaseTower.GetUnlockLevel(tower.ClassName) )
+			{
+				AddTowerSlots( tower.ClassName );
 			}
 		}
 	}

@@ -13,8 +13,7 @@ public partial class TimeDisplacer : BaseSuperTower
 	public override float DeploymentTime => 6.5f; 
 	public override string AttackSound => "timedisplacer_use";
 	public override int RangeDistance => 64;
-
-	public override int UnlockLevel => 15;
+	public override int UnlockLevel => 10;
 
 	public override void Spawn()
 	{
@@ -67,6 +66,7 @@ public partial class NukeSilo : BaseSuperTower
 	public override float DeploymentTime => 6.5f;
 	public override string AttackSound => "timedisplacer_launch";
 	public override int RangeDistance => 256;
+	public override int UnlockLevel => 30;
 
 	bool isUsed;
 	TimeSince timeNuked;

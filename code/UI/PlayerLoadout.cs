@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using System.Linq;
 
 public  class PlayerLoadout : Panel
 {
@@ -13,6 +14,11 @@ public  class PlayerLoadout : Panel
 		Slots = Add.Panel( "Slots" );
 
 		ConsoleSystem.Run( "cd_get_towerslots" );
+	}
+
+	public static void ClearSlots()
+	{
+		Slots.DeleteChildren();
 	}
 
 	public static void AddSlot( Slot s )
@@ -41,11 +47,13 @@ public  class PlayerLoadout : Panel
 		Slots.GetChild( slotNum ).GetChild( 0 ).SetClass( slotName, true );
 	}
 
-
 	public static void SetSlot( int slotNum )
 	{
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
 			return;
+
+		if ( Slots.GetChild( slotNum ) == null )
+			ConsoleSystem.Run( "cd_update_slots" );
 
 		if ( _lastSlot != -1 )
 			Slots.GetChild( _lastSlot ).GetChild( 0 ).SetClass( "selected", false );

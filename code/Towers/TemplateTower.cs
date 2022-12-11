@@ -2,7 +2,7 @@
 using Sandbox;
 
 //THIS SHOULD ONLY BE USED TO CREATE NEW TOWERS
-public  partial class Template : BaseTower
+public partial class TemplateTower : BaseTower
 {
 	public override string TowerName => "Template Tower";
 	public override string TowerDesc => "A template tower";
