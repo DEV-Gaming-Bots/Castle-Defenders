@@ -14,6 +14,8 @@ public partial class TimeDisplacer : BaseSuperTower
 	public override string AttackSound => "timedisplacer_use";
 	public override int RangeDistance => 64;
 
+	public override int UnlockLevel => 15;
+
 	public override void Spawn()
 	{
 		base.Spawn();
