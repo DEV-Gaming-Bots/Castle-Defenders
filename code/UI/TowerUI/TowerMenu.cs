@@ -11,6 +11,7 @@ public  class TowerMenu : Panel
 	public Label TowerCost;
 	public Label TowerOwnerAndPriority;
 	public Label TowerStats;
+	public Label Priority;
 	public Label NextUpgrade;
 
 	public Panel InputGlyphPnl;
@@ -22,6 +23,9 @@ public  class TowerMenu : Panel
 	
 	public Label UseLabel;
 	public Image UseImage;
+
+	public Panel mousePrimary;
+	public Panel mouseSecondary;
 
 	Entity curTowerHover;
 
@@ -35,22 +39,23 @@ public  class TowerMenu : Panel
 		TowerCost = TowerPnl.Add.Label( "", "towerCost" );
 		NextUpgrade = TowerPnl.Add.Label( "Next Upgrade: ???", "towerNextUpg" );
 		TowerStats = TowerPnl.Add.Label( "Statistics: ???", "towerStats" );
-		TowerOwnerAndPriority = TowerPnl.Add.Label( "", "towerOwner" );
+		TowerOwnerAndPriority = TowerPnl.Add.Label( "", "towerOwner basetext" );
+		Priority = TowerPnl.Add.Label( "", "towerPriority basetext" );
 
 		InputGlyphPnl = TowerPnl.Add.Panel( "inputPnl" );
 		Panel InputsPNL = InputGlyphPnl.Add.Panel( "inputsPnl" );
 
-		Panel mp = InputsPNL.Add.Panel( "mousePnl" );
-		MousePrim = mp.Add.Image(null, "primMouse" );
+		mousePrimary = InputsPNL.Add.Panel( "mousePnl" );
+		MousePrim = mousePrimary.Add.Image(null, "primMouse" );
 		MousePrim.SetTexture( Input.GetGlyph( InputButton.PrimaryAttack ).ResourcePath );
 
-		PrimMouseLabel = mp.Add.Label( "???", "text" );
+		PrimMouseLabel = mousePrimary.Add.Label( "???", "text" );
 
-		Panel ms = InputsPNL.Add.Panel( "mousePnl" );
-		MouseSecond = ms.Add.Image( null, "secondMouse" );
+		mouseSecondary = InputsPNL.Add.Panel( "mousePnl" );
+		MouseSecond = mouseSecondary.Add.Image( null, "secondMouse" );
 		MouseSecond.SetTexture( Input.GetGlyph( InputButton.SecondaryAttack ).ResourcePath );
 
-		SecondMouseLabel = ms.Add.Label( "???", "text" );
+		SecondMouseLabel = mouseSecondary.Add.Label( "???", "text" );
 
 		//UseImage.SetTexture( Input.GetGlyph( InputButton.Use ).ResourcePath );
 		UseLabel = InputGlyphPnl.Add.Label( "???", "text" );
@@ -97,6 +102,10 @@ public  class TowerMenu : Panel
 			PrimMouseLabel.SetText( "Place Tower" );
 			SecondMouseLabel.SetText( "" );
 			UseLabel.SetText( "" );
+
+			mousePrimary.Style.Set( "display: flex;" );
+			mouseSecondary.Style.Set( "display: none;" );
+
 			return;
 		}
 
@@ -117,7 +126,8 @@ public  class TowerMenu : Panel
 		if ( curTowerHover is BaseTower tower )
 		{
 
-			TowerOwnerAndPriority.SetText( $"Owner: {tower.Owner.Client.Name} | Priority: {tower.TargetPriority}" );
+			TowerOwnerAndPriority.SetText( $"Owner: {tower.Owner.Client.Name}" );
+			Priority.SetText( $"Priority: {tower.TargetPriority}" );
 
 			TowerName.SetText( tower.NetName );
 			TowerDesc.SetText( tower.NetDesc );
@@ -126,14 +136,17 @@ public  class TowerMenu : Panel
 			{
 				TowerCost.SetText( $"Upgrade Cost: ${tower.NetCost}" );
 				NextUpgrade.SetText( $"Next Upgrade: {tower.NetUpgradeDesc}" );
+				mousePrimary.Style.Set( "display: flex;" );
 			}
 			else
 			{
 				TowerCost.SetText( "Max Level" );
 				NextUpgrade.SetText( "" );
+				mousePrimary.Style.Set( "display: none;" );
 			}
 
 			TowerStats.SetText( $"{tower.NetStats}" );
+			mouseSecondary.Style.Set( "display: flex;" );
 
 			PrimMouseLabel.SetText( "Upgrade" );
 			SecondMouseLabel.SetText( "Sell" );
