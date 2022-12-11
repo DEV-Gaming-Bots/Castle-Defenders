@@ -193,7 +193,7 @@ public  partial class CDPawn
 
 		if( CurSuperTower != null )
 		{
-			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+			var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
 			.WithoutTags( "cdplayer", "npc" )
 			.Ignore( this )
 			.Run();
@@ -205,7 +205,7 @@ public  partial class CDPawn
 				TotalTowers--;
 			}
 
-			if(Input.Pressed(InputButton.SecondaryAttack))
+			if( Input.Pressed(InputButton.SecondaryAttack) )
 				CurSuperTower = null;
 		}
 
@@ -332,7 +332,7 @@ public  partial class CDPawn
 		if ( SelectedTower.IsValid() )
 			return;
 
-		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 145 )
+		var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
 			.UseHitboxes()
 			.WithTag( "tower" )
 			.Run();
@@ -347,6 +347,9 @@ public  partial class CDPawn
 				tower.SellTower();
 				TotalTowers--;
 			}
+
+			if ( Input.Pressed( InputButton.Use ) )
+				tower.SetNextPriority();
 		}
 
 		if ( tr.Entity is BaseSuperTower superTower && superTower.Owner == this )

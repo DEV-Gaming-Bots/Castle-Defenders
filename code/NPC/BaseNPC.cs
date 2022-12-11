@@ -357,7 +357,7 @@ public partial class BaseNPC : AnimatedEntity
 		var animHelper = new NPCAnimationHelper( this );
 
 		_lookDir = Vector3.Lerp( _lookDir, _inputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
-		animHelper.WithLookAt( AimRay.Position + _lookDir );
+		animHelper.WithLookAt( AimRay.Forward + _lookDir );
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithWishVelocity( _inputVelocity );
 	}

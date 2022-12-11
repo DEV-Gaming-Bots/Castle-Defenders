@@ -246,6 +246,8 @@ public  partial class Sniper : BaseTower
 			LaserOn( To.Everyone, Target );
 			_lockedOnTarget = true;
 		}
+
+		UpdateLaser( To.Everyone, Target );
 	}
 
 	[ClientRpc]
@@ -262,6 +264,15 @@ public  partial class Sniper : BaseTower
 	}
 
 	[ClientRpc]
+	public void UpdateLaser(BaseNPC newTarget)
+	{
+		if ( _laserSight == null )
+			return;
+
+		_laserSight.SetEntity( 0, newTarget, Vector3.Up * 25 );
+	}
+
+	[ClientRpc]
 	private void LaserOff()
 	{
 		Game.AssertClient();
@@ -272,7 +283,6 @@ public  partial class Sniper : BaseTower
 
 	public override void Attack( BaseNPC target )
 	{
-
 		_lockedOnTarget = false;
 		LaserOff(To.Everyone);
 

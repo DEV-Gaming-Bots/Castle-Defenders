@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sandbox;
 
 public partial class BaseTower : AnimatedEntity
@@ -74,9 +75,11 @@ public partial class BaseTower : AnimatedEntity
 	[Net]
 	public string NetStats { get; set; }
 
+	//Counters for specific NPC types
 	public virtual bool CounterStealth { get; set; } = false;
 	public virtual bool CounterAirborne { get; set; } = false;
 
+	//Timesince for deployment, attack and last upgrade
 	public TimeSince TimeSinceDeployed;
 	public TimeSince TimeLastAttack;
 	public TimeSince TimeLastUpg;
@@ -85,11 +88,22 @@ public partial class BaseTower : AnimatedEntity
 
 	public bool HasEnhanced;
 
+	//Scan rotation
 	float _scanRot;
 
+	//Base values for restoring, will be set on spawn
 	float baseAttSpeed;
 	int baseRange;
 	float baseDamage;
+
+	public enum PriorityEnum
+	{
+		None,
+		LowestHP,
+		HighHP,
+	}
+
+	[Net] public PriorityEnum TargetPriority { get; protected set; }
 
 	public override void Spawn()
 	{
@@ -100,10 +114,12 @@ public partial class BaseTower : AnimatedEntity
 
 		TimeSinceDeployed = 0;
 
+		//If we're previewing it, just show cost
 		if ( IsPreviewing )
 			NetCost = TowerCost;
 		else
 		{
+			//If not, set base values and other values
 			baseDamage = AttackDamage;
 			baseAttSpeed = AttackTime;
 			baseRange = RangeDistance;
@@ -111,12 +127,14 @@ public partial class BaseTower : AnimatedEntity
 
 			NetCost = TowerLevelCosts[TowerLevel - 1];
 			PlayDeployAnimRPC( To.Everyone );
+
+			TargetPriority = PriorityEnum.None;
 		}
 
 		NetName = TowerName;
 		NetDesc = TowerDesc;
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
-		NetStats = $"DPS {MathF.Round( AttackDamage * AttackTime, 2 )} | Range {RangeDistance}";
+		NetStats = $"DPS {MathF.Round( AttackDamage / AttackTime, 2 )} | Range {RangeDistance}";
 
 		Tags.Add( "tower" );
 	}
@@ -175,6 +193,7 @@ public partial class BaseTower : AnimatedEntity
 		Delete();
 	}
 
+	//Resets stats back to base values
 	public void ResetAndRestoreStats()
 	{
 		AttackTime = baseAttSpeed;
@@ -237,6 +256,49 @@ public partial class BaseTower : AnimatedEntity
 		return true;
 	}
 
+	int enumIndex = -1;
+
+	public void SetNextPriority()
+	{
+		enumIndex++;
+
+		//If we're over the enums count, set index back to 0
+		if ( enumIndex > Enum.GetValues( typeof( PriorityEnum ) ).Cast<PriorityEnum>().Count() - 1 )
+			enumIndex = 0;
+
+		//To prevent hopping back and forth, cast the enumIndex to the enum's values
+		TargetPriority = Enum.GetValues( typeof( PriorityEnum ) ).Cast<PriorityEnum>().FirstOrDefault( x => (int)x > enumIndex );
+	}
+
+	public bool ShouldPrioritizeTarget(BaseNPC newTarget)
+	{
+		//We don't have a target, just return true
+		if ( Target == null )
+			return true;
+
+		if ( newTarget == null )
+			return false;
+
+		if ( Target == newTarget )
+			return true;
+
+		//If we are targetting lowest health npcs
+		if ( TargetPriority == PriorityEnum.LowestHP )
+		{
+			if ( newTarget.Health < Target.Health )
+				return true;
+		}
+
+		//If we are targetting highest health npcs
+		if(TargetPriority == PriorityEnum.HighHP)
+		{
+			if ( newTarget.Health > Target.Health )
+				return true;
+		}
+		
+		return false;
+	}
+
 	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
@@ -244,14 +306,14 @@ public partial class BaseTower : AnimatedEntity
 
 		var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( _scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
 			.Ignore( this )
-			.UseHitboxes()
-			.WithoutTags( "cdplayer", "tower" )
+			.Ignore( Target )
+			.WithTag( "npc" )
 			.Run();
 
 		var tr2 = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( -_scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
 			.Ignore( this )
-			.UseHitboxes()
-			.WithoutTags( "cdplayer", "tower" )
+			.Ignore( Target )
+			.WithTag( "npc" )
 			.Run();
 
 		if ( CDGame.Instance.Debug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
@@ -335,9 +397,9 @@ public partial class BaseTower : AnimatedEntity
 			return;
 
 		//Tower doesn't have a target, find one
-		if(Target == null)
+		if ( Target == null )
 			Target = ScanForEnemy();
-
+			
 		//If we have a target and is within range, attack it
 		if (Target.IsValid() && Position.Distance(Target.Position) < RangeDistance)
 		{
@@ -359,7 +421,15 @@ public partial class BaseTower : AnimatedEntity
 				return;
 			}
 
-			if( TimeLastAttack >= AttackTime )
+			if(TargetPriority != PriorityEnum.None)
+			{
+				var newTarget = ScanForEnemy();
+
+				if ( ShouldPrioritizeTarget( newTarget ) )
+					Target = newTarget;
+			}
+
+			if ( TimeLastAttack >= AttackTime )
 				Attack( Target );
 		}
 		//Else we lost sight or the target died

@@ -132,11 +132,22 @@ public partial class CDPawn : AnimatedEntity
 		InputDirection = move.Normal;
 	}
 
+	public void SimulateCitizeAnimation()
+	{
+		var animHelper = new CitizenAnimationHelper( this );
+		animHelper.AimAngle = ViewAngles.ToRotation();
+		animHelper.IsGrounded = GroundEntity != null;
+		animHelper.WithLookAt(AimRay.Position + AimRay.Forward);
+		animHelper.WithVelocity( Velocity );
+		animHelper.WithWishVelocity( Controller.WishVelocity );
+	}
+
 	public override void Simulate( IClient cl )
 	{
 		base.Simulate( cl );
 
 		Controller?.Simulate();
+		SimulateCitizeAnimation();
 
 		//Check if debug is false and we're in an active game
 		if ( CDGame.Instance.Debug == false )
@@ -171,12 +182,12 @@ public partial class CDPawn : AnimatedEntity
 		}
 	}
 
-	public void TowerOverviewClient()
+	public void TowerOverviewOwner()
 	{
 		if ( SelectedTower != null )
 			return;
 
-		var tr = Trace.Ray( AimRay.Position, AimRay.Forward * 145 )
+		var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
 			.UseHitboxes()
 			.WithTag( "tower" )
 			.Run();
@@ -219,8 +230,7 @@ public partial class CDPawn : AnimatedEntity
 		Camera.FirstPersonViewer = this;
 		Camera.Main.SetViewModelCamera( Camera.FieldOfView );
 
-		TowerOverviewClient();
-		//SimulatePreview();
+		TowerOverviewOwner();
 		TowerSuperRadius();
 	}
 }

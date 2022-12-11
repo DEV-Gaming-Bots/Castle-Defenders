@@ -9,7 +9,7 @@ public  class TowerMenu : Panel
 	public Label TowerName;
 	public Label TowerDesc;
 	public Label TowerCost;
-	public Label TowerOwner;
+	public Label TowerOwnerAndPriority;
 	public Label TowerStats;
 	public Label NextUpgrade;
 
@@ -18,7 +18,10 @@ public  class TowerMenu : Panel
 	public Image MousePrim;
 
 	public Label SecondMouseLabel;
-	public Image MouseSecond;
+	public Image MouseSecond; 
+	
+	public Label UseLabel;
+	public Image UseImage;
 
 	public TowerMenu()
 	{
@@ -30,8 +33,7 @@ public  class TowerMenu : Panel
 		TowerCost = TowerPnl.Add.Label( "", "towerCost" );
 		NextUpgrade = TowerPnl.Add.Label( "Next Upgrade: ???", "towerNextUpg" );
 		TowerStats = TowerPnl.Add.Label( "Statistics: ???", "towerStats" );
-		TowerOwner = TowerPnl.Add.Label( "", "towerOwner" );
-
+		TowerOwnerAndPriority = TowerPnl.Add.Label( "", "towerOwner" );
 
 		InputGlyphPnl = Add.Panel( "inputPnl" );
 
@@ -44,6 +46,9 @@ public  class TowerMenu : Panel
 		MouseSecond.SetTexture( Input.GetGlyph( InputButton.SecondaryAttack ).ResourcePath );
 
 		SecondMouseLabel = InputGlyphPnl.Add.Label( "???", "text" );
+
+		//UseImage.SetTexture( Input.GetGlyph( InputButton.Use ).ResourcePath );
+		UseLabel = InputGlyphPnl.Add.Label( "???", "text" );
 
 	}
 
@@ -62,34 +67,32 @@ public  class TowerMenu : Panel
 			TowerDesc.SetText( player.SelectedTower.NetDesc );
 			TowerCost.SetText( $"Build Cost: ${player.SelectedTower.NetCost}" );
 
-			TowerOwner.SetText( "" );
+			TowerOwnerAndPriority.SetText( "" );
 			NextUpgrade.SetText( "" );
 			TowerStats.SetText( "" );
 
-			TowerPnl.SetClass( "showMenu", true );
-			InputGlyphPnl.SetClass( "showInputs", true );
-
 			PrimMouseLabel.SetText( "Place Tower" );
 			SecondMouseLabel.SetText( "" );
+			UseLabel.SetText( "" );
 			return;
 		}
 
-		var clTr = Trace.Ray( player.EyePosition, player.EyePosition + player.EyeRotation.Forward * 145 )
+		var clTr = Trace.Ray( player.AimRay.Position, player.AimRay.Position + player.AimRay.Forward * 175 )
 			.UseHitboxes( true )
 			.WithTag( "tower" )
 			.Run();
 
+		DebugOverlay.Line( clTr.StartPosition, clTr.EndPosition );
+
 		if(clTr.Entity is BaseSuperTower superTower)
 		{
-			TowerPnl.SetClass( "showMenu", true );
-			TowerOwner.SetText( $"Owner: {superTower.Owner.Client.Name}" );
+			TowerOwnerAndPriority.SetText( $"Owner: {superTower.Owner.Client.Name}" );
 			TowerName.SetText( superTower.NetName );
 			TowerDesc.SetText( superTower.NetDesc );
-
-			InputGlyphPnl.SetClass( "showInputs", true );
-
+;
 			PrimMouseLabel.SetText( "Use Active Ability, Press again to use" );
 			SecondMouseLabel.SetText( "Cancel ability while using" );
+			UseLabel.SetText( "" );
 
 			TowerStats.SetText(superTower.NetAbility);
 			return;
@@ -97,9 +100,8 @@ public  class TowerMenu : Panel
 
 		if ( clTr.Entity is BaseTower tower )
 		{
-			TowerPnl.SetClass( "showMenu", true );
 
-			TowerOwner.SetText( $"Owner: {tower.Owner.Client.Name}" );
+			TowerOwnerAndPriority.SetText( $"Owner: {tower.Owner.Client.Name} | Priority: {tower.TargetPriority}" );
 
 			TowerName.SetText( tower.NetName );
 			TowerDesc.SetText( tower.NetDesc );
@@ -117,15 +119,12 @@ public  class TowerMenu : Panel
 
 			TowerStats.SetText( $"{tower.NetStats}" );
 
-			InputGlyphPnl.SetClass( "showInputs", true );
-
 			PrimMouseLabel.SetText( "Upgrade" );
 			SecondMouseLabel.SetText( "Sell" );
+			UseLabel.SetText( "\nUSE KEY: Change Priority" );
 		}
-		else
-		{
-			TowerPnl.SetClass( "showMenu", false );
-			InputGlyphPnl.SetClass( "showInputs", false );
-		}
+
+		TowerPnl.SetClass( "showMenu", clTr.Entity is BaseTower || clTr.Entity is BaseSuperTower );
+		InputGlyphPnl.SetClass( "showInputs", clTr.Entity is BaseTower || clTr.Entity is BaseSuperTower );
 	}
 }
