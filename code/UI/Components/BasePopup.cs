@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
@@ -21,8 +22,8 @@ namespace Components.popup
 		Center,
 		Right
 	}
-	
-	public class WindowPopup : Panel
+
+	public partial class WindowPopup : Panel
 	{
 		public string SCSS;
 
@@ -35,7 +36,7 @@ namespace Components.popup
 		public PopupVertical _Vertical = PopupVertical.Center;
 		public PopupHorizontal _Horizontal = PopupHorizontal.Center;
 
-		public WindowPopup( string title, PopupVertical Vertical = PopupVertical.Center, PopupHorizontal Horizontal = PopupHorizontal.Center )
+		public WindowPopup( string title, float timer, PopupVertical Vertical = PopupVertical.Center, PopupHorizontal Horizontal = PopupHorizontal.Center )
 		{
 			_Vertical = Vertical;
 			_Horizontal = Horizontal;
@@ -62,13 +63,29 @@ namespace Components.popup
 				default: AddClass( "h-popup-center" ); Log.Warning( "No Horizontal Alignment" ); break;
 			}
 
-
-
 			body = Add.Panel( "body" );
 			Header = body.Add.Panel( "header" );
 			this.title = Header.Add.Label( title, "title" );
 			content = body.Add.Panel( "content" );
 			footer = body.Add.Panel( "footer" );
+
+			_ = LifeTime(timer);
+		}
+
+		[ClientRpc]
+		public static void CreatePopUp( string title, float timer = 1.0f, PopupVertical Vertical = PopupVertical.Center, PopupHorizontal Horizontal = PopupHorizontal.Center )
+		{
+			var popup = new WindowPopup(title, timer, Vertical, Horizontal);
+			CDHUD.CurrentHud.AddChild( popup );
+		}
+
+		public async Task LifeTime(float time)
+		{
+			await Task.DelaySeconds( time );
+
+			this?.Delete();
 		}
 	}
+
+
 }

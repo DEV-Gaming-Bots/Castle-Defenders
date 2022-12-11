@@ -1,6 +1,6 @@
 ﻿using Sandbox.UI;
 
-public  class CDHUD : RootPanel
+public class CDHUD : RootPanel
 {
 	public static CDHUD CurrentHud;
 
@@ -11,7 +11,6 @@ public  class CDHUD : RootPanel
 			CurrentHud.Delete();
 			CurrentHud = null;
 		}
-
 
 		AddChild<ChatBox>();
 		AddChild<CDScoreboard<CDScoreboardEntry>>();

@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿using Components.popup;
+using Sandbox;
 using Sandbox.UI;
 using System;
 using System.Collections.Generic;
@@ -131,7 +132,8 @@ public  partial class CDPawn
 		if ( timeLastNotify < 1.5f )
 			return;
 
-		ChatBox.AddChatEntry( To.Single( this ), "GAME", message );
+		WindowPopup.CreatePopUp( To.Everyone, message, 3.0f, PopupVertical.Center, PopupHorizontal.Left );
+		//ChatBox.AddChatEntry( To.Single( this ), "GAME", message );
 
 		timeLastNotify = 0;
 	}

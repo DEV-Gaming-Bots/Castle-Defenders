@@ -75,8 +75,6 @@ public  class TowerMenu : Panel
 			.WithTag( "tower" )
 			.Run();
 
-		DebugOverlay.Line( clTr.StartPosition, clTr.EndPosition );
-
 		curTowerHover = clTr.Entity;
 	}
 

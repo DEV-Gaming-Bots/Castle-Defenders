@@ -2,6 +2,7 @@
 using Sandbox.UI;
 using Editor;
 using System.Linq;
+using Components.popup;
 
 [Library( "cd_wave_setup" )]
 [Title("Wave Setup"), Description( "Sets up the wave" )]
@@ -179,8 +180,8 @@ public  class WaveSetup : Entity
 			NPCSpawnRate /= 2;
 		}
 
-		if( !string.IsNullOrEmpty(NoteText) )
-			ChatBox.AddChatEntry( To.Everyone, "Game", NoteText );
+		if ( !string.IsNullOrEmpty( NoteText ) )
+			WindowPopup.CreatePopUp( To.Everyone, NoteText );
 
 		_spawnCounter = 0;
 		_timeLastSpawn = 0;
