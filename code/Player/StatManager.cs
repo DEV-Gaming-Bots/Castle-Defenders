@@ -44,7 +44,7 @@ public  partial class CDPawn : IPlayerData
 		TowerSlots.Add( 2, "Sniper" );
 
 		CDGame.Instance.SaveData( this );
-		ConsoleSystem.Run( "cd_update_slots" );
+		UpdateTowerSlots();
 	}
 
 	public void AddTowerSlots(string newTower)
@@ -56,7 +56,20 @@ public  partial class CDPawn : IPlayerData
 		}
 
 		TowerSlots.Add( TowerSlots.Count, newTower );
-		ConsoleSystem.Run( "cd_update_slots" );
+		UpdateTowerSlots();
+	}
+	public void UpdateTowerSlots()
+	{
+		ClearTowerSlots(To.Single(this));
+		var slotNum = 1;
+
+		foreach ( var item in TowerSlots )
+		{
+			UpdateSlots( To.Single( this ), item.Value, item.Key + 1 );
+			slotNum++;
+		}
+
+		UpdateSlots( To.Single( this ), "Hands", 0 );
 	}
 
 	public void LoadStats(IPlayerData playerData)
@@ -66,7 +79,7 @@ public  partial class CDPawn : IPlayerData
 		ReqEXP = playerData.ReqEXP;
 		TowerSlots = playerData.TowerSlots;
 
-		ConsoleSystem.Run( "cd_update_slots" );
+		UpdateTowerSlots();
 	}
 
 	[Net]

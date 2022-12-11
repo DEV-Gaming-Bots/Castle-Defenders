@@ -51,7 +51,7 @@ public partial class BaseTower : AnimatedEntity
 	//How far it can see
 	public virtual int RangeDistance { get; set; } = 10;
 	public virtual string AttackSound => "";
-	public bool IsPreviewing { get; set; } = true;
+	[Net] public bool IsPreviewing { get; set; } = true;
 
 	[Net]
 	public string NetName { get; set; }
@@ -206,8 +206,10 @@ public partial class BaseTower : AnimatedEntity
 
 		if(TowerLevel == 1)
 			(Owner as CDPawn).AddCash( TowerCost / 2 );
-		else
-			(Owner as CDPawn).AddCash( TowerLevelCosts[TowerLevel - 1] / 2 );
+		else if (TowerLevel < TowerMaxLevel)
+			(Owner as CDPawn).AddCash( TowerLevelCosts[TowerLevel-1] / 2 );
+		else if (TowerLevel == TowerMaxLevel)
+			(Owner as CDPawn).AddCash( TowerLevelCosts[TowerLevel-2] / 2 );
 
 		Delete();
 	}

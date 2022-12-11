@@ -332,7 +332,7 @@ public  partial class CDGame
 	}
 
 	[ConCmd.Server( "cd_update_slots" )]
-	public static void UpdateTowerSlots()
+	public static void UpdateTowerSlotsCMD()
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
 		if ( player == null )

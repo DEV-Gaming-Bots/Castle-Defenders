@@ -70,9 +70,9 @@ public partial class BaseNPC : AnimatedEntity
 		switch(CDGame.Instance.Difficulty)
 		{
 			case CDGame.DiffEnum.Easy: return 1.0f;
-			case CDGame.DiffEnum.Medium: return 1.75f;
-			case CDGame.DiffEnum.Hard: return 3.25f;
-			case CDGame.DiffEnum.Extreme: return 6.5f;
+			case CDGame.DiffEnum.Medium: return 2.5f;
+			case CDGame.DiffEnum.Hard: return 5.75f;
+			case CDGame.DiffEnum.Extreme: return 12.5f;
 		}
 
 		return 0.0f;

@@ -52,9 +52,6 @@ public  class PlayerLoadout : Panel
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.MapChange )
 			return;
 
-		if ( Slots.GetChild( slotNum ) == null )
-			ConsoleSystem.Run( "cd_update_slots" );
-
 		if ( _lastSlot != -1 )
 			Slots.GetChild( _lastSlot ).GetChild( 0 ).SetClass( "selected", false );
 
