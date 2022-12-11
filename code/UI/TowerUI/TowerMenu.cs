@@ -35,17 +35,20 @@ public  class TowerMenu : Panel
 		TowerStats = TowerPnl.Add.Label( "Statistics: ???", "towerStats" );
 		TowerOwnerAndPriority = TowerPnl.Add.Label( "", "towerOwner" );
 
-		InputGlyphPnl = Add.Panel( "inputPnl" );
+		InputGlyphPnl = TowerPnl.Add.Panel( "inputPnl" );
+		Panel InputsPNL = InputGlyphPnl.Add.Panel( "inputsPnl" );
 
-		MousePrim = InputGlyphPnl.Add.Image(null, "primMouse" );
+		Panel mp = InputsPNL.Add.Panel( "mousePnl" );
+		MousePrim = mp.Add.Image(null, "primMouse" );
 		MousePrim.SetTexture( Input.GetGlyph( InputButton.PrimaryAttack ).ResourcePath );
 
-		PrimMouseLabel = InputGlyphPnl.Add.Label( "???", "text" );
+		PrimMouseLabel = mp.Add.Label( "???", "text" );
 
-		MouseSecond = InputGlyphPnl.Add.Image( null, "secondMouse" );
+		Panel ms = InputsPNL.Add.Panel( "mousePnl" );
+		MouseSecond = ms.Add.Image( null, "secondMouse" );
 		MouseSecond.SetTexture( Input.GetGlyph( InputButton.SecondaryAttack ).ResourcePath );
 
-		SecondMouseLabel = InputGlyphPnl.Add.Label( "???", "text" );
+		SecondMouseLabel = ms.Add.Label( "???", "text" );
 
 		//UseImage.SetTexture( Input.GetGlyph( InputButton.Use ).ResourcePath );
 		UseLabel = InputGlyphPnl.Add.Label( "???", "text" );

@@ -3,6 +3,7 @@ using System.Linq;
 
 public partial class CDGame : GameManager
 {
+	CDHUD CDHUDMAIN;
 	public static CDGame Instance => Current as CDGame;
 
 	[ConVar.Replicated( "cd_competitve" )]
@@ -47,15 +48,18 @@ public partial class CDGame : GameManager
 		}
 
 		if ( Game.IsClient )
-			_ = new CDHUD();
+			CDHUDMAIN = new CDHUD();
 	}
 
 	//TEMPORARY
 	[Event.Hotload]
 	public void UpdateHud()
 	{
-		if ( Game.IsClient )			
-			_ = new CDHUD();
+		if ( Game.IsClient )
+		{
+			CDHUDMAIN.Delete();
+			CDHUDMAIN = new CDHUD();
+		}
 	}
 
 	public override void ClientJoined( IClient client )
