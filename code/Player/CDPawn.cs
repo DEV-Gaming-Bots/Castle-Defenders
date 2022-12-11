@@ -132,7 +132,7 @@ public partial class CDPawn : AnimatedEntity
 		InputDirection = move.Normal;
 	}
 
-	public void SimulateCitizeAnimation()
+	public void SimulateCitizenAnimation()
 	{
 		var animHelper = new CitizenAnimationHelper( this );
 		animHelper.AimAngle = ViewAngles.ToRotation();
@@ -147,7 +147,7 @@ public partial class CDPawn : AnimatedEntity
 		base.Simulate( cl );
 
 		Controller?.Simulate();
-		SimulateCitizeAnimation();
+		SimulateCitizenAnimation();
 
 		//Check if debug is false and we're in an active game
 		if ( CDGame.Instance.Debug == false )

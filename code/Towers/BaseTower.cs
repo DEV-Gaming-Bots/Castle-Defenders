@@ -239,7 +239,7 @@ public partial class BaseTower : AnimatedEntity
 		NetCost = TowerLevelCosts[TowerLevel - 1];
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
 
-		NetStats = $"DPS {MathF.Round(AttackDamage * AttackTime, 2)} | Range {RangeDistance}";
+		NetStats = $"DPS {MathF.Round(AttackDamage / AttackTime, 2)} | Range {RangeDistance}";
 	}
 
 	//Determine if the tower can attack this npc special type
