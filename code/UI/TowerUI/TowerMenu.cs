@@ -85,8 +85,6 @@ public  class TowerMenu : Panel
 			.WithTag( "tower" )
 			.Run();
 
-		DebugOverlay.Line( clTr.StartPosition, clTr.EndPosition );
-
 		if(clTr.Entity is BaseSuperTower superTower)
 		{
 			TowerOwnerAndPriority.SetText( $"Owner: {superTower.Owner.Client.Name}" );

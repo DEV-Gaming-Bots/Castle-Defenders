@@ -139,8 +139,8 @@ public partial class BaseNPC : AnimatedEntity
 
 
 		CashReward = Game.Random.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash );
-		CashReward /= Game.Clients.Count;
-		CashReward = CashReward.Clamp( 1, asset.KillReward.MaxCash );
+		//CashReward /= Game.Clients.Count;
+		//CashReward = CashReward.Clamp( 1, asset.KillReward.MaxCash );
 
 		ExpReward = (int)(Game.Random.Int( asset.KillReward.MinXP, asset.KillReward.MaxXP ) * ScaleRewards());
 
@@ -357,7 +357,7 @@ public partial class BaseNPC : AnimatedEntity
 		var animHelper = new NPCAnimationHelper( this );
 
 		_lookDir = Vector3.Lerp( _lookDir, _inputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
-		animHelper.WithLookAt( AimRay.Forward + _lookDir );
+		animHelper.WithLookAt( _lookDir );
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithWishVelocity( _inputVelocity );
 	}
