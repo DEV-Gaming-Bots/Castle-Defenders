@@ -60,7 +60,7 @@ public  partial class Radar : BaseTower
 		towersScanned = new List<BaseTower>();
 		base.Spawn();
 
-		NetStats = $"Speed Boost {AttackTime} | Range {RangeDistance}";
+		NetStats = $"Speed Boost {-AttackTime} | Range {RangeDistance}";
 	}
 
 	[Event.Tick.Server]
@@ -93,6 +93,7 @@ public  partial class Radar : BaseTower
 			towersScanned.ToList().ForEach( x => x.HasEnhanced = false );
 
 		base.UpgradeTower();
+		RemoveEnhancement();
 
 		NetStats = $"Speed Boost {-AttackTime} | Range {RangeDistance}";
 	}
@@ -128,12 +129,16 @@ public  partial class Radar : BaseTower
 		{
 			if ( !tower.HasEnhanced )
 			{
-				tower.AttackTime += MathF.Round(AttackTime, 2);
-				tower.RangeDistance += (int)MathF.Round( tower.RangeDistance / (4 + TowerLevel), 0);
+				for ( int i = 0; i < TowerLevel - 1; i++ )
+				{
+					tower.AttackTime += MathF.Round( Upgrades[i].AttTime, 2);
+					tower.RangeDistance += (int)MathF.Round( tower.Upgrades[i].NewRange / (4 + i), 0);
+				}
+
 				tower.CounterStealth = true;
 				tower.HasEnhanced = true;
 
-				tower.NetStats = $"Attack Delay {tower.AttackTime} | Damage {tower.AttackDamage} | Range {tower.RangeDistance}";
+				tower.NetStats = $"DPS {MathF.Round( tower.AttackDamage / tower.AttackTime, 2 )} | Range {tower.RangeDistance}";
 			}
 		}
 	}
