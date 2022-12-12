@@ -141,6 +141,12 @@ public partial class CDPawn : AnimatedEntity
 		animHelper.WithLookAt(AimRay.Position + AimRay.Forward);
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithWishVelocity( Controller.WishVelocity );
+
+		Rotation rot = ViewAngles.ToRotation();
+		rot.x = 0;
+		rot.y = 0;
+
+		LocalRotation = rot;
 	}
 
 	public override void Simulate( IClient cl )
@@ -201,22 +207,14 @@ public partial class CDPawn : AnimatedEntity
 
 		Controller?.FrameSimulate();
 
-		Rotation rot = ViewAngles.ToRotation();
-		rot.x = 0;
-		rot.y = 0;
-
-		//LocalRotation = rot;
-
 		Camera.Position = EyePosition;
-		Camera.Rotation = EyeRotation;
+		Camera.Rotation = ViewAngles.ToRotation();
 
 		// Set field of view to whatever the user chose in options
-		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Sandbox.Game.Preferences.FieldOfView );
+		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
 
 		// Set the first person viewer to this, so it won't render our model
 		Camera.FirstPersonViewer = this;
 		Camera.Main.SetViewModelCamera( Camera.FieldOfView );
-
-		TowerSuperRadius();
 	}
 }
