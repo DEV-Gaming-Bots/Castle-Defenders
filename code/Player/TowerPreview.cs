@@ -7,7 +7,7 @@ using System.Text;
 
 public  partial class CDPawn
 {
-	public ModelEntity PreviewTower;
+	public ModelEntity PreviewTower { get; set; }
 
 	[Net]
 	public BaseTower SelectedTower { get; set; }

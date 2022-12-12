@@ -137,7 +137,8 @@ public partial class CDPawn : AnimatedEntity
 		var animHelper = new CitizenAnimationHelper( this );
 		animHelper.AimAngle = ViewAngles.ToRotation();
 		animHelper.IsGrounded = GroundEntity != null;
-		animHelper.WithLookAt(EyePosition + EyeRotation.Forward);
+
+		animHelper.WithLookAt(AimRay.Position + AimRay.Forward);
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithWishVelocity( Controller.WishVelocity );
 	}

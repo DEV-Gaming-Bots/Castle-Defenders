@@ -151,7 +151,7 @@ public  partial class Sniper : BaseTower
 
 	//Temporary until we get a pistol model
 	public override string TowerModel => "models/towers/snipertower.vmdl";
-	public override int UnlockLevel => 1;
+	public override int UnlockLevel => 2;
 	public override BaseTower RequiredTowers => null;
 	public override int[] TowerLevelCosts => new[]
 	{
