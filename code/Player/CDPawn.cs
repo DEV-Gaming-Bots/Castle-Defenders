@@ -183,20 +183,6 @@ public partial class CDPawn : AnimatedEntity
 		}
 	}
 
-	public void TowerOverviewOwner()
-	{
-		if ( SelectedTower != null )
-			return;
-
-		var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
-			.UseHitboxes()
-			.WithTag( "tower" )
-			.Run();
-
-		if ( tr.Entity is BaseTower tower && tower.Owner == this && tr.Entity is not BaseSuperTower )
-			ShowRadius( tower );
-	}
-
 	public void TowerSuperRadius()
 	{
 		if ( CurSuperTower == null )
@@ -231,7 +217,6 @@ public partial class CDPawn : AnimatedEntity
 		Camera.FirstPersonViewer = this;
 		Camera.Main.SetViewModelCamera( Camera.FieldOfView );
 
-		TowerOverviewOwner();
 		TowerSuperRadius();
 	}
 }

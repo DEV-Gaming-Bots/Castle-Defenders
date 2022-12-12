@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public  partial class CDPawn
+public partial class CDPawn
 {
 	public ModelEntity PreviewTower { get; set; }
 
@@ -40,8 +40,6 @@ public  partial class CDPawn
 		PreviewTower.Position = endPos;
 		PreviewTower.Rotation = Rotation.FromYaw( rot );
 		PreviewTower.RenderColor = color.WithAlpha(1.0f);
-
-		Circle( PreviewTower.Position + Vector3.Up * 5, Rotation.FromPitch(90), range, color.WithAlpha(0.45f), false);
 	}
 
 	public void Circle( Vector3 startPos, Rotation rot, float radius, Color colour, bool hollow = true, int segments = 32, float degrees = 360 )
@@ -95,11 +93,6 @@ public  partial class CDPawn
 	{
 		TotalTowers = 0;
 		DestroyPreview();
-	}
-
-	public void ShowRadius(BaseTower tower)
-	{
-		Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.RangeDistance, Color.Green.WithAlpha( 0.75f ), false );
 	}
 
 	public void ShowSuperRadius(BaseSuperTower superTower, Vector3 pos)

@@ -24,9 +24,9 @@ public  partial class Radar : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.025f, 0, 0),
-		new(-0.025f, 0, 0),
-		new(-0.05f, 0, 0)
+		new(-0.025f, 0, 25),
+		new(-0.05f, 0, 25),
+		new(-0.075f, 0, 50)
 	};
 
 	public override string[] TowerUpgradeDesc => new[]
@@ -50,7 +50,7 @@ public  partial class Radar : BaseTower
 	public override float DeploymentTime => 5.0f;
 	public override float AttackTime { get; set; } = 0.0f;
 	public override float AttackDamage { get; set; } = 0.0f;
-	public override int RangeDistance { get; set; } = 100;
+	public override int RangeDistance { get; set; } = 75;
 	public override string AttackSound => "";
 
 	List<BaseTower> towersScanned;
@@ -59,6 +59,8 @@ public  partial class Radar : BaseTower
 	{
 		towersScanned = new List<BaseTower>();
 		base.Spawn();
+
+		NetStats = $"Speed Boost {AttackTime} | Range {RangeDistance}";
 	}
 
 	[Event.Tick.Server]
@@ -91,6 +93,8 @@ public  partial class Radar : BaseTower
 			towersScanned.ToList().ForEach( x => x.HasEnhanced = false );
 
 		base.UpgradeTower();
+
+		NetStats = $"Speed Boost {-AttackTime} | Range {RangeDistance}";
 	}
 
 	private void ValidateTowers()
@@ -104,6 +108,9 @@ public  partial class Radar : BaseTower
 
 	private void RemoveEnhancement()
 	{
+		if ( towersScanned == null )
+			return;
+
 		foreach ( BaseTower tower in towersScanned.ToArray())
 		{
 			if ( tower is Radar || tower == this )

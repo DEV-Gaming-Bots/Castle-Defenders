@@ -76,6 +76,9 @@ public partial class BaseTower : AnimatedEntity
 	[Net]
 	public string NetStats { get; set; }
 
+	[Net]
+	public int NetRange { get; set; }
+
 	//Counters for specific NPC types
 	public virtual bool CounterStealth { get; set; } = false;
 	public virtual bool CounterAirborne { get; set; } = false;
@@ -152,6 +155,7 @@ public partial class BaseTower : AnimatedEntity
 
 		NetName = TowerName;
 		NetDesc = TowerDesc;
+		NetRange = RangeDistance;
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
 		NetStats = $"DPS {MathF.Round( AttackDamage / AttackTime, 2 )} | Range {RangeDistance}";
 
@@ -166,6 +170,7 @@ public partial class BaseTower : AnimatedEntity
 		NetCost = TowerCost;
 		NetName = TowerName;
 		NetDesc = TowerDesc;
+		NetStats = $"DPS {MathF.Round( AttackDamage / AttackTime, 2 )} | Range {RangeDistance}";
 
 		Tags.Add( "tower" );
 	}
@@ -184,6 +189,9 @@ public partial class BaseTower : AnimatedEntity
 
 	public bool CanUpgrade()
 	{
+		if ( !Game.IsServer )
+			return false;
+
 		if ( TowerLevel >= TowerMaxLevel )
 			return false;
 
@@ -228,6 +236,7 @@ public partial class BaseTower : AnimatedEntity
 			RangeDistance += Upgrades[i-1].NewRange;
 		}
 
+		NetRange = RangeDistance;
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
 		NetStats = $"DPS {MathF.Round( AttackDamage * AttackTime, 2 )} | Range {RangeDistance}";
 	}
@@ -258,6 +267,7 @@ public partial class BaseTower : AnimatedEntity
 		
 		NetDesc = TowerLevelDesc[TowerLevel - 1];
 		NetCost = TowerLevelCosts[TowerLevel - 1];
+		NetRange = RangeDistance;
 		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
 
 		NetStats = $"DPS {MathF.Round(AttackDamage / AttackTime, 2)} | Range {RangeDistance}";

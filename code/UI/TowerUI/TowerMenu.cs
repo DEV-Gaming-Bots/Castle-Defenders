@@ -1,9 +1,9 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
-using System.Security.Cryptography.X509Certificates;
+using System;
 
-public  class TowerMenu : Panel
+public class TowerMenu : Panel
 {
 	public Panel TowerPnl;
 	public Label TowerName;
@@ -89,8 +89,8 @@ public  class TowerMenu : Panel
 
 		TowerPnl.SetClass( "showMenu", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
 		InputGlyphPnl.SetClass( "showInputs", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
-
-		if ( curTowerHover is BaseSuperTower superTower)
+		
+		if ( curTowerHover is BaseSuperTower superTower )
 		{
 			TowerOwnerAndPriority.SetText( $"Owner: {superTower.Owner.Client.Name}" );
 			TowerName.SetText( superTower.NetName );
@@ -107,6 +107,8 @@ public  class TowerMenu : Panel
 
 		if ( curTowerHover is BaseTower tower )
 		{
+			player.Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.NetRange, Color.Green.WithAlpha( 0.45f ), false );
+
 			if(tower.IsPreviewing)
 			{
 				TowerName.SetText( tower.NetName );
@@ -153,6 +155,5 @@ public  class TowerMenu : Panel
 			SecondMouseLabel.SetText( "Sell" );
 			UseLabel.SetText( "\nUSE KEY: Change Priority" );
 		}
-
 	}
 }
