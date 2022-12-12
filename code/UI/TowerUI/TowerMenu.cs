@@ -107,10 +107,12 @@ public class TowerMenu : Panel
 
 		if ( curTowerHover is BaseTower tower )
 		{
-			player.Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.NetRange, Color.Green.WithAlpha( 0.45f ), false );
 
 			if(tower.IsPreviewing)
 			{
+				if(tower.Owner == player)
+					player.Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.NetRange, Color.Green.WithAlpha( 0.45f ), false );
+
 				TowerName.SetText( tower.NetName );
 				TowerDesc.SetText( tower.NetDesc );
 				TowerCost.SetText( $"Build Cost: ${tower.NetCost}" );
@@ -131,6 +133,8 @@ public class TowerMenu : Panel
 
 			TowerOwnerAndPriority.SetText( $"Owner: {tower.Owner.Client.Name}" );
 			Priority.SetText( $"Priority: {tower.TargetPriority}" );
+
+			player.Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.NetRange, Color.Green.WithAlpha( 0.45f ), false );
 
 			TowerName.SetText( tower.NetName );
 			TowerDesc.SetText( tower.NetDesc );
