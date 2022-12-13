@@ -192,8 +192,8 @@ public partial class BaseNPC : AnimatedEntity
 	[ClientRpc]
 	public virtual void UpdateUI()
 	{
-		Panel.Position = Position + Vector3.Up * 22 * (Scale + 1.35f);
-		Panel.Rotation = Rotation;
+		Panel.Position = GetBoneTransform( "head" ).Position;
+		Panel.Rotation = Rotation.LookAt( -Camera.Rotation.Forward );
 		Panel.CurHealth = MathF.Round( Health, 2 );
 		Panel.CurArmor = MathF.Round( ArmourStrength, 2 );
 	}
@@ -356,8 +356,8 @@ public partial class BaseNPC : AnimatedEntity
 
 		var animHelper = new NPCAnimationHelper( this );
 
-		_lookDir = Vector3.Lerp( _lookDir, _inputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
-		animHelper.WithLookAt( _lookDir );
+		//_lookDir = Vector3.Lerp( _lookDir, _inputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
+		//animHelper.WithLookAt( _lookDir );
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithWishVelocity( _inputVelocity );
 	}
@@ -460,6 +460,9 @@ public partial class BaseNPC : AnimatedEntity
 	{
 		if ( IsMinion )
 			return;
+
+		if( !string.IsNullOrEmpty( AssetFile.SplittingSound ) )
+			Sound.FromWorld( AssetFile.SplittingSound, Position );
 
 		for ( int i = 0; i < 3; i++ )
 		{

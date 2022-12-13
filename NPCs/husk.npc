@@ -18,6 +18,7 @@
 			MaxCash = 34
 		}
 		NPCType = "Splitter"
+		SplittingSound = resource:"sounds/npcs/husk_split.sound"
 		OverrideMaterial = resource:"materials/npcs/husk.vmat"
 		OverrideColor = "1,1,1,1"
 		Hat = null

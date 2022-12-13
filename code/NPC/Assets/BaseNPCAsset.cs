@@ -59,6 +59,9 @@ public class BaseNPCAsset : GameResource
 	[Category( "NPC Info" ), Title("Type")]
 	public SpecialType NPCType { get; set; } = SpecialType.Standard;
 
+	[Category( "Splitter Info" ), ResourceType( "sound" ), ShowIf("NPCType", SpecialType.Splitter)]
+	public string SplittingSound { get; set; } = "";
+
 	/// <summary>
 	/// Overrides the base material of the NPC, leave blank to use default
 	/// </summary>
