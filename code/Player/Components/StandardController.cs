@@ -148,9 +148,9 @@ public partial class StandardController : BaseNetworkable
 			}
 		}
 
-		WishVelocity = new Vector3( Owner.InputDirection.x, Owner.InputDirection.y, 0 );
+		WishVelocity = new Vector3( Owner.InputDirection.x.Clamp(-1f, 1f), Owner.InputDirection.y.Clamp( -1f, 1f ), 0 );
 		var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
-		WishVelocity *= Owner.EyeRotation;
+		WishVelocity *= Owner.ViewAngles.WithPitch(0).ToRotation();
 
 		if ( !Swimming && !IsTouchingLadder )
 		{
