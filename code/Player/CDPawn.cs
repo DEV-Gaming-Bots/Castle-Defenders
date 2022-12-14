@@ -183,10 +183,7 @@ public partial class CDPawn : AnimatedEntity
 			}
 		}
 
-		if(Game.IsServer)
-		{
-			SimulatePreview();
-		}
+		//SimulatePreview();
 	}
 
 	public void TowerSuperRadius()
@@ -216,5 +213,7 @@ public partial class CDPawn : AnimatedEntity
 		// Set the first person viewer to this, so it won't render our model
 		Camera.FirstPersonViewer = this;
 		Camera.Main.SetViewModelCamera( Camera.FieldOfView );
+
+		SimulatePreview();
 	}
 }

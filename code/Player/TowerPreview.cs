@@ -31,15 +31,13 @@ public partial class CDPawn
 		PreviewTower.Owner = this;
 	}
 
-	[ClientRpc]
 	public void UpdatePreview(Vector3 endPos, Color color, float range, float rot)
 	{
-		if ( PreviewTower == null )
-			return;
-
 		PreviewTower.Position = endPos;
 		PreviewTower.Rotation = Rotation.FromYaw( rot );
 		PreviewTower.RenderColor = color.WithAlpha(1.0f);
+
+		Circle( endPos + Vector3.Up * 5, Rotation.FromPitch( 90 ), range, Color.Green.WithAlpha( 0.45f ), false );
 	}
 
 	public void Circle( Vector3 startPos, Rotation rot, float radius, Color colour, bool hollow = true, int segments = 32, float degrees = 360 )
@@ -125,7 +123,7 @@ public partial class CDPawn
 		if ( timeLastNotify < 1.5f )
 			return;
 
-		WindowPopup.CreatePopUp( To.Everyone, message, 3.0f, PopupVertical.Center, PopupHorizontal.Left );
+		WindowPopup.CreatePopUp( To.Single(this), message, 3.0f, PopupVertical.Center, PopupHorizontal.Right );
 		//ChatBox.AddChatEntry( To.Single( this ), "GAME", message );
 
 		timeLastNotify = 0;

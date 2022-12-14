@@ -70,7 +70,7 @@ public class TowerMenu : Panel
 		if ( player == null )
 			return;
 
-		var clTr = Trace.Ray( player.AimRay.Position, player.AimRay.Position + player.AimRay.Forward * 175 )
+		var clTr = Trace.Ray( player.AimRay.Position, player.AimRay.Position + player.AimRay.Forward * 350 )
 			.UseHitboxes( true )
 			.WithTag( "tower" )
 			.Run();
@@ -107,21 +107,16 @@ public class TowerMenu : Panel
 
 		if ( curTowerHover is BaseTower tower )
 		{
-
 			if(tower.IsPreviewing)
 			{
-				if(tower.Owner == player)
-					player.Circle( tower.Position + Vector3.Up * 5, Rotation.FromPitch( 90 ), tower.NetRange, Color.Green.WithAlpha( 0.45f ), false );
-
 				TowerName.SetText( tower.NetName );
 				TowerDesc.SetText( tower.NetDesc );
 				TowerCost.SetText( $"Build Cost: ${tower.NetCost}" );
+				TowerStats.SetText( tower.NetStats );
+				PrimMouseLabel.SetText( "Place Tower" );
 
 				TowerOwnerAndPriority.SetText( "" );
 				NextUpgrade.SetText( "" );
-				TowerStats.SetText( "" );
-
-				PrimMouseLabel.SetText( "Place Tower" );
 				SecondMouseLabel.SetText( "" );
 				UseLabel.SetText( "" );
 
@@ -152,7 +147,7 @@ public class TowerMenu : Panel
 				mousePrimary.Style.Set( "display: none;" );
 			}
 
-			TowerStats.SetText( $"{tower.NetStats}" );
+			TowerStats.SetText( tower.NetStats );
 			mouseSecondary.Style.Set( "display: flex;" );
 
 			PrimMouseLabel.SetText( "Upgrade" );

@@ -283,14 +283,14 @@ public  partial class CDGame
 		{
 			if(winCondition == WinningEnum.BlueWin)
 			{
-				WindowPopup.CreatePopUp( To.Everyone, "Blue team has won!", 5.0f, PopupVertical.Center, PopupHorizontal.Left );
+				WindowPopup.CreatePopUp( To.Everyone, "Blue team has won!", 5.0f, PopupVertical.Center, PopupHorizontal.Right );
 				//ChatBox.AddChatEntry( To.Everyone, "GAME", "Blue team has won!" );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.EndMusic( To.Single(x), "music_win" ) );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 			} 
 			else if (winCondition == WinningEnum.RedWin)
 			{
-				WindowPopup.CreatePopUp( To.Everyone, "Red team has won!", 5.0f, PopupVertical.Center, PopupHorizontal.Left );
+				WindowPopup.CreatePopUp( To.Everyone, "Red team has won!", 5.0f, PopupVertical.Center, PopupHorizontal.Right );
 				//ChatBox.AddChatEntry( To.Everyone, "GAME", "Red team has won!" );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_win" ) );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
@@ -301,13 +301,13 @@ public  partial class CDGame
 		{
 			if( winCondition == WinningEnum.Win )
 			{
-				WindowPopup.CreatePopUp( To.Everyone, "You have successfully defended the castle!", 5.0f, PopupVertical.Center, PopupHorizontal.Left );
+				WindowPopup.CreatePopUp( To.Everyone, "You have successfully defended the castle!", 5.0f, PopupVertical.Center, PopupHorizontal.Right );
 				//ChatBox.AddChatEntry( To.Everyone, "GAME", "You have successfully defended the castle!" );
 				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_win" ) );
 			}
 			else if (winCondition == WinningEnum.Lost )
 			{
-				WindowPopup.CreatePopUp( To.Everyone, "The evil forces have overtaken the castle!", 5.0f, PopupVertical.Center, PopupHorizontal.Left );
+				WindowPopup.CreatePopUp( To.Everyone, "The evil forces have overtaken the castle!", 5.0f, PopupVertical.Center, PopupHorizontal.Right );
 				//ChatBox.AddChatEntry( To.Everyone, "GAME", "The evil forces have overtaken the castle!" );
 				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 				_allowRestart = true;
