@@ -108,14 +108,14 @@ GameStatsPanel {
         }
 
         .bar {
-            width: 50%;
+            width: 55%;
             align-items: center;
             Label {
                 color: white;
-                font-size: 20%;
-                font-family: Poppins;
+                font-size: 16px;
+                font-family: Roboto;
                 font-weight: bold;
-                position: absolute;
+                position: center;
             }
         }
 
