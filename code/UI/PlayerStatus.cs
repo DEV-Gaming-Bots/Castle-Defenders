@@ -36,7 +36,7 @@ public  class PlayerStatus : Panel
 		if(clTr.Entity is CDPawn player)
 		{
 			PlayerInfo.SetText( player.Client.Name );
-			PlayerCash.SetText( $"Cash: {player.GetCash()}" );
+			PlayerCash.SetText( $"Cash: ${player.GetCash()}" );
 		}
 
 		SetClass( "playerHover", clTr.Entity is CDPawn);

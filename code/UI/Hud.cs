@@ -1,18 +1,19 @@
-﻿using Sandbox.UI;
+﻿using Sandbox;
+using Sandbox.UI;
 
-public class CDHUD : RootPanel
+[Library]
+public partial class CDHUD : RootPanel
 {
 	public static CDHUD CurrentHud;
 
 	public CDHUD()
 	{
-		if( CurrentHud != null )
-		{
-			CurrentHud.Delete();
-			CurrentHud = null;
-		}
+		if ( !Game.IsClient )
+			return;
 
-		AddChild<ChatBox>();
+		StyleSheet.Load( "/UI/Hud.scss" );
+
+		AddChild<Chat>();
 		AddChild<CDScoreboard<CDScoreboardEntry>>();
 
 		AddChild<Status>();
@@ -29,7 +30,5 @@ public class CDHUD : RootPanel
 		//	() => { Log.Info( "BLUE SELECTED!" ); },
 		//	() => { Log.Info( "RED SELECTED!" ); } ) 
 		//);
-
-		CurrentHud = this;
 	}
 }

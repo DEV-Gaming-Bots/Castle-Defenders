@@ -8,8 +8,7 @@
   "HasAssets": true,
   "AssetsPath": "",
   "ResourcePaths": [
-    "/ui/*",
-    "/fonts/*"
+    "/ui/*"
   ],
   "HasCode": true,
   "CodePath": "/code/",
