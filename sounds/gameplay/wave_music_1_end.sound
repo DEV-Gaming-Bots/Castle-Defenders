@@ -3,16 +3,14 @@
 	data = 
 	{
 		UI = true
-		Volume = 0.35
-		VolumeRandom = 0
-		Pitch = 1
-		PitchRandom = 0
+		Volume = "0.50,0.50,0"
+		Pitch = "1.00,1.00,0"
 		Decibels = 70
+		SelectionMode = "Random"
 		Sounds = 
 		[
 			resource:"sounds/raw/music/wave_music_1_end.vsnd",
 		]
-		SelectionMode = "Random"
 		MaximumDistance = 1143.9335
 		MinimumDistance = 57.196674
 	}
