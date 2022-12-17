@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Components.popup;
 using Sandbox;
-using Sandbox.UI;
 
 public  partial class CDGame
 {
@@ -283,14 +282,14 @@ public  partial class CDGame
 		{
 			if(winCondition == WinningEnum.BlueWin)
 			{
-				WindowPopup.CreatePopUp( To.Everyone, "Blue team has won!", 5.0f, PopupVertical.Center, PopupHorizontal.Right );
+				WindowPopup.CreatePopUp( To.Everyone, "Blue team has won!", 30.0f, PopupVertical.Bottom, PopupHorizontal.Center, "team-win blue" );
 				//ChatBox.AddChatEntry( To.Everyone, "GAME", "Blue team has won!" );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.EndMusic( To.Single(x), "music_win" ) );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );
 			} 
 			else if (winCondition == WinningEnum.RedWin)
 			{
-				WindowPopup.CreatePopUp( To.Everyone, "Red team has won!", 5.0f, PopupVertical.Center, PopupHorizontal.Right );
+				WindowPopup.CreatePopUp( To.Everyone, "Red team has won!", 30.0f, PopupVertical.Bottom, PopupHorizontal.Center, "team-win red" );
 				//ChatBox.AddChatEntry( To.Everyone, "GAME", "Red team has won!" );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Red ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_win" ) );
 				All.OfType<CDPawn>().Where( x => x.CurTeam == CDPawn.TeamEnum.Blue ).ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_lost" ) );

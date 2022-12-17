@@ -64,8 +64,14 @@ namespace Components.popup
 			}
 
 			body = Add.Panel( "body" );
-			Header = body.Add.Panel( "header" );
-			this.title = Header.Add.Label( title, "title" );
+			if ( title != null )
+			{
+				Header = body.Add.Panel( "header" );
+				this.title = Header.Add.Label( title, "title" );
+			} else
+			{
+				Header = body.Add.Panel( "footer" );
+			}
 			content = body.Add.Panel( "content" );
 			footer = body.Add.Panel( "footer" );
 
@@ -73,9 +79,21 @@ namespace Components.popup
 		}
 
 		[ClientRpc]
-		public static void CreatePopUp( string title, float timer = 1.0f, PopupVertical Vertical = PopupVertical.Center, PopupHorizontal Horizontal = PopupHorizontal.Center )
+		public static void CreatePopUp( string title, float timer = 1.0f, PopupVertical Vertical = PopupVertical.Center, PopupHorizontal Horizontal = PopupHorizontal.Center, String classnames = "" )
 		{
-			var popup = new WindowPopup(title, timer, Vertical, Horizontal);
+			CreatePopUp( title, null ,timer, Vertical, Horizontal, classnames );
+		}
+
+		[ClientRpc]
+		public static void CreatePopUp( string title, Panel Content, float timer = 1.0f, PopupVertical Vertical = PopupVertical.Center, PopupHorizontal Horizontal = PopupHorizontal.Center, String classnames = "" )
+		{
+			var popup = new WindowPopup( title, timer, Vertical, Horizontal);
+			if ( Content != null)
+			{
+				popup.content.AddChild( Content );
+				popup.content.Style.Set( "padding-left: 24px" );
+			}
+			popup.AddClass( classnames );
 			CDHUD.CurrentHud.AddChild( popup );
 		}
 
