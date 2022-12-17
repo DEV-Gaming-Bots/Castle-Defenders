@@ -13,7 +13,7 @@ public partial class CDHUD : RootPanel
 
 		StyleSheet.Load( "/UI/Hud.scss" );
 
-		AddChild<Chat>();
+		AddChild<ChatBox>();
 		AddChild<CDScoreboard<CDScoreboardEntry>>();
 
 		AddChild<Status>();
