@@ -2,7 +2,7 @@
 
 Layer0
 {
-	shader "simple.vfx"
+	shader "simple.shader"
 
 	//---- PBR ----
 	F_AMBIENT_OCCLUSION_TEXTURE 1
