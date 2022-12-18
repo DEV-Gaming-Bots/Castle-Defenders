@@ -70,9 +70,9 @@ public partial class BaseNPC : AnimatedEntity
 		switch(CDGame.Instance.Difficulty)
 		{
 			case CDGame.DiffEnum.Easy: return 1.0f;
-			case CDGame.DiffEnum.Medium: return 2.5f;
-			case CDGame.DiffEnum.Hard: return 5.75f;
-			case CDGame.DiffEnum.Extreme: return 12.5f;
+			case CDGame.DiffEnum.Medium: return 1.5f;
+			case CDGame.DiffEnum.Hard: return 2.75f;
+			case CDGame.DiffEnum.Extreme: return 6.25f;
 		}
 
 		return 0.0f;
@@ -125,8 +125,12 @@ public partial class BaseNPC : AnimatedEntity
 			feet.SetParent( this, true );
 		}
 
+		double diffScale = GetDifficulty() + CDGame.Instance.LoopedTimes - 1;
+
+		diffScale += Game.Clients.Count() / 2.5;
+
 		NPCNameNet = asset.Name;
-		Health = asset.StartHealth * (GetDifficulty() + CDGame.Instance.LoopedTimes - 1);
+		Health = asset.StartHealth * (float)diffScale;
 		BaseSpeed = asset.Speed;
 		Damage = asset.Damage;
 		Scale = asset.Scale;
@@ -186,7 +190,7 @@ public partial class BaseNPC : AnimatedEntity
 
 	public virtual void SetUpPanel()
 	{
-		Panel = new NPCInfo( NPCNameNet, Health, ArmourStrength);
+		Panel = new NPCInfo( NPCNameNet, MathF.Round( Health, 2 ), ArmourStrength);
 	}
 
 	[ClientRpc]
