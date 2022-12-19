@@ -10,7 +10,10 @@
     }
 
     .cashPnl {
-        height: 1600px;
+        height: 25%;
+        width: 25%;
+        left: 37.75%;
+        bottom: 75px;
         padding: 0px 32px;
         align-items: center;
         justify-content: center;
@@ -26,23 +29,22 @@
         }
     }
 
-    .cashPnl {
+    /* .cashPnl {
         justify-content: center;
         min-width: 5%;
-    }
-
+    }*/
 
     .expPnl {
         position: absolute;
         justify-content: center;
         min-width: 10%;
         right: 0px;
-        height: 3100px;
+        top: 50px;
+        height: 5%;
         padding: 0px 32px;
         align-items: center;
         justify-content: center;
         min-width: 5%;
-
         font-family: Roboto;
         font-size: 32px;
         font-weight: bold;
