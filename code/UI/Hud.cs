@@ -1,19 +1,18 @@
-﻿using Sandbox;
-using Sandbox.UI;
+﻿using Sandbox.UI;
 
-[Library]
+
 public partial class CDHUD : RootPanel
 {
 	public static CDHUD CurrentHud;
 
 	public CDHUD()
 	{
-		if ( !Game.IsClient )
-			return;
+		CurrentHud?.Delete();
+		CurrentHud = null;
 
-		StyleSheet.Load( "/UI/Hud.scss" );
+		StyleSheet.Load( "/Styles/Hud.scss" );
 
-		AddChild<ChatBox>();
+		AddChild<Chat>();
 		AddChild<CDScoreboard<CDScoreboardEntry>>();
 
 		AddChild<Status>();
@@ -23,6 +22,9 @@ public partial class CDHUD : RootPanel
 		AddChild<PlayerStatus>();
 		AddChild<PlayerLoadout>();
 		AddChild<VoiceSpeaker>();
+
+		CurrentHud = this;
+
 
 		//AddChild<DebugMenu>();
 

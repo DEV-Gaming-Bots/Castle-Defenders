@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+
  partial class MapVoteEntity : Entity
 {
 	static MapVoteEntity _current;

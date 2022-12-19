@@ -20,7 +20,7 @@ PlayerLoadout {
         background-color: white;
         background-position: center;
         background-size: cover;
-        border-radius: 5px;
+        //border-radius: 10px;
 
         &.debugOpen {
             opacity: 0;
@@ -35,9 +35,9 @@ PlayerLoadout {
 
         &.selected {
             width: 100px;
-            height: 100px;
+            height: 110px;
             box-shadow: 0px 4px 12px 2px rgba(0,0,0,0.5);
-            border-radius: 10px;
+            //border-radius: 10px;
         }
 
         &.Hands {

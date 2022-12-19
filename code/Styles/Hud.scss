@@ -1,0 +1,19 @@
+﻿@import "/Styles/hud/chatbox.scss";
+
+rootpanel {
+
+    &.devcamera {
+        display: none;
+    }
+}
+
+icon, iconpanel {
+    font-family: "material icons";
+    flex-grow: 1;
+    text-align: left;
+}
+
+i {
+    font-family: "material icons";
+    text-align: center;
+}

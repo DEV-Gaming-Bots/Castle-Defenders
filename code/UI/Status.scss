@@ -9,18 +9,18 @@
         opacity: 0;
     }
 
-    .cashPnl, .expPnl {
-        height: 62px;
-        padding: 0px 32px;
+    .cashPnl {
+        height: 350px;
+        padding: 0px 1055px;
         align-items: center;
         justify-content: center;
         min-width: 5%;
 
         .text {
             font-family: Poppins;
-            font-size: 32px;
+            font-size: 45px;
             font-weight: bold;
-            color: white;
+            color: greenyellow;
             //outline: 2px solid red;
             text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
         }
@@ -35,7 +35,20 @@
     .expPnl {
         position: absolute;
         justify-content: center;
-        min-width: 5%;
+        min-width: 10%;
         right: 0px;
+
+        height: 600px;
+        padding: 0px 32px;
+        align-items: center;
+        justify-content: center;
+        min-width: 5%;
+
+        font-family: Roboto;
+        font-size: 32px;
+        font-weight: bold;
+        color: navajowhite;
+        //outline: 2px solid red;
+        text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
     }
 }
