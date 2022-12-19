@@ -6,7 +6,8 @@
     opacity: 0;
     font-size: 32px;
     font-weight: bold;
-    text-shadow: 2px 2px 2px black;
+    font-family: Roboto;
+    text-shadow: 2px 2px 1px black;
 
     .panel {
         flex-direction: column;
@@ -14,7 +15,7 @@
 
     .playerInfo {
         text-align: center;
-        color: white;
+        color: lightgoldenrodyellow;
     }
 
     .playerCash {

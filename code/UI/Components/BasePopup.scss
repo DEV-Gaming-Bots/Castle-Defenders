@@ -2,17 +2,49 @@ $popup-bkg: #4f4f4f;
 $popup-bkg-dark: #3e3e3e;
 $popup-border: #595959;
 
-popup-body {
-}
-
 .popup-body {
     &.mouse-interact {
         pointer-events: all;
     }
 
+    &.team-win {
+        &.v-popup-bottom {
+            padding-bottom: 128px;
+        }
+        z-index: 9999;
+        .header {
+            font-size: 48px;
+            font-family: poppins;
+            font-weight: bold;
+            text-align: center;
+            justify-content: center;
+            background-color: transparent;
+            padding: 4px;
+            padding-top: 12px;
+            border: none;
+        }
+        .content {
+            padding: 4px;
+        }
+        .footer {
+            padding: 0px;
+        }
+        .body{ 
+            border-radius: 18px;
+        }
+        &.blue .body{
+            background: linear-gradient( to top, #2a56d1, #122f7d );
+        }
+        &.red  .body{
+            background: linear-gradient( to top, #f24e4e, #ae1414 );
+        }
+
+    }
+
     position: absolute;
     width: 100%;
     height: 100%;
+    font-family: Roboto;
 
     &.v-popup-top {
         align-items: flex-start;

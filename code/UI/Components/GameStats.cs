@@ -127,15 +127,15 @@ namespace CastleDefenders.UI.Components
 				if( !CDGame.Instance.Competitive )
 				{
 					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).CastleHealth;
-					BlueHealthText.SetText( $"{blueCastleHP} Health" );
+					BlueHealthText.SetText( $"❤️ {blueCastleHP}" );
 					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP );
 				} 
 				else if (CDGame.Instance.Competitive)
 				{
 					var redCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Red ).CastleHealth;
 					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).CastleHealth;
-					BlueHealthText.SetText( $"{blueCastleHP} Health" );
-					RedHealthText.SetText( $"Health {redCastleHP}");
+					BlueHealthText.SetText( $"{blueCastleHP} ❤️" );
+					RedHealthText.SetText( $"❤️ {redCastleHP}");
 
 					HealthBarRed.Style.Width = Length.Pixels( redCastleHP * 2 );
 					HealthBarBlue.Style.Width = Length.Pixels( blueCastleHP * 2 );

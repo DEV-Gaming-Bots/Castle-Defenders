@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public  class Status : Panel
+public class Status : Panel
 {
 	public Panel CashPnl;
 	public Label CurCashLbl;

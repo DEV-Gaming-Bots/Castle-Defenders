@@ -1,18 +1,18 @@
 ﻿using Sandbox.UI;
 
-public class CDHUD : RootPanel
+
+public partial class CDHUD : RootPanel
 {
 	public static CDHUD CurrentHud;
 
 	public CDHUD()
 	{
-		if( CurrentHud != null )
-		{
-			CurrentHud.Delete();
-			CurrentHud = null;
-		}
+		CurrentHud?.Delete();
+		CurrentHud = null;
 
-		AddChild<ChatBox>();
+		StyleSheet.Load( "/Styles/Hud.scss" );
+
+		AddChild<Chat>();
 		AddChild<CDScoreboard<CDScoreboardEntry>>();
 
 		AddChild<Status>();
@@ -23,13 +23,14 @@ public class CDHUD : RootPanel
 		AddChild<PlayerLoadout>();
 		AddChild<VoiceSpeaker>();
 
+		CurrentHud = this;
+
+
 		//AddChild<DebugMenu>();
 
 		//AddChild( new PlayerTeamSelect(
 		//	() => { Log.Info( "BLUE SELECTED!" ); },
 		//	() => { Log.Info( "RED SELECTED!" ); } ) 
 		//);
-
-		CurrentHud = this;
 	}
 }
