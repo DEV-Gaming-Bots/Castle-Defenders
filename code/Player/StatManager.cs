@@ -41,7 +41,7 @@ public  partial class CDPawn : IPlayerData
 
 		TowerSlots.Add( 0, "Pistol" );
 		TowerSlots.Add( 1, "SMG" );
-		TowerSlots.Add( 2, "Sniper" );
+		TowerSlots.Add( 2, "Shotgun" );
 
 		CDGame.Instance.SaveData( this );
 		UpdateTowerSlots();
@@ -161,7 +161,7 @@ public  partial class CDPawn : IPlayerData
 			{
 				Level++;
 				EXP -= ReqEXP;
-				ReqEXP += (int)(7 * Math.Pow( Level + 3, 3 ) );
+				ReqEXP += (int)(4 * Math.Pow( Level + 3, 3 ) );
 				UnlockTowerCheck();
 			}
 		}

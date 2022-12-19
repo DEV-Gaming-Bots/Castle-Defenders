@@ -61,7 +61,7 @@ public  partial class Pistol : BaseTower
 		base.SimulateTower();
 
 		if ( Target != null && Target.IsValid() )
-			SetAnimParameter( "v_forward", Target.Position );
+			SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
 
 		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}
@@ -129,7 +129,7 @@ public  partial class SMG : BaseTower
 		base.SimulateTower();
 
 		if ( Target != null && Target.IsValid() )
-			SetAnimParameter( "v_forward", Target.Position );
+			SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
 
 		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}
@@ -151,7 +151,7 @@ public  partial class Sniper : BaseTower
 
 	//Temporary until we get a pistol model
 	public override string TowerModel => "models/towers/snipertower.vmdl";
-	public override int UnlockLevel => 2;
+	public override int UnlockLevel => 3;
 	public override BaseTower RequiredTowers => null;
 	public override int[] TowerLevelCosts => new[]
 	{
@@ -287,5 +287,79 @@ public  partial class Sniper : BaseTower
 		LaserOff(To.Everyone);
 
 		base.Attack( target );
+	}
+}
+
+public partial class Shotgun : BaseTower
+{
+	public override string TowerName => "Shotgun";
+	public override string TowerDesc => "A close ranged effective shotgun tower";
+
+	//Temporary until we get a pistol model
+	public override string TowerModel => "models/towers/shotguntower.vmdl";
+	public override int UnlockLevel => 0;
+	public override BaseTower RequiredTowers => null;
+	public override string[] TowerLevelDesc => new[]
+	{
+		"",
+		"A shotgun tower that fire extra pellets",
+		"A shotgun tower that is more powerful at close range",
+		"This shotgun will blast someone to bits within close range",
+		"Seriously, don't get too close to this shotgun"
+	};
+
+	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
+	{
+		new(-0.10f, 3.25f, 5),
+		new(-0.10f, 3.25f, 5),
+		new(-0.25f, 4.25f, 10),
+		new(-0.50f, 4.25f, 15),
+		new(-0.75f, 5.0f, 25)
+	};
+
+	public override string[] TowerUpgradeDesc => new[]
+	{
+		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG} | Range +{Upgrades[0].NewRange}",
+		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
+		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange}",
+		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
+		$"Attack Speed +{-Upgrades[4].AttTime} | Damage +{Upgrades[4].AttDMG} | Range +{Upgrades[4].NewRange}",
+		"",
+	};
+
+	public override int TowerMaxLevel => 5;
+	public override int TowerCost => 75;
+	public override int[] TowerLevelCosts => new[]
+	{
+		125,
+		200,
+		365,
+		575,
+		-1,
+	};
+
+	public override float DeploymentTime => 3.72f;
+	public override float AttackTime { get; set; } = 4.75f;
+	public override float AttackDamage { get; set; } = 25.0f;
+	public override int RangeDistance { get; set; } = 85;
+	public override string AttackSound => "shotgun_fire";
+
+	[Event.Tick.Server]
+	public override void SimulateTower()
+	{
+		base.SimulateTower();
+
+		if ( Target != null && Target.IsValid() )
+			SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
+
+		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
+	}
+
+	[ClientRpc]
+	public override void FireEffects()
+	{
+		base.FireEffects();
+
+		Particles.Create( "particles/bullet_muzzleflash.vpcf", this, "muzzle" );
 	}
 }

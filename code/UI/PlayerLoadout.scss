@@ -16,7 +16,6 @@ PlayerLoadout {
         height: 80px;
         margin: 0px 8px;
         font-family: Poppins;
-
         background-color: white;
         background-position: center;
         background-size: cover;
@@ -50,6 +49,10 @@ PlayerLoadout {
 
         &.SMG {
             background-image: url(ui/towers/smg.jpg);
+        }
+
+        &.Shotgun {
+            background-image: url(ui/towers/shotgun.jpg);
         }
 
         &.Sniper {

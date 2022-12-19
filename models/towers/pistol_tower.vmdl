@@ -110,7 +110,7 @@
 							[
 								{
 									name = "head"
-									weight = 0.6
+									weight = 1.0
 								},
 								{
 									name = "barrel"

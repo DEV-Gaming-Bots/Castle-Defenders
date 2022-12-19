@@ -15,7 +15,7 @@
 				{
 					_class = "CLookAtAnimNode"
 					m_sName = "Aim Head"
-					m_vecPosition = [ 320.0, -272.0 ]
+					m_vecPosition = [ 480.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 87783558
@@ -26,7 +26,7 @@
 					{
 						m_nodeID = 
 						{
-							m_id = 4294967295
+							m_id = 2132006355
 						}
 						m_outputID = 
 						{
@@ -50,7 +50,7 @@
 					m_bLockWhenWaning = false
 					m_bUseHysteresis = false
 					m_flHysteresisInnerAngle = 1.0
-					m_flHysteresisOuterAngle = 20.0
+					m_flHysteresisOuterAngle = 5.0
 					m_damping = 
 					{
 						_class = "CAnimInputDamping"
@@ -147,7 +147,7 @@
 					{
 						m_nodeID = 
 						{
-							m_id = 2132006355
+							m_id = 87783558
 						}
 						m_outputID = 
 						{
@@ -498,7 +498,7 @@
 				m_bNetwork = true
 				m_bUseMostRecentValue = false
 				m_bAutoReset = false
-				m_bPredicted = false
+				m_bPredicted = true
 				m_defaultValue = [ 0.0, 0.0, 0.0 ]
 				m_bInterpolate = false
 			},

@@ -87,7 +87,7 @@ public  partial class Trickster : BaseTower
 	public override string TowerName => "Trickster";
 	public override string TowerDesc => "A tower that has a chance of confusing the target into walking backwards";
 	public override string TowerModel => "models/towers/trickstertower.vmdl";
-	public override int UnlockLevel => 4;
+	public override int UnlockLevel => 5;
 	public override BaseTower RequiredTowers => null;
 	public override string[] TowerLevelDesc => new[]
 	{
