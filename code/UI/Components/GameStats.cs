@@ -126,19 +126,19 @@ namespace CastleDefenders.UI.Components
 				
 				if( !CDGame.Instance.Competitive )
 				{
-					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).CastleHealth;
-					BlueHealthText.SetText( $"❤️ {blueCastleHP}" );
-					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP );
+					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue );
+					BlueHealthText.SetText( $"❤️ {blueCastleHP.CastleHealth}" );
+					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP.CastleHealth / blueCastleHP.defaultCastleHealth * 100 );
 				} 
 				else if (CDGame.Instance.Competitive)
 				{
-					var redCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Red ).CastleHealth;
-					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue ).CastleHealth;
-					BlueHealthText.SetText( $"{blueCastleHP} ❤️" );
-					RedHealthText.SetText( $"❤️ {redCastleHP}");
+					var redCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Red );
+					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue );
+					BlueHealthText.SetText( $"{blueCastleHP.CastleHealth } ❤️" );
+					RedHealthText.SetText( $"❤️ {redCastleHP.CastleHealth }");
 
-					HealthBarRed.Style.Width = Length.Pixels( redCastleHP * 2 );
-					HealthBarBlue.Style.Width = Length.Pixels( blueCastleHP * 2 );
+					HealthBarRed.Style.Width = Length.Percent( redCastleHP.CastleHealth / redCastleHP.defaultCastleHealth * 100 );
+					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP.CastleHealth / blueCastleHP.defaultCastleHealth * 100 );
 				}
 
 				switch ( CDGame.Instance.Competitive )

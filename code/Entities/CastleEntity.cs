@@ -20,9 +20,14 @@ public  partial class CastleEntity : ModelEntity
 	[Net]
 	public float CastleHealth { get; set; }
 
+	[Net]
+	public float defaultCastleHealth { get; set; }
+
 	public override void Spawn()
 	{
 		var castle = new ModelEntity();
+
+		
 
 		switch(TeamCastle)
 		{
@@ -60,6 +65,7 @@ public  partial class CastleEntity : ModelEntity
 		}
 
 		CastleHealth = 250.0f - 50.0f * multiply;
+		defaultCastleHealth = CastleHealth;
 	}
 
 	public void DamageCastle(float damage)
