@@ -155,12 +155,12 @@ public  partial class Sniper : BaseTower
 	};
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.25f, 2.5f, 25),
-		new(-0.30f, 2.5f, 25),
-		new(-0.45f, 2.5f, 25),
-		new(-0.50f, 5.0f, 50),
-		new(-0.50f, 5.0f, 50),
-		new(-0.50f, 7.5f, 100)
+		new(-0.25f, 2.5f, 50),
+		new(-0.30f, 2.5f, 50),
+		new(-0.45f, 2.5f, 75),
+		new(-0.50f, 5.0f, 100),
+		new(-0.50f, 5.0f, 100),
+		new(-0.50f, 7.5f, 125)
 	};
 
 	public override int TowerMaxLevel => 6;
