@@ -21,9 +21,9 @@ public  partial class Pistol : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.25f, 2.25f, 0),
-		new(-0.25f, 2.50f, 25),
-		new(-0.50f, 2.75f, 25),
+		new(-0.5f, 2.25f, 0),
+		new(-0.5f, 2.50f, 25),
+		new(-0.75f, 2.75f, 25),
 		new(-0.75f, 3.25f, 25),
 		new(-1.0f, 5.0f, 50)
 	};
@@ -99,8 +99,8 @@ public  partial class SMG : BaseTower
 	};
 
 	public override float DeploymentTime => 3.72f;
-	public override float AttackTime { get; set; } = 1.15f;
-	public override float AttackDamage { get; set; } = 4.25f;
+	public override float AttackTime { get; set; } = 1.10f;
+	public override float AttackDamage { get; set; } = 5.0f;
 	public override int RangeDistance { get; set; } = 100;
 	public override string AttackSound => "smg_fire";
 
