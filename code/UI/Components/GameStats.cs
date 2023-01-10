@@ -104,10 +104,10 @@ namespace CastleDefenders.UI.Components
 			{
 				_blueHealth = Add.Panel( "BlueHealthBar hide" );
 				HealthBarBlue = _blueHealth.Add.Panel( "bar" );
-				BlueHealthText = HealthBarBlue.Add.Label("-/-");
+				BlueHealthText = HealthBarBlue.Add.Label("-");
 				_redHealth = Add.Panel( "RedHealthBar hide" );
 				HealthBarRed = _redHealth.Add.Panel( "bar" );
-				RedHealthText = HealthBarRed.Add.Label("-/-");
+				RedHealthText = HealthBarRed.Add.Label("-");
 				Timer = Add.Label( "--:--", "timer" );
 				
 				TimerHealth = Add.Panel( "timerHealth" );
@@ -127,18 +127,25 @@ namespace CastleDefenders.UI.Components
 				if( !CDGame.Instance.Competitive )
 				{
 					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue );
-					BlueHealthText.SetText( $"❤️ {blueCastleHP.CastleHealth}" );
+					BlueHealthText.SetText( $"❤️ {Math.Floor( blueCastleHP.CastleHealth <= 0 ? 0 : blueCastleHP.CastleHealth ) }" );
 					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP.CastleHealth / blueCastleHP.defaultCastleHealth * 100 );
 				} 
 				else if (CDGame.Instance.Competitive)
 				{
-					var redCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Red );
-					var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue );
-					BlueHealthText.SetText( $"{blueCastleHP.CastleHealth } ❤️" );
-					RedHealthText.SetText( $"❤️ {redCastleHP.CastleHealth }");
+					try
+					{
+						var redCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Red );
+						var blueCastleHP = Entity.All.OfType<CastleEntity>().First( x => x.TeamCastle == CastleEntity.CastleTeam.Blue );
+						BlueHealthText.SetText( $" { Math.Floor( blueCastleHP.CastleHealth <= 0 ? 0 : blueCastleHP.CastleHealth ) } ❤️" );
+						RedHealthText.SetText( $"❤️ { Math.Floor( redCastleHP.CastleHealth <= 0 ? 0 : redCastleHP.CastleHealth ) }");
 
-					HealthBarRed.Style.Width = Length.Percent( redCastleHP.CastleHealth / redCastleHP.defaultCastleHealth * 100 );
-					HealthBarBlue.Style.Width = Length.Percent( blueCastleHP.CastleHealth / blueCastleHP.defaultCastleHealth * 100 );
+						HealthBarRed.Style.Width = Length.Percent( redCastleHP.CastleHealth / redCastleHP.defaultCastleHealth * 100 );
+						HealthBarBlue.Style.Width = Length.Percent( blueCastleHP.CastleHealth / blueCastleHP.defaultCastleHealth * 100 );
+					}
+					catch ( Exception e )
+					{
+						Log.Warning( e );
+					}
 				}
 
 				switch ( CDGame.Instance.Competitive )
