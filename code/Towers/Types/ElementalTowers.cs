@@ -39,16 +39,6 @@ public partial class Lightning : BaseTower
 		"Surprisingly harnesses the power of Thor's thunder, who would have thought"
 	};
 
-	public override string[] TowerUpgradeDesc => new[]
-	{
-		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG}",
-		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
-		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange}",
-		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
-		$"Attack Speed +{-Upgrades[4].AttTime} | Damage +{Upgrades[4].AttDMG} | Range +{Upgrades[4].NewRange}",
-		"",
-	};
-
 	public override int TowerMaxLevel => 6;
 	public override int TowerCost => 525;
 	public override float DeploymentTime => 2.25f;

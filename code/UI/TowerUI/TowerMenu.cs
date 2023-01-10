@@ -75,6 +75,12 @@ public class TowerMenu : Panel
 			.WithTag( "tower" )
 			.Run();
 
+		if ( player.SelectedTower.IsValid() )
+		{
+			curTowerHover = player.SelectedTower;
+			return;
+		}
+
 		curTowerHover = clTr.Entity;
 	}
 

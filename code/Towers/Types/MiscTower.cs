@@ -29,14 +29,6 @@ public  partial class Radar : BaseTower
 		new(-0.075f, 0, 50)
 	};
 
-	public override string[] TowerUpgradeDesc => new[]
-	{
-		$"Upgrades Nearby Speed {Upgrades[0].AttTime}",
-		$"Upgrades Nearby Speed {Upgrades[1].AttTime}",
-		$"Upgrades Nearby Speed {Upgrades[2].AttTime}",
-		"",
-	};
-
 	public override int TowerMaxLevel => 4;
 	public override int TowerCost => 325;
 	public override int[] TowerLevelCosts => new[]
