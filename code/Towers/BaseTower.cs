@@ -62,14 +62,6 @@ public partial class BaseTower : AnimatedEntity
 	[Net]
 	public int NetCost { get; set; }
 
-	public virtual string[] TowerUpgradeDesc => new[]
-	{
-		"LEVEL 1",
-		"LEVEL 2",
-		"LEVEL 3",
-		"LEVEL 4"
-	};
-
 	[Net]
 	public string NetUpgradeDesc { get; set; }
 
@@ -156,12 +148,29 @@ public partial class BaseTower : AnimatedEntity
 		NetName = TowerName;
 		NetDesc = TowerDesc;
 		NetRange = RangeDistance;
-		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
+
+		NetUpgradeDesc = SetUpDescription();
 		NetStats = $"DPS {MathF.Round( AttackDamage / AttackTime, 2 )} | Range {RangeDistance}";
 
 		Tags.Add( "tower" );
 	}
 
+	public string SetUpDescription()
+	{
+		string newDesc = "";
+
+		if ( Upgrades[TowerLevel].AttTime != 0 )
+			newDesc += "Speed: " + -Upgrades[TowerLevel].AttTime;
+
+		if ( Upgrades[TowerLevel].AttDMG != 0 )
+			newDesc += " | Damage: " + Upgrades[TowerLevel].AttDMG;
+
+		if ( Upgrades[TowerLevel].NewRange != 0 )
+			newDesc += " | Range: " + Upgrades[TowerLevel].NewRange;
+
+		return newDesc;
+	}
+		
 	public void PreviewSpawn()
 	{
 		SetModel( TowerModel );
@@ -237,7 +246,7 @@ public partial class BaseTower : AnimatedEntity
 		}
 
 		NetRange = RangeDistance;
-		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
+		NetUpgradeDesc = SetUpDescription();
 		NetStats = $"DPS {MathF.Round( AttackDamage * AttackTime, 2 )} | Range {RangeDistance}";
 	}
 
@@ -268,7 +277,7 @@ public partial class BaseTower : AnimatedEntity
 		NetDesc = TowerLevelDesc[TowerLevel - 1];
 		NetCost = TowerLevelCosts[TowerLevel - 1];
 		NetRange = RangeDistance;
-		NetUpgradeDesc = TowerUpgradeDesc[TowerLevel - 1];
+		NetUpgradeDesc = SetUpDescription();
 
 		NetStats = $"DPS {MathF.Round(AttackDamage / AttackTime, 2)} | Range {RangeDistance}";
 	}
