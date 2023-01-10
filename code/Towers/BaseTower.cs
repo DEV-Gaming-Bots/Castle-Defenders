@@ -150,10 +150,21 @@ public partial class BaseTower : AnimatedEntity
 		NetRange = RangeDistance;
 
 		NetUpgradeDesc = SetUpDescription();
-		NetStats = $"DPS {MathF.Round( AttackDamage / AttackTime, 2 )} | Range {RangeDistance}";
+		NetStats = SetUpStatInfo();
 
 		Tags.Add( "tower" );
 	}
+
+	public string SetUpStatInfo()
+	{
+		string newInfo = "";
+		newInfo = $"Damage: {AttackDamage} | Delay: {AttackTime} | Range: {RangeDistance}";
+
+		newInfo += $" | DPS: {MathF.Round( AttackDamage / AttackTime, 2 )}";
+
+		return newInfo;
+	}
+
 
 	public string SetUpDescription()
 	{
@@ -179,7 +190,7 @@ public partial class BaseTower : AnimatedEntity
 		NetCost = TowerCost;
 		NetName = TowerName;
 		NetDesc = TowerDesc;
-		NetStats = $"DPS {MathF.Round( AttackDamage / AttackTime, 2 )} | Range {RangeDistance}";
+		NetStats = SetUpStatInfo();
 
 		Tags.Add( "tower" );
 	}
@@ -247,7 +258,7 @@ public partial class BaseTower : AnimatedEntity
 
 		NetRange = RangeDistance;
 		NetUpgradeDesc = SetUpDescription();
-		NetStats = $"DPS {MathF.Round( AttackDamage * AttackTime, 2 )} | Range {RangeDistance}";
+		NetStats = SetUpStatInfo();
 	}
 
 	public virtual void UpgradeTower()
@@ -279,7 +290,7 @@ public partial class BaseTower : AnimatedEntity
 		NetRange = RangeDistance;
 		NetUpgradeDesc = SetUpDescription();
 
-		NetStats = $"DPS {MathF.Round(AttackDamage / AttackTime, 2)} | Range {RangeDistance}";
+		NetStats = SetUpStatInfo();
 	}
 
 	//Determine if the tower can attack this npc special type

@@ -282,11 +282,11 @@ public partial class Shotgun : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.10f, 5.25f, 5),
-		new(-0.10f, 6.25f, 5),
-		new(-0.25f, 7.5f, 10),
-		new(-0.50f, 8.0f, 15),
-		new(-0.75f, 8.0f, 25)
+		new(-0.10f, 7.25f, 5),
+		new(-0.10f, 8.25f, 5),
+		new(-0.25f, 9.5f, 10),
+		new(-0.50f, 10.0f, 15),
+		new(-0.75f, 10.0f, 25)
 	};
 
 	public override int TowerMaxLevel => 5;
