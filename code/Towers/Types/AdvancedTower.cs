@@ -35,16 +35,6 @@ public  partial class RadioactiveEmitter : BaseTower
 		new(-1.0f, 2.75f, 75),
 		new(-1.0f, 3.50f, 75)
 	};
-
-	public override string[] TowerUpgradeDesc => new[]
-	{
-		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG} | Range +{Upgrades[0].NewRange}",
-		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
-		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange}",
-		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
-		$"Attack Speed +{-Upgrades[4].AttTime} | Damage +{Upgrades[4].AttDMG} | Range +{Upgrades[4].NewRange}",
-		"",
-	};
 	public override int TowerMaxLevel => 5;
 	public override int TowerCost => 350;
 	public override float DeploymentTime => 3.67f;
@@ -107,19 +97,10 @@ public  partial class Trickster : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.25f, 2.25f, 25),
-		new(-0.5f, 2.5f, 50),
-		new(-1.0f, 2.75f, 75),
-		new(-1.0f, 3.0f, 75)
-	};
-
-	public override string[] TowerUpgradeDesc => new[]
-	{
-		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG} | Range +{Upgrades[0].NewRange} | Confusion Chance +5%",
-		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange} | Confusion Chance +5%",
-		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange} | Confusion Chance +7.5%",
-		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange} | Confusion Chance +12.5%",
-		"",
+		new(-0.25f, 3.5f, 25),
+		new(-0.5f, 4.5f, 50),
+		new(-1.0f, 5.75f, 75),
+		new(-1.0f, 6.25f, 75)
 	};
 
 	public override int TowerMaxLevel => 4;

@@ -15,7 +15,7 @@
 				{
 					_class = "CLookAtAnimNode"
 					m_sName = "Aim Head"
-					m_vecPosition = [ 480.0, -64.0 ]
+					m_vecPosition = [ 464.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 87783558

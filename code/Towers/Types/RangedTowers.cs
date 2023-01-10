@@ -21,21 +21,11 @@ public  partial class Pistol : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.25f, 1.25f, 0),
-		new(-0.25f, 1.50f, 25),
-		new(-0.50f, 1.75f, 25),
-		new(-0.75f, 2.25f, 25),
-		new(-1.0f, 2.75f, 50)
-	};
-
-	public override string[] TowerUpgradeDesc => new[]
-	{
-		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG}",
-		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
-		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange}",
-		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
-		$"Attack Speed +{-Upgrades[4].AttTime} | Damage +{Upgrades[4].AttDMG} | Range +{Upgrades[4].NewRange}",
-		"",
+		new(-0.5f, 2.25f, 0),
+		new(-0.5f, 2.50f, 25),
+		new(-0.75f, 2.75f, 25),
+		new(-0.75f, 3.25f, 25),
+		new(-1.0f, 5.0f, 50)
 	};
 
 	public override int TowerMaxLevel => 5;
@@ -51,7 +41,7 @@ public  partial class Pistol : BaseTower
 
 	public override float DeploymentTime => 3.72f;
 	public override float AttackTime { get; set; } = 3.5f;
-	public override float AttackDamage { get; set; } = 7.5f;
+	public override float AttackDamage { get; set; } = 8.0f;
 	public override int RangeDistance { get; set; } = 125;
 	public override string AttackSound => "pistol_fire";
 
@@ -92,19 +82,10 @@ public  partial class SMG : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.1f, 0.5f, 0),
-		new(-0.1f, 1.0f, 25),
-		new(-0.15f, 1.5f, 25),
-		new(-0.25f, 2.25f, 25)
-	};
-
-	public override string[] TowerUpgradeDesc => new[]
-	{
-		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG}",
-		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
-		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange}",
-		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
-		"",
+		new(-0.15f, 1.25f, 0),
+		new(-0.20f, 2.75f, 25),
+		new(-0.25f, 3.5f, 25),
+		new(-0.25f, 5.25f, 25)
 	};
 
 	public override int TowerMaxLevel => 4;
@@ -118,8 +99,8 @@ public  partial class SMG : BaseTower
 	};
 
 	public override float DeploymentTime => 3.72f;
-	public override float AttackTime { get; set; } = 1.15f;
-	public override float AttackDamage { get; set; } = 4.25f;
+	public override float AttackTime { get; set; } = 1.10f;
+	public override float AttackDamage { get; set; } = 5.0f;
 	public override int RangeDistance { get; set; } = 100;
 	public override string AttackSound => "smg_fire";
 
@@ -174,27 +155,18 @@ public  partial class Sniper : BaseTower
 	};
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.25f, 2.5f, 25),
-		new(-0.30f, 2.5f, 25),
-		new(-0.45f, 2.5f, 25),
-		new(-0.50f, 5.0f, 50),
-		new(-0.50f, 5.0f, 50),
-		new(-0.50f, 7.5f, 100)
-	};
-	public override string[] TowerUpgradeDesc => new[]
-	{
-		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG} | Range +{Upgrades[0].NewRange}",
-		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
-		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange} | Enables counter-cloak technology",
-		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
-		$"Attack Speed +{-Upgrades[4].AttTime} | Damage +{Upgrades[4].AttDMG} | Range +{Upgrades[4].NewRange}",
-		"",
+		new(-0.25f, 2.5f, 50),
+		new(-0.30f, 2.5f, 50),
+		new(-0.45f, 2.5f, 75),
+		new(-0.50f, 5.0f, 100),
+		new(-0.50f, 5.0f, 100),
+		new(-0.50f, 7.5f, 125)
 	};
 
 	public override int TowerMaxLevel => 6;
-	public override int TowerCost => 125;
+	public override int TowerCost => 150;
 	public override float DeploymentTime => 3.75f;
-	public override float AttackTime { get; set; } = 9.5f;
+	public override float AttackTime { get; set; } = 11.5f;
 	public override float AttackDamage { get; set; } = 35.0f;
 	public override int RangeDistance { get; set; } = 250;
 	public override string AttackSound => "sniper_fire";
@@ -310,21 +282,11 @@ public partial class Shotgun : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.10f, 3.25f, 5),
-		new(-0.10f, 3.25f, 5),
-		new(-0.25f, 4.25f, 10),
-		new(-0.50f, 4.25f, 15),
-		new(-0.75f, 5.0f, 25)
-	};
-
-	public override string[] TowerUpgradeDesc => new[]
-	{
-		$"Attack Speed +{-Upgrades[0].AttTime} | Damage +{Upgrades[0].AttDMG} | Range +{Upgrades[0].NewRange}",
-		$"Attack Speed +{-Upgrades[1].AttTime} | Damage +{Upgrades[1].AttDMG} | Range +{Upgrades[1].NewRange}",
-		$"Attack Speed +{-Upgrades[2].AttTime} | Damage +{Upgrades[2].AttDMG} | Range +{Upgrades[2].NewRange}",
-		$"Attack Speed +{-Upgrades[3].AttTime} | Damage +{Upgrades[3].AttDMG} | Range +{Upgrades[3].NewRange}",
-		$"Attack Speed +{-Upgrades[4].AttTime} | Damage +{Upgrades[4].AttDMG} | Range +{Upgrades[4].NewRange}",
-		"",
+		new(-0.10f, 7.25f, 5),
+		new(-0.10f, 8.25f, 5),
+		new(-0.25f, 9.5f, 10),
+		new(-0.50f, 10.0f, 15),
+		new(-0.75f, 10.0f, 25)
 	};
 
 	public override int TowerMaxLevel => 5;
@@ -349,8 +311,8 @@ public partial class Shotgun : BaseTower
 	{
 		base.SimulateTower();
 
-		if ( Target != null && Target.IsValid() )
-			SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
+		//if ( Target != null && Target.IsValid() )
+		//	SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
 
 		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}
