@@ -300,7 +300,7 @@ public  partial class CDGame
 		{
 			if( winCondition == WinningEnum.Win )
 			{
-				WindowPopup.CreatePopUp( To.Everyone, "You have successfully defended the castle!", 5.0f, PopupVertical.Center, PopupHorizontal.Right );
+				WindowPopup.CreatePopUp( To.Everyone, "You have successfully defended the castle!", 5.0f, PopupVertical.Center, PopupHorizontal.Right, "" );
 				//ChatBox.AddChatEntry( To.Everyone, "GAME", "You have successfully defended the castle!" );
 				All.OfType<CDPawn>().ToList().ForEach( x => x.EndMusic( To.Single( x ), "music_win" ) );
 			}

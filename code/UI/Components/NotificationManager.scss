@@ -1,0 +1,55 @@
+NotificationManagerUI {
+    position: absolute;
+    bottom: 92px;
+    right: 64px;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+NotificationEntry {
+    position: relative;
+    background-color: white;
+    font-size: 24px;
+    /*Info, Success, Warning, Error,*/
+
+    transition: right 0.5s ease-in, opacity 0.5s ease;
+
+    &:intro {
+        right: 0%;
+    }
+
+    &:outro {
+        right: -100%;
+        opacity: 0;
+    }
+
+    .message {
+        margin: 12px 32px;
+    }
+
+    .timer {
+        color: rgba(0,0,0,0.8);
+        margin-right: 10px;
+    }
+
+    &.info {
+        background-color: #208EAB;
+        border-bottom: 2px solid #1895B7;
+    }
+
+    &.success {
+        // green
+        background-color: #27AE60;
+        border-bottom: 2px solid #28d16e;
+    }
+
+    &.warning {
+        background-color: #F2C94C;
+        border-bottom: 2px solid #ffde7a;
+    }
+
+    &.error {
+        background-color: #EB5757;
+        border-bottom: 2px solid #ff9696;
+    }
+}
