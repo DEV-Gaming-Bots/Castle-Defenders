@@ -28,9 +28,9 @@ PlayerLoadout {
 
         .slot-num {
             color: white;
-            font-weight: 700;
-            font-size: 23px;
-            text-shadow: 2px 3px 1px rgba(0,0,0,0.9);
+            font-weight: 650;
+            font-size: 20px;
+            text-stroke: 5px rgb(3, 137, 170);
         }
 
         &.selected {
