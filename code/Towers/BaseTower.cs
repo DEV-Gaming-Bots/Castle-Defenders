@@ -158,7 +158,7 @@ public partial class BaseTower : AnimatedEntity
 	public string SetUpStatInfo()
 	{
 		string newInfo = "";
-		newInfo = $"Damage: {AttackDamage} | Delay: {AttackTime} | Range: {RangeDistance}";
+		newInfo = $"Damage: {AttackDamage} | Delay: {MathF.Round( AttackTime, 2 )} | Range: {RangeDistance}";
 
 		newInfo += $" | DPS: {MathF.Round( AttackDamage / AttackTime, 2 )}";
 
@@ -170,14 +170,14 @@ public partial class BaseTower : AnimatedEntity
 	{
 		string newDesc = "";
 
-		if ( Upgrades[TowerLevel].AttTime != 0 )
-			newDesc += "Speed: " + -Upgrades[TowerLevel].AttTime;
+		if ( Upgrades[TowerLevel-1].AttTime != 0 )
+			newDesc += "Speed: " + -Upgrades[TowerLevel - 1].AttTime;
 
-		if ( Upgrades[TowerLevel].AttDMG != 0 )
-			newDesc += " | Damage: " + Upgrades[TowerLevel].AttDMG;
+		if ( Upgrades[TowerLevel-1].AttDMG != 0 )
+			newDesc += " | Damage: " + Upgrades[TowerLevel - 1].AttDMG;
 
-		if ( Upgrades[TowerLevel].NewRange != 0 )
-			newDesc += " | Range: " + Upgrades[TowerLevel].NewRange;
+		if ( Upgrades[TowerLevel - 1].NewRange != 0 )
+			newDesc += " | Range: " + Upgrades[TowerLevel - 1].NewRange;
 
 		return newDesc;
 	}
@@ -202,9 +202,9 @@ public partial class BaseTower : AnimatedEntity
 	}
 
 	[ClientRpc]
-	public void PlayUpgradeAnimRPC()
+	public void PlayUpgradeSound()
 	{
-		SetAnimParameter( "b_upgrade", true );
+		Sound.FromEntity( "upgrade", this );
 	}
 
 	public bool CanUpgrade()
@@ -275,7 +275,7 @@ public partial class BaseTower : AnimatedEntity
 		HasEnhanced = false;
 		TimeLastUpg = 0;
 
-		PlayUpgradeAnimRPC(To.Everyone);
+		PlayUpgradeSound( To.Single(Owner) );
 
 		(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
 

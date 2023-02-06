@@ -115,7 +115,7 @@ public  partial class Trickster : BaseTower
 	public override void Spawn()
 	{
 		base.Spawn();
-		NetStats = $"Attack Delay {MathF.Round( AttackTime, 2 )} | Damage {AttackDamage} | Range {RangeDistance} | Effect Chance {ConfusionChance}%";
+		NetStats = $"Damage {AttackDamage} | Delay {MathF.Round( AttackTime, 2 )} | Range {RangeDistance} | Effect Chance {ConfusionChance}%";
 	}
 
 	[Event.Tick.Server]
@@ -155,7 +155,7 @@ public  partial class Trickster : BaseTower
 
 		base.UpgradeTower();
 
-		NetStats = $"Attack Delay {MathF.Round( AttackTime, 2 )} | Damage {AttackDamage} | Range {RangeDistance} | Effect Chance {ConfusionChance}%";
+		NetStats = $"Damage {AttackDamage} | Delay {MathF.Round( AttackTime, 2 )} | Range {RangeDistance} | Effect Chance {ConfusionChance}%";
 	}
 
 	public override void Attack( BaseNPC target )
