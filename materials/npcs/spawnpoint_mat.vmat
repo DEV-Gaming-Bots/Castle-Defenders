@@ -2,12 +2,20 @@
 
 Layer0
 {
-	shader "vr_simple.vfx"
+	shader "shaders/complex.shader"
+
+	//---- PBR ----
+	F_SELF_ILLUM 1
+
+	//---- Ambient Occlusion ----
+	g_flAmbientOcclusionDirectDiffuse "0.000"
+	g_flAmbientOcclusionDirectSpecular "0.000"
+	TextureAmbientOcclusion "materials/default/default_ao.tga"
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
-	g_vColorTint "[0.196078 0.050980 0.050980 1.000000]"
-	TextureColor "[1.000000 1.000000 1.000000 0.000000]"
+	g_vColorTint "[0.847059 0.658824 0.658824 0.000000]"
+	TextureColor "models/raw/crackling_lava/lava001_color.jpg"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -23,10 +31,18 @@ Layer0
 	g_flMetalness "0.000"
 
 	//---- Normal ----
-	TextureNormal "materials/default/default_normal.tga"
+	TextureNormal "models/raw/crackling_lava/lava001_normal.jpg"
 
 	//---- Roughness ----
-	TextureRoughness "[1.000000 1.000000 1.000000 0.000000]"
+	TextureRoughness "models/raw/crackling_lava/lava001_rough.jpg"
+
+	//---- Self Illum ----
+	g_flSelfIllumAlbedoFactor "1.000"
+	g_flSelfIllumBrightness "0.000"
+	g_flSelfIllumScale "1.000"
+	g_vSelfIllumScrollSpeed "[0.000 0.000]"
+	g_vSelfIllumTint "[1.000000 1.000000 1.000000 0.000000]"
+	TextureSelfIllumMask "models/raw/crackling_lava/lava001_selfillum.jpg"
 
 	//---- Texture Coordinates ----
 	g_nScaleTexCoordUByModelScaleAxis "0"

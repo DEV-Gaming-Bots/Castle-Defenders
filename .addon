@@ -213,6 +213,7 @@
         "Minimum": 5,
         "Maximum": 60
       }
-    ]
+    ],
+    "CsProjName": ""
   }
 }
