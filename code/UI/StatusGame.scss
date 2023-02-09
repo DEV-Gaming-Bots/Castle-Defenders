@@ -94,9 +94,9 @@ GameStatsPanel {
     .timer {
         color: white;
         font-family: Poppins;
-        font-size: 24%;
+        font-size: 26%;
         font-weight: 800;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        text-stroke: 4.5px black;
         margin: -0.6% 24px;
         text-align: center;
         min-width: 100px;
@@ -108,11 +108,13 @@ GameStatsPanel {
         }
 
         .bar {
-            width: 55%;
+            width: 0%;
             align-items: center;
+
             Label {
+                position: absolute;
                 color: white;
-                font-size: 16px;
+                font-size: 16%;
                 font-family: Roboto;
                 font-weight: bold;
                 position: center;
@@ -126,6 +128,7 @@ GameStatsPanel {
     }
 
     .BlueHealthBar {
+        height: 130%;
         background-color: #072D70;
 
         .bar {
@@ -135,6 +138,7 @@ GameStatsPanel {
     }
 
     .RedHealthBar {
+        height: 130%;
         background-color: #700707;
         justify-content: flex-end;
 

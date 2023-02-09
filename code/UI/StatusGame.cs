@@ -25,49 +25,17 @@ public  class StatusGame : Panel
 	{
 		base.Tick();
 
-		if ( CDGame.Instance.GameStatus is CDGame.GameEnum.MapChange or CDGame.GameEnum.Idle )
+		if ( CDGame.Instance.GameStatus is CDGame.GameEnum.MapChange )
 			return;
 
 		var timer = TimeSpan.FromSeconds( CDGame.Instance.TimeRemaining );
 
-		// REMOVE COMMENTED LATER!
-
-		//if( CDGame.Instance.GameStatus == CDGame.GameEnum.Starting )
-		//{
-		//	gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
-		//	gameInfo.ExtraText.SetText( "Starting" );
-		//	gameInfo.SetClass( "activeGame", true );
-		//	gameInfo.txtRoundPanel.SetClass( "hide", true );
-		//	return;
-		//}
-		//
-		//if(CDGame.Instance.GameStatus == CDGame.GameEnum.Post)
-		//{
-		//	gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
-		//	gameInfo.ExtraText.SetText( "Game Over" );
-		//	gameInfo.SetClass( "activeGame", false );
-		//	return;
-		//}
-
-		//switch(CDGame.Instance.WaveStatus)
-		//{
-		//	case CDGame.WaveEnum.Pre:
-		//		gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
-		//		gameInfo.txtRoundPanel.SetClass( "hide", false );
-		//		gameInfo.ExtraText.SetText( "Pre Wave" );
-		//		break;
-		//	case CDGame.WaveEnum.Active:
-		//		gameInfo.WaveTimer.SetText( $"{timer.ToString( @"m\:ss" )}" );
-		//		gameInfo.ExtraText.SetText( $"Active Wave" );
-		//		gameInfo.txtRoundPanel.SetClass( "hide", false );
-		//		gameInfo.SetClass( "activeGame", true );
-		//		break;
-		//	case CDGame.WaveEnum.Post:
-		//		gameInfo.WaveTimer.SetText( $"{ timer.ToString( @"m\:ss" )}" );
-		//		gameInfo.ExtraText.SetText( "Post Wave" );
-		//		gameInfo.SetClass( "activeGame", true );
-		//		break;
-		//}
+		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Idle )
+		{
+			GameStats.ExtraText.SetText( $"Waiting for another player for {timer.ToString( @"m\:ss" )}" );
+			Waves.SetClass( "hide", true );
+			return;
+		}
 
 		if ( CDGame.Instance.GameStatus == CDGame.GameEnum.Starting )
 		{

@@ -12,7 +12,7 @@
     .cashPnl {
         height: 25%;
         width: 25%;
-        left: 37.75%;
+        left: 37.40%;
         bottom: 75px;
         padding: 0px 32px;
         align-items: center;
@@ -22,10 +22,9 @@
         .text {
             font-family: Poppins;
             font-size: 45px;
-            font-weight: bold;
-            color: greenyellow;
-            //outline: 2px solid red;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+            font-weight: 500;
+            color: rgb(48, 189, 115);
+            text-shadow: 2px 2px 6px rgb(0, 96, 61);
         }
     }
 
@@ -37,19 +36,22 @@
     .expPnl {
         position: absolute;
         justify-content: center;
+
         min-width: 10%;
         right: 0px;
         top: 50px;
         height: 5%;
+
         padding: 0px 32px;
         align-items: center;
         justify-content: center;
         min-width: 5%;
+
         font-family: Roboto;
         font-size: 32px;
         font-weight: bold;
-        color: navajowhite;
-        //outline: 2px solid red;
-        text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+        color: rgb(139, 251, 255);
+
+        text-stroke: 5px rgb(0, 154, 255);
     }
 }

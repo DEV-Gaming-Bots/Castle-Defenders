@@ -1,16 +1,21 @@
-﻿using Sandbox.UI;
+﻿using Sandbox;
+using Sandbox.UI;
+
+using Components.NotificationManager;
 
 
 public partial class CDHUD : RootPanel
 {
 	public static CDHUD CurrentHud;
-
+	public NotificationManagerUI notificationManager;
 	public CDHUD()
 	{
 		CurrentHud?.Delete();
 		CurrentHud = null;
 
 		StyleSheet.Load( "/Styles/Hud.scss" );
+
+		notificationManager = AddChild<NotificationManagerUI>();
 
 		AddChild<Chat>();
 		AddChild<CDScoreboard<CDScoreboardEntry>>();
@@ -24,7 +29,8 @@ public partial class CDHUD : RootPanel
 		AddChild<VoiceSpeaker>();
 
 		CurrentHud = this;
-
+		
+		/*notificationManager.AddNotiffication( "Imported", NotificationType.Success );*/
 
 		//AddChild<DebugMenu>();
 
@@ -33,4 +39,10 @@ public partial class CDHUD : RootPanel
 		//	() => { Log.Info( "RED SELECTED!" ); } ) 
 		//);
 	}
+
+/*	[ ConCmd.Client( "pushnotification" )]
+	public void PushNotification( string message, NotificationType type = NotificationType.Info, float timer = 5f )
+	{
+		notificationManager.AddNotiffication( message, type, timer );
+	}*/
 }

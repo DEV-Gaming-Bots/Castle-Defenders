@@ -19,7 +19,8 @@ PlayerLoadout {
         background-color: white;
         background-position: center;
         background-size: cover;
-        //border-radius: 10px;
+        border-radius: 10px;
+        border: 1.5px ridge black;
 
         &.debugOpen {
             opacity: 0;
@@ -27,14 +28,14 @@ PlayerLoadout {
 
         .slot-num {
             color: white;
-            font-weight: 700;
-            font-size: 23px;
-            text-shadow: 2px 3px 1px rgba(0,0,0,0.9);
+            font-weight: 650;
+            font-size: 20px;
+            text-stroke: 5px rgb(3, 137, 170);
         }
 
         &.selected {
             width: 100px;
-            height: 110px;
+            height: 100px;
             box-shadow: 0px 4px 12px 2px rgba(0,0,0,0.5);
             //border-radius: 10px;
         }
