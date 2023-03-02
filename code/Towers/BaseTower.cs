@@ -84,9 +84,6 @@ public partial class BaseTower : AnimatedEntity
 
 	public bool HasEnhanced;
 
-	//Scan rotation
-	float _scanRot;
-
 	//Base values for restoring, will be set on spawn
 	float baseAttSpeed;
 	int baseRange;
@@ -124,7 +121,6 @@ public partial class BaseTower : AnimatedEntity
 
 		SetModel( TowerModel );
 		SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
-		_scanRot = 0;
 
 		TimeSinceDeployed = 0;
 
@@ -307,6 +303,25 @@ public partial class BaseTower : AnimatedEntity
 		return true;
 	}
 
+	private bool ShouldRetarget(BaseNPC newNPC)
+	{
+		if ( Target == null ) return true;
+
+		if ( Target == newNPC ) return false;
+
+		if(TargetPriority == PriorityEnum.LowestHP)
+		{
+			if ( Target.Health < newNPC.Health ) return true;
+		}
+
+		if(TargetPriority == PriorityEnum.HighHP)
+		{
+			if(Target.Health > newNPC.Health ) return true;
+		}
+
+		return false;
+	}
+
 	int enumIndex = -1;
 
 	public void SetNextPriority()
@@ -353,46 +368,27 @@ public partial class BaseTower : AnimatedEntity
 	//Scans for enemies
 	public BaseNPC ScanForEnemy()
 	{
-		_scanRot++;
+		var ents = FindInSphere( Position, RangeDistance );
 
-		var tr = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( _scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
-			.Ignore( this )
-			.Ignore( Target )
-			.WithTag( "npc" )
-			.Run();
-
-		var tr2 = Trace.Ray( Position + Vector3.Up * 5, Position + Rotation.FromYaw( -_scanRot * 3.25f ).Forward * RangeDistance + Vector3.Up * 5 )
-			.Ignore( this )
-			.Ignore( Target )
-			.WithTag( "npc" )
-			.Run();
-
-		if ( CDGame.Instance.Debug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
+		foreach ( var ent in ents )
 		{
-			DebugOverlay.Line( tr.StartPosition, tr.EndPosition );
-			DebugOverlay.Line( tr2.StartPosition, tr2.EndPosition );
-		}
+			if ( ent is BaseNPC npc )
+			{
+				if ( !CanTargetEnemy( npc ) )
+					continue;
 
-		if ( tr.Entity is BaseNPC npc )
-		{
-			if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
-				return null;
+				if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
+					return null;
 
-			if ( !CanTargetEnemy(npc) )
-				return null;
+				var wallTr = Trace.Ray( Position + Vector3.Up * 15, npc.Position + Vector3.Up * 10 )
+				.Ignore( this )
+				.Run();
 
-			return npc;
-		}
+				if ( wallTr.Entity is WorldEntity )
+					continue;
 
-		if ( tr2.Entity is BaseNPC npc2 )
-		{
-			if ( CDGame.StaticCompetitive && !npc2.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
-				return null;
-
-			if ( !CanTargetEnemy( npc2 ) )
-				return null;
-
-			return npc2;
+				return npc;
+			}
 		}
 
 		return null;
@@ -447,10 +443,19 @@ public partial class BaseTower : AnimatedEntity
 		if ( TimeSinceDeployed < DeploymentTime )
 			return;
 
-		//Tower doesn't have a target, find one
-		if ( Target == null )
+
+		if(Target != null && TargetPriority != PriorityEnum.None)
+		{
+			var newTarget = ScanForEnemy();
+
+			if ( newTarget != null && ShouldRetarget( newTarget ) )
+				Target = newTarget;
+		} 
+		else if (Target == null)
+		{
 			Target = ScanForEnemy();
-			
+		}
+
 		//If we have a target and is within range, attack it
 		if (Target.IsValid() && Position.Distance(Target.Position) < RangeDistance)
 		{

@@ -1,5 +1,6 @@
 ﻿using Sandbox.UI;
 using Sandbox.UI.Construct;
+using System;
 
 public  class NPCInfo : WorldPanel
 {
@@ -27,8 +28,8 @@ public  class NPCInfo : WorldPanel
 		base.Tick();
 
 		if(CurArmor > -1)
-			NpcInfo.SetText( $"{NpcName}\nHealth: {CurHealth}\n Armor: {CurArmor}" );
+			NpcInfo.SetText( $"{NpcName}\nHealth: {Math.Round(CurHealth)}\n Armor: {Math.Round( CurArmor )}" );
 		else
-			NpcInfo.SetText( $"{NpcName}\nHealth: {CurHealth}" );
+			NpcInfo.SetText( $"{NpcName}\nHealth: {Math.Round( CurHealth )}" );
 	}
 }
