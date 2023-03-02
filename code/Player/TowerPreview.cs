@@ -106,6 +106,7 @@ public partial class CDPawn
 		var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
 			.Ignore( this )
 			.WithoutTags( "cdplayer", "tower", "npc" )
+			.WithTag( "solid" )
 			.Run();
 
 		Color canPlaceCol = Color.White;

@@ -377,4 +377,16 @@ public  partial class CDGame
 		Instance.PostWave();
 		Instance.CurWave -= 1;
 	}
+
+	[ConCmd.Server("cd_game_mapvote")]
+	public static void StartMapVoteCMD()
+	{
+		if ( !Instance.Debug )
+		{
+			Log.Error( "Debug is turned off" );
+			return;
+		}
+
+		Instance.StartMapVote();
+	}
 }

@@ -1,5 +1,7 @@
 ﻿using Sandbox;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 public partial class CDGame : GameManager
 {
@@ -21,6 +23,9 @@ public partial class CDGame : GameManager
 
 	[Net]
 	public bool ActiveSuperTowerRed { get; set; }
+
+	[Net]
+	public IList<string> MapVoteIdents { get; set; }
 
 	public int LimitTower;
 
@@ -60,6 +65,15 @@ public partial class CDGame : GameManager
 
 			ConsoleSystem.Run( "cd_update_slots" );
 		}
+	}
+
+	public override async void PostLevelLoaded()
+	{
+		base.PostLevelLoaded();
+
+		var mapList = await GetRemoteMapIdents();
+
+		MapVoteIdents = mapList;
 	}
 
 	public override void ClientJoined( IClient client )
@@ -129,6 +143,12 @@ public partial class CDGame : GameManager
 		}
 
 		base.Shutdown();
+	}
+
+	private static async Task<List<string>> GetRemoteMapIdents()
+	{
+		var queryResult = await Package.FindAsync( $"type:map game:{Game.Server.GameIdent.Replace( "#local", "" )}", take: 99 );
+		return queryResult.Packages.Select( ( p ) => p.FullIdent ).ToList();
 	}
 
 	public enum GameStates

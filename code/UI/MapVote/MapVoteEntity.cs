@@ -1,18 +1,16 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 using System.Linq;
-
-
- partial class MapVoteEntity : Entity
+public partial class MapVoteEntity : Entity
 {
-	static MapVoteEntity _current;
-	MapVotePanel _panel;
+	public static MapVoteEntity Current;
+	MapSelectionMenu _panel;
 
 	[Net]
 	public IDictionary<IClient, string> Votes { get; set; }
 
 	[Net]
-	public string WinningMap { get; set; } = "devbots.aperturelab";
+	public string WinningMap { get; set; } = Game.Server.MapIdent.ToString();
 
 	[Net]
 	public RealTimeUntil VoteTimeLeft { get; set; } = 20;
@@ -22,15 +20,15 @@ using System.Linq;
 		base.Spawn();
 
 		Transmit = TransmitType.Always;
-		_current = this;
+		Current = this;
 	}
 
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();
 
-		_current = this;
-		_panel = new MapVotePanel();
+		Current = this;
+		_panel = new MapSelectionMenu();
 		CDHUD.CurrentHud.AddChild( _panel );
 	}
 
@@ -41,8 +39,8 @@ using System.Linq;
 		_panel?.Delete();
 		_panel = null;
 
-		if ( _current == this )
-			_current = null;
+		if ( Current == this )
+			Current = null;
 	}
 
 	[Event.Client.Frame]
@@ -52,7 +50,7 @@ using System.Linq;
 		{
 			var seconds = VoteTimeLeft.Relative.FloorToInt().Clamp( 0, 60 );
 
-			_panel.TimeText = $"00:{seconds:00}";
+			//_panel.TimeText = $"00:{seconds:00}";
 		}
 	}
 
@@ -70,7 +68,6 @@ using System.Linq;
 			return;
 
 		WinningMap = Votes.GroupBy( x => x.Value ).OrderBy( x => x.Count() ).First().Key;
-		Log.Info( WinningMap );
 	}
 
 	private void SetVote( IClient client, string map )
@@ -85,16 +82,16 @@ using System.Linq;
 	[ClientRpc]
 	private void RefreshUI()
 	{
-		_panel.UpdateFromVotes( Votes );
+		
 	}
 
 	[ConCmd.Server]
 	public static void SetVote( string map )
 	{
-		if ( _current == null || ConsoleSystem.Caller == null )
+		if ( Current == null || ConsoleSystem.Caller == null )
 			return;
 
-		_current.SetVote( ConsoleSystem.Caller, map );
+		Current.SetVote( ConsoleSystem.Caller, map );
 	}
 }
 

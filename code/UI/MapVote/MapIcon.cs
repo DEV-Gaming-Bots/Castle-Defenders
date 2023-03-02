@@ -1,33 +1,30 @@
-﻿using Sandbox;
-using Sandbox.UI;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Sandbox;
+using Sandbox.UI;
 
- class MapIcon : Panel
+public partial class MapIcon : Panel
 {
-	public string VoteCount { get; set; } = "0";
-	public string Title { get; set; } = "...";
-	public string Org { get; set; } = "...";
-	public string Ident { get; internal set; }
-	public Panel OrgAvatar { get; set; }
+	public string Ident { get; set; }
+	public int Votes { get; set; }
 
-	public MapIcon( string fullIdent )
-	{
-		Ident = fullIdent;
+	private Package _data;
 
-		_ = FetchMapInformation();
-	}
+	protected void VoteMap() => MapVoteEntity.SetVote( Ident );
 
-	private async Task FetchMapInformation()
+	protected override async Task OnParametersSetAsync()
 	{
 		var package = await Package.Fetch( Ident, true );
-		if ( package == null ) return;
-		if ( package.PackageType != Package.Type.Map ) return;
+		if ( package is null || package.PackageType != Package.Type.Map )
+		{
+			Delete();
+			return;
+		}
 
-		Title = package.Title;
-		Org = package.Org.Title;
-
-		await Style.SetBackgroundImageAsync( package.Thumb );
-		await OrgAvatar.Style.SetBackgroundImageAsync( package.Org.Thumb );
+		_data = package;
+		StateHasChanged();
 	}
-}
 
+	protected override int BuildHash() => HashCode.Combine( Votes );
+}
