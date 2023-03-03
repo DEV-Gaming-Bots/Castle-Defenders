@@ -92,7 +92,7 @@ public  partial class CDGame
 		if ( GameStatus == GameEnum.Idle )
 			return;
 
-		if ( Instance.Debug && Instance.DebugMode is DebugEnum.Gameplay or DebugEnum.All)
+		if ( Debug && Instance.DebugMode is DebugEnum.Gameplay or DebugEnum.All)
 			Log.Info( TimeRemaining );
 
 		if(TimeRemaining <= 10.0f && _playInboundMusic && WaveStatus == WaveEnum.Pre )

@@ -43,7 +43,7 @@ namespace Components.Qmenu
 		{
 			base.Tick();
 
-			if ( !CDGame.Instance.Debug )
+			if ( !CDGame.Debug )
 				return;
 
 			if (Input.Down(InputButton.Menu) && lastKeyPress > 0.3)

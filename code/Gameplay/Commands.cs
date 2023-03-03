@@ -3,7 +3,6 @@ using Sandbox;
 
 public  partial class CDGame
 {
-	[Net] public bool Debug { get; set; }
 	public enum DebugEnum
 	{
 		Default,
@@ -15,15 +14,10 @@ public  partial class CDGame
 
 	public DebugEnum DebugMode;
 
-	[ConCmd.Admin( "cd_debug" )]
-	public static void DebugToggle()
-	{
-		Instance.Debug = !Instance.Debug;
+	[ConVar.Replicated( "cd.debug" )]
+	public static bool Debug { get; set; }
 
-		Log.Info( "Debug: " + Instance.Debug );
-	}
-
-	[ConCmd.Admin( "cd_debugmode" )]
+	[ConCmd.Admin( "cd.debug.mode" )]
 	public static void DebugModeSet(int mode)
 	{
 		switch(mode)
@@ -48,10 +42,10 @@ public  partial class CDGame
 		Log.Info( "Debug Mode: " + Instance.DebugMode );
 	}
 
-	[ConCmd.Server("cd_money_give")]
+	[ConCmd.Server("cd.money.give")]
 	public static void GiveMoney(int amount, string targetName = "")
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -73,10 +67,10 @@ public  partial class CDGame
 		}
 	}
 
-	[ConCmd.Server( "cd_exp_give" )]
+	[ConCmd.Server( "cd.exp.give" )]
 	public static void GiveEXP( int amount, string targetName = "" )
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -98,10 +92,10 @@ public  partial class CDGame
 		}
 	}
 
-	[ConCmd.Admin( "cd_diff_set" )]
+	[ConCmd.Admin( "cd.diff.set" )]
 	public static void SetDifficulty( int diffInt )
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -129,10 +123,10 @@ public  partial class CDGame
 		Log.Info( "Updated difficulty to " + Instance.Difficulty );
 	}
 
-	[ConCmd.Server( "cd_npc_create" )]
+	[ConCmd.Server( "cd.npc.create" )]
 	public static void SpawnNPC( string npcName, bool spawnOpposite = false)
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -171,10 +165,10 @@ public  partial class CDGame
 		}
 	}
 
-	[ConCmd.Admin( "cd_force_start" )]
+	[ConCmd.Admin( "cd.game.start" )]
 	public static void ForceStartGame()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -189,10 +183,10 @@ public  partial class CDGame
 		Instance.StartGame();
 	}
 
-	[ConCmd.Admin( "cd_force_stop" )]
+	[ConCmd.Admin( "cd.game.stop" )]
 	public static void ForceStopGame()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -209,10 +203,10 @@ public  partial class CDGame
 	}
 
 
-	[ConCmd.Admin( "cd_force_restart" )]
+	[ConCmd.Admin( "cd.game.restart" )]
 	public static void ForceRestartGame()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -227,10 +221,10 @@ public  partial class CDGame
 		Instance.StartGame();
 	}
 
-	[ConCmd.Admin( "cd_start_mapvote" )]
+	[ConCmd.Admin( "cd.game.mapvote" )]
 	public static void ForceMapVote()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -239,10 +233,10 @@ public  partial class CDGame
 		Instance.StartMapVote();
 	}
 
-	[ConCmd.Admin( "cd_force_datareset" )]
+	[ConCmd.Admin( "cd.data.reset" )]
 	public static void ResetData()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -257,10 +251,10 @@ public  partial class CDGame
 		player.NewPlayerStats();
 	}
 
-	[ConCmd.Admin( "cd_force_save" )]
+	[ConCmd.Admin( "cd.data.save" )]
 	public static void SaveData()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -274,10 +268,10 @@ public  partial class CDGame
 		Instance.SaveData( player );
 	}
 
-	[ConCmd.Admin( "cd_force_saveall" )]
+	[ConCmd.Admin( "cd.data.save.all" )]
 	public static void SaveAllData()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 			return;
 
 		foreach ( var cl in Game.Clients )
@@ -287,10 +281,10 @@ public  partial class CDGame
 		}
 	}
 
-	[ConCmd.Admin( "cd_force_loaddata" )]
+	[ConCmd.Admin( "cd.data.load" )]
 	public static void LoadDataCMD()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -299,7 +293,7 @@ public  partial class CDGame
 		Instance.LoadSave( ConsoleSystem.Caller );
 	}
 
-	[ConCmd.Server( "cd_set_towerslot" )]
+	[ConCmd.Server( "cd.set.towerslot" )]
 	public static void SetTowerSlot(int slot, string name)
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
@@ -331,7 +325,7 @@ public  partial class CDGame
 		player.ChangeSlot( name, slot );
 	}
 
-	[ConCmd.Server( "cd_update_slots" )]
+	[ConCmd.Server( "cd.update.slots" )]
 	public static void UpdateTowerSlotsCMD()
 	{
 		var player = ConsoleSystem.Caller.Pawn as CDPawn;
@@ -350,10 +344,10 @@ public  partial class CDGame
 		player.UpdateSlots( To.Single( player ), "Hands", 0 );
 	}
 
-	[ConCmd.Server("cd_wave_set")]
+	[ConCmd.Server("cd.wave.set")]
 	public static void SetWave(int wave)
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -364,10 +358,10 @@ public  partial class CDGame
 		Instance.CurWave = Instance.CurWave.Clamp(wave - 1, Instance.MaxWaves);
 	}
 
-	[ConCmd.Server( "cd_wave_restart" )]
+	[ConCmd.Server( "cd.wave.restart" )]
 	public static void RestartWave()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -378,10 +372,10 @@ public  partial class CDGame
 		Instance.CurWave -= 1;
 	}
 
-	[ConCmd.Server("cd_game_mapvote")]
+	[ConCmd.Server("cd.game.mapvote")]
 	public static void StartMapVoteCMD()
 	{
-		if ( !Instance.Debug )
+		if ( !Debug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;

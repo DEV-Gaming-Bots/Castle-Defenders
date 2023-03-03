@@ -421,7 +421,7 @@ public partial class BaseTower : AnimatedEntity
 			}
 		}
 
-		if ( CDGame.Instance.Debug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
+		if ( CDGame.Debug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
 		{
 			DebugOverlay.Sphere( Position, RangeDistance, Color.Yellow );
 
@@ -466,7 +466,7 @@ public partial class BaseTower : AnimatedEntity
 				.UseHitboxes(true)
 				.Run();
 
-			if ( CDGame.Instance.Debug &&
+			if ( CDGame.Debug &&
 				(CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
 				DebugOverlay.Line( towerTR.StartPosition, towerTR.EndPosition );
 
