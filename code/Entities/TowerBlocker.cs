@@ -12,6 +12,6 @@ public  class TowerBlocker : ModelEntity
 		base.Spawn();
 		EnableDrawing = false;
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
-		Tags.Add( "trigger" );
+		Tags.Add( "blocker" );
 	}
 }

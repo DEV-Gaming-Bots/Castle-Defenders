@@ -106,7 +106,7 @@ public partial class CDPawn
 		var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
 			.Ignore( this )
 			.WithoutTags( "cdplayer", "tower", "npc" )
-			.WithTag( "solid" )
+			.WithAnyTags( "solid", "blocker" )
 			.Run();
 
 		Color canPlaceCol = Color.White;
@@ -132,7 +132,7 @@ public partial class CDPawn
 
 	public bool CanPlace( TraceResult tr )
 	{
-		if ( tr.Normal.z < 0.99 )
+		if ( tr.Normal.z != 1.0f )
 			return false;
 
 		if ( SelectedTower is BaseSuperTower )
