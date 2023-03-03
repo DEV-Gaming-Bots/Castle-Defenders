@@ -28,8 +28,8 @@ public  class NPCInfo : WorldPanel
 		base.Tick();
 
 		if(CurArmor > -1)
-			NpcInfo.SetText( $"{NpcName}\nHealth: {Math.Round(CurHealth)}\n Armor: {Math.Round( CurArmor )}" );
+			NpcInfo.SetText( $"{NpcName}\nHealth: {Math.Round(CurHealth, 2)}\n Armor: {Math.Round( CurArmor, 2)}" );
 		else
-			NpcInfo.SetText( $"{NpcName}\nHealth: {Math.Round( CurHealth )}" );
+			NpcInfo.SetText( $"{NpcName}\nHealth: {Math.Round( CurHealth, 2)}" );
 	}
 }

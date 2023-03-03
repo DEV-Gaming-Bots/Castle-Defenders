@@ -63,7 +63,7 @@ public partial class CDGame : GameManager
 		{
 			_ = new CDHUD();
 
-			ConsoleSystem.Run( "cd_update_slots" );
+			ConsoleSystem.Run( "cd.update.slots" );
 		}
 	}
 
