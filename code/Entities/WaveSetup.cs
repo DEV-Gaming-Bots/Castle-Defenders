@@ -22,37 +22,6 @@ public  class WaveSetup : Entity
 	[Property, Description("A message that will be displayed in the chat")]
 	public string NoteText { get; set; } = "";
 
-	public enum NPCEnum
-	{
-		Unspecified,
-
-		//Normal NPCs
-		Peasant,
-		Zombie,
-
-		//Armoured NPCs
-		Riot,
-		Knight,
-
-		//Splitter NPCs
-		Husk,
-
-		//Special
-		Priest,
-
-		//Advanced
-		Ice,
-		Magma,
-		Void,
-
-		//Airbone
-		Spectre,
-
-		//Bosses
-		ZombieBoss,
-		VoidBoss,
-	}
-
 	[Property( "NPCToSpawn" ), Title( "Spawning NPC" ), Description( "What NPC should this spawn" )]
 	public BaseNPCAsset NPCsToSpawn { get; set; }
 
@@ -86,9 +55,11 @@ public  class WaveSetup : Entity
 		_spawnCounter = 0;
 		_spawnOpposite = false;
 
-		if( NPCsToSpawn is null )
+		if ( NPCsToSpawn is null )
 			Log.Error( "One of the WaveSetup ents has null NPCs, expect errors!" );
 	}
+
+	int spawnOrder;
 
 	[Event.Tick.Server]
 	public void TickSpawning()
@@ -114,10 +85,12 @@ public  class WaveSetup : Entity
 			return;
 		}
 
+
 		var npc = new BaseNPC();
-
 		npc.UseAssetAndSpawn( NPCsToSpawn );
+		npc.Order = spawnOrder;
 
+		spawnOrder++;
 		if ( npc == null )
 		{
 			Log.Error( "This wave setup failed to spawn" );
@@ -187,6 +160,7 @@ public  class WaveSetup : Entity
 		_timeLastSpawn = 0;
 		_timeSinceWaveStart = 0;
 		_spawnToggle = true;
+		spawnOrder = 0;
 	}
 
 	public void StopSpawning()

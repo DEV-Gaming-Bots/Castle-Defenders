@@ -153,6 +153,8 @@ public partial class BaseNPC : AnimatedEntity
 		Spawn();
 	}
 
+	[Net] public int Order { get; set; };
+
 	public override void Spawn()
 	{
 		CurrentEffects = new();
@@ -190,7 +192,7 @@ public partial class BaseNPC : AnimatedEntity
 
 	public virtual void SetUpPanel()
 	{
-		Panel = new NPCInfo( NPCNameNet, MathF.Round( Health, 2 ), ArmourStrength);
+		Panel = new NPCInfo( NPCNameNet, MathF.Round( Health, 2 ), ArmourStrength, Order);
 	}
 
 	[ClientRpc]

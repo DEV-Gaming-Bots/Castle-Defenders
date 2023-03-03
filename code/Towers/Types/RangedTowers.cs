@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 
-public  partial class Pistol : BaseTower
+public partial class Pistol : BaseTower
 {
 	public override string TowerName => "Pistol";
 	public override string TowerDesc => "A very simple pistol tower";
@@ -65,7 +65,7 @@ public  partial class Pistol : BaseTower
 	}
 }
 
-public  partial class SMG : BaseTower
+public partial class SMG : BaseTower
 {
 	public override string TowerName => "SMG";
 	public override string TowerDesc => "A fast shooting submachine tower";

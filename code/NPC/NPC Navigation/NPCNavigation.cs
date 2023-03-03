@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 
-public  class NPCNavigation
+public class NPCNavigation
 {
 	public Vector3 TargetPosition;
 	public List<Vector3> Points = new();

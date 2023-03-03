@@ -94,6 +94,7 @@ public partial class BaseTower : AnimatedEntity
 		None,
 		LowestHP,
 		HighHP,
+		//FirstInLine,
 	}
 
 	[Net] public PriorityEnum TargetPriority { get; protected set; }
@@ -160,7 +161,6 @@ public partial class BaseTower : AnimatedEntity
 
 		return newInfo;
 	}
-
 
 	public string SetUpDescription()
 	{
@@ -303,6 +303,8 @@ public partial class BaseTower : AnimatedEntity
 		return true;
 	}
 
+	int curOrder = -1;
+
 	private bool ShouldRetarget(BaseNPC newNPC)
 	{
 		if ( Target == null ) return true;
@@ -318,6 +320,11 @@ public partial class BaseTower : AnimatedEntity
 		{
 			if(Target.Health > newNPC.Health ) return true;
 		}
+
+		/*if(TargetPriority == PriorityEnum.FirstInLine)
+		{
+			if ( newNPC.Order == curOrder ) return true;
+		}*/
 
 		return false;
 	}
@@ -361,7 +368,13 @@ public partial class BaseTower : AnimatedEntity
 			if ( newTarget.Health > Target.Health )
 				return true;
 		}
-		
+
+		//If we are targetting first in line
+		/*if ( TargetPriority == PriorityEnum.FirstInLine )
+		{
+			if ( newTarget.Order == curOrder ) return true;
+		}*/
+
 		return false;
 	}
 
@@ -443,7 +456,6 @@ public partial class BaseTower : AnimatedEntity
 		if ( TimeSinceDeployed < DeploymentTime )
 			return;
 
-
 		if(Target != null && TargetPriority != PriorityEnum.None)
 		{
 			var newTarget = ScanForEnemy();
@@ -482,7 +494,9 @@ public partial class BaseTower : AnimatedEntity
 				var newTarget = ScanForEnemy();
 
 				if ( ShouldPrioritizeTarget( newTarget ) )
+				{
 					Target = newTarget;
+				}
 			}
 
 			if ( TimeLastAttack >= AttackTime )
@@ -493,6 +507,9 @@ public partial class BaseTower : AnimatedEntity
 		{
 			Target = null;
 		}
+
+		if ( All.OfType<BaseNPC>().Count() == 0 )
+			curOrder = 0;
 	}
 
 	//Attack the target NPC
@@ -509,6 +526,9 @@ public partial class BaseTower : AnimatedEntity
 		(Owner as CDPawn).TotalDamage += (int)dmgInfo.Damage;
 
 		target.TakeDamage( dmgInfo );
+
+		if ( target.Health <= 0 )
+			curOrder++;
 	}
 
 	//Firing effects
