@@ -348,9 +348,15 @@ public partial class BaseTower : AnimatedEntity
 				return true;
 		}
 
-		//If we are targetting first in line
+		//If we are targetting first in line --BROKEN
 		/*if ( TargetPriority == PriorityEnum.FirstInLine )
 		{
+			if ( curOrder == -1 )
+			{
+				curOrder = newTarget.Order;
+				return true;
+			}
+
 			if ( newTarget.Order == curOrder ) return true;
 		}*/
 
@@ -466,7 +472,7 @@ public partial class BaseTower : AnimatedEntity
 		}
 
 		if ( All.OfType<BaseNPC>().Count() == 0 )
-			curOrder = 0;
+			curOrder = -1;
 	}
 
 	//Attack the target NPC
