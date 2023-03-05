@@ -52,7 +52,7 @@ public  partial class Radar : BaseTower
 		towersScanned = new List<BaseTower>();
 		base.Spawn();
 
-		NetStats = $"Speed Boost {-AttackTime} | Range {RangeDistance}";
+		NetStats = $"Speed Boost {AttackTime} | Range {RangeDistance}";
 	}
 
 	[Event.Tick.Server]
@@ -87,7 +87,7 @@ public  partial class Radar : BaseTower
 		base.UpgradeTower();
 		RemoveEnhancement();
 
-		NetStats = $"Speed Boost {-AttackTime} | Range {RangeDistance}";
+		NetStats = $"Speed Boost {Math.Abs(AttackTime)} | Range {RangeDistance}";
 	}
 
 	private void ValidateTowers()

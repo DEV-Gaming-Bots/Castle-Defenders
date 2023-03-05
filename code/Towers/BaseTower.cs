@@ -292,6 +292,18 @@ public partial class BaseTower : AnimatedEntity
 	//Determine if the tower can attack this npc special type
 	private bool CanTargetEnemy(BaseNPC npc)
 	{
+		//Target is behind a wall
+		var wallTr = Trace.Ray( Position + Vector3.Up * 15, npc.Position + Vector3.Up * 10 )
+				.Ignore( this )
+				.WorldOnly()
+				.Run();
+
+		if ( wallTr.Entity is WorldEntity )
+			return false;
+
+		if ( Target == npc )
+			return false;
+
 		//Target is cloaked
 		if ( npc.AssetFile.NPCType == BaseNPCAsset.SpecialType.Hidden && !CounterStealth )
 			return false;
@@ -305,30 +317,6 @@ public partial class BaseTower : AnimatedEntity
 
 	int curOrder = -1;
 
-	private bool ShouldRetarget(BaseNPC newNPC)
-	{
-		if ( Target == null ) return true;
-
-		if ( Target == newNPC ) return false;
-
-		if(TargetPriority == PriorityEnum.LowestHP)
-		{
-			if ( Target.Health < newNPC.Health ) return true;
-		}
-
-		if(TargetPriority == PriorityEnum.HighHP)
-		{
-			if(Target.Health > newNPC.Health ) return true;
-		}
-
-		/*if(TargetPriority == PriorityEnum.FirstInLine)
-		{
-			if ( newNPC.Order == curOrder ) return true;
-		}*/
-
-		return false;
-	}
-
 	int enumIndex = -1;
 
 	public void SetNextPriority()
@@ -339,21 +327,12 @@ public partial class BaseTower : AnimatedEntity
 		if ( enumIndex > Enum.GetValues( typeof( PriorityEnum ) ).Cast<PriorityEnum>().Count() - 1 )
 			enumIndex = 0;
 
-		//To prevent hopping back and forth, cast the enumIndex to the enum's values
-		TargetPriority = Enum.GetValues( typeof( PriorityEnum ) ).Cast<PriorityEnum>().FirstOrDefault( x => (int)x > enumIndex );
+		TargetPriority = (PriorityEnum)enumIndex;
 	}
 
 	public bool ShouldPrioritizeTarget(BaseNPC newTarget)
 	{
-		//We don't have a target, just return true
-		if ( Target == null )
-			return true;
-
-		if ( newTarget == null )
-			return false;
-
-		if ( Target == newTarget )
-			return true;
+		if ( newTarget == null ) return false;
 
 		//If we are targetting lowest health npcs
 		if ( TargetPriority == PriorityEnum.LowestHP )
@@ -379,7 +358,7 @@ public partial class BaseTower : AnimatedEntity
 	}
 
 	//Scans for enemies
-	public BaseNPC ScanForEnemy()
+	public BaseNPC ScanForEnemy(BaseNPC ignoreNPC = null)
 	{
 		var ents = FindInSphere( Position, RangeDistance );
 
@@ -387,18 +366,14 @@ public partial class BaseTower : AnimatedEntity
 		{
 			if ( ent is BaseNPC npc )
 			{
+				if ( npc == ignoreNPC )
+					continue;
+
 				if ( !CanTargetEnemy( npc ) )
 					continue;
 
 				if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
 					return null;
-
-				var wallTr = Trace.Ray( Position + Vector3.Up * 15, npc.Position + Vector3.Up * 10 )
-				.Ignore( this )
-				.Run();
-
-				if ( wallTr.Entity is WorldEntity )
-					continue;
 
 				return npc;
 			}
@@ -422,13 +397,6 @@ public partial class BaseTower : AnimatedEntity
 
 				if ( CDGame.StaticCompetitive && !npc.CastleTarget.TeamCastle.ToString().Contains( (Owner as CDPawn).CurTeam.ToString() ) )
 					return null;
-
-				var wallTr = Trace.Ray( Position + Vector3.Up * 15, npc.Position + Vector3.Up * 10)
-				.Ignore( this )
-				.Run();
-
-				if ( wallTr.Entity is WorldEntity )
-					continue;
 
 				npcList.Add( npc );
 			}
@@ -456,16 +424,15 @@ public partial class BaseTower : AnimatedEntity
 		if ( TimeSinceDeployed < DeploymentTime )
 			return;
 
-		if(Target != null && TargetPriority != PriorityEnum.None)
-		{
-			var newTarget = ScanForEnemy();
-
-			if ( newTarget != null && ShouldRetarget( newTarget ) )
-				Target = newTarget;
-		} 
-		else if (Target == null)
-		{
+		if ( Target == null )
 			Target = ScanForEnemy();
+
+		if( TargetPriority != PriorityEnum.None && Target != null )
+		{
+			var newNPC = ScanForEnemy(Target);
+
+			if ( ShouldPrioritizeTarget( newNPC ) )
+				Target = newNPC;
 		}
 
 		//If we have a target and is within range, attack it
@@ -487,16 +454,6 @@ public partial class BaseTower : AnimatedEntity
 			{
 				Target = null;
 				return;
-			}
-
-			if(TargetPriority != PriorityEnum.None)
-			{
-				var newTarget = ScanForEnemy();
-
-				if ( ShouldPrioritizeTarget( newTarget ) )
-				{
-					Target = newTarget;
-				}
 			}
 
 			if ( TimeLastAttack >= AttackTime )

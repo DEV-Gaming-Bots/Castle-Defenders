@@ -95,16 +95,19 @@ public class TowerMenu : Panel
 
 		TowerPnl.SetClass( "showMenu", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
 		InputGlyphPnl.SetClass( "showInputs", curTowerHover is BaseTower || curTowerHover is BaseSuperTower );
-		
+
 		if ( curTowerHover is BaseSuperTower superTower )
 		{
 			TowerOwnerAndPriority.SetText( $"Owner: {superTower.Owner.Client.Name}" );
 			TowerName.SetText( superTower.NetName );
 			TowerDesc.SetText( superTower.NetDesc );
-;
+			TowerCost.SetText( $"Build Cost: ${superTower.NetCost}" );
+
 			PrimMouseLabel.SetText( "Use Active Ability, Press again to use" );
 			SecondMouseLabel.SetText( "Cancel ability while using" );
 			UseLabel.SetText( "" );
+
+			NextUpgrade.SetText( "" );
 
 			TowerStats.SetText(superTower.NetAbility);
 

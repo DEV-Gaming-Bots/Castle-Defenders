@@ -136,7 +136,7 @@ public  partial class Sniper : BaseTower
 	public override BaseTower RequiredTowers => null;
 	public override int[] TowerLevelCosts => new[]
 	{
-		145,
+		165,
 		235,
 		295,
 		400,

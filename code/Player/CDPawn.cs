@@ -5,6 +5,9 @@ using System.Linq;
 
 public partial class CDPawn : AnimatedEntity
 {
+	[ConVar.Client( "cd.music" )]
+	public static bool ClientMusic { get; set; }
+
 	[Net, Predicted] public StandardController Controller { get; set; }
 
 	public Vector3 EyePosition
@@ -45,7 +48,6 @@ public partial class CDPawn : AnimatedEntity
 
 	public CDPawn() { }
 
-
 	public CDPawn( IClient cl ) : this()
 	{
 		_clothing.LoadFromClient( cl );
@@ -65,12 +67,20 @@ public partial class CDPawn : AnimatedEntity
 	[ClientRpc]
 	public void PlayMusic(string music)
 	{
+		if ( !ClientMusic ) return;
+
 		_curMusic = Sound.FromScreen( music );
 	}
 
 	[ClientRpc]
 	public void EndMusic( string musicEnd )
 	{
+		if ( !ClientMusic )
+		{
+			_curMusic.Stop();
+			return;
+		}
+
 		_curMusic.Stop();
 		_curMusic = Sound.FromScreen( musicEnd );
 	}
@@ -79,6 +89,12 @@ public partial class CDPawn : AnimatedEntity
 	public void PlaySoundOnClient(string sndPath)
 	{
 		PlaySound( sndPath );
+	}
+
+	[ClientRpc]
+	public void StopMusic()
+	{
+		_curMusic.Stop();
 	}
 
 	public void SetTowerLimit(int limit)
@@ -170,6 +186,7 @@ public partial class CDPawn : AnimatedEntity
 			DoTDInputs();
 
 		DoTowerOverview();
+		TowerSuperRadius();
 
 		if ( CDGame.Instance.DebugMode is CDGame.DebugEnum.Path or CDGame.DebugEnum.All )
 		{
@@ -183,7 +200,6 @@ public partial class CDPawn : AnimatedEntity
 			}
 		}
 
-		//SimulatePreview();
 	}
 
 	public void TowerSuperRadius()
@@ -191,7 +207,7 @@ public partial class CDPawn : AnimatedEntity
 		if ( CurSuperTower == null )
 			return;
 
-		var tr = Trace.Ray( AimRay.Position, AimRay.Forward * 145 )
+		var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
 			.WithoutTags( "cdplayer", "npc" )
 			.Run();
 

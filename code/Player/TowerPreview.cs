@@ -107,14 +107,13 @@ public partial class CDPawn
 			.Ignore( this )
 			.WithoutTags( "cdplayer", "tower", "npc" )
 			.WithAnyTags( "solid", "blocker" )
+			.Size( 0.1f )
 			.Run();
 
-		Color canPlaceCol = Color.White;
+		Color canPlaceCol = Color.Green.WithAlpha( 0.5f );
 
 		if ( !CanPlace( tr ) )
 			canPlaceCol = Color.Red.WithAlpha( 0.5f );
-		else if ( CanPlace( tr ) )
-			canPlaceCol = Color.Green.WithAlpha( 0.5f );
 
 		UpdatePreview( tr.EndPosition, canPlaceCol, SelectedTower.RangeDistance, Rot );
 	}
@@ -132,7 +131,7 @@ public partial class CDPawn
 
 	public bool CanPlace( TraceResult tr )
 	{
-		if ( tr.Normal.z != 1.0f )
+		if ( tr.Normal.z < 0.99f )
 			return false;
 
 		if ( SelectedTower is BaseSuperTower )
@@ -258,7 +257,9 @@ public partial class CDPawn
 		if ( SelectedTower != null )
 		{
 			var tr = Trace.Ray( AimRay.Position, AimRay.Position + AimRay.Forward * 145 )
+			.Ignore( this )
 			.WithoutTags( "cdplayer", "tower", "npc" )
+			.WithAnyTags( "solid", "blocker" )
 			.Size( 0.1f )
 			.Run();
 
