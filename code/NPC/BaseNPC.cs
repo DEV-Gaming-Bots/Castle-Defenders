@@ -82,10 +82,10 @@ public partial class BaseNPC : AnimatedEntity
 	{
 		switch ( CDGame.Instance.Difficulty )
 		{
-			case CDGame.DiffEnum.Easy: return 0.75f;
+			case CDGame.DiffEnum.Easy: return 1.0f;
 			case CDGame.DiffEnum.Medium: return 1.5f;
-			case CDGame.DiffEnum.Hard: return 2.25f;
-			case CDGame.DiffEnum.Extreme: return 3.0f;
+			case CDGame.DiffEnum.Hard: return 2.75f;
+			case CDGame.DiffEnum.Extreme: return 5.25f;
 		}
 
 		return 0.0f;
@@ -153,7 +153,7 @@ public partial class BaseNPC : AnimatedEntity
 		Spawn();
 	}
 
-	[Net] public int Order { get; set; };
+	[Net] public int Order { get; set; }
 
 	public override void Spawn()
 	{

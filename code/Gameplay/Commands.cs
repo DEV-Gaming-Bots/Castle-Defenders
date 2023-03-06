@@ -123,6 +123,37 @@ public  partial class CDGame
 		Log.Info( "Updated difficulty to " + Instance.Difficulty );
 	}
 
+	[ConCmd.Server( "cd.diff.set.dedi" )]
+	public static void SetDifficultyDedicated( int diffInt )
+	{
+		if(!Game.IsDedicatedServer || ConsoleSystem.Caller != null )
+		{
+			Log.Error( "This command can only be ran by the dedicated host" );
+			return;
+		}
+
+		switch ( diffInt )
+		{
+			case 1:
+				Instance.Difficulty = DiffEnum.Easy;
+				break;
+			case 2:
+				Instance.Difficulty = DiffEnum.Medium;
+				break;
+			case 3:
+				Instance.Difficulty = DiffEnum.Hard;
+				break;
+			case 4:
+				Instance.Difficulty = DiffEnum.Extreme;
+				break;
+			default:
+				Log.Error( "Invalid setter for difficulty" );
+				return;
+		}
+
+		Log.Info( "Updated difficulty to " + Instance.Difficulty );
+	}
+
 	[ConCmd.Server( "cd.npc.create" )]
 	public static void SpawnNPC( string npcName, bool spawnOpposite = false)
 	{

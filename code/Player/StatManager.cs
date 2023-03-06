@@ -39,6 +39,8 @@ public  partial class CDPawn : IPlayerData
 		EXP = 0;
 		ReqEXP = 500;
 
+		TowerSlots.Clear();
+
 		TowerSlots.Add( 0, "Pistol" );
 		TowerSlots.Add( 1, "SMG" );
 		TowerSlots.Add( 2, "Shotgun" );
@@ -161,7 +163,7 @@ public  partial class CDPawn : IPlayerData
 			{
 				Level++;
 				EXP -= ReqEXP;
-				ReqEXP += (int)(4 * Math.Pow( Level + 3, 3 ) );
+				ReqEXP += (int)(4 * Math.Pow( Level + 3, 2 ) );
 				UnlockTowerCheck();
 			}
 		}

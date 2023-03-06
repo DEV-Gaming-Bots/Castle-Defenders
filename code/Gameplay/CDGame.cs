@@ -7,7 +7,7 @@ public partial class CDGame : GameManager
 {
 	public static CDGame Instance => Current as CDGame;
 
-	[ConVar.Replicated( "cd_competitve" )]
+	[ConVar.Replicated( "cd_competitive" )]
 	public static bool StaticCompetitive { get; set; }
 
 	[ConVar.Replicated( "cd_diff" )]
