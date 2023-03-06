@@ -18,7 +18,7 @@ Layer0
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
-	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
+	g_vColorTint "[0.811765 0.082353 0.082353 0.000000]"
 	TextureColor "materials/raw/npc_portal/portal-16-cell-animation1.jpg"
 
 	//---- Fade ----
@@ -26,10 +26,6 @@ Layer0
 
 	//---- Fog ----
 	g_bFogEnabled "1"
-
-	//---- Lighting ----
-	g_flDirectionalLightmapMinZ "0.050"
-	g_flDirectionalLightmapStrength "1.000"
 
 	//---- Metalness ----
 	g_flMetalness "0.000"
