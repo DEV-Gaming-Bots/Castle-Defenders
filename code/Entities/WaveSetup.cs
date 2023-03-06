@@ -5,7 +5,7 @@ using System.Linq;
 using Components.popup;
 
 [Library( "cd_wave_setup" )]
-[Title("Wave Setup"), Description( "Sets up the wave" )]
+[Title("Wave Setup"), Description( "Sets up the wave" ), EditorSprite("materials/editor/cd_wave_setup_icon.vmat")]
 [VisGroup( VisGroup.Logic )]
 [HammerEntity]
 public  class WaveSetup : Entity

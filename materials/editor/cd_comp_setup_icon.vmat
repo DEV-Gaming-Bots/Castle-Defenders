@@ -1,0 +1,14 @@
+// THIS FILE IS AUTO-GENERATED
+
+Layer0
+{
+	shader "shaders/tools_sprite.shader"
+
+	F_TEXTURED 1
+	F_WORLD_SPACE_SIZE 1 // Size In World Space
+
+	g_flUniformPointSize "17.512"
+
+	//---- Color ----
+	TextureColor "materials/editor/cd_comp_setup.png"
+}

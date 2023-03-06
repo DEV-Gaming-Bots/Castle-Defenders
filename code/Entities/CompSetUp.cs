@@ -3,7 +3,7 @@ using Sandbox;
 using Editor;
 
 [Library( "cd_comp_setup" )]
-[Title( "Competitive Setup" ), Description( "Sets up the map for competitive" )]
+[Title( "Competitive Setup" ), Description( "Sets up the map for competitive" ), EditorSprite("materials/editor/cd_comp_setup_icon.vmat")]
 [HammerEntity]
 public  class CompSetUp : Entity
 {

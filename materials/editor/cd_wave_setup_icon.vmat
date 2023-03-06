@@ -1,0 +1,16 @@
+// THIS FILE IS AUTO-GENERATED
+
+Layer0
+{
+	shader "shaders/tools_sprite.shader"
+
+	F_ALPHA_TEST 2 // Embedded Alpha (RGBA)
+	F_TEXTURED 1
+	F_WORLD_SPACE_SIZE 1 // Size In World Space
+
+	g_flAlphaTestReference "0.424"
+	g_flUniformPointSize "17.194"
+
+	//---- Color ----
+	TextureColor "materials/editor/cd_wave_setup.png"
+}
