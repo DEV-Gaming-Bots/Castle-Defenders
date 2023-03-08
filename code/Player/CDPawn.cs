@@ -162,6 +162,10 @@ public partial class CDPawn : AnimatedEntity
 		rot.x = 0;
 		rot.y = 0;
 
+		float duckLevel = Controller.Duck.IsActive ? 0.75f : 0.0f;
+
+		animHelper.DuckLevel = duckLevel;
+
 		LocalRotation = rot;
 	}
 

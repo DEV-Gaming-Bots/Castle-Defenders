@@ -26,7 +26,7 @@ public class DuckController
 		if ( IsActive )
 		{
 			Controller.SetTag( "ducked" );
-			Player.EyeLocalPosition *= 0.5f;
+			Player.EyeLocalPosition *= 0.65f;
 		}
 	}
 
