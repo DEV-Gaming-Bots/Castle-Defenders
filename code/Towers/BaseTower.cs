@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Sandbox;
+using Sandbox.Component;
 
 public partial class BaseTower : AnimatedEntity
 {
@@ -139,7 +140,6 @@ public partial class BaseTower : AnimatedEntity
 			HasEnhanced = false;
 
 			NetCost = TowerLevelCosts[TowerLevel - 1];
-			PlayDeployAnimRPC( To.Everyone );
 
 			TargetPriority = PriorityEnum.None;
 		}
@@ -193,13 +193,34 @@ public partial class BaseTower : AnimatedEntity
 		Tags.Add( "tower" );
 	}
 
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+		DestroyComponents( To.Single(Owner) );
+	}
+
 	[ClientRpc]
+	public void DestroyComponents()
+	{
+		Components.RemoveAll();
+	}
+
+	[ClientRpc]
+	public void SimulateOwnership()
+	{
+		if ( !IsValid )
+			return;
+		
+		var glow = Components.GetOrCreate<Glow>();
+		glow.Width = 0.5f;
+		glow.Color = Color.Cyan;
+	}
+
 	public void PlayDeployAnimRPC()
 	{
 		SetAnimParameter( "b_deploy", true );
 	}
 
-	[ClientRpc]
 	public void PlayUpgradeSound()
 	{
 		Sound.FromEntity( "upgrade", this );
@@ -273,7 +294,7 @@ public partial class BaseTower : AnimatedEntity
 		HasEnhanced = false;
 		TimeLastUpg = 0;
 
-		PlayUpgradeSound( To.Single(Owner) );
+		PlayUpgradeSound();
 
 		(Owner as CDPawn).TakeCash( TowerLevelCosts[TowerLevel - 1] );
 
@@ -428,9 +449,12 @@ public partial class BaseTower : AnimatedEntity
 		if ( IsPreviewing )
 			return;
 
+		SimulateOwnership( To.Single( Owner ) );
+
 		//Still deploying, wait until finished
 		if ( TimeSinceDeployed < DeploymentTime )
 			return;
+
 
 		if ( Target == null )
 			Target = ScanForEnemy();

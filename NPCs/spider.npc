@@ -1,0 +1,20 @@
+{
+  "Name": "Basic NPC",
+  "Description": "Description Info",
+  "StartHealth": 5,
+  "StartArmor": 0,
+  "Damage": 5,
+  "Speed": 1,
+  "Scale": 0.5,
+  "IsABoss": false,
+  "KillReward": {},
+  "NPCType": "Standard",
+  "SplittingSound": "",
+  "OverrideModel": null,
+  "MaterialOverrides": null,
+  "Color": "1,1,1,1",
+  "Hat": null,
+  "Top": null,
+  "Bottom": null,
+  "Feet": null
+}

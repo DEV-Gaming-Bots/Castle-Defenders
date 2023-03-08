@@ -90,7 +90,7 @@ public partial class CDPawn
 	public void ResetPlayer()
 	{
 		TotalTowers = 0;
-		DestroyPreview();
+		DestroyPreview(To.Single(this));
 	}
 
 	public void ShowSuperRadius(BaseSuperTower superTower, Vector3 pos)
@@ -298,7 +298,6 @@ public partial class CDPawn
 					return;
 				}
 
-
 				TakeCash( SelectedTower.TowerCost );
 
 				var placedTower = TypeLibrary.Create<BaseTower>( SelectedTower.GetType().FullName ); ;
@@ -309,7 +308,6 @@ public partial class CDPawn
 				placedTower.IsPreviewing = false;
 				placedTower.Owner = this;
 				placedTower.Spawn();
-				placedTower.PlayDeployAnimRPC();
 				TotalTowers++;
 			}
 		}

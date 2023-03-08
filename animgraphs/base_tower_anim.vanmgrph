@@ -20,7 +20,7 @@
 					{
 						m_id = 87783558
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ServerAuthoritative"
 					m_sNote = ""
 					m_inputConnection = 
 					{
@@ -75,7 +75,7 @@
 					{
 						m_id = 193985929
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ServerAuthoritative"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "idle"
@@ -97,7 +97,7 @@
 					{
 						m_id = 674607280
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ServerAuthoritative"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "attack"
@@ -119,7 +119,7 @@
 					{
 						m_id = 1275940154
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ServerAuthoritative"
 					m_sNote = ""
 					m_tagSpans = [  ]
 					m_sequenceName = "deploy"
@@ -141,7 +141,7 @@
 					{
 						m_id = 1341962419
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ServerAuthoritative"
 					m_sNote = ""
 					m_inputConnection = 
 					{
@@ -170,7 +170,7 @@
 					{
 						m_id = 2132006355
 					}
-					m_networkMode = "ClientSimulate"
+					m_networkMode = "ServerAuthoritative"
 					m_sNote = ""
 					m_states = 
 					[
@@ -196,7 +196,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.0
 									m_destState = 
 									{
 										m_id = 1132680184
@@ -260,7 +260,7 @@
 											}
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.0
 									m_destState = 
 									{
 										m_id = 1359729183
@@ -317,7 +317,7 @@
 											m_bIsFinished = true
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.0
 									m_destState = 
 									{
 										m_id = 190044950
@@ -374,7 +374,7 @@
 											m_bIsFinished = true
 										},
 									]
-									m_blendDuration = 0.2
+									m_blendDuration = 0.0
 									m_destState = 
 									{
 										m_id = 190044950

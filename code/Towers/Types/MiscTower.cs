@@ -62,10 +62,10 @@ public  partial class Radar : BaseTower
 		if ( IsPreviewing )
 			return;
 
+		SimulateOwnership( To.Single( Owner ) );
+
 		if ( TimeSinceDeployed < DeploymentTime )
 			return;
-
-		if ( !Game.IsServer ) return;
 
 		ValidateTowers();
 		ScanForNearbyTowers();
@@ -107,7 +107,7 @@ public  partial class Radar : BaseTower
 
 		foreach ( BaseTower tower in towersScanned.ToArray())
 		{
-			if ( tower is Radar || tower == this )
+			if ( tower is Radar || tower == this || tower is BaseSuperTower )
 				continue;
 
 			tower.ResetAndRestoreStats();
@@ -120,6 +120,8 @@ public  partial class Radar : BaseTower
 	{
 		foreach ( BaseTower tower in towersScanned.ToArray() )
 		{
+			if ( tower is BaseSuperTower ) continue;
+
 			if ( !tower.HasEnhanced )
 			{
 				for ( int i = 0; i < TowerLevel - 1; i++ )

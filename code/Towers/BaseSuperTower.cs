@@ -44,7 +44,12 @@ public partial class BaseSuperTower : BaseTower
 	}
 
 	[Event.Tick.Server]
-	public override void SimulateTower() { }
+	public override void SimulateTower() 
+	{
+		if ( IsPreviewing ) return;
+
+		SimulateOwnership( To.Single( Owner ) );
+	}
 
 	public virtual void UseSuperAbility(TraceResult tr)
 	{

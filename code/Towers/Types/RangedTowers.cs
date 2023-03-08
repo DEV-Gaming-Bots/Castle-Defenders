@@ -39,7 +39,7 @@ public partial class Pistol : BaseTower
 		-1,
 	};
 
-	public override float DeploymentTime => 3.72f;
+	public override float DeploymentTime => 3.25f;
 	public override float AttackTime { get; set; } = 3.5f;
 	public override float AttackDamage { get; set; } = 8.0f;
 	public override int RangeDistance { get; set; } = 125;
@@ -98,7 +98,7 @@ public partial class SMG : BaseTower
 		-1,
 	};
 
-	public override float DeploymentTime => 3.72f;
+	public override float DeploymentTime => 3.25f;
 	public override float AttackTime { get; set; } = 1.10f;
 	public override float AttackDamage { get; set; } = 6.5f;
 	public override int RangeDistance { get; set; } = 110;
@@ -165,7 +165,7 @@ public  partial class Sniper : BaseTower
 
 	public override int TowerMaxLevel => 6;
 	public override int TowerCost => 150;
-	public override float DeploymentTime => 3.75f;
+	public override float DeploymentTime => 3.25f;
 	public override float AttackTime { get; set; } = 11.5f;
 	public override float AttackDamage { get; set; } = 35.0f;
 	public override int RangeDistance { get; set; } = 250;
@@ -301,7 +301,7 @@ public partial class Shotgun : BaseTower
 		-1,
 	};
 
-	public override float DeploymentTime => 3.72f;
+	public override float DeploymentTime => 3.25f;
 	public override float AttackTime { get; set; } = 4.75f;
 	public override float AttackDamage { get; set; } = 25.0f;
 	public override int RangeDistance { get; set; } = 85;

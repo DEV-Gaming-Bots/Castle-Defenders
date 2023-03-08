@@ -54,6 +54,11 @@ public  partial class RadioactiveEmitter : BaseTower
 		if ( IsPreviewing )
 			return;
 
+		SimulateOwnership( To.Single( Owner ) );
+
+		if ( TimeSinceDeployed < DeploymentTime )
+			return;
+
 		//Still deploying, wait until finished
 		if ( TimeSinceDeployed < DeploymentTime )
 			return;
