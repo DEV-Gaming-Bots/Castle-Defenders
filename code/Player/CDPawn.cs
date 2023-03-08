@@ -177,7 +177,7 @@ public partial class CDPawn : AnimatedEntity
 		SimulateCitizenAnimation();
 
 		//Check if debug is false and we're in an active game
-		if ( CDGame.Debug == false )
+		if ( CDGame.CDDebug == false )
 		{
 			if ( CDGame.Instance.Competitive && OnOtherTeamSide )
 				return;

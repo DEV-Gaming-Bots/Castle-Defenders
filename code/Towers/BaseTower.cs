@@ -89,6 +89,8 @@ public partial class BaseTower : AnimatedEntity
 	int baseRange;
 	float baseDamage;
 
+	public virtual float ZEyeScale => 10.0f; 
+
 	public enum PriorityEnum
 	{
 		None,
@@ -293,7 +295,7 @@ public partial class BaseTower : AnimatedEntity
 	private bool CanTargetEnemy(BaseNPC npc)
 	{
 		//Target is behind a wall
-		var wallTr = Trace.Ray( Position + Vector3.Up * 15, npc.Position + Vector3.Up * 10 )
+		var wallTr = Trace.Ray( Position + Vector3.Up * 15, npc.Position + Vector3.Up * ZEyeScale )
 				.Ignore( this )
 				.WorldOnly()
 				.Run();
@@ -364,7 +366,7 @@ public partial class BaseTower : AnimatedEntity
 	}
 
 	//Scans for enemies
-	public BaseNPC ScanForEnemy(BaseNPC ignoreNPC = null)
+	public virtual BaseNPC ScanForEnemy(BaseNPC ignoreNPC = null)
 	{
 		var ents = FindInSphere( Position, RangeDistance );
 
@@ -388,7 +390,7 @@ public partial class BaseTower : AnimatedEntity
 		return null;
 	}
 
-	public List<BaseNPC> ScanForEnemies()
+	public virtual List<BaseNPC> ScanForEnemies()
 	{
 		var npcList = new List<BaseNPC>();
 
@@ -408,7 +410,7 @@ public partial class BaseTower : AnimatedEntity
 			}
 		}
 
-		if ( CDGame.Debug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
+		if ( CDGame.CDDebug && CDGame.Instance.DebugMode is CDGame.DebugEnum.Tower or CDGame.DebugEnum.All )
 		{
 			DebugOverlay.Sphere( Position, RangeDistance, Color.Yellow );
 
@@ -451,7 +453,7 @@ public partial class BaseTower : AnimatedEntity
 				.UseHitboxes(true)
 				.Run();
 
-			if ( CDGame.Debug &&
+			if ( CDGame.CDDebug &&
 				(CDGame.Instance.DebugMode == CDGame.DebugEnum.Tower || CDGame.Instance.DebugMode == CDGame.DebugEnum.All) )
 				DebugOverlay.Line( towerTR.StartPosition, towerTR.EndPosition );
 

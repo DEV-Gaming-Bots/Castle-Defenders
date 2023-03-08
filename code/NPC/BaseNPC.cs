@@ -95,11 +95,19 @@ public partial class BaseNPC : AnimatedEntity
 
 	public void UseAssetAndSpawn(BaseNPCAsset asset)
 	{
-		SetModel( "models/citizen/citizen.vmdl" );
+
+		if ( asset.OverrideModel != null )
+			SetModel( asset.OverrideModel );
+		else
+			SetModel( "models/citizen/citizen.vmdl" );
+
 		SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
 
-		if( asset.OverrideMaterial != null)
-			SetMaterialOverride( asset.OverrideMaterial );
+		if ( asset.MaterialOverrides != null )
+		{
+			foreach ( var assetMat in asset.MaterialOverrides )
+				SetMaterialOverride( assetMat.Material, assetMat.Attribute ?? "" );
+		}
 
 		if( !string.IsNullOrEmpty(asset.Hat) )
 		{
@@ -138,13 +146,10 @@ public partial class BaseNPC : AnimatedEntity
 		if ( asset.NPCType == BaseNPCAsset.SpecialType.Armoured )
 			ArmourStrength = asset.StartArmor;
 
-		if ( asset.OverrideColor != Color.White)
-			RenderColor = asset.OverrideColor;
-
+		if ( asset.Color != Color.White)
+			RenderColor = asset.Color;
 
 		CashReward = Game.Random.Int( asset.KillReward.MinCash, asset.KillReward.MaxCash );
-		//CashReward /= Game.Clients.Count;
-		//CashReward = CashReward.Clamp( 1, asset.KillReward.MaxCash );
 
 		ExpReward = (int)(Game.Random.Int( asset.KillReward.MinXP, asset.KillReward.MaxXP ) * ScaleRewards());
 
@@ -364,6 +369,10 @@ public partial class BaseNPC : AnimatedEntity
 
 		//_lookDir = Vector3.Lerp( _lookDir, _inputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
 		//animHelper.WithLookAt( _lookDir );
+
+		if( AssetFile.NPCType == BaseNPCAsset.SpecialType.Airborne )
+			animHelper.DoFlying();
+
 		animHelper.WithVelocity( Velocity );
 		animHelper.WithWishVelocity( _inputVelocity );
 	}
@@ -407,32 +416,13 @@ public partial class BaseNPC : AnimatedEntity
 		else
 		{
 			GroundEntity = null;
-			move.Velocity += Vector3.Down * 900 * timeDelta;
-		}
 
+			if ( AssetFile.NPCType != BaseNPCAsset.SpecialType.Airborne )
+				move.Velocity += Vector3.Down * 900 * timeDelta;
+		}
+	
 		Position = move.Position;
 		Velocity = move.Velocity;
-	}
-
-	public override void Simulate( IClient cl )
-	{
-		base.Simulate( cl );
-
-		var moveInput = Input.AnalogLook.ToRotation();
-
-		Rotation = moveInput;
-		//EyeRotation = Rotation;
-
-		//Velocity += Input.AnalogLook.ToRotation() * new Vector3( Input.Forward, Input.Left, Input.Up ) * BaseSpeed * SpeedMultiplier * 5 * Time.Delta;
-
-		Velocity += Input.AnalogLook.ToRotation() * Input.AnalogMove * BaseSpeed * SpeedMultiplier * 5 * Time.Delta;
-		if ( Velocity.Length > BaseSpeed * SpeedMultiplier ) Velocity = Velocity.Normal * BaseSpeed * SpeedMultiplier;
-
-		Velocity = Velocity.Approach( 0, Time.Delta * BaseSpeed * SpeedMultiplier * 3 );
-
-		Position += Velocity * Time.Delta;
-
-		//EyePosition = Position;
 	}
 
 	private DamageInfo _lastDmg;
@@ -480,7 +470,12 @@ public partial class BaseNPC : AnimatedEntity
 
 			minion.Model = Model;
 			minion.SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins, Model.Bounds.Maxs );
-			minion.SetMaterialOverride( AssetFile.OverrideMaterial );
+
+			if ( AssetFile.MaterialOverrides != null )
+			{
+				foreach ( var assetMat in AssetFile.MaterialOverrides )
+					minion.SetMaterialOverride( assetMat.Material, assetMat.Attribute ?? "" );
+			}
 
 			minion.Health = AssetFile.StartHealth / 4;
 			minion.BaseSpeed = AssetFile.Speed * 2;

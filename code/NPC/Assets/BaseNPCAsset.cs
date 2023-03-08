@@ -13,6 +13,14 @@ public struct Rewards
 	public int MaxCash { get; set; }
 }
 
+public struct OverrideMaterial
+{
+	[ResourceType( "vmat" )]
+	public Material Material { get; set; }
+	public string Attribute { get; set; }
+	//public Color Color { get; set; }
+}
+
 [GameResource( "CastleTD NPC", "npc", "Creates a new CastleTD NPC" )]
 public class BaseNPCAsset : GameResource
 {
@@ -63,13 +71,19 @@ public class BaseNPCAsset : GameResource
 	public string SplittingSound { get; set; } = "";
 
 	/// <summary>
-	/// Overrides the base material of the NPC, leave blank to use default
+	/// Overrides the model, this should follow the citizen animgraph for animations
 	/// </summary>
-	[Category( "NPC Outfit + Design" ), ResourceType( "vmat" )]
-	public Material OverrideMaterial { get; set; }
+	[Category( "NPC Outfit + Design" ), ResourceType("vmdl")]
+	public string OverrideModel { get; set; }
+
+	/// <summary>
+	/// Overrides the material with any attributes
+	/// </summary>
+	[Category( "NPC Outfit + Design" )]
+	public OverrideMaterial[] MaterialOverrides { get; set; }
 
 	[Category( "NPC Outfit + Design" )]
-	public Color OverrideColor { get; set; } = Color.White;
+	public Color Color { get; set; } = Color.White;
 
 	/// <summary>
 	/// The hat clothing to apply on the NPC's head

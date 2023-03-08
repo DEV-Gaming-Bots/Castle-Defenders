@@ -15,11 +15,13 @@ public  partial class CDGame
 	public DebugEnum DebugMode;
 
 	[ConVar.Replicated( "cd.debug" )]
-	public static bool Debug { get; set; }
+	public static bool CDDebug { get; set; }
 
-	[ConCmd.Admin( "cd.debug.mode" )]
+	[ConCmd.Server( "cd.debug.mode" )]
 	public static void DebugModeSet(int mode)
 	{
+		if ( !CDDebug ) return;
+
 		switch(mode)
 		{
 			case 1:
@@ -45,7 +47,7 @@ public  partial class CDGame
 	[ConCmd.Server("cd.money.give")]
 	public static void GiveMoney(int amount, string targetName = "")
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -70,7 +72,7 @@ public  partial class CDGame
 	[ConCmd.Server( "cd.exp.give" )]
 	public static void GiveEXP( int amount, string targetName = "" )
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -92,10 +94,10 @@ public  partial class CDGame
 		}
 	}
 
-	[ConCmd.Admin( "cd.diff.set" )]
+	[ConCmd.Server( "cd.diff.set" )]
 	public static void SetDifficulty( int diffInt )
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -157,7 +159,7 @@ public  partial class CDGame
 	[ConCmd.Server( "cd.npc.create" )]
 	public static void SpawnNPC( string npcName, bool spawnOpposite = false)
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -196,10 +198,10 @@ public  partial class CDGame
 		}
 	}
 
-	[ConCmd.Admin( "cd.game.start" )]
+	[ConCmd.Server( "cd.game.start" )]
 	public static void ForceStartGame()
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -214,10 +216,10 @@ public  partial class CDGame
 		Instance.StartGame();
 	}
 
-	[ConCmd.Admin( "cd.game.stop" )]
+	[ConCmd.Server( "cd.game.stop" )]
 	public static void ForceStopGame()
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -234,10 +236,10 @@ public  partial class CDGame
 	}
 
 
-	[ConCmd.Admin( "cd.game.restart" )]
+	[ConCmd.Server( "cd.game.restart" )]
 	public static void ForceRestartGame()
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -252,10 +254,10 @@ public  partial class CDGame
 		Instance.StartGame();
 	}
 
-	[ConCmd.Admin( "cd.game.mapvote" )]
+	[ConCmd.Server( "cd.game.mapvote" )]
 	public static void ForceMapVote()
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -264,10 +266,10 @@ public  partial class CDGame
 		Instance.StartMapVote();
 	}
 
-	[ConCmd.Admin( "cd.data.reset" )]
+	[ConCmd.Server( "cd.data.reset" )]
 	public static void ResetData()
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -282,10 +284,10 @@ public  partial class CDGame
 		player.NewPlayerStats();
 	}
 
-	[ConCmd.Admin( "cd.data.save" )]
+	[ConCmd.Server( "cd.data.save" )]
 	public static void SaveData()
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -299,10 +301,10 @@ public  partial class CDGame
 		Instance.SaveData( player );
 	}
 
-	[ConCmd.Admin( "cd.data.save.all" )]
+	[ConCmd.Server( "cd.data.save.all" )]
 	public static void SaveAllData()
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 			return;
 
 		foreach ( var cl in Game.Clients )
@@ -312,10 +314,10 @@ public  partial class CDGame
 		}
 	}
 
-	[ConCmd.Admin( "cd.data.load" )]
+	[ConCmd.Server( "cd.data.load" )]
 	public static void LoadDataCMD()
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -378,7 +380,7 @@ public  partial class CDGame
 	[ConCmd.Server("cd.wave.set")]
 	public static void SetWave(int wave)
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;
@@ -392,7 +394,7 @@ public  partial class CDGame
 	[ConCmd.Server( "cd.wave.restart" )]
 	public static void RestartWave()
 	{
-		if ( !Debug )
+		if ( !CDDebug )
 		{
 			Log.Error( "Debug is turned off" );
 			return;

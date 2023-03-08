@@ -26,7 +26,8 @@ public  partial class Radar : BaseTower
 	{
 		new(-0.025f, 0, 25),
 		new(-0.05f, 0, 25),
-		new(-0.075f, 0, 50)
+		new(-0.075f, 0, 50),
+		new(-0.1f, 0, 75)
 	};
 
 	public override int TowerMaxLevel => 4;

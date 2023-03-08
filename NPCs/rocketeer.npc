@@ -1,0 +1,19 @@
+{
+  "Name": "Rocketeer",
+  "Description": "A jetpack hostile, use anti air towers to take this down!",
+  "StartHealth": 35,
+  "StartArmor": 0,
+  "Damage": 10,
+  "Speed": 15,
+  "Scale": 0.5,
+  "IsABoss": false,
+  "KillReward": {},
+  "NPCType": "Airborne",
+  "SplittingSound": "",
+  "OverrideMaterial": null,
+  "OverrideColor": "1,1,1,1",
+  "Hat": null,
+  "Top": null,
+  "Bottom": null,
+  "Feet": null
+}

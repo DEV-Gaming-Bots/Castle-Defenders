@@ -85,7 +85,6 @@ public  class WaveSetup : Entity
 			return;
 		}
 
-
 		var npc = new BaseNPC();
 		npc.UseAssetAndSpawn( NPCsToSpawn );
 		npc.Order = spawnOrder;

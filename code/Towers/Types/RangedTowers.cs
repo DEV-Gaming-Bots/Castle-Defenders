@@ -82,26 +82,26 @@ public partial class SMG : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.15f, 1.25f, 0),
-		new(-0.20f, 2.75f, 25),
-		new(-0.25f, 3.5f, 25),
-		new(-0.25f, 5.25f, 25)
+		new(-0.15f, 1.5f, 0),
+		new(-0.20f, 2.5f, 25),
+		new(-0.25f, 3.25f, 25),
+		new(-0.25f, 5.75f, 25)
 	};
 
 	public override int TowerMaxLevel => 4;
 	public override int TowerCost => 45;
 	public override int[] TowerLevelCosts => new[]
 	{
-		60,
-		180,
-		360,
+		90,
+		125,
+		220,
 		-1,
 	};
 
 	public override float DeploymentTime => 3.72f;
 	public override float AttackTime { get; set; } = 1.10f;
-	public override float AttackDamage { get; set; } = 5.0f;
-	public override int RangeDistance { get; set; } = 100;
+	public override float AttackDamage { get; set; } = 6.5f;
+	public override int RangeDistance { get; set; } = 110;
 	public override string AttackSound => "smg_fire";
 
 	[Event.Tick.Server]
@@ -137,10 +137,10 @@ public  partial class Sniper : BaseTower
 	public override int[] TowerLevelCosts => new[]
 	{
 		165,
-		235,
-		295,
-		400,
-		500,
+		230,
+		290,
+		375,
+		465,
 		-1
 	};
 
@@ -157,10 +157,10 @@ public  partial class Sniper : BaseTower
 	{
 		new(-0.25f, 2.5f, 50),
 		new(-0.30f, 2.5f, 50),
-		new(-0.45f, 2.5f, 75),
+		new(-0.45f, 5.0f, 75),
 		new(-0.50f, 5.0f, 100),
-		new(-0.50f, 5.0f, 100),
-		new(-0.50f, 7.5f, 125)
+		new(-0.50f, 7.5f, 100),
+		new(-0.50f, 10.0f, 125)
 	};
 
 	public override int TowerMaxLevel => 6;
@@ -170,6 +170,7 @@ public  partial class Sniper : BaseTower
 	public override float AttackDamage { get; set; } = 35.0f;
 	public override int RangeDistance { get; set; } = 250;
 	public override string AttackSound => "sniper_fire";
+	public override float ZEyeScale => 15.0f;
 
 	private bool _lockedOnTarget;
 	private Particles _laserSight;
@@ -282,11 +283,11 @@ public partial class Shotgun : BaseTower
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
-		new(-0.10f, 7.25f, 5),
-		new(-0.10f, 8.25f, 5),
-		new(-0.25f, 9.5f, 10),
-		new(-0.50f, 10.0f, 15),
-		new(-0.75f, 10.0f, 25)
+		new(-0.10f, 9.25f, 5),
+		new(-0.25f, 11.25f, 5),
+		new(-0.25f, 13.0f, 10),
+		new(-0.50f, 14.0f, 15),
+		new(-0.75f, 15.0f, 25)
 	};
 
 	public override int TowerMaxLevel => 5;

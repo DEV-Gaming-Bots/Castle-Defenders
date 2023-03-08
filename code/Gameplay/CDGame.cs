@@ -33,7 +33,7 @@ public partial class CDGame : GameManager
 	{
 		if( Game.IsServer )
 		{
-			Debug = false;
+			CDDebug = false;
 			DebugMode = DebugEnum.Default;
 
 			GameStatus = GameEnum.Idle;
