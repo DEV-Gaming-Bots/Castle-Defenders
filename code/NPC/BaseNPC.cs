@@ -370,11 +370,20 @@ public partial class BaseNPC : AnimatedEntity
 		//_lookDir = Vector3.Lerp( _lookDir, _inputVelocity.WithZ( 0 ) * 1000, Time.Delta * 100.0f );
 		//animHelper.WithLookAt( _lookDir );
 
-		if( AssetFile.NPCType == BaseNPCAsset.SpecialType.Airborne )
-			animHelper.DoFlying();
+		if(AssetFile.OverrideModel != null )
+		{
+			SetAnimParameter( "velocity", Velocity );
+			SetAnimParameter( "wishvelocity", _inputVelocity );
+		} 
+		else
+		{
+			if( AssetFile.NPCType == BaseNPCAsset.SpecialType.Airborne )
+				animHelper.DoFlying();
 
-		animHelper.WithVelocity( Velocity );
-		animHelper.WithWishVelocity( _inputVelocity );
+			animHelper.WithVelocity( Velocity );
+			animHelper.WithWishVelocity( _inputVelocity );
+		}
+
 	}
 
 	protected virtual void Move( float timeDelta )

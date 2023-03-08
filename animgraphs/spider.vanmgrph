@@ -54,7 +54,7 @@
 					m_tagSpans = [  ]
 					m_sequenceName = "walk"
 					m_playbackSpeed = 1.0
-					m_bLoop = false
+					m_bLoop = true
 				}
 			},
 		]

@@ -196,13 +196,12 @@ public partial class BaseTower : AnimatedEntity
 	protected override void OnDestroy()
 	{
 		base.OnDestroy();
-		DestroyComponents( To.Single(Owner) );
 	}
 
 	[ClientRpc]
 	public void DestroyComponents()
 	{
-		Components.RemoveAll();
+		Components.RemoveAny<Glow>();
 	}
 
 	[ClientRpc]
@@ -251,7 +250,9 @@ public partial class BaseTower : AnimatedEntity
 		if ( !Game.IsServer )
 			return;
 
-		if(TowerLevel == 1)
+		DestroyComponents( To.Single( Owner ) );
+
+		if (TowerLevel == 1)
 			(Owner as CDPawn).AddCash( TowerCost / 2 );
 		else if (TowerLevel < TowerMaxLevel)
 			(Owner as CDPawn).AddCash( TowerLevelCosts[TowerLevel-1] / 2 );
