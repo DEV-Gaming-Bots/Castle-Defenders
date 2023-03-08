@@ -30,6 +30,9 @@ public partial class CDPawn : AnimatedEntity
 
 	[ClientInput] public Vector3 InputDirection { get; set; }
 	[ClientInput] public Angles ViewAngles { get; set; }
+	
+	[Net, Predicted]
+	public bool ThirdPersonCamera { get; set; }
 
 	public override Ray AimRay => new Ray( EyePosition, EyeRotation.Forward );
 
@@ -203,7 +206,12 @@ public partial class CDPawn : AnimatedEntity
 					DebugOverlay.Line( path.Position, path.FindSplitPath().Position );
 			}
 		}
-
+		
+		// Third person
+		if ( Input.Pressed( InputButton.View ) )
+		{
+			ThirdPersonCamera = !ThirdPersonCamera;
+		}
 	}
 
 	public void TowerSuperRadius()
@@ -217,6 +225,48 @@ public partial class CDPawn : AnimatedEntity
 
 		ShowSuperRadius( CurSuperTower, tr.EndPosition );
 	}
+	
+	// ---- FOOTSTEPS ----
+
+	TimeSince timeSinceLastFootstep = 0;
+
+	/// <summary>
+	/// A footstep has arrived!
+	/// </summary>
+	public override void OnAnimEventFootstep( Vector3 pos, int foot, float volume )
+	{
+		if ( LifeState != LifeState.Alive )
+			return;
+
+		if ( !Game.IsClient )
+			return;
+
+		if ( timeSinceLastFootstep < 0.2f )
+			return;
+
+		volume *= FootstepVolume();
+
+		timeSinceLastFootstep = 0;
+
+		//DebugOverlay.Box( 1, pos, -1, 1, Color.Red );
+		//DebugOverlay.Text( pos, $"{volume}", Color.White, 5 );
+
+		var tr = Trace.Ray( pos, pos + Vector3.Down * 20 )
+			.Radius( 1 )
+			.Ignore( this )
+			.Run();
+
+		if ( !tr.Hit ) return;
+
+		tr.Surface.DoFootstep( this, tr, foot, volume );
+	}
+
+	public virtual float FootstepVolume()
+	{
+		return Velocity.WithZ( 0 ).Length.LerpInverse( 0.0f, 200.0f ) * 5.0f;
+	}
+
+	// ---- FOOTSTEPS END ----
 
 	public override void FrameSimulate( IClient cl )
 	{
@@ -230,10 +280,23 @@ public partial class CDPawn : AnimatedEntity
 		// Set field of view to whatever the user chose in options
 		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
 
-		// Set the first person viewer to this, so it won't render our model
-		Camera.FirstPersonViewer = this;
-		Camera.Main.SetViewModelCamera( Camera.FieldOfView );
+		if ( ThirdPersonCamera )
+		{
+			Camera.FirstPersonViewer = null;
+			
+			var tr = Trace.Ray( EyePosition, EyePosition + Camera.Rotation.Backward * 90.0f)
+				.WithAnyTags( "solid" )
+				.Ignore( this )
+				.Radius( 8 )
+				.Run();
 
-		SimulatePreview();
+			Camera.Position = tr.EndPosition;
+		}
+		else
+		{
+			Camera.FirstPersonViewer = this;
+			Camera.Main.SetViewModelCamera( Camera.FieldOfView );
+		}
+			SimulatePreview();
 	}
 }
