@@ -342,7 +342,7 @@ public  partial class CDGame
 	public void StartPreWave()
 	{
 		CurWave++;
-		TimeRemaining = 10.0f;
+		TimeRemaining = 5.0f;
 		WaveStatus = WaveEnum.Pre;
 	}
 

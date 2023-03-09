@@ -456,7 +456,6 @@ public partial class BaseTower : AnimatedEntity
 		if ( TimeSinceDeployed < DeploymentTime )
 			return;
 
-
 		if ( Target == null )
 			Target = ScanForEnemy();
 

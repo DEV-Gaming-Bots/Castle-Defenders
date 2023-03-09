@@ -9,61 +9,6 @@
 			{
 				key = 
 				{
-					m_id = 87783558
-				}
-				value = 
-				{
-					_class = "CLookAtAnimNode"
-					m_sName = "Aim Head"
-					m_vecPosition = [ 464.0, -64.0 ]
-					m_nNodeID = 
-					{
-						m_id = 87783558
-					}
-					m_networkMode = "ServerAuthoritative"
-					m_sNote = ""
-					m_inputConnection = 
-					{
-						m_nodeID = 
-						{
-							m_id = 2132006355
-						}
-						m_outputID = 
-						{
-							m_id = 4294967295
-						}
-					}
-					m_target = "VectorParameter"
-					m_param = 
-					{
-						m_id = 735848024
-					}
-					m_weightParam = 
-					{
-						m_id = 251493743
-					}
-					m_lookatChainName = "head"
-					m_attachmentName = "forward"
-					m_flYawLimit = 0.0
-					m_flPitchLimit = 180.0
-					m_bResetBase = true
-					m_bLockWhenWaning = false
-					m_bUseHysteresis = false
-					m_flHysteresisInnerAngle = 1.0
-					m_flHysteresisOuterAngle = 5.0
-					m_damping = 
-					{
-						_class = "CAnimInputDamping"
-						m_speedFunction = "Spring"
-						m_fSpeedScale = 20.0
-						m_fMinSpeed = 10.0
-						m_fMaxTension = 1000.0
-					}
-				}
-			},
-			{
-				key = 
-				{
 					m_id = 193985929
 				}
 				value = 
@@ -147,12 +92,67 @@
 					{
 						m_nodeID = 
 						{
-							m_id = 87783558
+							m_id = 1901020746
 						}
 						m_outputID = 
 						{
 							m_id = 4294967295
 						}
+					}
+				}
+			},
+			{
+				key = 
+				{
+					m_id = 1901020746
+				}
+				value = 
+				{
+					_class = "CLookAtAnimNode"
+					m_sName = "Unnamed"
+					m_vecPosition = [ 464.0, -64.0 ]
+					m_nNodeID = 
+					{
+						m_id = 1901020746
+					}
+					m_networkMode = "ServerAuthoritative"
+					m_sNote = ""
+					m_inputConnection = 
+					{
+						m_nodeID = 
+						{
+							m_id = 2132006355
+						}
+						m_outputID = 
+						{
+							m_id = 4294967295
+						}
+					}
+					m_target = "VectorParameter"
+					m_param = 
+					{
+						m_id = 735848024
+					}
+					m_weightParam = 
+					{
+						m_id = 251493743
+					}
+					m_lookatChainName = "lookhead"
+					m_attachmentName = "forward"
+					m_flYawLimit = 0.0
+					m_flPitchLimit = 180.0
+					m_bResetBase = false
+					m_bLockWhenWaning = false
+					m_bUseHysteresis = false
+					m_flHysteresisInnerAngle = 1.0
+					m_flHysteresisOuterAngle = 20.0
+					m_damping = 
+					{
+						_class = "CAnimInputDamping"
+						m_speedFunction = "Spring"
+						m_fSpeedScale = 20.0
+						m_fMinSpeed = 10.0
+						m_fMaxTension = 1000.0
 					}
 				}
 			},

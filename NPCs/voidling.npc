@@ -1,28 +1,30 @@
-<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
 {
-	data = 
-	{
-		Name = "Void Creature"
-		Description = "A creature from the void"
-		StartHealth = 500
-		StartArmor = 0
-		Damage = 75
-		Speed = 10
-		Scale = 0.45
-		IsABoss = false
-		KillReward = 
-		{
-			MinXP = 45
-			MaxXP = 85
-			MinCash = 50
-			MaxCash = 100
-		}
-		NPCType = "Standard"
-		OverrideMaterial = resource:"materials/npcs/void.vmat"
-		OverrideColor = "1,1,1,1"
-		Hat = null
-		Top = null
-		Bottom = null
-		Feet = null
-	}
+  "Name": "Void Creature",
+  "Description": "A creature from the void",
+  "StartHealth": 500,
+  "StartArmor": 0,
+  "Damage": 75,
+  "Speed": 10,
+  "Scale": 0.45,
+  "IsABoss": false,
+  "KillReward": {
+    "MinXP": 45,
+    "MaxXP": 85,
+    "MinCash": 50,
+    "MaxCash": 100
+  },
+  "NPCType": "Standard",
+  "SplittingSound": "",
+  "OverrideModel": null,
+  "MaterialOverrides": [
+    {
+      "Material": "materials/npcs/void.vmat",
+      "Attribute": "skin"
+    }
+  ],
+  "Color": "1,1,1,1",
+  "Hat": null,
+  "Top": null,
+  "Bottom": null,
+  "Feet": null
 }

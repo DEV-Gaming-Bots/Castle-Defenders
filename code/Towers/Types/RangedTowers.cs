@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using Sandbox.UI;
 using System.Collections.Generic;
 
 public partial class Pistol : BaseTower
@@ -45,13 +46,14 @@ public partial class Pistol : BaseTower
 	public override int RangeDistance { get; set; } = 125;
 	public override string AttackSound => "pistol_fire";
 
-	[Event.Tick.Server]
 	public override void SimulateTower()
 	{
 		base.SimulateTower();
 
-		if ( Target != null && Target.IsValid() )
-			SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
+		if ( IsPreviewing ) return;
+
+		//if ( Target != null && Target.IsValid() )
+			//SetAnimParameter( "v_forward", Owner.Position.WithZ(10) );
 
 		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}
@@ -109,8 +111,8 @@ public partial class SMG : BaseTower
 	{
 		base.SimulateTower();
 
-		if ( Target != null && Target.IsValid() )
-			SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
+		//if ( Target != null && Target.IsValid() )
+		//	SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
 
 		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}

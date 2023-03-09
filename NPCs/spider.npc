@@ -11,7 +11,7 @@
   "NPCType": "Standard",
   "SplittingSound": "",
   "OverrideModel": "models/raw/spider/spider.vmdl",
-  "MaterialOverrides": null,
+  "MaterialOverrides": [],
   "Color": "1,1,1,1",
   "Hat": null,
   "Top": null,
