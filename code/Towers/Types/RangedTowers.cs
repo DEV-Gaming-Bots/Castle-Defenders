@@ -7,6 +7,8 @@ public partial class Pistol : BaseTower
 	public override string TowerName => "Pistol";
 	public override string TowerDesc => "A very simple pistol tower";
 
+	public Vector3 TargetDirection { get; private set; }
+
 	//Temporary until we get a pistol model
 	public override string TowerModel => "models/towers/pistol_tower.vmdl";
 	public override int UnlockLevel => 0;
@@ -52,8 +54,10 @@ public partial class Pistol : BaseTower
 
 		if ( IsPreviewing ) return;
 
-		//if ( Target != null && Target.IsValid() )
-			//SetAnimParameter( "v_forward", Owner.Position.WithZ(10) );
+		if ( Target != null && Target.IsValid() ) {
+			TargetDirection = TargetDirection.LerpTo( (Target.Position - GetAttachment( "forward" ).Value.Position).Normal, Time.Delta * 10f );
+			SetAnimParameter( "v_forward", TargetDirection );
+		}
 
 		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}
@@ -81,6 +85,8 @@ public partial class SMG : BaseTower
 		"A more improved version with a spinning barrel",
 		"A very fast spinning smg, don't mess with it"
 	};
+
+	public Vector3 TargetDirection { get; private set; }
 
 	public override List<(float AttTime, float AttDMG, int NewRange)> Upgrades => new()
 	{
@@ -111,8 +117,10 @@ public partial class SMG : BaseTower
 	{
 		base.SimulateTower();
 
-		//if ( Target != null && Target.IsValid() )
-		//	SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
+		if ( Target != null && Target.IsValid() ) {
+			TargetDirection = TargetDirection.LerpTo( (Target.Position - GetAttachment( "forward" ).Value.Position).Normal, Time.Delta * 10f );
+			SetAnimParameter( "v_forward", TargetDirection );
+		}
 
 		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}
