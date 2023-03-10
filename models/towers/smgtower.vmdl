@@ -128,8 +128,8 @@
 						_class = "Attachment"
 						name = "forward"
 						parent_bone = "head"
-						relative_origin = [ 0.0, 0.0, 0.0 ]
-						relative_angles = [ 0.0, 0.0, 90.0 ]
+						relative_origin = [ 0.0, 75.0, 0.0 ]
+						relative_angles = [ 0.0, 90.0, 0.0 ]
 						weight = 1.0
 						ignore_rotation = false
 					},
@@ -225,7 +225,7 @@
 							[
 								{
 									name = "head"
-									weight = 0.6
+									weight = 1.0
 								},
 								{
 									name = "barrel_l"
