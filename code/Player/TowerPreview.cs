@@ -15,9 +15,6 @@ public partial class CDPawn
 	[Net]
 	public BaseSuperTower CurSuperTower { get; set; }
 
-	[Net] private float Rot { get; set; }
-	private bool _isRotating;
-
 	TimeSince timeLastNotify;
 
 	[ClientRpc]
@@ -31,10 +28,9 @@ public partial class CDPawn
 		PreviewTower.Owner = this;
 	}
 
-	public void UpdatePreview(Vector3 endPos, Color color, float range, float rot)
+	public void UpdatePreview(Vector3 endPos, Color color, float range )
 	{
 		PreviewTower.Position = endPos;
-		PreviewTower.Rotation = Rotation.FromYaw( rot );
 		PreviewTower.RenderColor = color.WithAlpha(1.0f);
 
 		Circle( endPos + Vector3.Up * 5, Rotation.FromPitch( 90 ), range, Color.Green.WithAlpha( 0.45f ), false );
@@ -115,7 +111,7 @@ public partial class CDPawn
 		if ( !CanPlace( tr ) )
 			canPlaceCol = Color.Red.WithAlpha( 0.5f );
 
-		UpdatePreview( tr.EndPosition, canPlaceCol, SelectedTower.RangeDistance, Rot );
+		UpdatePreview( tr.EndPosition, canPlaceCol, SelectedTower.RangeDistance );
 	}
 
 	public void NotifyPlayer(string message)
@@ -166,10 +162,7 @@ public partial class CDPawn
 		if ( !Game.IsServer )
 			return;
 
-		_isRotating = Input.Down( InputButton.Reload );
-
-		if ( Input.MouseWheel != 0 && !_isRotating )
-			_scrollInt -= Input.MouseWheel;
+		_scrollInt -= Input.MouseWheel;
 
 		if ( GetSelectedSlot() > -1 )
 			_scrollInt = GetSelectedSlot() - 1;
@@ -263,17 +256,7 @@ public partial class CDPawn
 			.Size( 0.1f )
 			.Run();
 
-			if ( _isRotating )
-			{
-				Rot += Input.MouseWheel * 15;
-				
-				if ( Rot > 360 )
-					Rot = 0;
-				else if ( Rot < 0 )
-					Rot = 360;
-			}
-
-			SimulatePlacement( tr, Rot );
+			SimulatePlacement( tr );
 
 			if ( Input.Pressed( InputButton.PrimaryAttack ) )
 			{
@@ -358,13 +341,10 @@ public partial class CDPawn
 		}
 	}
 
-	public void SimulatePlacement( TraceResult tr, float rot )
+	public void SimulatePlacement( TraceResult tr )
 	{
 		if ( SelectedTower.IsValid() )
-		{
 			SelectedTower.Position = tr.EndPosition;
-			SelectedTower.Rotation = Rotation.FromYaw(rot);
-		}
 	}
 
 	public int GetSelectedSlot()

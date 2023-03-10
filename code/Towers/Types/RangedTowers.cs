@@ -8,8 +8,6 @@ public partial class Pistol : BaseTower
 	public override string TowerDesc => "A very simple pistol tower";
 
 	public Vector3 TargetDirection { get; private set; }
-
-	//Temporary until we get a pistol model
 	public override string TowerModel => "models/towers/pistol_tower.vmdl";
 	public override int UnlockLevel => 0;
 	public override BaseTower RequiredTowers => null;
