@@ -22,10 +22,6 @@ Layer0
 	//---- Fog ----
 	g_bFogEnabled "1"
 
-	//---- Lighting ----
-	g_flDirectionalLightmapMinZ "0.050"
-	g_flDirectionalLightmapStrength "1.000"
-
 	//---- Metalness ----
 	TextureMetalness "materials/raw/pistoltower/pistol tower_lowerleg_metallic.png"
 
