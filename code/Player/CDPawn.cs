@@ -6,10 +6,8 @@ using System.Linq;
 public partial class CDPawn : AnimatedEntity
 {
 	[ConVar.Client( "cd.music" )]
-	public static bool ClientMusic { get; set; }
-
+	public static bool ClientMusic { get; set; } = true;
 	[Net, Predicted] public StandardController Controller { get; set; }
-
 	public Vector3 EyePosition
 	{
 		get => Transform.PointToWorld( EyeLocalPosition );
@@ -48,6 +46,8 @@ public partial class CDPawn : AnimatedEntity
 	
 	[Net]
 	public int TowerLimit { get; set; }
+
+	[Net] public bool IsSpecial { get; set; } = true;
 
 	public CDPawn() { }
 
@@ -136,6 +136,13 @@ public partial class CDPawn : AnimatedEntity
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
+	}
+
+	public void GiveSpecialClothing()
+	{
+		var crown = new ModelEntity( "models/crown.vmdl" );
+		crown.SetParent( this, true );
+		crown.EnableHideInFirstPerson = true;
 	}
 
 	public override void BuildInput()

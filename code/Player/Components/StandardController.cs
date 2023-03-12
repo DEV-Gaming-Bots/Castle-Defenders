@@ -82,7 +82,7 @@ public partial class StandardController : BaseNetworkable
 		var tr = Trace.Ray( start + TraceOffset, end + TraceOffset )
 			.Size( mins, maxs )
 			.WithoutTags( "passOwners" )
-			.WithAnyTags( "solid", "Ownerclip", "passbullets", "Owner" )
+			.WithAnyTags( "solid", "Ownerclip", "passbullets", "Owner", "playerclip" )
 			.Ignore( Owner )
 			.Run();
 

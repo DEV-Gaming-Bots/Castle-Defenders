@@ -104,6 +104,9 @@ public partial class CDGame : GameManager
 
 		if ( GameStatus == GameEnum.Active )
 			pawn.SetUpPlayer();
+
+		if ( MapJamWinners.Contains( client.SteamId ) )
+			pawn.GiveSpecialClothing();
 	}
 
 	public bool CanPlayComp()

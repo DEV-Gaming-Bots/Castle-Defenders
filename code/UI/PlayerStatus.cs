@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using System.Linq;
 
 public  class PlayerStatus : Panel
 {
@@ -35,6 +36,7 @@ public  class PlayerStatus : Panel
 
 		if(clTr.Entity is CDPawn player)
 		{
+			PlayerInfo.SetClass( "gamejamwinner", player.IsSpecial );
 			PlayerInfo.SetText( player.Client.Name );
 			PlayerCash.SetText( $"Cash: ${player.GetCash()}" );
 		}

@@ -16,6 +16,10 @@
     .playerInfo {
         text-align: center;
         color: lightgoldenrodyellow;
+
+        &.gamejamwinner {
+            color: blueviolet;
+        }
     }
 
     .playerCash {
