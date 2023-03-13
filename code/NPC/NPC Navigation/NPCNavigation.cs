@@ -20,17 +20,17 @@ public class NPCNavigation
 
 		if ( needsBuild )
 		{
-			var fromFixed = NavMesh.GetClosestPoint( from );
-			var toFixed = NavMesh.GetClosestPoint( to );
+			//var fromFixed = NavMesh.GetClosestPoint( from );
+			//var toFixed = NavMesh.GetClosestPoint( to );
 
-			if ( fromFixed == null )
-				return;
+			//if ( fromFixed == null )
+			//	return;
 
 			Points.Clear();
 
-			NavMesh.GetClosestPoint( from );
-			NavMesh.BuildPath( fromFixed.Value, toFixed.Value, Points );
-			//Points.Add( NavMesh.GetClosestPoint( to ) );
+			//NavMesh.GetClosestPoint( from );
+			//NavMesh.BuildPath( fromFixed.Value, toFixed.Value, Points );
+			Points.Add( to );
 		}
 
 		if ( Points.Count <= 1 )
