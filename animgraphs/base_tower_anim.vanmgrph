@@ -14,8 +14,8 @@
 				value = 
 				{
 					_class = "CLookAtAnimNode"
-					m_sName = "Aim Head"
-					m_vecPosition = [ 464.0, -64.0 ]
+					m_sName = "Aim Head Yaw"
+					m_vecPosition = [ 480.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 87783558
@@ -86,6 +86,61 @@
 			{
 				key = 
 				{
+					m_id = 541927591
+				}
+				value = 
+				{
+					_class = "CLookAtAnimNode"
+					m_sName = "Aim Head Pitch"
+					m_vecPosition = [ 656.0, -64.0 ]
+					m_nNodeID = 
+					{
+						m_id = 541927591
+					}
+					m_networkMode = "ServerAuthoritative"
+					m_sNote = ""
+					m_inputConnection = 
+					{
+						m_nodeID = 
+						{
+							m_id = 87783558
+						}
+						m_outputID = 
+						{
+							m_id = 4294967295
+						}
+					}
+					m_target = "VectorParameter"
+					m_param = 
+					{
+						m_id = 735848024
+					}
+					m_weightParam = 
+					{
+						m_id = 251493743
+					}
+					m_lookatChainName = "head"
+					m_attachmentName = "forward"
+					m_flYawLimit = 0.0
+					m_flPitchLimit = 180.0
+					m_bResetBase = true
+					m_bLockWhenWaning = false
+					m_bUseHysteresis = false
+					m_flHysteresisInnerAngle = 1.0
+					m_flHysteresisOuterAngle = 5.0
+					m_damping = 
+					{
+						_class = "CAnimInputDamping"
+						m_speedFunction = "NoDamping"
+						m_fSpeedScale = 20.0
+						m_fMinSpeed = 10.0
+						m_fMaxTension = 1000.0
+					}
+				}
+			},
+			{
+				key = 
+				{
 					m_id = 674607280
 				}
 				value = 
@@ -136,7 +191,7 @@
 				{
 					_class = "CRootAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ 656.0, -64.0 ]
+					m_vecPosition = [ 848.0, -64.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1341962419
@@ -147,7 +202,7 @@
 					{
 						m_nodeID = 
 						{
-							m_id = 87783558
+							m_id = 541927591
 						}
 						m_outputID = 
 						{

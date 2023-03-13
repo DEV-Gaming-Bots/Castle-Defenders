@@ -90,7 +90,7 @@ public partial class BaseTower : AnimatedEntity
 	int baseRange;
 	float baseDamage;
 
-	public virtual float ZEyeScale => 10.0f; 
+	public virtual float ZEyeScale => 20.0f; 
 
 	public enum PriorityEnum
 	{
@@ -317,7 +317,7 @@ public partial class BaseTower : AnimatedEntity
 	private bool CanTargetEnemy(BaseNPC npc)
 	{
 		//Target is behind a wall
-		var wallTr = Trace.Ray( Position + Vector3.Up * 15, npc.Position + Vector3.Up * ZEyeScale )
+		var wallTr = Trace.Ray( Position + Vector3.Up * ZEyeScale, npc.Position + Vector3.Up * ZEyeScale )
 				.Ignore( this )
 				.WorldOnly()
 				.Run();
@@ -471,7 +471,7 @@ public partial class BaseTower : AnimatedEntity
 		if (Target.IsValid() && Position.Distance(Target.Position) < RangeDistance)
 		{
 			//Trace check
-			var towerTR = Trace.Ray( Position + Vector3.Up * 10, Target.Position + Target.Model.Bounds.Center / 2 )
+			var towerTR = Trace.Ray( Position + Vector3.Up * ZEyeScale, Target.Position + Target.Model.Bounds.Center / 2 + Vector3.Up * ZEyeScale )
 				.Ignore( this )
 				.WithoutTags( "tower", "cdplayer" )
 				.UseHitboxes(true)

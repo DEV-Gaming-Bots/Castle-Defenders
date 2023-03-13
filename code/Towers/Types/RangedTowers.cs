@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using Sandbox.UI;
+using System;
 using System.Collections.Generic;
 
 public partial class Pistol : BaseTower
@@ -53,7 +54,7 @@ public partial class Pistol : BaseTower
 		if ( IsPreviewing ) return;
 
 		if ( Target != null && Target.IsValid() ) {
-			TargetDirection = TargetDirection.LerpTo( (Target.Position - GetAttachment( "forward" ).Value.Position).Normal, Time.Delta * 10f );
+			TargetDirection = TargetDirection.LerpTo( ((Target.Position + Vector3.Up * ZEyeScale) - GetAttachment( "forward" ).Value.Position).Normal, Time.Delta * 10f );
 			SetAnimParameter( "v_forward", TargetDirection );
 		}
 
@@ -115,8 +116,9 @@ public partial class SMG : BaseTower
 	{
 		base.SimulateTower();
 
-		if ( Target != null && Target.IsValid() ) {
-			TargetDirection = TargetDirection.LerpTo( (Target.Position - GetAttachment( "forward" ).Value.Position).Normal, Time.Delta * 10f );
+		if ( Target != null && Target.IsValid() )
+		{
+			TargetDirection = TargetDirection.LerpTo( ((Target.Position + Vector3.Up * ZEyeScale) - GetAttachment( "forward" ).Value.Position).Normal, Time.Delta * 10f );
 			SetAnimParameter( "v_forward", TargetDirection );
 		}
 
@@ -178,7 +180,7 @@ public  partial class Sniper : BaseTower
 	public override float AttackDamage { get; set; } = 35.0f;
 	public override int RangeDistance { get; set; } = 250;
 	public override string AttackSound => "sniper_fire";
-	public override float ZEyeScale => 15.0f;
+	public override float ZEyeScale => 35.0f;
 
 	private bool _lockedOnTarget;
 	private Particles _laserSight;
@@ -321,7 +323,10 @@ public partial class Shotgun : BaseTower
 		base.SimulateTower();
 
 		//if ( Target != null && Target.IsValid() )
-		//	SetAnimParameter( "v_forward", GetAttachment( "forward" ).Value.Position + Target.Position );
+		//{
+		//	TargetDirection = TargetDirection.LerpTo( ((Target.Position + Vector3.Up * ZEyeScale) - GetAttachment( "forward" ).Value.Position).Normal, Time.Delta * 10f );
+		//	SetAnimParameter( "v_forward", TargetDirection );
+		//}
 
 		SetAnimParameter( "b_attack", (TimeLastAttack + 0.1f) >= AttackTime && Target != null );
 	}

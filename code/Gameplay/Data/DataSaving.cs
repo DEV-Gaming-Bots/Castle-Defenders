@@ -10,7 +10,7 @@ public interface IPlayerData
 	IDictionary<int, string> TowerSlots { get; set; }
 }
 
-public  class PlayerData : IPlayerData
+public class PlayerData : IPlayerData
 {
 	public int EXP { get; set; }
 	public int ReqEXP { get; set; }
@@ -18,11 +18,11 @@ public  class PlayerData : IPlayerData
 	public IDictionary<int, string> TowerSlots { get; set; }
 }
 
-public  partial class CDGame
+public partial class CDGame
 {
 	public void SaveData( CDPawn player )
 	{
-		if ( player.Client.IsBot )
+		if ( player.Client.IsBot || DataConfig != DataCFGEnum.Host)
 			return;
 
 		Log.Info( "Commiting save for " + player.Client.Name );
@@ -38,6 +38,8 @@ public  partial class CDGame
 
 	public void LoadSave( IClient cl )
 	{
+		if ( DataConfig != DataCFGEnum.Host ) return;
+
 		IPlayerData loadData = FileSystem.Data.ReadJson<PlayerData>( cl.SteamId + ".json");
 
 		if ( loadData is null ) return;

@@ -16,6 +16,18 @@ public partial class CDGame : GameManager
 	[ConVar.Replicated( "cd_towerlimit" )]
 	public static int StaticLimitTowers { get; set; }
 
+	public enum DataCFGEnum
+	{
+		Host,
+		Web,
+	};
+
+	[ConVar.Server("cd_data_config")]
+	public static DataCFGEnum DataConfig { get; set; } = DataCFGEnum.Host;
+
+	[ConVar.Server( "cd_data_url" )]
+	public static string DataURL { get; set; } = "";
+
 	[Net] public bool Competitive { get; set; }
 
 	[Net]
@@ -85,10 +97,23 @@ public partial class CDGame : GameManager
 		pawn.Spawn();
 		pawn.SetTowerLimit( LimitTower );
 		
-		if ( !HasSavefile( client ) )
-			pawn.NewPlayerStats();
-		else
-			LoadSave( client );
+		if(DataConfig == DataCFGEnum.Host )
+		{
+			if ( !HasSavefile( client ) )
+				pawn.NewPlayerStats();
+			else
+				LoadSave( client );
+		} 
+		else if (DataConfig == DataCFGEnum.Web )
+		{
+			_ = ConnectToDatabase();
+
+			if ( !HasSavefileOnDatabase( client ) )
+				pawn.NewPlayerStats();
+			else
+				LoadSaveFromDatabase( client );
+		}
+
 
 		if ( GameStatus == GameEnum.Idle )
 		{

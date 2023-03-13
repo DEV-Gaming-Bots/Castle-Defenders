@@ -174,7 +174,7 @@
         "DisplayName": "Competitive Mode",
         "DefaultValue": "false",
         "Description": "",
-        "Group": ""
+        "Group": "Gameplay"
       },
       {
         "DisplayType": "Choice",
@@ -200,7 +200,7 @@
         "DisplayName": "Difficulty",
         "DefaultValue": "Easy",
         "Description": "",
-        "Group": ""
+        "Group": "Gameplay"
       },
       {
         "DisplayType": "Integer",
@@ -209,9 +209,35 @@
         "DisplayName": "Tower Limit",
         "DefaultValue": "30",
         "Description": "How many towers can each player place",
-        "Group": "",
+        "Group": "Gameplay",
         "Minimum": 5,
         "Maximum": 60
+      },
+      {
+        "DisplayType": "Choice",
+        "Choices": [
+          {
+            "Value": "0",
+            "Name": "Server Host"
+          },
+          {
+            "Value": "1",
+            "Name": "Online Database"
+          }
+        ],
+        "ConVarName": "cd_data_config",
+        "DisplayName": "Data Saving Type",
+        "DefaultValue": "0",
+        "Description": "How the player data is saved\n\nOnline Database should only be selected if a websocket is present",
+        "Group": "Data"
+      },
+      {
+        "Choices": [],
+        "ConVarName": "cd_data_url",
+        "DisplayName": "Database URL",
+        "DefaultValue": "",
+        "Description": "A URL to the database for the websocket to connect",
+        "Group": "Data"
       }
     ],
     "CsProjName": ""

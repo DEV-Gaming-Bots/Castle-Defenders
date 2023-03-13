@@ -156,7 +156,7 @@
 					{
 						_class = "Attachment"
 						name = "forward"
-						parent_bone = "muzzel"
+						parent_bone = "head"
 						relative_origin = [ 0.0, 0.0, 0.0 ]
 						relative_angles = [ 0.0, 90.0, 0.0 ]
 						weight = 1.0

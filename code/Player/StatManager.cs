@@ -45,7 +45,11 @@ public  partial class CDPawn : IPlayerData
 		TowerSlots.Add( 1, "SMG" );
 		TowerSlots.Add( 2, "Shotgun" );
 
-		CDGame.Instance.SaveData( this );
+		if(CDGame.DataConfig == CDGame.DataCFGEnum.Host)
+			CDGame.Instance.SaveData( this );
+		else if (CDGame.DataConfig == CDGame.DataCFGEnum.Web)
+			CDGame.Instance.SaveToOnlineDatabase( this );
+
 		UpdateTowerSlots();
 	}
 
