@@ -317,7 +317,7 @@ public partial class BaseTower : AnimatedEntity
 	private bool CanTargetEnemy(BaseNPC npc)
 	{
 		//Target is behind a wall
-		var wallTr = Trace.Ray( Position + Vector3.Up * ZEyeScale, npc.Position + Vector3.Up * ZEyeScale )
+		var wallTr = Trace.Ray( Position + Vector3.Up * ZEyeScale * npc.Scale, npc.Position + Vector3.Up * ZEyeScale * npc.Scale )
 				.Ignore( this )
 				.WorldOnly()
 				.Run();
@@ -471,7 +471,7 @@ public partial class BaseTower : AnimatedEntity
 		if (Target.IsValid() && Position.Distance(Target.Position) < RangeDistance)
 		{
 			//Trace check
-			var towerTR = Trace.Ray( Position + Vector3.Up * ZEyeScale, Target.Position + Target.Model.Bounds.Center / 2 + Vector3.Up * ZEyeScale )
+			var towerTR = Trace.Ray( Position + Vector3.Up * ZEyeScale * Target.Scale, Target.Position + Target.Model.Bounds.Center / 2 + Vector3.Up * ZEyeScale * Target.Scale )
 				.Ignore( this )
 				.WithoutTags( "tower", "cdplayer" )
 				.UseHitboxes(true)

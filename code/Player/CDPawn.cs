@@ -158,25 +158,42 @@ public partial class CDPawn : AnimatedEntity
 		InputDirection = move.Normal;
 	}
 
-	public void SimulateCitizenAnimation()
+	public void SimulateCitizenAnimation(IClient cl)
 	{
-		var animHelper = new CitizenAnimationHelper( this );
-		animHelper.AimAngle = ViewAngles.ToRotation();
-		animHelper.IsGrounded = GroundEntity != null;
+		var controller = Controller;
 
-		animHelper.WithLookAt(AimRay.Position + AimRay.Forward);
+		if ( controller == null )
+			return;
+
+		// where should we be rotated to
+		var turnSpeed = 0.02f;
+
+		Rotation rotation;
+
+		// If we're a bot, spin us around 180 degrees.
+		if ( cl.IsBot )
+			rotation = ViewAngles.WithYaw( ViewAngles.yaw + 180f ).ToRotation();
+		else
+			rotation = ViewAngles.ToRotation();
+
+		var idealRotation = Rotation.LookAt( rotation.Forward.WithZ( 0 ), Vector3.Up );
+		Rotation = Rotation.Slerp( Rotation, idealRotation, Velocity.Length * Time.Delta * turnSpeed );
+		Rotation = Rotation.Clamp( idealRotation, 45.0f, out var shuffle ); // lock facing to within 45 degrees of look direction
+
+		CitizenAnimationHelper animHelper = new CitizenAnimationHelper( this );
+
+		animHelper.WithWishVelocity( Velocity );
 		animHelper.WithVelocity( Velocity );
-		animHelper.WithWishVelocity( Controller.WishVelocity );
+		animHelper.WithLookAt( EyePosition + EyeRotation.Forward * 200.0f, 1.0f, 1.0f, 0.5f );
+		animHelper.AimAngle = EyeRotation;
+		animHelper.FootShuffle = shuffle;
+		animHelper.DuckLevel = MathX.Lerp( animHelper.DuckLevel, Input.Down( InputButton.Duck ) ? 1 : 0, Time.Delta * 10.0f );
+		animHelper.IsGrounded = GroundEntity != null;
+		//animHelper.IsClimbing = controller.HasTag( "climbing" );
+		animHelper.IsSwimming = this.GetWaterLevel() >= 0.5f;
 
-		Rotation rot = ViewAngles.ToRotation();
-		rot.x = 0;
-		rot.y = 0;
-
-		float duckLevel = Controller.Duck.IsActive ? 0.75f : 0.0f;
-
-		animHelper.DuckLevel = duckLevel;
-
-		LocalRotation = rot;
+		animHelper.HoldType = CitizenAnimationHelper.HoldTypes.None;
+		animHelper.AimBodyWeight = 0.5f;
 	}
 
 	public override void Simulate( IClient cl )
@@ -184,7 +201,7 @@ public partial class CDPawn : AnimatedEntity
 		base.Simulate( cl );
 
 		Controller?.Simulate();
-		SimulateCitizenAnimation();
+		SimulateCitizenAnimation( cl );
 
 		//Check if debug is false and we're in an active game
 		if ( CDGame.CDDebug == false )
