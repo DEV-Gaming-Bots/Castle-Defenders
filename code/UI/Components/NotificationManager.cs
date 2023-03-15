@@ -37,7 +37,7 @@ namespace Components.NotificationManager
 	{
 		public NotificationManagerUI()
 		{
-			AddClass( "notification-manager" );
+			//AddClass( "notification-manager" );
 			StyleSheet.Load( "/UI/Components/NotificationManager.scss" );
 		}
 
@@ -49,7 +49,7 @@ namespace Components.NotificationManager
 		/// Create a notification using a list : var notification = new Notification();
 		/// </summary>
 		/// <param name="notification"></param>
-		public void AddNotiffication( Notification notification )
+		public void AddNotification( Notification notification )
 		{
 			AddChild( new NotificationEntry( notification ) );
 		}
@@ -59,14 +59,14 @@ namespace Components.NotificationManager
 		/// <param name="message"></param>
 		/// <param name="type"></param>
 		/// <param name="timer"></param>
-		public void AddNotiffication( string message, NotificationType type, float timer = 5f )
+		public void AddNotification( string message, NotificationType type, float timer = 5f )
 		{
 			var notification = new Notification();
 			notification.type = type;
 			notification.timer = timer;
 			notification.message = message;
 
-			AddNotiffication( notification );
+			AddNotification( notification );
 		}
 		/// <summary>
 		/// Create a notification with a panel
@@ -74,20 +74,22 @@ namespace Components.NotificationManager
 		/// <param name="panel"></param>
 		/// <param name="type"></param>
 		/// <param name="timer"></param>
-		public void AddNotiffication( Panel panel, NotificationType type, float timer = 5f )
+		public void AddNotification( Panel panel, NotificationType type, float timer = 5f )
 		{
 			var notification = new Notification( );
 			notification.type = type;
 			notification.timer = timer;
 			notification.content = panel;
 
-			AddNotiffication( notification );
+			AddNotification( notification );
 		}
 	}
 	public class NotificationEntry : Panel
 	{
 		public NotificationEntry( Notification notification )
 		{
+			Log.Info( notification.type.ToString().ToLower() );
+
 			AddClass( "notification" );
 			AddClass( notification.type.ToString().ToLower() );
 

@@ -33,7 +33,8 @@ NotificationEntry {
     }
 
     &.info {
-        background-color: #208EAB;
+        background-color: rgb(0, 193, 255);
+        //background-color: #208EAB;
         border-bottom: 2px solid #1895B7;
     }
 
@@ -49,7 +50,7 @@ NotificationEntry {
     }
 
     &.error {
-        background-color: #EB5757;
+        //background-color: #EB5757;
         border-bottom: 2px solid #ff9696;
     }
 }

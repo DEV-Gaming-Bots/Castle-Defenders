@@ -1,6 +1,6 @@
-$popup-bkg: #4f4f4f;
-$popup-bkg-dark: #3e3e3e;
-$popup-border: #595959;
+$popup-bkg: #57ebff;
+$popup-bkg-dark: #0095ff;
+$popup-border: #000000;
 
 .popup-body {
     &.mouse-interact {
@@ -12,6 +12,7 @@ $popup-border: #595959;
             padding-bottom: 128px;
         }
         z-index: 9999;
+
         .header {
             font-size: 48px;
             font-family: poppins;
@@ -35,7 +36,7 @@ $popup-border: #595959;
         &.blue .body{
             background: linear-gradient( to top, #2a56d1, #122f7d );
         }
-        &.red  .body{
+        &.red .body{
             background: linear-gradient( to top, #f24e4e, #ae1414 );
         }
 
@@ -71,12 +72,12 @@ $popup-border: #595959;
     }
 
     padding: 24px;
-    color: white;
-
+    color: black;
     .body {
         box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.8);
         background-color: $popup-bkg;
         flex-direction: column;
+        border: 2px solid black;
     }
 
     .header {
